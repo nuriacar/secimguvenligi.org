@@ -1,0 +1,211 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Aile Üyelerinin Hedef Alınması'
+description: 'Kamu görevlisinin ailesinin dijital güvenliği, aileyi korumak için kurallar ve çocukların dijital güvenliği.'
+order: 32
+audience: V
+hero: '/img/hero/aile-guvenlik.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import DoDont from '../components/DoDont.astro';
+import Alert from '../components/Alert.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+<AudienceBadge audience="V" />
+
+Bir siyasetçinin çocuğunun okuldan arkadaşlarına attığı bir mesaj: "Babam yarın mitingde, evde kimse yok, gelin oynayalım." Masum bir çocuk mesajı. Ama o mesaj, bir saldırgan için altın değerinde bilgidir: siyasetçinin nerede olacağı, evin ne zaman boş olacağı, çocuğun okulu ve arkadaş çevresi. Aile üyeleri, bir siyasetçinin en zayıf halkasıdır. Çünkü onlar "ben hedef değilim" diye düşünür. Oysa tam da bu yüzden hedeftirler.
+
+Bu yalnızca siyasetçiler için geçerli değil. Bir hakimin, bir polis müdürünün, bir diplomatın veya kritik bir kurumda çalışan herhangi birinin ailesi de aynı risk altındadır. Saldırgan için önemli olan, hedefin sahip olduğu bilgiye veya yetkiye ulaşmaktır. Bunun için en kısa yol, aile bireyleridir. Kritik bir kurumda çalışıyorsan, ailenin de bu farkındalıkta olması gerekir.
+
+**Özlü kural:** Ailen en zayıf halkandır. Onları korumak, kendini korumaktan önce gelir.
+
+<Alert level="warning">Çocukların dijital güvenliği aile güvenliğinin en kritik parçasıdır. Saldırganlar çocukların hesaplarından aileye sızabilir.</Alert>
+
+**Saldırı zinciri:** Saldırganlar için bir siyasetçinin ailesi, doğrudan kendisinden daha kolay bir hedeftir. Çünkü aile üyeleri genelde siyasetçi kadar dikkatli değildir. Saldırgan önce siyasetçinin eşinin, çocuğunun veya ebeveyninin sosyal medya hesabını araştırır. Açık paylaşımlardan (tatil, okul, hobiler) bir profil çıkarır. Sonra o kişiye siyasetçinin adını kullanarak bir mesaj gönderir: "Babamın danışmanıyım, acil bir şey söyleyecek". Aile üyesi güvenir, linki tıklar. Saldırgan artık ailenin cihazındadır. Oradan siyasetçiye ait fotoğraflara, mesajlara, konum bilgisine erişir. Aile güvenliği teknik önlemler kadar, farkındalıkla da sağlanır.
+
+## <span class="heading-num">32.1</span> Neden Hedef?
+
+- Aile üyeleri genellikle siyasetçiden daha az dikkatlidir. Telefonları daha az korunur.
+- Saldırgan siyasetçiye direkt ulaşamıyorsa eşine, çocuğuna veya kardeşine ulaşır. Onların cihazlarından siyasetçinin konumu, mesajları, fotoğrafları ve program bilgisi sızdırılabilir.
+- Aile üyeleri "ben siyasetçi değilim, beni neden hedeflesinler?" diye düşünür. Bu yanılgı onları en kolay hedef yapar.
+
+## <span class="heading-num">32.2</span> Aileyi Korumak İçin Kurallar
+
+- **Kural:** Siyasetçinin ailesi de en az siyasetçi kadar dijital güvenlik kurallarını uygulamalıdır:
+  - Güçlü parola ve iki aşamalı doğrulama.
+  - Cihaz güncellemeleri.
+  - Oltalama (phishing) ve sosyal mühendislik farkındalığı.
+  - WhatsApp Web ve bağlı cihaz kontrolü.
+- **Kural:** Aile üyeleri siyasetçinin programını, konumunu ve özel hayatını sosyal medyada paylaşmamalıdır.
+- **Kural:** Aile üyelerine tanınmayan kişilerden gelen "Siyasetçinin adına" telefon, mesaj veya e-postalara itibar edilmemeli. Doğrulama siyasetçinin kendisinden yapılmalı.
+
+## <span class="heading-num">32.3</span> Eş ve Ortak Hesap Tehlikesi
+
+- **Kural:** Siyasetçi ve eşinin ortak iCloud, Google veya sosyal medya hesabı olmamalıdır. Ortak hesap, birinin ele geçirilmesiyle diğerinin de ele geçirilmesi demektir.
+- **Kural:** Eşin telefonunda siyasetçinin iş belgeleri, strateji mesajları veya program bilgisi bulunmamalıdır.
+- **Kural:** Eş, siyasetçinin telefonuna veya bilgisayarına erişimi olsa bile, bu cihazları kendi sosyal medyasından veya arkadaş çevresinden paylaşmamalıdır. "Eşim toplantıda" şeklinde bir paylaşım bile konum ve program ifşasıdır.
+
+## <span class="heading-num">32.4</span> Hizmetliler ve Ev Çalışanları
+
+<DoDont items={[
+  { text: 'Aile üyeleri için güçlü parola ve iki aşamalı doğrulama kur', type: 'do' },
+  { text: 'Çocukların sosyal medya hesaplarını gizli tut', type: 'do' },
+  { text: 'Aile üyelerine oltalama farkındalığı eğitimi ver', type: 'do' },
+  { text: 'WhatsApp Web ve bağlı cihazları düzenli kontrol et', type: 'do' },
+  { text: 'Ailenin konumunu ve programını sosyal medyada paylaş', type: 'dont' },
+  { text: 'Eşle ortak iCloud veya Google hesabı kullan', type: 'dont' },
+  { text: 'Eşin telefonunda iş belgeleri veya strateji mesajları taşı', type: 'dont' },
+  { text: 'Tanınmayan kişilerden gelen siyasetçi adına mesajlara itibar et', type: 'dont' },
+]} />
+
+<Checklist title="Aile Güvenlik Denetim Listesi">
+<li>Aile üyelerinin parolaları güçlü ve benzersiz mi?</li>
+<li>İki aşamalı doğrulama tüm aile hesaplarında açık mı?</li>
+<li>Çocukların sosyal medya hesapları gizli mi?</li>
+<li>WhatsApp Web oturumları kontrol edildi mi?</li>
+<li>Cihaz güncellemeleri yapıldı mı?</li>
+<li>Ev Wi-Fi parolası güçlü ve misafir ağı ayrıldı mı?</li>
+<li>Akıllı cihazların varsayılan parolaları değiştirildi mi?</li>
+<li>Ortak hesap kullanımı sonlandırıldı mı?</li>
+<li>Hizmetlilerin cihazları güvenlik kontrolünden geçti mi?</li>
+</Checklist>
+
+<Scenario label="Senaryo: Çocuğun Telefonunda Casus Yazılım">
+Çocuğunun telefonunda son günlerde pil hızla bitiyor, veri kullanımı artmış ve telefondan anlık bildirim sesleri geliyor ama mesaj yok. Çocuğunun "arkadaşından" gelen şüpheli bir mesajla telefona bir bağlantıya tıklamış olabilir. Bu bağlantı casus yazılım yüklemiş olabilir. Saldırgan artık çocuğunun mikrofonunu, kamerasını ve konumunu izliyor olabilir. Bu yolla saldırgan siyasetçinin ev içi konuşmalarını, konumunu ve programını elde edebilir. Ne yaparsın?
+</Scenario>
+
+- **Kural:** Siyasetçinin evinde çalışan temizlik personeli, bakıcı, aşçı gibi kişilerin cihazları da güvenlik kontrolünden geçirilmelidir. Ev içindeki cihazlar evin güvenlik seviyesini belirler.
+- **Kural:** Evdeki kablosuz ağ (Wi-Fi) parolalı ve gizli olmalıdır. Misafir ve hizmetliler için ayrı bir "misafir ağı" oluşturulmalıdır.
+- **Kural:** Evdeki akıllı cihazlar (kamera sistemleri, sesli asistan, akıllı TV) güvenli parola ile korunmalı ve varsayılan parolalar değiştirilmelidir. İnternete bağlı bir akıllı kamera, zayıf parolayle saldırgana evin içini gösterebilir.
+
+## <span class="heading-num">32.5</span> Yaşlı Aile Üyelerinin Dijital Güvenliği
+
+Yaşlı kullanıcılar, dijital güvenlik konusunda en kırılgan gruptur. Teknolojik terimlere uzak olmaları, dolandırıcılık yöntemlerini bilmemeleri ve yardımseverlik eğilimleri onları hedef yapar. Siyasetçi veya kritik kurum çalışanı ailelerinde yaşlı bireyler, saldırganların aileye sızmak için kullandığı en kolay yoldur.
+
+### Yaşlı Kullanıcılara Yönelik Başlıca Tehditler
+
+**Telefon dolandırıcılığı (vishing):** "Polis/asker/savcı adına arıyorum, kimlik bilgilerin terör örgütüne sızmış" veya "Bankadan arıyorum, hesabın tehlikede" diyerek arayan sahtekarlar. Yaşlı kullanıcılar korkutularak para göndermeye veya banka bilgilerini vermeye ikna edilir.
+
+**Oltalama (phishing):** "Bedava altın kazandın", "SGK ödemen iade edilecek", "Torunun kaza yaptı acil para lazım" gibi mesajlar. Yaşlı kullanıcılar duygusal manipülasyona daha açıktır.
+
+**Sahte teknik destek:** Bilgisayarda açılan "virüs tespit edildi" uyarılarıyla yaşlı kullanıcı aranır, bilgisayarına uzaktan erişim sağlanır ve para istenir.
+
+**Hesap ele geçirme:** Zayıf parola veya aynı parolayı çok yerde kullanma nedeniyle e-posta, sosyal medya veya banka hesapları ele geçirilir.
+
+### Adım Adım Koruma Kılavuzu
+
+**1. Telefon ve tablet kurulumu:**
+- Cihazın işletim sistemini en son sürüme güncelle. Otomatik güncellemeleri aç.
+- Ekran kilidi koy (6 haneli parola veya parmak izi). Basit desen veya 1234 gibi parolalar kullanma.
+- SIM kartına PIN kodu ekle.
+- Kullanmadığı uygulamaları sil. Gereksiz uygulama izinlerini kapat.
+- "Cihazımı Bul" özelliğini aktif et.
+
+**2. Parola yönetimi:**
+- Yaşlı kullanıcıya parola yöneticisi (Bitwarden) kur ve tüm hesaplarını oraya ekle. Tek bir ana parola hatırlaması yeterli.
+- Ana parolayı güvenli bir yere (kasa, defter) yazıp sakla. Kağıda yazmak, her yerde aynı parolayı kullanmaktan iyidir.
+- Tüm hesaplarında iki aşamalı doğrulama (2FA) aç. SMS yerine doğrulayıcı uygulaması tercih et.
+- E-posta hesabına kurtarma e-postası ve telefon numarası ekle.
+
+**3. Dolandırıcılık farkındalığı (anlatılması gerekenler):**
+- "Hiçbir resmî kurum telefonla kimlik bilgisi, parola veya para istemez. Kapat ve resmi numarayı ara."
+- "Bedava altın, hediye çeki, büyük ödül kazandın mesajlarına itibar etme."
+- "Torunun kaza yaptı, acil para gönder" mesajlarına karşı önce torununu kendi telefonundan ara.
+- "Virüs bulundu, hemen arayın" uyarılarına tıklama. Sayfayı kapat, bana haber ver.
+- Tanımadığın numaralardan gelen WhatsApp mesajlarındaki linklere tıklama.
+
+**4. Sosyal medya güvenliği:**
+- Facebook/Instagram profilini "Arkadaşlarım" veya "Sadece ben" gizliliğine al.
+- Arkadaşlık isteklerini tanımadığı kişilerden kabul etme.
+- Konum paylaşımını kapat.
+- "Şu an evde değiliz, tatile gidiyoruz" gibi paylaşımlar yapma.
+- Paylaşımlarında siyasetçi aile bireyinin fotoğraflarını etiketleme.
+
+**5. Cihaz paylaşımı ve yedekleme:**
+- Yaşlı kullanıcının cihazına düzenli olarak uzaktan yardım (TeamViewer gibi güvenli bir yazılımla) bağlanarak güncelleme ve güvenlik kontrolü yap.
+- Otomatik yedeklemeyi aç (iCloud veya Google yedekleme).
+- Haftalık güvenlik kontrolü: son gelen mesajları, uygulama izinlerini, güncellemeleri birlikte kontrol et.
+
+**6. Acil durum protokolü:**
+Yaşlı kullanıcı dolandırıldığını veya hesabının ele geçirildiğini fark ederse:
+1. Panik yapma, durumu hemen sana bildir.
+2. Banka hesabıysa müşteri hizmetlerini ara ve hesabı dondur.
+3. E-postaysa parolayı değiştir, bağlı cihazlardan çıkış yap.
+4. Telefonsa SIM kartı askıya aldır, operatörü ara.
+5. Savcılığa suç duyurusunda bulun (Yasal Haklar rehberi).
+6. Tüm hesapların parolalarını değiştir.
+
+### Yaşlı Kullanıcılar İçin Özet: Cüzdan Kartı
+
+Aşağıdaki kuralları büyük puntoyla yazıp telefonun arkasına veya mutfak panosuna asın:
+
+1. **Telefonla arayan "polisi, savcıyı, bankayı" asla tanıma.** Kapat, resmi numarayı ara.
+2. **Hiçbir linke tıklama.** Tanıdığın biri bile göndermiş olsa, önce ara.
+3. **Parolanı kimseye söyleme.** "Resmi görevli" dese bile.
+4. **Bir şey "bedava" ise, sen ödersin.** Hediye çeki, ödül, kupon bunlar tuzak.
+5. **Arayıp "torunun kaza yaptı, para gönder" derlerse,** önce torununu sen ara.
+
+## <span class="heading-num">32.6</span> Akıllı Ev (IoT) Güvenliği
+
+Evdeki internete bağlı cihazlar saldırganlar için kolay hedeflerdir. Akıllı kapı zili, güvenlik kamerası, sesli asistan (Google Home, Amazon Alexa), akıllı TV ve hatta akıllı buzdolabı, güvenlik açığı barındırabilir.
+
+**Temel IoT güvenlik kuralları:**
+
+- **Varsayılan parolayı değiştir.** Akıllı cihazlar fabrika parolasıyla ("admin", "1234", "0000") gelir. Bu parolalar internetten bulunabilir. Cihazı kurar kurmaz güçlü bir parola belirle.
+- **Güncellemeleri aç.** Cihaz üreticisi yazılım güncellemesi yayınladığında otomatik güncelleme yapılsın. Güncellenmemiş cihazlar bilinen güvenlik açıklarını barındırır.
+- **Misafir ağı kullan.** Akıllı cihazları ana Wi-Fi ağına değil, ayrı bir misafir ağına bağla. Böylece bir akıllı cihaz ele geçirilirse ana ağındaki bilgisayar ve telefonlar güvende kalır.
+- **Kameraları konumlandırırken dikkatli ol.** Bir akıllı kamera ele geçirilirse saldırgan evin içini görebilir, aile üyelerinin günlük rutinini izleyebilir. Kameraları özel alanlardan uzak tut.
+- **Sesli asistanı dikkatli kullan.** Mikrofon sürekli dinleme modundadır. Hassas konuşmalar sırasında sesli asistanı fişten çek veya mikrofonunu kapat.
+
+<Accordion question="Yaş Grubuna Göre Aile Güvenliği" id="yas-grubu-aile">
+**Çocuklar (0-12):**
+- Ebeveyn kontrolü uygulamaları ile ekran süresi ve içerik filtreleme yap
+- Çocuğun tabletine veya telefonuna casus yazılım bulaşabilir, düzenli kontrol et
+- Konum paylaşımı kapalı olmalı, okul ve etüt bilgileri sosyal medyada yer almamalı
+
+**Gençler (13-17):**
+- Sosyal medya hesaplarının gizlilik ayarlarını birlikte gözden geçir
+- Siber zorbalık belirtilerini tanı: okumak istemeyen çocuk, ani ruh hali değişimleri, okul başarısında düşüş
+- Yabancılardan gelen mesajlara karşı farkındalık kazandırın
+- Gönderdikleri fotoğrafların dijital ayak izi bıraktığını açıklayın
+
+**Yaşlılar (65+):**
+- Oltalama (phishing) farkındalığı eğitimi ver: "Bedava telefon kazandın", "Hesabın kilitlendi" gibi mesajlara kanmayın
+- Telefon dolandırıcılığına karşı uyar: "Polisten arıyorum", "Bankadan arıyorum" şeklindeki aramalarda bilgi verme, telefonu kapatıp kurumun resmi numarasını ara
+- Güçlü parola ve iki aşamalı doğrulama kullanımlarını sağla
+- Güncellemelerin otomatik açık olduğundan emin ol
+</Accordion>
+
+**Gerçek olay:** 2021'de bir siyasetçinin annesine WhatsApp'tan "Oğlun kaza geçirdi, acil para lazım" mesajı gönderildi (kriz anında sahte yardım çağrısı). Anne panikledi, siyasetçiyi arayamadı (çünkü "telefonu meşgul" dendi), parayı gönderdi. Mesajı gönderen numara aslında bir SIM swap saldırısıyla ele geçirilmiş bir hattı. Saldırgan, siyasetçinin telefon rehberindeki aile bireylerini tespit etmek için sosyal medyayı taramıştı. Bu saldırı türüne "acil durum dolandırıcılığı" (emergency scam) denir. Siyasetçinin ailesine önceden bu senaryoyu anlatmış olması, annenin parayı göndermesini engelleyebilirdi. Aile güvenliği sadece siyasetçiyi değil, onun aracılığıyla tüm kampanyayı korur.
+
+## <span class="heading-num">32.7</span> Çocuk Fotoğraflarını Paylaşırken Dikkat Edilmesi Gerekenler
+
+Çocuğunun fotoğraflarını sosyal medyada paylaşmak birçok ebeveyn için doğaldır. Ama siyasetçi, hakim, polis müdürü veya kritik bir kurumda çalışıyorsan, çocuğunun fotoğrafı bir güvenlik riski olabilir.
+
+- **Kural:** Çocuğunun yüzünü net gösteren fotoğrafları sosyal medyada paylaşma. Fotoğraf düzenleme uygulamalarıyla yüzünü bulutla, emojiyle veya bulanıklıkla kapat.
+- **Neden:** Çocuğunun fotoğrafı bir saldırgan için altın değerindedir. Fotoğraftan okul formasını, çevredeki mekanları, evin önünü, hatta güneş gözlüğündeki yansımayı analiz ederek konumunu bulabilir.
+- **Yapma:** Çocuğunun okulunun adını, sınıfını, öğretmeninin adını paylaşma.
+- **Yapma:** Çocuğunun hobileri ve günlük rutini hakkında detay verme. "Her cumartesi saat 10'da yüzme dersi" bilgisi bir saldırgan için öngörülebilir rutin demektir.
+- **Yap:** Fotoğrafları "Arkadaşlar" gizliliğinde paylaş. "Herkese Açık" paylaşma.
+- **Yap:** Paylaşım yaparken konum etiketleme özelliğini kapat.
+- **Yap:** Çocuğunun fotoğrafını göndermeden önce kendine sor: "Bu fotoğraf bir yabancının elinde ne işe yarar?" Cevap "çocukluğunun anısı" değil, "nerede yaşadığını, hangi okula gittiğini, hangi aktiviteleri yaptığını gösterir" olmalı.
+- **Dikkat:** Okulların ve kreşlerin etkinlik fotoğraflarında çocuğunun yüzü varsa, okuldan bu fotoğrafların yayınlanmamasını talep et.
+
+<Alert level="tip">
+Çocukların yüzlerinin saklanması sadece güvenlik değil, aynı zamanda onların mahremiyetine saygıdır. Çocuğun büyüdüğünde, rızası dışında yayınlanmış fotoğraflarla karşılaşmasını istemezsin.
+</Alert>
+
+**Benzetme:** Ailenin dijital güvenliği, evinin temelidir. Temelde bir çatlak varsa, duvarlar ne kadar sağlam olursa olsun ev eninde sonunda yıkılır.
+
+
+## İlgili Bölümler
+
+- [Çocukların Dijital Güvenliği](/cocuk-dijital-guvenlik/)
+- [Şantaj ve Tehdit Alındığında](/tehdit-santaj/)
+- [Casus Yazılım](/casus-yazilim/)
+- [Yasal Haklar](/yasal-haklar/)
+- [Dijital Ayak İzi ve Mahremiyet](/dijital-ayak-izi-ve-mahremiyet/)
+- [Siber Zorbalık ve Dijital Şiddet](/siber-zorbalik-ve-dijital-siddet/)

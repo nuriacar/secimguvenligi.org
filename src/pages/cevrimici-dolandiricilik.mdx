@@ -1,0 +1,181 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Çevrimiçi Dolandırıcılık'
+description: 'Online scam türleri, yatırım dolandırıcılığı, romantik tuzaklar, kargo ve fatura sahtekarlıkları, korunma yöntemleri ve dolandırıldığında yapılması gerekenler.'
+order: 4
+audience: [V]
+hero: '/img/hero/cevrimici-dolandiricilik.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+import Checklist from '../components/Checklist.astro';
+
+<AudienceBadge audience="V" />
+
+Bir mesaj alıyorsun: "Tebrikler! 50.000 TL kazandın. Ödülünü almak için 150 TL işlem ücreti yatır." İçgüdün ne der? "Bu bir dolandırıcılık." Ama her gün binlerce kişi bu tuzağa düşüyor. Çünkü duygular mantığın önüne geçer: açgözlülük, korku, yalnızlık, aciliyet. Çevrimiçi dolandırıcılık, sosyal mühendisliğin para odaklı versiyonudur. Farkı, doğrudan cüzdanını hedef almasıdır.
+
+**Özlü kural:** Tanımadığın biri sana para vaat ediyorsa, ya seni dolandıracaktır ya da bir suç aleti olarak kullanacaktır. İkisinde de kaybeden sensin.
+
+<Alert level="warning">Gerçek bir fırsat asla "acil ödeme yap, kaçırma" demez. Aciliyet baskısı, düşünme süreni kapatmak için tasarlanmış bir manipülasyon aracıdır. Dur, nefes al, araştır.</Alert>
+
+## <span class="heading-num">4.1</span> Yatırım ve Kripto Dolandırıcılığı
+
+"Günde 10.000 TL kazan, evden çalış" vaadiyle başlar. Önce küçük kazançlar verirler, güven kazandırırlar. Sonra büyük para yatırmanı isterler ve kaybolurlar. Kripto para dolandırıcılığında sahte borsa siteleri, sahte coin projeleri ve Ponzi şemaları yaygındır.
+
+**Nasıl işler:**
+1. Saldırgan, sosyal medyada veya WhatsApp'ta "başarılı yatırımcı" profili çizer.
+2. Küçük bir yatırımla başlamanı önerir, 100 TL yatırırsın, 120 TL "kazanç" gösterir (aslında kendi parasıdır).
+3. Büyük para yatırmanı ister: "Şimdi yatırırsan 10 katını kazanacaksın."
+4. Parayı yatırınca site kapanır veya para çekemezsin.
+
+<Alert level="critical">Hiçbir yatırım fırsatı, senden önce para isteyip sonra kazandırmaz. Gerçek yatırım fonları senden önce ödeme talep etmez, doğrudan banka hesabından keser. Kripto dünyasında "garantili kazanç" vaat eden her şey sahtedir.</Alert>
+
+**Tanıma işaretleri:**
+- "Garantili kazanç" veya "risk yok" vaadi
+- Sürekli "son 3 kişi kaldı, kaçırma" baskısı
+- Resmi görünümlü sahte web sitesi (adres çubuğunda ufak harf farkı)
+- Para yatırmadan çekmeye izin vermeyen platform
+- WhatsApp/Telegram gruplarında "başarı hikayeleri" paylaşan sahte hesaplar
+
+<Accordion question="Ponzi şeması nedir, nasıl tanırım?" id="ponzi">
+Ponzi şeması, yeni yatırımcıların parasıyla eski yatırımcılara kazanç ödenen bir dolandırıcılık modelidir. Gerçek bir yatırım veya ürün yoktur. İşaretleri: "tavsiye et kazan" sistemi, gerçekçi olmayan yüksek getiri vaadi, fonların nasıl değerlendiğine dair şeffaflık eksikliği. Adını 1920'lerde bu yöntemi kullanan Charles Ponzi'den alır. Günümüzde kripto para projelerinde sıkça görülür. Bir Ponzi şeması mutlaka çöker, çünkü sürekli yeni yatırımcı bulmak imkansızdır.
+</Accordion>
+
+## <span class="heading-num">4.2</span> Romantik (İlişki) Dolandırıcılığı
+
+Yalnızlık, en pahalıya mal olan duygudur. Saldırgan, sahte bir profil oluşturur. Haftalarca, aylarca sana duygusal yakınlık kurar. Güzel fotoğraflar, uzun sohbetler, gelecek planları... Sonra bir gün "Acil durum" der: hastane, seyahat, iş krizi. Para istemeye başlar.
+
+**Gerçek örnek:** Bir emekli öğretmen, sosyal medyada tanıştığı "Amerikalı asker" ile aylarca yazışır. Asker "Türkiye'ye tayin oldu, gelirken değerli eşyalarımı kargo ile gönderiyorum" der. Ardından "kargo gümrükte takıldı, vergisini ödemen gerek" diyerek 50.000 TL alır. Asker diye biri yoktur.
+
+**Tanıma işaretleri:**
+- Yüz yüze görüşmeyi sürekli erteleme (farklı ülke, askeri görev vb.)
+- Hızlı "seni seviyorum" deme
+- Fotoğrafların tersine görsel arama ile bulunamaması
+- Kısa sürede finansal yardım isteme
+- Sürekli talihsizlik hikayeleri (soygun, hastane, haciz)
+
+<DoDont items={[
+  { text: 'Yüz yüze görüşmediğin kişiye para gönderme', type: 'dont' },
+  { text: 'Fotoğrafları Google Görseller\'de tersine ara', type: 'do' },
+  { text: 'Duygusal bağın ne kadar hızlı geliştiğine dikkat et', type: 'do' },
+  { text: 'Acil para taleplerini sorgula, doğrula', type: 'do' },
+  { text: 'Kişisel bilgilerini (adres, TC kimlik) tanımadığın kişiyle paylaşma', type: 'dont' },
+  { text: 'Ailene veya arkadaşına bu kişiden bahset, dışarıdan bir göz daha objektif bakar', type: 'do' },
+]} />
+
+## <span class="heading-num">4.3</span> İş ve İstihdam Dolandırıcılığı
+
+"Evden çalış, günde 5.000 TL kazan" ilanlarıyla başlar. İş teklifi gerçek görünür: mülakat yapılır, sözleşme imzalanır. Ama işe başlamadan önce senden "eğitim ücreti", "sertifika bedeli" veya "ekipman depozitosu" istenir. Ödersin, kaybolurlar.
+
+**Kargo mülakatı tuzağı:** Sahte bir firma seni işe alır. Gelen ürünleri kendi adresine kargo yapmanı ister. O ürünler çalıntı kredi kartıyla alınmıştır. Suç aleti olursun, farkında olmadan kara para aklama operasyonunda kullanılırsın.
+
+**Para katırı (money mule) tuzağı:** "Hesabına para göndereceğiz, başka bir hesaba aktar, komisyonu al" derler. Gönderilen para başka bir mağdurdan çalınmıştır. Senin hesabın üzerinden aklanır. Banka dolandırıcılığı tespit ettiğinde hesabın kapanır, sen de suçlu durumuna düşersin.
+
+<Alert level="critical">Gerçek bir işveren senden asla "eğitim ücreti", "depozito" veya "işlem ücreti" istemez. Ayrıca kendi hesabına gelen parayı başka birine havale etmeni isteyen her iş, para aklama operasyonudur.</Alert>
+
+<Accordion question="Para katırı dolandırıcılığından nasıl korunurum?" id="mule">
+Hiç tanımadığın birinin sana "hesabına para göndereceğim, başka bir yere aktar" demesi her zaman para aklama girişimidir. Bu tür bir iş teklifi aldığında:
+
+1. Kabul etme ve derhal uzaklaş.
+2. Bankanı ara ve durumu bildir.
+3. Varsa iş ilanını, iletişim bilgilerini Siber Suçlarla Mücadele'ye bildir.
+
+Bu suçun cezası 2 yıldan 5 yıla kadar hapistir (TCK 246). Bilmeden de olsa katılırsan, adli soruşturmaya maruz kalabilirsin.
+</Accordion>
+
+## <span class="heading-num">4.4</span> Kargo ve Fatura Dolandırıcılığı
+
+Tanıdık bir senaryo: "Kargonuz dağıtım merkezinde takıldı, teslimat için 5 TL vergi ödeyin" SMS'i. Linke tıklarsın, kart bilgilerini girersin, 5 TL yerine hesabındaki tüm para çekilir.
+
+**Nasıl anlaşılır:**
+- Kargo firmaları SMS ile ödeme istemez, vergi ve gümrük ücretleri kargocuya teslimatta ödenir.
+- Fatura mesajlarındaki link asla resmi siteye gitmez; adres çubuğunu kontrol et.
+- "Elektrik borcun kesilecek" mesajları panik yaratır. Gerçek faturayı sadece resmi uygulama veya bankandan öde.
+
+<Scenario>
+Telefona SMS gelir: "PTT: Kargonuz adresinizde teslim edilemedi. Güncelleme için: [link]." Hemen tıklarsın. Açılan sayfa PTT'nin birebir kopyasıdır. Adresini güncellemek için kart bilgilerini girersin. Kartın hemen yurt dışında harcamalar için kullanılmaya başlanır. PTT senin kart bilgini asla istemez.
+</Scenario>
+
+## <span class="heading-num">4.5</span> Kira ve Emlak Dolandırıcılığı
+
+İlan sitelerinde gerçek görünümlü kiralık ev ilanları. Fiyatı piyasaya göre cazip. "8 kişi bakıyor, hemen karar ver" baskısı. Ev sahibi yurt dışında olduğu için anahtarı kargo ile göndereceğini söyler. Depozito ve kiranın tamamını ister. Parayı gönderirsin, ne evi görebilirsin ne de parayı geri alabilirsin.
+
+**Korunma yöntemleri:**
+- Evi görmeden, anahtar teslim almadan asla para gönderme.
+- İlandaki fotoğrafları Google Görseller'de tersine ara (başka bir ilandan kopyalanmış olabilir).
+- Tapu kaydını sorgula (e-Devlet üzerinden).
+- Ev sahibinin kimliğini doğrula, tapu belgesini iste.
+- Kira sözleşmesini fiziksel olarak imzala.
+
+<Alert level="tip">Bir emlak ilanı "piyasa fiyatının çok altında" ve "acil karar ver" baskısı içeriyorsa, bu neredeyse kesin dolandırıcılıktır. Gerçek ev sahipleri kiracı bulmak için psikolojik baskı yapmaz.</Alert>
+
+## <span class="heading-num">4.6</span> Teknik Destek Dolandırıcılığı
+
+Tarayıcında aniden bir uyarı belirir: "Bilgisayarına virüs bulaştı. Hemen şu numarayı ara." Paniklersin, ararsın. Karşındaki kişi "Microsoft Teknik Destek" olduğunu söyler. Bilgisayarına uzaktan bağlanır, sahte virüs taraması gösterir. Sorunu "çözmek" için 200-500 TL ister. Ödersin, ya bir şey olmaz ya da bilgisayarını tamamen ele geçirir.
+
+**Bilmen gerekenler:**
+- Microsoft, Apple veya Google asla telefonla arayıp virüs uyarısı yapmaz.
+- Tarayıcıdaki tam ekran uyarıları genellikle sahte bildirimlerdir (gerçek bir virüs taraması değil).
+- Uzaktan bağlantı isteyen herkese şüpheyle yaklaş.
+- Gerçek bir virüs taraması asla senden ödeme istemez.
+
+## <span class="heading-num">4.7</span> Ödül ve Çekiliş Dolandırıcılığı
+
+"50.000 TL kazandın, almak için 100 TL işlem ücreti yatır" mesajı, en eski ama hala en etkili tuzaklardan biridir. İnsanlar "az ver çok al" mantığıyla tuzağa düşer. Oysa gerçek bir çekiliş kazandıysan senden asla ödeme talep edilmez.
+
+**Varyasyonları:**
+- Milli Piyango sahte ikramiyesi: "Biletin 1 milyon TL kazandı, vergisini öde"
+- Instagram çekilişi: "Hediye kartı kazandın, kargo ücreti öde"
+- Facebook'da "Paylaş ve kazan" dolandırıcılığı
+- SMS ile "Telefon numaran çekiliş kazandı"
+
+<DoDont items={[
+  { text: 'Tanımadığın kişi veya kurumdan gelen ödül mesajlarını sorgula', type: 'do' },
+  { text: 'Ödül almak için ödeme yapman gerekiyorsa bunun dolandırıcılık olduğunu bil', type: 'do' },
+  { text: 'Kargo/fatura SMS\'lerindeki linklere tıkla, önce resmi siteyi kontrol et', type: 'dont' },
+  { text: 'İş tekliflerinde eğitim ücreti veya depozito isteyenlere güven', type: 'dont' },
+  { text: 'Romantik dolandırıcılık şüphesinde bir arkadaşına veya ailene danış', type: 'do' },
+  { text: 'Teknik destek arayan kişilere bilgisayarına uzaktan erişim izni ver', type: 'dont' },
+  { text: 'Evi görmeden depozito veya kira gönder', type: 'dont' },
+  { text: 'Kripto yatırımı yapmadan önce platformu bağımsız kaynaklardan araştır', type: 'do' },
+]} />
+
+## <span class="heading-num">4.8</span> Dolandırıldıysan Ne Yapmalısın?
+
+Bir dolandırıcılık mağduru olduğunu fark ettiğinde panikleme. Atlayacağın adımlar belli:
+
+1. **Ödemeyi durdur:** Bankanı hemen ara. İşlemi iptal ettir veya karta bloke koydur. Kredi kartı kullandıysan chargeback (ters ibraz) talep et.
+2. **Delilleri topla:** Tüm mesajları, e-postaları, ekran görüntülerini kaydet. İşlem tarihlerini, tutarları ve karşı taraf bilgilerini not al.
+3. **Savcılığa başvur:** En yakın cumhuriyet başsavcılığına suç duyurusunda bulun. Delilleri ekle.
+4. **Siber Suçlara bildir:** siber.egm.gov.tr üzerinden şikayet oluştur.
+5. **KVKK başvurusu:** Kişisel verilerin çalındıysa kvkk.gov.tr'ye başvur.
+6. **İlgili platforma bildir:** Dolandırıcılığın gerçekleştiği platforma (Instagram, Facebook, sahte site) durumu bildir.
+
+<Checklist title="Dolandırıcılık Mağduru Kontrol Listesi">
+<li>Bankanı ara, kartı bloke et / işlemi durdur</li>
+<li>Tüm yazışmaların ekran görüntüsünü al</li>
+<li>İşlem tarihi, tutarı ve karşı hesap bilgilerini not et</li>
+<li>Savcılığa suç duyurusunda bulun</li>
+<li>Siber Suçlarla Mücadele'ye online başvuru yap (siber.egm.gov.tr)</li>
+<li>e-Devlet şifreni değiştir (varsa paylaşıldıysa)</li>
+<li>Kredi notunu kontrol et, şüpheli kayıt varsa itiraz et</li>
+<li>Dolandırıcılığın türüne göre ilgili platforma bildir</li>
+</Checklist>
+
+<Scenario>
+WhatsApp'tan tanımadığın bir numara: "Merhaba, ben Ahmet. Kardeşin Ali'den numaranı aldım. Kripto yatırımında uzmanım, isteyen herkese ücretsiz danışmanlık veriyorum." Haftalarca sohbet edersin. Ahmet sana küçük kazançlar gösterir (aslında sahte bir uygulama üzerinden). "Şu an çok iyi bir fırsat var, 10.000 TL yatırırsan 20.000 TL olur" der. Yatırırsın. Uygulama ertesi gün kapanır. Ahmet kaybolur. Paran gider. Bu bir yatırım dolandırıcılığıdır.
+</Scenario>
+
+
+## İlgili Bölümler
+
+- [Sosyal Mühendislik](/sosyal-muhendislik/) — oltalama ve ikna teknikleri
+- [Güvenli Ödeme ve Alışveriş](/guvenli-odeme/) — kart güvenliği ve sanal kart
+- [Tehdit ve Şantaj](/tehdit-santaj/) — şantaj durumunda yapılacaklar
+- [Yasal Haklar ve Başvuru Yolları](/yasal-haklar/) — suç duyurusu ve hukuki süreç
+- [Derin Sahte (Deepfake)](/deepfake/) — deepfake ile dolandırıcılık
+- [Virüs ve Kötü Amaçlı Yazılımlar](/virus-ve-kotu-amacli-yazilimlar/) — sahte virüs uyarıları ve teknik destek dolandırıcılığı

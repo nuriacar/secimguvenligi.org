@@ -1,0 +1,193 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Güvenli Veri ve Dosya Paylaşımı'
+description: 'Kaybolan mesajlar, dosya güvenliği, VPN, şifreli dosya paylaşım araçları ve güvenli iletişim protokolleri.'
+order: 11
+audience: V
+hero: '/img/hero/veri-paylasimi.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import Accordion from '../components/Accordion.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+
+<AudienceBadge audience="V" />
+
+<Alert level="critical">Ücretsiz VPN kullanma. Ücretsiz VPN uygulamaları, tarama geçmişini ve kişisel verilerini üçüncü taraflara satabilir. Bazıları trafiğini izleyerek hangi sitelere girdiğini kaydeder. "Ücretsiz" olan bir hizmette sen ürün değilsin, sen verisin.</Alert>
+
+Bir seçim stratejisi belgesi hazırladığını düşün. Anket sonuçları, aday listeleri, bütçe planlaması... Bu belgeyi ekibine göndermen gerekiyor. Dosyayı e-postaya ekliyor, "Acildir" notuyla yolluyorsun. Basit, hızlı, pratik. Ama o e-posta, şifresiz bir kartpostal gibidir. Gönderdiğin andan itibaren kaç el değiştirdiğini, kaç sunucuda kopyalandığını, kimlerin okuduğunu bilmezsin.
+
+Mesajlaşma ve dosya paylaşımı, siyasetçinin günlük işleyişinin merkezindedir. Strateji belgeleri, anket sonuçları, aday belirleme listeleri ve iç yazışmalar sürekli el değiştirir. Bu bölümde, mesajlarını ve dosyalarını nasıl koruyacağını adım adım göreceksin.
+
+**Saldırı zinciri:** Güvenli mesajlaşma uygulamaları (Signal, WhatsApp) uçtan uca şifreli olsa da, saldırganlar bu korumayı aşmak için insanı hedef alır. Önce sahte bir profil oluşturup kendini tanıdığın biri gibi tanıtır. Sohbet ilerledikçe güven kazanır. Bir gün "Şu dosyaya bakar mısın?" diye link gönderir. Link tıklanır, cihaza casus yazılım iner. Casus yazılım şifreli mesajları okumaz, okumasına gerek yoktur. Sadece ekran görüntüsü alır, tuş vuruşlarını kaydeder. Şifreleme bile bu noktada işe yaramaz. Çünkü zayıf halka protokol değil, insandır.
+
+**Hacker gözüyle:** Şifreleme kırmakla uğraşmayız. O kadar uğraşacağımıza senin ekranını görüntülemek daha kolay. En sağlam kasa bile içindekini fotoğraflayana kadar dayanır. Unutma: sistem değil, insan zayıf halkadır.
+
+## <span class="heading-num">11.1</span> Kaybolan Mesajlar
+
+Hassas siyasi karar, strateji veya kişisel veri içeren tüm mesajlaşmalarda "kaybolan mesaj" özelliği zorunludur. Telefon çalınsa, ele geçirilse veya yasal olarak incelense bile geriye dönük bir arşiv bulunmamalıdır.
+
+### Signal'de kaybolan mesaj ayarı
+
+1. Sohbet ekranına gir, üstteki kişi veya grup adına dokun
+2. "Kaybolan mesajlar" seçeneğine dokun
+3. Süreyi seç: bireysel sohbetlerde "1 gün" veya "1 hafta", strateji sohbetlerinde "1 saat" tercih et
+4. Ayar her iki taraf için de geçerli olur
+
+### WhatsApp'ta kaybolan mesaj ayarı
+
+1. Sohbet ekranına gir, üstteki kişi veya grup adına dokun
+2. "Kaybolan mesajlar" seçeneğine dokun ve aç
+3. Varsayılan süre 90 gündür; daha kısa süre için "Zamanlayıcı"yı 24 saat veya 7 gün olarak ayarla
+4. Grup sohbetlerinde bu ayarı yalnızca grup yöneticisi değiştirebilir
+
+<Alert level="tip">Kaybolan mesajlar, ekran görüntüsü almayı engellemez. Karşı taraf ekran görüntüsü alabilir. Bu nedenle mesaj içeriğinde bile en az bilgi paylaş; kritik detayları yüz yüze veya şifreli sesli aramayla aktar.</Alert>
+
+<Accordion question={'Kaybolan mesajlar yedeklemelerde görünür mü?'} id="faq-kaybolan-yedek">
+Signal'de yedekleme varsayılan olarak kapalıdır; açık olsa bile kaybolan mesajlar yedek dosyasına dahil edilmez. WhatsApp'ta durum daha karmaşıktır: yerel yedekleme zamanlamasına göre kaybolan mesajlar kısa süreliğine yedekte yer alabilir. Uçtan uca şifrelenmiş bulut yedeklemesi kullanmıyorsan, yedek dosyasındaki mesajlar açık metin olarak durabilir. Güvenlik açısından WhatsApp bulut yedeklemesini uçtan uca şifreli hale getir.
+</Accordion>
+
+## <span class="heading-num">11.2</span> Ekran Görüntüsü Koruması
+
+Mesajların güvenliğini sağlasan bile, karşı tarafın ekran görüntüsü alması tüm önlemleri etkisiz kılar. Ekran görüntüsü koruması, dijital mesajlaşmanın temel zayıflığıdır ve tamamen çözülemez. Ancak riski azaltmak mümkündür.
+
+**Signal "Görünmez Mürekkep" (View Once) modu:**
+
+1. Sohbette fotoğraf veya video paylaşırken, mesaj kutusunun yanındaki "1" simgesine dokun
+2. İçerik karşı tarafta bir kez görüntülenir ve sonra silinir
+3. Karşı taraf ekran görüntüsü almaya çalışırsa, Signal bunu engelleyemez ama sana bildirim gönderir
+
+**Telegram "Gizli Sohbet" modu:**
+
+1. Kişinin profiline gir, "Gizli Sohbet Başlat" seçeneğini seç
+2. Gizli sohbetler cihazdan cihaza taşınmaz, yalnızca o telefonda kalır
+3. Ekran görüntüsü alımı engellenir (Android'de tamamen, iOS'ta kısmen)
+4. Mesajlara otomatik silme süresi eklenebilir
+
+<Alert level="warning">Hiçbir uygulama ekran görüntüsünü yüzde yüz engelleyemez. Karşı tarafın başka bir telefonla fotoğraf çekmesi, ekran kaydı alması veya bilgisayar ekranından görüntü yakalaması her zaman mümkündür. Bu nedenle en hassas bilgileri dijital mesajla değil, yüz yüze paylaş.</Alert>
+
+## <span class="heading-num">11.3</span> Dosya ve Belge Güvenliği
+
+Strateji belgeleri, anket sonuçları, aday belirleme listeleri gibi hassas dosyalar parolalı olarak paylaşılır. Parola, dosyanın gönderildiği kanaldan ayrı bir kanalla iletilir.
+
+### PDF dosyasına parola koyma
+
+**Adobe Acrobat ile:**
+
+1. PDF dosyasını Adobe Acrobat'ta aç
+2. "Dosya" menüsünden "Parola ile Koru" seçeneğini seç
+3. Güçlü bir parola belirle (en az 12 karakter, büyük/küçük harf, rakam ve özel karakter içeren)
+4. Parolayı kaydet ve dosyayı kaydet
+
+**LibreOffice ile:**
+
+1. PDF olarak dışa aktarırken "Parola ile şifrele" kutusunu işaretle
+2. Parolayı gir ve onayla
+3. Dosyayı kaydet
+
+**macOS Önizleme ile:**
+
+1. PDF dosyasını Önizleme uygulamasında aç
+2. "Dosya" menüsünden "Dışa Aktar" seçeneğini seç
+3. "Şifrele" kutusunu işaretle ve parolayı gir
+4. Dosyayı kaydet
+
+<Alert level="tip">Parolayı dosyayı gönderdiğin kanaldan ayrı bir kanal üzerinden ilet. Dosyayı e-postayla gönderiyorsan parolayı Signal veya SMS ile ilet. Dosyayı Signal ile gönderiyorsan parolayı telefonla sesli olarak aktar.</Alert>
+
+**Bulut depolama paylaşım kuralları:**
+
+Google Drive veya Dropbox paylaşım linklerinde "yalnızca belirli kişiler" seçeneği kullan. "Linki bilen herkes" seçeneği asla tercih edilme. Paylaşım yapıldıktan sonra, dosya erişim günlüklerini düzenli olarak kontrol et.
+
+## <span class="heading-num">11.4</span> VPN ve İnternet Trafiği Güvenliği
+
+Siyasetçi ve ekip, ofis dışından internete bağlanırken sanal özel ağ (VPN) kullanır. VPN, internet trafiğini şifreler ve internet servis sağlayıcısı dahil hiç kimse hangi sitelere girildiğini göremez. Güvenmediğin her ağda VPN kullan: otel, kafe, havalimanı, komşu Wi-Fi'si, apartman ortak ağı. VPN yoksa mobil verini kullan.
+
+### Adım adım VPN kurulumu
+
+**1. Güvenilir VPN sağlayıcısı seç:**
+
+Güvenilir VPN sağlayıcıları bağımsız güvenlik denetimlerinden geçmiş, kayıt tutmadığını belgelemiş ve şeffaflık raporu yayımlayan firmalardır.
+
+**2. Hesap oluştur ve uygulamayı kur:**
+
+- Mullvad: hesap oluştur, 16 haneli hesap numarası verilir, e-posta gerektirmez
+- ProtonVPN: Proton hesabıyla kaydol, ücretsiz plan sınırlı sunucular sunar ama güvenlidir
+- Uygulamayı telefonun resmi uygulama mağazasından (App Store veya Google Play) indir
+
+**3. Güvenmediğin ağda VPN'i aç:**
+
+- Uygulamayı aç, en yakın sunucuya bağlan
+- Telefon ayarlarından VPN bağlantısını yönet
+- Güvenmediğin bir ağa bağlandığında VPN'i açmayı alışkanlık haline getir
+
+**4. Bağlantı kesiciyi etkinleştir:**
+
+- VPN uygulamasının ayarlarına gir, "Bağlantı Kesici" seçeneğini aç
+- Bağlantı kesici, VPN bağlantısı koptuğunda internet erişimini otomatik olarak keser
+- Böylece VPN'siz durumda farkında olmadan gezinmenin önüne geçilir
+
+<Accordion question={'VPN hızımı düşürür mü?'} id="faq-vpn-hiz">
+Evet, VPN trafiği şifrelediği ve başka bir sunucudan yönlendirdiği için bağlantı hızı bir miktar düşebilir. Yakın bir sunucu seçerek bu kaybı minimize edebilirsin. Güncel protokoller düşük gecikme süresi sunar. Güvenlik için küçük bir hız farkından ödün vermek kabul edilebilir bir bedeldir.
+</Accordion>
+
+## <span class="heading-num">11.5</span> Şifreli Dosya Paylaşım Araçları
+
+Hassas dosyaları paylaşmanın güvenli yolları vardır. Hem dosyanın kendisi hem de iletim kanalı şifreli olmalıdır.
+
+**Signal ile dosya paylaşımı:**
+
+Signal, mesajlaşmanın yanı sıra dosya paylaşımı için de güvenli bir kanaldır. Tüm dosyalar uçtan uca şifrelenir. Dosya boyutu sınırı 100 MB'dır. Kaybolan mesaj özelliğiyle birlikte kullanıldığında, dosya belirlenen süre sonra her iki taraftan da silinir.
+
+**Bitwarden Send ile güvenli paylaşım:**
+
+Bitwarden, parola yöneticisi olmasının yanı sıra "Send" özelliğiyle şifreli metin ve dosya paylaşımı sunar.
+
+1. Bitwarden uygulamasını veya web arayüzünü aç
+2. "Send" bölümüne gir, yeni bir paylaşım oluştur
+3. Dosyayı yükle (ücretsiz plan 1 GB'a kadar destekler)
+4. Paylaşım süresi belirle: 1 gün, 7 gün veya özel tarih
+5. Erişim parolası ekle
+6. Oluşturulan linki alıcıya ilet; parolayı ayrı bir kanaldan gönder
+7. Süre dolduğunda veya istersen elinle sildiğinde dosya erişilemez olur
+
+<Scenario label="Senaryo: Strateji belgesini ekibe gönderiyorsun">
+Seçim stratejisi belgesini hazırladın ve beş danışmanına göndermen gerekiyor. Belgeyi önce PDF olarak dışa aktar ve parola ile koru. Parolayı Signal üzerinden tek tek herkese gönder. Parolalı PDF dosyasını ise Bitwarden Send ile 24 saatlik süreyle paylaş. Linki WhatsApp grubundan gönderme; bunun yerine Signal grubundan veya bireysel Signal mesajı olarak ilet. Her danışman belgeyi indirdikten sonra Bitwarden Send linkini süresi dolmadan önce sil. Böylece hem dosya hem iletim kanalı korunmuş olur.
+</Scenario>
+
+<DoDont items={[
+  { text: 'Kaybolan mesajları tüm hassas sohbetlerde etkinleştir', type: 'do' },
+  { text: 'Signal veya Telegram gizli sohbet kullan', type: 'do' },
+  { text: 'PDF ve Office belgelerine parola koy', type: 'do' },
+  { text: 'Parolayı dosyayı gönderdiğin kanaldan ayrı bir kanal ile ilet', type: 'do' },
+  { text: 'VPN kullanarak internete bağlan, bağlantı kesiciyi etkinleştir', type: 'do' },
+  { text: 'Bitwarden Send gibi şifreli paylaşım araçları tercih et', type: 'do' },
+  { text: 'Hassas dosyaları WhatsApp grubunda korumasız paylaş', type: 'dont' },
+  { text: 'Google Drive linkini "linki bilen herkes" olarak ayarla', type: 'dont' },
+  { text: 'Ücretsiz VPN kullan', type: 'dont' },
+  { text: "Otel veya kafe kablosuz ağında VPN'siz gezin", type: 'dont' },
+  { text: 'Hassas bilgileri normal mesajla, kaybolan mesaj olmadan gönder', type: 'dont' },
+  { text: 'Parolayı dosyanın ekinde veya aynı mesajda ilet', type: 'dont' },
+]} />
+
+<Checklist title="Güvenli Veri ve Dosya Paylaşımı Kontrol Listesi">
+<li>Signal'de kaybolan mesajlar açık</li>
+<li>VPN bağlı ve bağlantı kesici etkin</li>
+<li>Hassas dosyalar parolalı olarak paylaşıldı</li>
+<li>Ekran görüntüsü koruması kontrol edildi</li>
+<li>Grup ayarları ve katılımcıları kontrol edildi</li>
+<li>İki aşamalı doğrulama tüm hesaplarda açık</li>
+</Checklist>
+
+**Gerçek olay:** 2016'da Meksikalı bir gazeteci, uyuşturucu kartelleri hakkında haber yapıyordu. Telefonundaki tüm mesajlaşmaları şifresiz olarak SMS üzerinden yapıyordu. Kartel üyeleri, telefon operatöründeki bir güvenlik açığı sayesinde SMS trafiğine erişti. Gazetecinin kaynakları, konumları ve haber planları eksiksiz olarak ele geçirildi. Gazeteci, kaynaklarının isimleri açığa çıkmasın diye haber yapmayı bırakmak zorunda kaldı. Signal gibi uçtan uca şifreli bir mesajlaşma uygulaması kullanılmış olsaydı, operatör düzeyindeki bu müdahale işe yaramazdı çünkü mesaj içerikleri yalnızca gönderen ve alıcıda çözülebilir.
+
+**Benzetme:** Şifreli mesajlaşma, kapalı bir zarf içinde mektup göndermeye benzer. Şifresiz mesajlaşma ise açık bir kartpostala yazı yazmak gibidir. Gönderdiğine pişman olacağın bir şey varsa, kartpostal kullanma.
+
+## İlgili Bölümler
+
+- [Mesajlaşma Güvenliği](/mesajlasma/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Hesap ve Parola Güvenliği](/hesap-parola/)
+- [Ağ ve Wi-Fi Güvenliği](/ag-ve-wifi-guvenligi/)

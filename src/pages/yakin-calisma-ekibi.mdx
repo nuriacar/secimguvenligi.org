@@ -1,0 +1,103 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Yakın Çalışma Ekibi Güvenliği'
+description: 'Parola devretme yasağı, rol tabanlı yetki yönetimi, personel ayrılma protokolü ve ekip iletişim kuralları.'
+order: 29
+audience: G,K
+hero: '/img/hero/yakin-calisma-ekibi.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import DoDont from '../components/DoDont.astro';
+import Alert from '../components/Alert.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+<AudienceBadge audience="G,K" />
+
+Bir siyasetçinin en büyük gücü, ekibidir. Ama en büyük zafiyeti de ekibidir. Danışman, yakın çalışma ekibi, sekreter... Bu kişilerin her biri, siyasetçinin dijital dünyasının bir anahtarına sahiptir. O anahtarlardan biri koptu mu, tüm bina tehlikeye girer. Bir danışmanın telefonu ele geçirildiğinde, siyasetçinin programı, konumu, stratejileri ve özel yazışmaları anında saldırganın eline geçer. Zayıf halka siyasetçi değil, en az korunan ekip üyesidir.
+
+**Gerçek saldırı deseni:** İç tehdit (insider threat), en tehlikeli saldırı türlerinden biridir. Saldırgan önce yetkili bir hesap çalar, sonra rehberi ve mesajları tarayarak kimin kimle bağlantılı olduğunu keşfeder, ardından çaldığı hesap üzerinden başkalarına senin adına mesaj atar. Bu zincir böyle büyür: bir kişinin hesabı ele geçirilir, tüm ekip tehdit altına girer. En zayıf halka genelde siyasetçi değil, en az korunan ekip üyesidir.
+
+**Hızlı ipucu:** 30 saniyede yap: Personel listeni gözden geçir. Ayrılan var mı? Hesapları hâlâ aktif mi? Her ayrılan kişinin yetkilerini derhal geri al.
+
+## <span class="heading-num">29.1</span> Parola Devretme Yasağı
+
+- **Kural:** Yakın çalışma ekibi, danışman veya sekreter siyasetçinin kişisel e-posta, e-Devlet veya sosyal medya hesaplarının ana parolasını bilmez.
+- **İstisna:** Acil durumda geçici erişim verildiyse, iş bitiminde parola anında değiştirilir. Bu kural ihlal edildiğinde sıfır tolerans uygulanır.
+
+<DoDont items={[
+  { text: 'Acil durumda geçici erişim ver, iş bitince parolayı değiştir', type: 'do' },
+  { text: 'Sosyal medya için Business Manager / Teams rolü kullan', type: 'do' },
+  { text: 'Personel ayrılınca yetkileri tek tıkla geri al', type: 'do' },
+  { text: 'Yakın çalışma ekibi parolasını siyasetçinin hesabına ver', type: 'dont' },
+  { text: 'Danışmanlara sosyal medya parolasını paylaş', type: 'dont' },
+  { text: 'Ayrılan personelin yetkilerini kaldırmayı unut', type: 'dont' },
+]} />
+
+## <span class="heading-num">29.2</span> Rol Tabanlı Yetki Yönetimi
+
+- **Kural:** Sosyal medya hesaplarını yönetecek danışmanlara parola verilmez. Bunun yerine platformların resmi araçları kullanılır:
+  - **Facebook / Instagram:** Business Manager üzerinden "Sayfa Yöneticisi / Editör" rolü.
+  - **X (Twitter):** Teams üzerinden "Katkıda Bulunan" rolü.
+- **Avantaj:** Danışman ayrıldığında yetkisi tek tıkla geri alınır. Parola değiştirmeye gerek kalmaz.
+
+<Accordion question="Yetki matrisi" id="auth-matrix">
+**Sosyal Medya Yetki Matrisi:**
+- **Facebook / Instagram:** Business Manager üzerinden "Sayfa Yöneticisi / Editör" rolü verilir. Danışman doğrudan parola bilmeden içerik yönetebilir.
+- **X (Twitter):** Teams üzerinden "Katkıda Bulunan" rolü verilir. Tweet atma ve yanıt verme yetkisi sınırlı tutulur.
+- **Diğer platformlar:** Benzer rol tabanlı erişim araçları kullanılır. Ana parola asla paylaşılmaz.
+- **Ayrılma anında:** Tüm roller tek tıkla kaldırılır, parola değişikliğine gerek kalmaz.
+</Accordion>
+
+## <span class="heading-num">29.3</span> Ekibin Cihaz Güvenliği
+
+- **Kural:** Siyasetçinin yanındaki tüm ekibin telefonları en az siyasetçinin telefonu kadar korunur.
+- **Neden:** Danışmanın telefonu ele geçirilirse siyasetçinin programı, konumu, mesajlaşmaları ve stratejileri sızar. Zayıf halka siyasetçi değil, ekibidir.
+
+<Checklist title="Ekip Cihaz Denetim Kontrol Listesi">
+<li>Ekibin tüm telefonlarında ekran kilidi aktif</li>
+<li>Danışman telefonlarında casus yazılım taraması yapıldı</li>
+<li>WhatsApp ve Signal mesajlaşmalarında otomatik silme açık</li>
+<li>Ekip cihazlarında bulut yedekleme kapatıldı</li>
+<li>Ekibin sosyal medya hesaplarında iki adımlı doğrulama aktif</li>
+<li>Danışman cihazları düzenli güvenlik güncellemesi alıyor</li>
+</Checklist>
+
+## <span class="heading-num">29.4</span> Personel Ayrılma Protokolü
+
+- **Kural:** Ekipten ayrılan her personel için derhal şu adımlar atılır:
+  1. Tüm sosyal medya hesaplarındaki yetkileri kaldırılır (Business Manager, Teams).
+  2. Paylaşılan e-posta gruplarından, WhatsApp gruplarından çıkarılır.
+  3. Ortak belge depolarına (Google Drive, Dropbox vb.) erişimi kesilir.
+  4. Parolalar varsa, siyasetçinin tüm hesap parolaları derhal değiştirilir.
+  5. Fiziksel erişim (ofis anahtarı, araç, vb.) geri alınır.
+- **Kural:** Ayrılan personelin cihazı kurum verileriyle doluysa, cihaz kurula iade edilir ve fabrika ayarlarına döndürülür.
+- **Yapma:** "Güvenilir" biri ayrılıyor diye bu adımlar atlanmaz. En zarar sızıntılar ayrılan eski çalışanlardan gelir.
+
+<Alert level="warning">Personel ayrılma protokolü uygulaması geciktirildiğinde, ayrılan kişi tüm kurumsal hesaplara, belgelere ve iletişim kanallarına erişimini sürdürür. En zarar verici sızıntılar ayrılan eski çalışanlardan gelir.</Alert>
+
+## <span class="heading-num">29.5</span> Ekip İletişim Protokolü
+
+- **Kural:** Siyasetçi ve ekip arasında "kim ne zaman hangi kanaldan iletişim kurar" bellidir:
+  - **Acil:** Telefonla arama (tanıdık numara).
+  - **Strateji:** Signal / kaybolan mesaj.
+  - **Genel bilgi:** İş e-postası.
+  - **Sosyal medya:** Yalnızca Business Manager / Teams üzerinden.
+- **Kural:** Siyasetçiyi "acil" diye her konuda rahatsız etme kuralı geçerlidir. Aciliyet derecesini belirleyen bir filtre mekanizması (yakın çalışma ekibi) zorunludur.
+
+<Scenario label="Senaryo: Ayrılan Personel">
+Ekipte iki yıldır çalışan danışman ayrılıyor. Ayrılış anında: Business Manager'dan Facebook/Instagram yetkileri kaldırılıyor, Twitter Teams'ten "Katkıda Bulunan" rolü siliniyor. Tüm WhatsApp gruplarından çıkarılıyor. Google Drive ortak klasör erişimi kesiliyor. Siyasetçinin tüm hesap parolaları değiştiriliyor. Ofis anahtarı ve araç teslim alınıyor. Danışmanın telefonu kurum verilerini içeriyorsa fabrika ayarlarına döndürülüyor.
+</Scenario>
+
+**Gerçek olay:** 2015'te ABD başkanlık seçim kampanyalarından birinde, ayrılan bir kampanya çalışanı, eski parolalarını kullanarak kampanyanın e-posta sistemine girmeye devam etti. Çalışan, aylarca kampanya stratejilerini rakip ekibe sızdırdı. Olay ancak bir güvenlik denetimi sırasında, ayrılan personele ait hesap erişimlerinin kapatılmadığı fark edildiğinde ortaya çıktı. Bu olay, personel ayrılma protokolünün neden "güvenilir" kişiler için bile atlanmaması gerektiğini gösterir.
+
+**Benzetme:** Ekip güvenliği, bir kalenin surları gibidir. En yüksek kuleyi yaparsın ama surun dibindeki küçük bir delikten düşman içeri girer. O delik, zayıf korunan bir danışmanın telefonudur.
+
+
+## İlgili Bölümler
+
+- [Çift Telefon](/cift-telefon/)
+- [Mesajlaşma Güvenliği](/mesajlasma/)
+- [Aile Üyelerinin Hedef Alınması](/aile-guvenlik/)

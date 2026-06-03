@@ -1,0 +1,42 @@
+---
+import Base from './Base.astro';
+import { chapters } from '../data/chapters';
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
+const currentIndex = chapters.findIndex(c => c.slug === currentPath);
+const prev = currentIndex > 0 ? chapters[currentIndex - 1] : null;
+const next = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null;
+
+const { frontmatter } = Astro.props;
+const { title, partTitle, partNumber, description, hero } = frontmatter;
+---
+
+<Base title={title} description={description} image={hero}>
+  {hero && (
+    <img class="hero-img" src={hero} alt={title} width="2912" height="1440" />
+  )}
+  {(partNumber || partTitle) && (
+    <div class="chapter-meta">
+      <span class="section-marker"></span>
+      <span class="section-title">
+        {partNumber ? `Kısım ${partNumber}${partTitle ? `: ${partTitle}` : ''}` : ''}
+      </span>
+    </div>
+  )}
+  <a href="/" aria-label="Ana sayfaya dön: içindekiler" class="back-link">&larr; İçindekiler</a>
+  <h1 class="chapter-title">{title}</h1>
+  <div class="prose max-w-none" data-pagefind-body>
+    <slot />
+  </div>
+
+  <div class="prev-next">
+    {prev ? (
+      <a href={prev.slug + '/'} aria-label={`Önceki bölüm: ${prev.title}`} class="prev-link">&larr; {prev.title}</a>
+    ) : (
+      <a href="/" aria-label="Ana sayfaya dön: içindekiler" class="prev-link">&larr; İçindekiler</a>
+    )}
+    {next && (
+      <a href={next.slug + '/'} aria-label={`Sonraki bölüm: ${next.title}`} class="next-link">{next.title} &rarr;</a>
+    )}
+  </div>
+</Base>
+

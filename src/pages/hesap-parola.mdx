@@ -1,0 +1,136 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Hesap ve Parola Güvenliği'
+description: 'Parola kuralları, e-Devlet güvenliği, iki aşamalı doğrulama, kurtarma seçenekleri, e-posta ve tarayıcı güvenliği.'
+order: 7
+audience: [V]
+hero: '/img/hero/hesap-parola.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+<AudienceBadge audience="V" />
+
+Kaç tane hesabın var? Bir sessizlik oluyor, saymaya başlıyorsun. E-posta, banka, e-Devlet, Instagram, X, WhatsApp, alışveriş siteleri, fatura ödeme, belediye, otopark, okul sistemi, iş yeri... Sayısı onlarca. Her birine ayrı bir parola. İnsan aklının kaldıramayacağı kadar çok. O yüzden çoğumuz aynı parolayı birkaç yerde kullanırız. "Bir şey olmaz" diye. Ta ki o parola bir yerden sızana kadar. Ve bir sabah uyanıp Instagram'ının başkası tarafından yönetildiğini görene kadar.
+
+**Özlü kural:** Aynı parolayı iki yerde kullanıyorsan, aslında hiç parola kullanmıyorsun demektir.
+
+## <span class="heading-num">7.1</span> Parola Kuralları
+
+- **Yapma:** Aynı parolayı birden fazla yerde kullanma. E-Devlet, e-posta, sosyal medya parolaları birbirinden farklı olsun. Biri patlarsa hepsi gider.
+- **Yap:** Parolaların en az 12 karakter, harf+rakam+özel karakter içersin.
+- **Yap:** Parola yöneticisi (password manager) kullan (Bitwarden, 1Password vb.). Tek bir ana parola hatırla, gerisini o tutsun.
+
+<DoDont items={[
+  { text: 'Her hesap için farklı parola kullan', type: 'do', level: 'minimum' },
+  { text: 'En az 12 karakter, harf+rakam+özel karakter kullan', type: 'do' },
+  { text: 'Parola yöneticisi kullan (Bitwarden, 1Password)', type: 'do', level: 'best' },
+  { text: 'Aynı parolayı birden fazla yerde kullanma', type: 'dont' },
+  { text: 'Ad, soyad, doğum tarihi içeren parola belirleme', type: 'dont' },
+  { text: 'Parolayı kağıda yazıp monitora yapıştırma', type: 'dont' },
+]} />
+
+## <span class="heading-num">7.2</span> E-Devlet Güvenliği
+
+- **Kural:** E-Devlet parolanı kimseye verme. Sekreter, yardımcı, aile farketmez.
+- **İstisna:** Vermek zorunda kaldıysan, iş bittiği an hemen parolayı değiştir.
+- **Yap:** E-Devlet üzerinde iki aşamalı doğrulama aç. Parolani bilseler bile telefonuna kod gelmeden giremezler.
+
+<Alert level="warning">
+E-Devlet parolanı kimseye verme. Sekreter, yardımcı, aile fark etmez. Vermek zorunda kaldıysan iş bittiği an hemen değiştir.
+</Alert>
+
+## <span class="heading-num">7.3</span> İki Aşamalı Doğrulama
+
+- **Ne demek:** Parolanden sonra telefonuna bir onay kodu gelir. O kodu girmeden kimse hesabına giremez.
+- **Yap:** Google, Facebook, X (Twitter), Instagram, WhatsApp, e-Devlet üzerinde iki aşamalı doğrulamayı hemen aç.
+- **Yöntem:** SMS yerine mümkünse "doğrulayıcı uygulaması" (authenticator app) tercih et (Google Authenticator, Authy vb.). SMS kopyalanabilir, doğrulayıcı uygulaması daha güvenli.
+
+### Nasıl Yapılır: İki Aşamalı Doğrulama Açma
+
+**Google Hesabı:**
+1. myaccount.google.com > Güvenlik
+2. "İki aşamalı doğrulama" > Başla
+3. Telefon numarasını gir, SMS veya arama ile doğrula
+4. (Tercihen) "Doğrulayıcı uygulaması" ekle: Google Authenticator ile tara
+
+**Instagram:**
+1. Profil > Menü (üç çizgi) > Ayarlar ve gizlilik
+2. Hesap güvenliği > İki aşamalı doğrulama
+3. "Doğrulayıcı uygulaması" seç (WhatsApp doğrulayıcı değil)
+4. Google Authenticator ile QR kodu tara
+
+**WhatsApp:**
+1. Ayarlar > Hesap > İki aşamalı doğrulama
+2. "Etkinleştir" > 6 haneli PIN belirle
+3. Kurtarma e-postası ekle (PIN unutulursa)
+
+**X (Twitter):**
+1. Ayarlar ve destek > Ayarlar ve gizlilik > Güvenlik ve hesap erişimi
+2. Güvenlik > İki aşamalı doğrulama
+3. "Doğrulayıcı uygulaması" seç
+
+<Checklist title="İki Aşamalı Doğrulama Açma">
+<li>Google hesabında iki aşamalı doğrulama açıldı</li>
+<li>Instagram'da doğrulayıcı uygulaması aktif</li>
+<li>WhatsApp iki aşamalı doğrulama (6 haneli PIN) aktif</li>
+<li>X (Twitter) doğrulayıcı uygulaması aktif</li>
+<li>E-Devlet iki aşamalı doğrulama açık</li>
+<li>E-posta hesabında iki aşamalı doğrulama açık</li>
+<li>Kurtarma kodları güvenli yere kaydedildi</li>
+</Checklist>
+
+## <span class="heading-num">7.4</span> Kurtarma Seçenekleri
+
+- **Yap:** Hesaplarına kurtarma telefon numarası ve yedek e-posta ekle.
+- **Yapma:** Kurtarma kodlarını telefonda not tutma. Kağıda yaz, kasa veya güvenli bir yere koy.
+
+<Scenario label="Senaryo: Parolamı Unuttum Dolandırıcılığı">
+Birisi seni arar: "Ben Google destek ekibinden arıyorum, hesabında şüpheli giriş tespit ettik, parolanı sıfırlamak için sana bir kod gönderiyoruz, lütfen kodu söyle." Aslında saldırgan senin hesabına giriş yapmaya çalışıyor, Google sana doğrulama kodu gönderiyor. Saldırgan bu kodu istiyor. SMS ile gelen kodu asla kimseye söyleme.
+</Scenario>
+
+## <span class="heading-num">7.5</span> E-Posta Güvenliği
+
+- **Kural:** E-posta hesabın tüm dijital hayatının anahtarıdır. E-postanı ele geçiren, tüm hesaplarını sıfırlayıp ele geçirir (parola sıfırlama linkleri e-postana gelir).
+- **Yap:** E-posta parolan en güçlü parolan olsun. Diğer hiçbir hesapta aynı parolayı kullanma.
+- **Yap:** E-postada iki aşamalı doğrulama mutlaka açık olsun.
+- **Yapma:** E-postana gelen "Hesabın askıya alındı, tıklayın" gibi maillerdeki linklere tıklama. Resmi hizmet sağlayıcılar böyle mail atmaz.
+- **Yap:** Gelen kutunu düzenli kontrol et. Tanımadığın göndericilerden gelen ekleri (özellikle .exe, .zip, .pdf) indirme.
+
+## <span class="heading-num">7.6</span> Tarayıcı ve Otomatik Giriş Güvenliği
+
+- **Kural:** Tarayıcıda (Chrome, Safari vb.) "Parolayı hatırla / otomatik doldur" özelliğini kapat. Bilgisayarı başkası açtığında tüm hesaplarına doğrudan girer.
+- **Yap:** Tarayıcıda kayıtlı parolaların varsa sil. Parola yöneticisi kullan.
+- **Yap:** "Giriş yapıldı" / "Oturum açık" bırakılan hesaplardan çıkış yap. Sadece tarayıcıyı kapatmak yetmez.
+
+<Accordion question="Parola yöneticisi karşılaştırma" id="pwd-mgr">
+**Ücretsiz seçenekler:**
+- **Bitwarden:** Açık kaynak, ücretsiz plan yeterli, tüm cihazlarda senkronize. Topluluk tarafından denetleniyor.
+- **KeePassXC:** Yerel depolama, bulut kullanmaz. Tam kontrol isteyenler için. USB bellekte taşınabilir.
+
+**Ücretli seçenekler:**
+- **1Password:** Kullanıcı dostu arayüz, aile planı var, seyahat modu (hassas verileri geçici olarak gizler).
+- **Dashlane:** VPN ve karanlık web izleme dahil.
+
+**Tavsiye:** Ücretsiz başlamak için Bitwarden, bütçe varsa 1Password tercih edilebilir. Hiçbir durumda parola yöneticisi kullanmamak en büyük risk.
+</Accordion>
+
+**Gerçek olay:** 2020'de bir gazetecinin Twitter hesabı ele geçirildi. Gazeteci, 2019'daki Facebook veri sızıntısında parolası sızan bir hesabını başka sitelerde de kullanıyordu. Saldırgan önce bu sızdırılmış parolayı bir listeye ekledi (saldırganın elindeki parola listesi). Ardından otomatik bir araçla bu parolayı farklı platformlarda denedi (credential stuffing). Twitter'da denediğinde hesap açıldı çünkü gazeteci aynı parolayı kullanıyordu. Saldırgan hemen parolayı değiştirdi, iki aşamalı doğrulama ekledi ve gazeteciyi hesabından tamamen kilitledi. Gazeteci tüm takipçilerini, yılların birikimini ve güvenilir bir haber kaynağını bir anda kaybetti. Hesabı geri almak haftalar sürdü. Bu olayın sebebi basit: aynı parolayı birden fazla yerde kullanmak.
+
+**Gerçek saldırı deseni:** Saldırgan önce parolanı tahmin eder veya internette sızdırılmış parola listelerinden bulur. Parolanı ele geçirdikten sonra hesabına normal bir kullanıcı gibi girer. Giriş yaptıktan sonra oturum çerezlerini (session cookies) çalarak başka bir cihazdan hesabında kalıcı olur. Parolanı sonradan değiştirsen bile çerez geçerliliğini koruduğu için saldırgan hesapta kalabilir. 2019 yılında 540 milyon Facebook parolası sızdırıldı ve bu parolalar bu zincirle binlerce hesapta kullanıldı. İki aşamalı doğrulama açıksa bu zincirin ikinci adımında saldırgan durdurulur.
+
+**Benzetme:** Parola yöneticisi kullanmak, üzerinde her kapının ayrı anahtarı olan bir anahtarlığa benzer. Tek bir anahtarla o anahtarlığı açarsın, içinden her kapıya uygun anahtarı alırsın. Anahtarlık kullanmazsan her kapıya aynı anahtarı takarsın; biri kırıldı mı tüm kapılar açılır.
+
+Bir sabah uyanıp hesabının çalındığını görmektense, bugün bir parola yöneticisi kurmak daha iyidir.
+
+
+## İlgili Bölümler
+
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Hesap Çalındığında Acil Protokol](/hesap-calma/)
+- [Sosyal Mühendislik](/sosyal-muhendislik/)

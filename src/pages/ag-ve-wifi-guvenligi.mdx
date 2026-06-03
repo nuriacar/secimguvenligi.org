@@ -1,0 +1,101 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Ağ ve Wi-Fi Güvenliği'
+description: 'Wi-Fi ağları, modem güvenliği, misafir ağı, VPN, kamuya açık ağ riskleri ve ev ağı korunma yöntemleri.'
+order: 6
+audience: [V]
+hero: '/img/hero/ag-ve-wifi-guvenligi.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+<AudienceBadge audience="V" />
+
+Eve geldin, telefonun otomatik olarak Wi-Fi'ye bağlandı. Kafede oturdun, şifresiz ağa girdin. Otelde odana çıktın, otel Wi-Fi'sine bağlandın. Bu kadar basit. Ama her bağlandığın ağ, bir saldırgan için açık kapıdır. Wi-Fi, radyo dalgalarıyla yayın yapar. O dalgalar duvarlardan geçer, komşunun evine ulaşır, sokaktan geçen birinin cihazına kadar gider. Wi-Fi'ye bağlandığında tüm internet trafiğin o ağın içinden geçer. Ağ güvenli değilse, gönderdiğin mesajlar, girdiğin şifreler, banka bilgilerin başkasının eline geçebilir.
+
+Evinde kendi modemin var. Ama o modemin fabrika ayarlarında kalan kullanıcı adı ve şifresi, kutusunda yazan bilgilerdir. Kapıya bırakılan bir anahtar gibi. O anahtarı değiştirmeyen milyonlarca kişi var. Saldırgan için bu, "hoş geldin" davetiyesidir.
+
+**Özlü kural:** Wi-Fi'n, evinin ön kapısıdır. Kapını nasıl kilitliyorsan, ağını da öyle koru.
+
+## <span class="heading-num">6.1</span> Modem ve Router Güvenliği
+
+- **Yap:** Modemin yönetici parolasını (varsayılan admin şifresini) mutlaka değiştir. Modemin altında yazan kullanıcı adı ve şifre herkesin görebileceği yerdir.
+- **Yap:** Kablosuz ağ şifren en az 12 karakter, harf+rakam+özel karakter içersin. Doğum tarihi, soyad, "123456" kullanma.
+- **Yap:** Modem arayüzüne sadece kablo ile bağlanarak gir. Kablosuzdan yönetici paneline erişimi kapat.
+- **Yapma:** Modemin güncellemesini ihmal etme. Modem arayüzüne gir, güncelleme var mı kontrol et. Güncellenmeyen modem, saldırgana açık kapıdır.
+- **Kural:** Kullanmadığın modem markalarının güvenlik açıkları internette yayınlanır. Modemini bilinen markalardan seç ve düzenli güncelle.
+
+## <span class="heading-num">6.2</span> Kablosuz Ağ Şifreleme
+
+- **Kural:** Modem ayarlarında şifreleme yöntemi WPA2 veya WPA3 olsun. WEP kullanma - bu yöntem dakikalar içinde kırılır.
+- **Yap:** Modem ayarlarına gir, "Güvenlik" veya "Şifreleme" bölümünden WPA2'yi seç (mümkünse WPA3).
+- **Yapma:** Ağ adını (SSID) gizleme. Gizli ağlar aslında daha çok dikkat çeker. Bunun yerine güçlü bir şifre kullan.
+
+<DoDont items={[
+  { text: 'Modem yönetici şifresini değiştir (varsayılanı kullanma)', type: 'do', level: 'minimum' },
+  { text: 'Kablosuz ağ şifreni en az 12 karakter belirle', type: 'do' },
+  { text: 'WPA2 veya WPA3 şifreleme kullan', type: 'do' },
+  { text: 'Modemi düzenli güncelle', type: 'do' },
+  { text: 'Varsayılan kullanıcı adı ve şifreyi kullanma (admin/admin)', type: 'dont' },
+  { text: 'WEP şifreleme kullanma - dakikalar içinde kırılır', type: 'dont' },
+  { text: 'Doğum tarihi, soyad, 123456 gibi şifre belirleme', type: 'dont' },
+]} />
+
+## <span class="heading-num">6.3</span> Misafir Ağı
+
+- **Kural:** Evine gelen misafirler için ayrı bir misafir ağı oluştur. Misafir ağı, ana ağındaki cihazlara erişemez.
+- **Neden:** Misafirinin telefonunda casus yazılım olabilir, o farkında olmasa bile. Misafirini değil, misafirinin telefonundaki riski düşün.
+- **Yap:** Modem arayüzünden "Misafir Ağı" özelliğini aç. Ayrı bir şifre belirle.
+- **Akıllı ev cihazları (IoT):** Akıllı lamba, kamera, termostat, kahve makinesi gibi internete bağlı cihazları da misafir ağına bağla. Bu cihazların güvenliği genelde zayıftır. Saldırgan önce akıllı lambanı ele geçirip ordan bilgisayarına sızmaya çalışır.
+
+**Gerçek olay:** 2016'da ABD'de bir otel zincirine yapılan saldırıda, saldırganlar önce otel misafir ağına bağlandı. Aynı ağdaki bir iş adamının telefonuna casus yazılım yüklediler. Tüm iş yazışmaları, e-postalar ve banka bilgileri çalındı. Saldırganın kullandığı yöntem: otel ağının parasız ve şifrelemesiz olmasıydı. Misafir ağı bile olsa şifre ve şifreleme şart.
+
+## <span class="heading-num">6.4</span> Kamuya Açık Wi-Fi Riskleri
+
+- **Kural:** Kafe, havalimanı, otel, AVM, otobüs gibi yerlerdeki açık Wi-Fi ağlarına bağlanırken çok dikkatli ol.
+- **Neden:** Saldırgan aynı ağdaysa, trafiğini dinleyebilir, şifrelerini ve mesajlarını görebilir.
+- **Saldırı yöntemi - "Sahte Ağ" (Evil Twin):** Saldırgan, kafenin Wi-Fi'si ile aynı isimde sahte bir açık ağ kurar. Sen "Hangi ağa bağlansam?" diye düşünürken ikisini ayırt edemezsin. Yanlış olanı seçersen, tüm internet trafiğin saldırganın üzerinden geçer. O an girdiğin tüm şifreler, banka bilgileri, mesajlar saldırganın eline geçer.
+- **Yap:** Mobil verini kullan. VPN'in yoksa kamuya açık Wi-Fi'ye bağlanma.
+- **Yap:** VPN kullan. VPN tüm internet trafiğini şifreler. (bkz. Cihaz Güvenliği bölümü 5.7)
+
+<Alert level="warning">
+Kamuya açık Wi-Fi ağlarına VPN'siz bağlanma. Kafe, havalimanı, otel Wi-Fi'sinde saldırgan aynı ağdaysa trafiğini dinleyebilir. VPN yoksa mobil verini kullan.
+</Alert>
+
+## <span class="heading-num">6.5</span> VPN Kullanımı
+
+- **Ne işe yarar:** VPN, telefonunla internet arasında şifreli bir tünel açar. İnternet servis sağlayıcın, kafe Wi-Fi'si veya saldırgan hangi sitelere girdiğini göremez.
+- **Yap:** VPN'i kamuya açık tüm ağlarda aç. Sadece kafe değil, otel, havalimanı, arkadaşının evi, apartman ortak ağı da aynı riski taşır.
+- **Yapma:** Ücretsiz VPN kullanma. Ücretsiz VPN uygulamaları genelde verini satar veya kendisi casusluk yapar. ProtonVPN, Mullvad güvenilir seçeneklerdir.
+- **Yap:** VPN'in "Bağlantı Kesici" özelliğini aç. VPN koptuğunda internet erişimini otomatik kessin.
+
+<Scenario label="Senaryo: Kafede VPN'siz Gezinme">
+Bir kafede oturuyorsun, kahveni içiyorsun. Telefonunda kafenin Wi-Fi'sine bağlısın. Kafede senden başka 15 kişi daha var. Bunlardan biri saldırgan. Saldırgan aynı Wi-Fi ağında olduğun için telefonundan gönderilen her şeyi görebilir. Instagram parolanı, e-posta parolanı, hatta banka uygulamanda girdiğin şifreyi. Bunu engellemenin tek yolu: VPN kullanmak. VPN açık değilse, mobil verine geç.
+</Scenario>
+
+## <span class="heading-num">6.6</span> Ev Ağı Güvenlik Kontrolü
+
+<Checklist title="Ev Ağı Güvenlik Kontrol Listesi">
+<li>Modem yönetici şifresi değiştirildi</li>
+<li>Kablosuz ağ şifresi 12+ karakter</li>
+<li>Şifreleme WPA2 veya WPA3</li>
+<li>Misafir ağı oluşturuldu</li>
+<li>Akıllı ev cihazları misafir ağında</li>
+<li>Modem güncellemesi kontrol edildi</li>
+<li>WPS özelliği kapatıldı</li>
+<li>Uzaktan yönetici erişimi kapatıldı</li>
+</Checklist>
+
+**Benzetme:** Wi-Fi ağın, evinin bahçe kapısıdır. O kapıdan giren herkes önce bahçeye girer, sonra eve. Misafir ağı, bahçede ayrı bir oturma alanıdır. Misafirler orada oturur, eve girmez. VPN ise bahçe kapısından geçerken üzerine geçirilen bir görünmezlik örtüsüdür. Kimse sana ne taşıdığını görmez.
+
+## İlgili Bölümler
+
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Güvenli Veri ve Dosya Paylaşımı](/veri-paylasimi/)
+- [Seyahat ve Sınır Güvenliği](/seyahat-sinir/)
+- [Aile Güvenliği](/aile-guvenlik/)

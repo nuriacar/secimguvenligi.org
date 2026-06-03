@@ -1,0 +1,20 @@
+---
+export interface Props {
+  audience?: string;
+}
+
+const labels: Record<string, { short: string; full: string }> = {
+  V: { short: 'V', full: 'Vatandaş' },
+  G: { short: 'G', full: 'Gazeteci' },
+  K: { short: 'K', full: 'Kamu Görevlisi' },
+};
+
+const { audience = 'V' } = Astro.props;
+const codes = audience.split(',').map(s => s.trim()).filter(s => labels[s]);
+const fullLabel = codes.map(c => labels[c].full).join(', ');
+const badgeText = codes.map(c => labels[c].short).join(' ');
+---
+<span class="badge" aria-label={fullLabel}>
+  {badgeText}
+</span>
+

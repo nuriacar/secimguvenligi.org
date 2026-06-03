@@ -1,0 +1,149 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Gazeteciler İçin Dijital Güvenlik'
+description: 'Haber kaynaklarını koruma, anonim iletişim, casus yazılıma karşı savunma ve güvenli habercilik için kapsamlı rehber.'
+hero: '/img/hero/gazeteciler.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+import Checklist from '../components/Checklist.astro';
+
+<AudienceBadge audience="G" />
+
+Bir haber kaynağın var. İsmini yazmayacaksın, kim olduğunu bilen tek kişi sensin. Telefonunda o kişiyle yaptığın görüşme notları, fotoğraflar, belgeler var. Şimdi şunu düşün: telefonunu kaybetsen veya biri elinden alsa, tüm o bilgiler başka birinin eline geçer. Kaynağının hayatı tehlikeye girer.
+
+**Özlü kural:** Bir gazeteci için dijital güvenlik, sadece kendini değil, sana güvenen herkesi korumaktır.
+
+<Alert level="info">
+Bu sayfa, bir gazetecinin toplum yararına haber yaparken ihtiyaç duyduğu role özgü güvenlik bilgilerini içerir. Temel bilgiler (parola, cihaz, mesajlaşma, kriz müdahalesi) ana kılavuz bölümlerinde ayrıntılı olarak anlatılır: bu sayfada onlara link bulacaksın.
+</Alert>
+
+## Tehdit Profilin
+
+Gazeteciler, sahip oldukları bilgi nedeniyle üç cepheden hedef alınır:
+
+**Dijital tehditler:** Casus yazılımlar (Pegasus, Predator) gazetecilerin telefonlarına sıfır veya tek tıklamayla bulaşır, tüm kaynak iletişimini ifşa eder. Hesap ele geçirme ve oltalama, kaynaklarla iletişim kanallarını hedef alır. Detaylı bilgi: [Casus Yazılım Belirtileri →](/casus-yazilim/)
+
+**Yasal tehditler:** Kaynak göstermeme hakkına müdahale, mahkeme kararlarıyla dijital kayıtların istenmesi, sınır geçişlerinde cihaz incelemesi. Detaylı bilgi: [Seyahat ve Sınır Güvenliği →](/seyahat-sinir/) ve [Yasal Haklar →](/yasal-haklar/)
+
+**Fiziksel tehditler:** Gözaltı, cihazlara el koyma, ofis baskınları. Dijital güvenlik fiziksel güvenliğin yerini tutmaz: ikisi birden gerekir.
+
+<Alert level="warning">
+Seni hedef alan saldırgan, sadece senin cihazlarına değil, kaynaklarına da ulaşmaya çalışır. Kaynak koruması, gazeteci güvenliğinin en kritik ve en ayırt edici boyutudur.
+</Alert>
+
+## Kaynak Koruma Protokolü
+
+Bir gazetecinin en değerli varlığı haber kaynaklarıdır. Kaynak kimliğinin ifşa olması, kaynağın işini, özgürlüğünü ve hayatını tehlikeye atabilir.
+
+### Kaynakla İlk Temas
+
+- Kaynağa ilk mesajında kendini tanıt ama doğrudan haber konusuna girme. "Merhaba, X konusu hakkında konuşmak istiyorum. Signal kullanıyor musun?" gibi bir giriş yap.
+- Kaynağa Signal kurulumu ve kullanımı konusunda yardımcı ol. Kaynak teknik bilgiye sahip değilse adım adım rehberlik et. Signal kullanımı için: [Mesajlaşma Güvenliği →](/mesajlasma/)
+- Kaynağın kullandığı cihazın güvenliğini sorgula. "Telefonunu başkası kullanıyor mu?" veya "Başkalarının erişebileceği bir uygulama var mı?"
+- İlk temas mümkünse yüz yüze yapılmalıdır. Mümkün değilse şifreli bir kanal seç.
+
+### Kaynak Bilgilerini Saklama
+
+- Kaynakların gerçek adlarını asla dijital ortamda saklama. Fiziksel bir defter kullan ve güvenli bir yerde tut.
+- Kaynaklara kod adları ver. Tüm dijital iletişiminde ve notlarında bu kod adlarını kullan.
+- Kaynak iletişimini tek bir cihazda toplama. Farklı kaynaklar için farklı kanallar kullan.
+- Kaynak notlarını şifreli not uygulamasında (Standard Notes, Joplin, Cryptee) sakla.
+- Kaynaklardan aldığın belgeleri şifreli harici diskte sakla. Bulut depolama kullanma. Disk şifreleme için: [Cihaz Güvenliği →](/cihaz-guvenligi/)
+
+### Kaynak Doğrulama
+
+- Sana ulaşan kaynağın gerçekten iddia ettiği kişi olduğunu doğrula. İkinci bir kanaldan teyit al.
+- Belgelerin orijinalliğini kontrol et: meta verileri (oluşturulma tarihi, yazar, konum) incele.
+- Kaynağın motivasyonunu sorgula. "Bu belgeleri neden bana veriyorsun?"
+- Belgeler bir manipülasyon aracı olabilir. Sahte belgelerle itibarın hedef alınabilir.
+
+### Snowden'dan Çıkarılacak Dersler
+
+Edward Snowden'ın NSA belgelerini sızdırma süreci, kaynak koruması için gerçek bir vaka çalışmasıdır:
+
+- **İlk temas şifreli, kritik bilgi fiziksel:** Snowden, gazeteci Glenn Greenwald ile ilk temasında şifreli e-posta kullandı, ardından yüz yüze görüştü.
+- **Cihaz izolasyonu:** Görüşmeler sırasında elektronik cihazları kapattı, odadan uzaklaştırdı.
+- **Çok katmanlı koruma:** Belgeler fiziksel teslim edildi, şifreli iletişim kullanıldı, kimlik doğrulaması yapıldı.
+
+<DoDont items={[
+  { text: 'Kaynakla iletişimde Signal kullan, kaybolan mesajları aktif et', type: 'do' },
+  { text: 'Kaynakların gerçek adlarını fiziksel defterde sakla', type: 'do' },
+  { text: 'Gelen belgelerin kaynağını ve orijinalliğini doğrula', type: 'do' },
+  { text: 'Kaynak bilgilerini bulut depolamada (Drive, Dropbox) saklama', type: 'dont' },
+  { text: 'Tüm kaynakları tek bir cihaz veya uygulamada toplama', type: 'dont' },
+  { text: 'Kaynağın motivasyonunu sorgulamadan belge yayımlama', type: 'dont' },
+]} />
+
+## SecureDrop ve Anonim Sızıntı Platformları
+
+Kaynakların sana güvenli bir şekilde belge gönderebilmesi için anonim sızıntı platformları kullan:
+
+- **SecureDrop:** En yaygın kullanılan açık kaynaklı sızıntı platformudur. Tor ağı üzerinden çalışır. Hem kaynak hem gazeteci kimliği gizli kalır. Birçok büyük haber kuruluşu (The Guardian, The New Yorker, Washington Post) SecureDrop kullanır.
+- **Kendi SecureDrop instance'ını** kurmak teknik bilgi gerektirir. Alternatif olarak, kaynağını doğrudan sana e-posta göndermek yerine ProtonMail gibi şifreli bir servise yönlendir.
+- Tor Browser üzerinden .onion adreslerine erişmek, anonimlik için kritiktir. Tor kullanımı: [Mesajlaşma Güvenliği →](/mesajlasma/)
+
+## Gazeteci Araç Seti
+
+<table>
+<thead>
+<tr><th>Araç</th><th>Ne İçin?</th><th>Alternatif</th></tr>
+</thead>
+<tbody>
+<tr><td>Signal</td><td>Kaynak iletişimi</td><td>—</td></tr>
+<tr><td>ProtonMail / Tutanota</td><td>Güvenli e-posta</td><td>Gmail+PGP (karmaşık)</td></tr>
+<tr><td>Tor Browser</td><td>Anonim araştırma</td><td>—</td></tr>
+<tr><td>Tails</td><td>İz bırakmayan çalışma</td><td>—</td></tr>
+<tr><td>VeraCrypt</td><td>Disk şifreleme</td><td>BitLocker (Windows)</td></tr>
+<tr><td>Standard Notes / Joplin</td><td>Şifreli not</td><td>Cryptee</td></tr>
+<tr><td>SecureDrop</td><td>Anonim sızıntı</td><td>OnionShare</td></tr>
+<tr><td>Bitwarden / KeePassXC</td><td>Parola yönetimi</td><td>—</td></tr>
+</tbody>
+</table>
+
+## Gazeteciye Özgü Acil Durum Protokolü
+
+Hedef alındığını fark ettiğin anda standart acil durum adımlarına ([Kriz Karar Ağacı →](/kriz/)) ek olarak şunları yap:
+
+**İlk 10 dakika:**
+1. Cihazını kapatmayla ilgili kararlı ol: casus yazılım aktifse kapatma (bellek analizi için), fiziksel el koyma riski varsa kapat.
+2. Kaynaklarını uyar: "İletişimimiz izleniyor olabilir. Şu ana kadar paylaştıklarını sakla."
+3. Kritik hesaplarının parolalarını güvenli bir cihazdan değiştir.
+
+**İlk 24 saat:**
+1. Hukuki destek al, gazetecilik örgütlerine durumu bildir (TGS, IPS İletişim Vakfı, Sınır Tanımayan Gazeteciler, CPJ).
+2. Cihazlarını değiştir. Yeni cihazları sıfırdan yapılandır.
+3. Hesaplarında gizli yönlendirme kurallarını kontrol et.
+
+**İlk hafta:**
+1. Dijital güvenlik danışmanlığı al.
+2. İletişim alışkanlıklarını değiştir: yeni kanallar, yeni cihazlar, yeni parolalar.
+3. Hangi haberin hangi kaynağı riske atabileceğini değerlendir.
+
+## İlgili Kaynaklar
+
+Bu kılavuzdaki tüm bölümler tüm roller için geçerlidir. Gazeteciler için kritik öncelik sırası:
+
+1. **[Temel Kavramlar →](/temel-kavramlar/)**: Bilgi güvenliği temelleri
+2. **[Tehdit Modelleme →](/tehdit-modelleme/)**: Kendi tehdit profilini oluştur
+3. **[Cihaz Güvenliği →](/cihaz-guvenligi/)**: Telefon ve bilgisayar temel koruması, şifreleme, güncelleme
+4. **[Mesajlaşma Güvenliği →](/mesajlasma/)**: Signal, ProtonMail, Tor, Tails kurulum ve kullanımı
+5. **[Hesap ve Parola Güvenliği →](/hesap-parola/)**: Güçlü parola, iki aşamalı doğrulama, parola yöneticisi
+6. **[Sosyal Medya Güvenliği →](/sosyal-medya/)**: Hesap koruma, sahte hesapları tespit
+7. **[Casus Yazılım Belirtileri →](/casus-yazilim/)**: Pegasus/Predator tespit ve korunma
+8. **[Casus Yazılım Teşhis ve Temizlik →](/casus-yazilim-teshisi/)**: Gelişmiş kontrol protokolü
+9. **[Seyahat ve Sınır Güvenliği →](/seyahat-sinir/)**: Sınırda cihaz koruma, seyahat önlemleri
+10. **[Şantaj ve Kriz Yönetimi →](/santaj-ve-kriz/)**: Kriz anında yapılacaklar
+11. **[Haftalık Kontrol Listesi →](/haftalik-kontrol/)**: Düzenli güvenlik taraması
+12. **[Yasal Haklar →](/yasal-haklar/)**: KVKK, kaynak gizliliği, başvuru yolları
+
+## Kaynakça
+
+- [CPJ Journalist Safety and Emergencies](https://cpj.org/journalist-safety-and-emergencies/)
+- [Freedom of the Press Foundation Dijital Güvenlik](https://freedom.press/digisec/)
+- [EFF Surveillance Self-Defense](https://ssd.eff.org/)
+- [Security in a Box](https://securityinabox.org/en/): Tactical Tech

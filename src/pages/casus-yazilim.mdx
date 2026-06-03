@@ -1,0 +1,157 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Casus Yazılım'
+description: 'Casus yazılımlara karşı korunma yöntemleri, Android/iOS güvenlik ayarları ve mobil tehditler.'
+hero: '/img/hero/casus-yazilim.webp'
+order: 25
+audience: V,G,K
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import Accordion from '../components/Accordion.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+
+<AudienceBadge audience="V,G,K" />
+
+
+Telefonun geçeleri ısınıyor. Şarjı su gibi bitiyor. Ekran kendi kendine açılıp kapanıyor. Tanımadığın mesaj izleri görüyorsun. İlk akla gelen: "Yazılım güncellemesi kötü çıktı" veya "Pil eskidi." Ama bazen cevap daha rahatsız edicidir: birisi telefonunun içinde. O sessizce oturuyor, yaptıklarını kaydediyor, duyduklarını dinliyor. Casus yazılımların belirtileri çoğu zaman masum sorunlara benzer. Ama birkaç işaret bir araya geldiğinde, şüphe etmek için yeterli sebebin var demektir.
+
+<Scenario label="Senaryo: Telefonum garip davranıyor">
+<strong>"Telefonum garip davranıyor."</strong> Geceleri sıcak, şarjın su gibi bitiyor, ekran kendi kendine açılıyor ve bazen tanımadığın mesaj izleri görüyorsun. Birisi telefonuna sızdı mı, yoksa sadece eski bir pil mi? Bu bölümde farkı nasıl anlayacağını öğreneceksin.
+</Scenario>
+
+Telefonda casus yazılım olduğunu gösteren tek bir kesin kanıt yoktur. Ama birkaç belirti bir araya gelirse ciddi şüphe duyman gerekir. Aşağıdaki tablo en yaygın belirtileri ve arkasında ne olabileceğini özetliyor.
+
+**Hızlı ipucu:** 10 saniyede yap: Telefonunun pil kullanımına bak. Ayarlar > Pil. En çok pili hangi uygulama harcıyor? Tanımadığın bir uygulama varsa bu bir uyarı işaretidir.
+
+## <span class="heading-num">25.1</span> Hızlı Teşhis: Belirti Tablosu
+
+<table>
+<caption>Casus yazılım belirtileri ve açıklamaları</caption>
+<thead>
+<tr>
+  <th scope="col">Belirti</th>
+  <th scope="col">Ne Oluyor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Aşırı ısınma</strong></td>
+  <td>Hiç dokunmamışken telefon sıcak. Arkada bir yazılım sürekli mikrofonu dinliyor, konum gönderiyor veya ekran görüntüsü alıyor.</td>
+</tr>
+<tr>
+  <td><strong>Batarya hızlı bitiyor</strong></td>
+  <td>Şarjın su gibi gidiyorsa ve yoğun kullanmadıysan, arkada sürekli çalışan bir şey var.</td>
+</tr>
+<tr>
+  <td><strong>Ekran kendi kendine açılıyor</strong></td>
+  <td>Kilit ekranı durup dururken açılıyorsa uzaktan bir kumanda etkin olabilir.</td>
+</tr>
+<tr>
+  <td><strong>Kamera veya mikrofon ışığı yanıp sönüyor</strong></td>
+  <td>Yeşil veya turuncu nokta sen bir şey yapmazken yanıyorsa kamera ya da mikrofon arka planda aktif.</td>
+</tr>
+<tr>
+  <td><strong>İnternet kotası hızlı eriyor</strong></td>
+  <td>Casus yazılım topladığı verileri kendi sunucusuna yüklüyor. Veri kullanım ayarlarını kontrol et.</td>
+</tr>
+<tr>
+  <td><strong>Telefon yavaşlıyor, takılıyor</strong></td>
+  <td>Klavyede harfler arkadan geliyorsa, uygulamalar donuyorsa bir klavye kaydedici (keylogger) her parolanı kaydediyor olabilir. Klavye kaydediciler yüklü olarak kalabileceği gibi, hiç iz bırakmadan yalnızca bellekte (RAM) çalışan taşınabilir (portable) versiyonları da vardır.</td>
+</tr>
+<tr>
+  <td><strong>Fare tıklamalarında ekran titremesi</strong></td>
+  <td>Ekran görüntüsü kaydedici (screenlogger) aktif olabilir. Bu tür yazılımlar fareyle her tıklamada ekran görüntüsü alır. Özellikle bankaların sanal klavyelerine tıkladığın yerleri kaydetmek için kullanılır.</td>
+</tr>
+<tr>
+  <td><strong>Kapat aç sonrası da tuhaf davranıyor</strong></td>
+  <td>Pegasus, Predator gibi gelişmiş yazılımlar telefon kapatılıp açılsa bile cihazda kalıcı (persistent) olabilir. Sorun tekrar ediyorsa üst düzey casus yazılım şüphesi var.</td>
+</tr>
+<tr>
+  <td><strong>Bilinmeyen mesajlar ve aramalar</strong></td>
+  <td>WhatsApp'tan açmadığın halde arama kaydında tanımadığın numaralar varsa, veya gelen kutusunda silinmiş garip mesaj izleri varsa, sıfır tıklama (zero-click) saldırısı gerçekleşmiş olabilir.</td>
+</tr>
+</tbody>
+</table>
+
+**Bu belirtilerin üç veya daha fazlası bir arada görülüyorsa** casus yazılım ihtimali yüksektir. Hemen aşağıdaki kendi kendine kontrol adımlarını uygula.
+
+## <span class="heading-num">25.2</span> Kendi Kendine Kontrol
+
+Belirtileri fark ettikten sonra telefonunu detaylıca incele. Hem Android hem iPhone için adımlar aşağıda.
+
+### Android
+
+1. **Ayarlar > Uygulamalar** listesini aç. Tanımadığın, isimsiz veya garip ikonlu uygulamalar var mı bak.
+2. **Ayarlar > Güvenlik > Cihaz yöneticileri** (veya Cihaz yönetimi) bölümüne gir. Burada tanımadığın bir yönetici uygulaması listeleniyorsa casus yazılım kendine özel yetki almış olabilir.
+3. **Ayarlar > Uygulamalar > Özel erişim > Diğer tüm dosyalara eriş** kısmını kontrol et. Şüpheli bir uygulama varsa erişimi iptal et.
+4. **Veri kullanımı** ayarlarını aç. Hangi uygulama ne kadar veri tüketiyor listele. Beklenmeyen yüksek veri tüketimi olan uygulamaları not al.
+5. **Google Play Protect** ayarlarının açık olduğundan emin ol. Ayarlar > Güvenlik > Google Play Protect menüsünden cihazı tara.
+6. **Bildirim geçmişi**ni kontrol et. Silinmiş veya gizlenmiş bildirimler var mı bak.
+
+### iPhone
+
+1. **Ayarlar > Gizlilik ve Güvenlik > Uygulama İzinleme Raporu** nu aç. Hangi uygulama ne zaman sensörlere, kameraya veya mikrofona erişmiş detaylıca gör.
+2. **Ayarlar > Genel > VPN ve Cihaz Yönetimi** kısmına gir. Tanımadığın bir yapılandırma profili varsa casus yazılım göstergesi olabilir.
+3. **Ayarlar > Pil** bölümünde son 24 saat ve 10 günlük pil kullanımını incele. Beklenmeyen yüksek tüketim kaynağını ara.
+4. **Analitik ve İyileştirmeler** verilerini kontrol et. Ayarlar > Gizlilik ve Güvenlik > Analitik ve İyileştirmeler yolunu izle. Şüpheli işlem adları ara.
+5. iOS güncellemesinin en son sürümde olduğundan emin ol. Apple güvenlik yamalarını düzenli olarak yayımlar.
+
+<Accordion question="Telefonda casus yazılım taraması yapan bir uygulama kullanabilir miyim?" id="tarama-uygulamasi">
+Evet ama dikkatli ol. Malwarebytes, Certo ve benzeri uygulamalar temel bir tarama yapabilir. Ancak Pegasus ve Predator gibi üst düzey casus yazılımlar bu taramalardan gizlenmek için tasarlanır. Güvenilir bir tarama sonucu "temiz" çıktığında bile %100 güvende olduğun anlamına gelmez. Ciddi bir şüphen varsa Casus Yazılım Teşhis bölümündeki gelişmiş kontrol protokolüne geç.
+</Accordion>
+
+<Accordion question="Eşim veya partnerim casus yazılım yükleyebilir mi?" id="yakin-cevresi">
+Maalesef evet. "Partnerware" adı verilen casus yazılımlar, yakın çevreden birinin fiziksel erişimle telefonuna yüklediği yazılımlardır. İlişki kontrolü veya şüphe amacıyla kullanılır. Bu tür yazılımlar genellikle ayarlar > güvenlik bölümünde "sistem servisi" gibi masum isimlerle gizlenir. Eğer telefonuna fiziksel erişimi olan biri varsa ve yukarıdaki belirtileri görüyorsan, partnerware ihtimalini de göz önünde bulundur.
+</Accordion>
+
+## <span class="heading-num">25.3</span> Şüphelendiğinde Ne Yapma
+
+<Alert level="warning">Fabrika ayarlarına dönme düğmesine hemen basma. Fabrika ayarlarına dönmek bazı basit casus yazılımları temizleyebilir ama üst düzey yazılımlar (Pegasus, Predator, Paragon) bu şekilde temizlenmez. Ayrıca fabrika ayarlarına dönmek kanıtları yok eder. Önce kanıtları koru, sonra harekete geç.</Alert>
+
+Casus yazılım şüphelendiğinde izlemen gereken adımlar:
+
+1. **Panik yapma, sakin davran.** Casus yazılım senin panik yapmanı bekler. Acele kararlar verirsen yanlış adım atarsın.
+2. **Kanıtları koru.** Şüpheli ekran görüntülerini al. Pil kullanım grafiklerini, veri kullanım kayıtlarını, şüpheli uygulama listelerini başka bir cihaza yedekle. Bu kanıtlar sonra teknik analiz için gerekli olacak.
+3. **Telefonu normal kullanmaya devam et.** Casus yazılım senin onu fark ettiğini bilirse davranış değiştirebilir, kendini gizleyebilir veya verileri acil olarak silip kaçabilir.
+4. **Güvenilir bir cihazdan parolalarını değiştir.** Şüphelendiğin telefondan giriş yapma. Başka bir cihaz kullan. Öncelikle e-posta ve banka hesaplarının parolalarını değiştir, iki aşamalı doğrulamayı aç.
+5. **Casus Yazılım Teşhis bölümüne geç.** Üst düzey casus yazılım (Pegasus, Predator) şüphesi varsa Casus Yazılım Teşhis bölümündeki "Sızıldığından Şüpheleniyorsan" protokolünü uygula. Casus Yazılım Teşhis bölümündeki gelişmiş kontrol akışı seni adım adım yönlendirecek.
+
+<DoDont items={[
+  { text: 'Şüpheli uygulamaların ekran görüntüsünü al ve yedekle', type: 'do' },
+  { text: 'Pil ve veri kullanım kayıtlarını başka cihaza aktar', type: 'do' },
+  { text: 'E-posta ve banka parolalarını güvenilir başka cihazdan değiştir', type: 'do' },
+  { text: 'İki aşamalı doğrulamayı açık olduğundan emin ol', type: 'do' },
+  { text: 'Casus Yazılım Teşhis bölümündeki gelişmiş kontrol protokolünü uygula', type: 'do' },
+  { text: 'Fabrika ayarlarına hemen dön, kanıtları yok et', type: 'dont' },
+  { text: 'Telefondan şüpheli bir şey fark ettiğinde hemen parola değiştir', type: 'dont' },
+  { text: 'Casus yazılım temizleyici uygulama güvenerek yükle', type: 'dont' },
+  { text: 'Şüphelendiğini telefonda yazışarak veya konuşarak ifade et', type: 'dont' },
+]} />
+
+<Checklist title="Casus Yazılım Şüphesi Kontrol Listesi">
+<li>Pil kullanımı kontrol edildi (beklenmeyen hızlı tüketim var mı?)</li>
+<li>Veri kullanımı kontrol edildi (şüpheli yüksek tüketim var mı?)</li>
+<li>Şüpheli uygulama listesi kontrol edildi</li>
+<li>Arka planda çalışan uygulamalar kontrol edildi</li>
+<li>Son yüklenen uygulamalar kontrol edildi</li>
+<li>Profil yönetimi kontrol edildi (iPhone: Ayarlar > Genel > VPN ve Cihaz Yönetimi)</li>
+</Checklist>
+
+**Gerçek olay:** 2016'da Birleşik Arap Emirlikleri'nde yaşayan insan hakları aktivisti Ahmed Mansoor, telefonunda garip davranışlar fark etti: pil çok hızlı bitiyor, telefon sürekli ısınıyor, veri kullanımı aniden artıyordu. Bu belirtiler tam olarak bu bölümün başındaki tablodaki işaretlerdi. Mansoor, Citizen Lab'e başvurdu. Yapılan incelemede, telefonunda daha önce hiç görülmemiş bir casus yazılım bulundu: Pegasus. Mansoor'un telefonuna sadece bir SMS mesajıyla bulaştırılmıştı, mesajı açmasına bile gerek yoktu, sıfır tıklama saldırısıydı (zero-click). Bu olay, Pegasus casus yazılımının dünya çapında tanınmasını sağladı ve 50.000'den fazla aktivistin, gazetecinin ve siyasetçinin telefonunda kullanıldığı ortaya çıktı. Mansoor'un fark ettiği belirtiler sayesinde, binlerce kişi daha telefonlarını kontrol etti.
+
+**Gerçek saldırı deseni:** Casus yazılım önce hedefin telefonuna bir şekilde yüklenir: sahte bir uygulama, oltalama linki veya sıfır tıklama açığı ile. Yüklendikten sonra ekran görüntüleri, mesajlar, arama kayıtları, konum verisi ve mikrofon kayıtları sürekli toplanır. Toplanan veriler sıkıştırılarak arka planda saldırganın sunucusuna gönderilir, kurban hiçbir şey fark etmez. Pegasus casus yazılımının veri toplama ve sızdırma süreci tam olarak bu şekilde çalışır: kurban telefonu normal kullanırken tüm veriler sessizce dışarı sızar. Şüphelendiğin anda veri kullanımını kontrol et (Casus Yazılım bölümündeki tablodaki "İnternet kotası hızlı eriyor" belirtisi).
+
+**Benzetme:** Casus yazılım, evine gizlice giren bir misafir gibidir. Sen evde olduğunu sanırsın ama o, sen yokken gelip gitmiştir. Tek farkı: o misafir hâlâ içeride.
+
+## İlgili Bölümler
+
+- [Casus Yazılım Teşhis ve Temizlik](/casus-yazilim-teshisi/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Haftalık Kontrol](/haftalik-kontrol/)
+- [Sosyal Mühendislik](/sosyal-muhendislik/)
+- [Emanet Güvenliği](/emanet-guvenligi/)
+- [Virüs ve Kötü Amaçlı Yazılımlar](/virus-ve-kotu-amacli-yazilimlar/)

@@ -1,0 +1,13 @@
+---
+export interface Props {
+  label?: string;
+}
+
+const { label = 'Senaryo' } = Astro.props;
+---
+
+<div role="note" aria-label={label} class="scenario">
+  <div class="scenario-label">{label}</div>
+  <slot />
+</div>
+

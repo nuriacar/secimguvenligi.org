@@ -1,0 +1,192 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Seçim Günü Sahra Güvenliği'
+description: 'Açık Wi-Fi yasağı, telefon güvenliği, fotoğraf paylaşımı, QR kod tuzağı, ortak bilgisayar güvenliği ve dijital kanıt uyarıları.'
+order: 16
+audience: [V]
+hero: '/img/hero/secim-gunu.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Accordion from '../components/Accordion.astro';
+import Checklist from '../components/Checklist.astro';
+
+<AudienceBadge audience="V" />
+
+<Alert level="critical">Oy pusulasının fotoğrafını sosyal medyaya paylaşma. Bu eylem bazı ülkelerde seçim suçu sayılır. Ekran görüntüsü almadan sen de silsen dijital kanıt kalır.</Alert>
+
+Saat sabah altı buçuk. Sandık görevlisi olarak gittiğin okulun kapısında bekliyorsun. Telefonunda aile grubundan mesajlar yağıyor: "Hangi okula gideceğiz?", "Sandık numaramız değişmiş mi?", "Şu haberi gördün mü?" Okulun koridorunda birileri "Wi-Fi var mı?" diye soruyor. Kapıda QR kodlu broşürler dağıtılıyor. Tanımadığın biri sana bir USB bellek uzatıyor: "Sandık listesi burada, bakar mısın?" diyor.
+
+Bu kaosun içinde bir hata yapman an meselesi. Seçim günü, tüm kampanya sürecinin en kaotik saatleridir. Telefon elinden düşmez, mesaj yağmuruna tutulursun, her şey aceleyle yapılır. İşte tam da bu yüzden seçim günü, dijital saldırganlar için en verimli av zamanıdır.
+
+Seçim günü sadece oy vermek değildir. Müşahit olarak görev yapıyorsan, seçim ofisinde çalışıyorsan veya sadece vatandaş olarak sandığa gidiyorsan, o gün dijital dünyada da bir mücadelenin içindesin.
+
+**Hacker gözüyle:** Seçim günü kaos demektir. Kaos, saldırgan için fırsattır. Herkesin telaşlı olduğu, açık ağlara atladığı, telefonu masada unuttuğu bir saatte tek bir hata yeter. Saldırgan senden daha akıllı değil, sadece senin dikkat dağınıklığını bekliyor. Stresli anında 3 saniye durup düşünmek, en iyi güvenlik önlemidir.
+
+## <span class="heading-num">16.1</span> Açık Kablosuz Ağ (Wi-Fi) Yasak
+
+- **Kural:** Sandık çevresinde, okullarda, kafelerde parola koruması olmayan kablosuz ağa (Wi-Fi) bağlanma.
+- **Neden:** Ağın sahibi senin tüm trafiğini görebilir. Parolalar, mesajlar, girişler hepsi ele geçirilebilir.
+
+**Aradaki adam (man-in-the-middle) saldırısı basitçe şöyle çalışır:**
+
+1. Bir saldırgan, "Seçim_Wifi" gibi inandırıcı bir isimle sahte bir kablosuz ağ kurar.
+2. Sen bu ağa bağlanırsın. İnternette geziniyormuşsun gibi gelir. Sayfalar açılır.
+3. Ama aslında tüm trafiğin saldırganın cihazından geçer. Girdiğin her parola, okuduğun her mesaj, tıkladığın her link kaydedilir.
+4. Saldırgan banka hesabına, e-postana, sosyal medyana anında erişir.
+
+Bu saldırıyı yapmak özel bir bilgi gerektirmez. İnternetten indirilebilen ücretsiz araçlarla dakikalar içinde kurulur.
+
+<Alert level="warning">Ücretsiz Wi-Fi ağları "bedava peynir" gibidir, yalnızca fare kapanında bulunur. Bir şey ücretsizse, ürün olan sensindir. Verilerin, kimliğin ve gizliliğin bu ücretsiz hizmetin ödemesidir.</Alert>
+
+- **Yap:** Kendi mobil verini (hücresel veri) kullan.
+- **Yapma:** "Parola var diye güvenli" deme. Kafedeki parolalı ağ da aynı riski taşır. Parola herkese dağıtılıyorsa ağ açık sayılır.
+
+<Accordion question={'Mobil verim bitti, ne yapmalıyım?'} id="faq-mobil-veri">
+Telefonunda veri tasarrufu aç. Gereksiz uygulamaları arka planda kapat. Video izlemekten kaç. Yalnızca mesajlaşma için kullan. Şarjın da bitebilir: yanında taşınabilir şarj cihazı (powerbank) bulundur. Yine de açık Wi-Fi kullanma. Gerekirse mesajlaşmayı ertele, güvenli bir ağa ulaşana kadar bekle.
+</Accordion>
+
+## <span class="heading-num">16.2</span> Telefonu Sahipsiz Bırakma
+
+- **Kural:** Müşahitlik yaparken, sayım izlerken telefonu masa üstünde, mont cebinde, sandalyede unutma.
+- **Yap:** Telefonu üstünde (iç cepte) veya kilitli çantada taşı.
+- **Neden:** Telefonsuz kalmak seçim gününde büyük kolaylık kaybı. Ama telefona erişim kaybetmek çok daha kötü. Biri telefonuna dokunursa mesajlarını okuyabilir, hesaplarına girebilir, konumunu görebilir.
+
+Telefonunu bıraktığın her an bir risk anıdır. Sandık sayımı saatler sürebilir. Tuvalete giderken, çay alırken telefonunu yanına al.
+
+## <span class="heading-num">16.3</span> Fotoğraf ve Video Paylaşımına Dikkat
+
+- **Kural:** Sandık çevresinde çektiğin fotoğraflarda diğer kişilerin yüzleri, oy pusulaları, kimlik bilgileri görünmesin.
+- **Yapma:** Oy pusulasının fotoğrafını sosyal medyaya atma.
+- **Neden:** Oy pusulası fotoğrafı, oyunun kime verildiğini kanıtlar. Bu bilgiyle seni baskı altına alabilirler, seni veya aileni hedef gösterebilirler. Seçim kanunlarına göre de oy gizliliğini ihlal suçtur.
+
+Fotoğraf çekmen gerekiyorsa, yalnızca genel ortamı çek. Yüzler, pusulalar, kimlik belgeleri kadrajın dışında kalsın. Çektiğin fotoğrafın arka planında bile hassas bilgi olabileceğini unutma.
+
+## <span class="heading-num">16.4</span> QR Kod Tuzağı
+
+- **Senaryo 1:** Seçim bürosunun girişinde "Sandık numaranı öğren" yazılı bir QR kod asılı. Taramak istiyorsun.
+- **Senaryo 2:** Kafede masada "Adayımızı destekleyin" yazılı bir barkod var. Merak edip tarıyorsun.
+- **Senaryo 3:** Sokakta biri sana broşür uzatıyor. Broşürün üzerinde "Son anket sonuçları" yazılı bir karekod var.
+
+**Bu senaryolarda ne yapmalısın?**
+
+- **Kural:** Kaynağından emin olmadığın hiçbir karekod (QR kod) tarama. Sahte karekodlar seni oltalama (phishing) sayfasına veya casus yazılım indirme linkine yönlendirebilir.
+- **Yap:** Karekod taradığında açılan internet adresini oku. Tanıdık bir adres değilse girme.
+- **Yapma:** Telefonun kamerası otomatik link açıyorsa, ayarlardan "Otomatik aç" özelliğini kapat. Önce adresi gör, sonra karar ver.
+
+Sahte QR kod taramak tek tıkla telefonuna casus yazılım bulaştırabilir. Bu yazılım mesajlarını okur, konumunu takip eder, mikrofonunu dinler. Seçim döneminde bu tür saldırılar özellikle artar.
+
+## <span class="heading-num">16.5</span> Halka Açık Bilgisayar ve Kiosk Güvenliği
+
+- **Kural:** Seçim ofislerinde, kütüphanelerde, otellerde ortak kullanılan bilgisayarlardan hesaplarına giriş yapma.
+- **Neden:** Ortak bilgisayarlara klavye kaydedici (keylogger) yüklenmiş olabilir. Tuşladığın her şey kaydedilir.
+
+**Klavye kaydedici (keylogger) nedir?**
+
+Klavye kaydedici, bastığın her tuşu gizlice kaydeden bir yazılımdır. Parolanı yazarken ekranda yıldızlar görünür, ama kaydedici ham tuş vuruşlarını kaydeder. Kullanıcı adını ve parolanı yan yana görmek çocuk oyuncağıdır. Bu yazılım bilgisayarın arka planda çalışır, fark edilmesi çok zordur.
+
+Ortak bilgisayarlarda risk sadece klavye kaydedici ile sınırlı değildir. Tarayıcı eklentileri, zararlı betikler, ekran yakalama araçları da yüklü olabilir.
+
+- **İstisna:** Girmek zorundaysan, bitince "Tüm oturumlardan çıkış yap" de. Tarayıcı geçmişini ve önbelleği temizle. "Parolayı hatırla" kutusunu asla işaretleme.
+- **Yapma:** Ortak bilgisayardan e-posta, banka, sosyal medya hesaplarına girme. Sadece genel bilgi araması yap.
+
+## <span class="heading-num">16.6</span> Seçim Propagandası ve Dijital Kanıt
+
+- **Kural:** WhatsApp gruplarında veya sosyal medyada paylaştığın her mesaj, fotoğraf ve video dijital kanıt niteliğindedir. Seçim kanunlarına aykırı içerik (ifade, hakaret, yalan haber, teşvik) paylaşırsan, silsen bile ekran görüntüsü alınmış olabilir.
+- **Yap:** Paylaşmadan önce düşün: "Bu mesaj bir savcı tarafından okunursa sor olur mu?"
+- **Yapma:** "Yönlendir / İlet" düğmesiyle doğrulamadan içerik yayma. Sen de yayıcı (vasıta) olursun.
+
+**Gerçek olay:** 2016 ABD başkanlık seçimlerinde Rusya destekli gruplar, sosyal medyada kapsamlı bir dezenformasyon kampanyası yürüttü. Seçim günü ve öncesinde sahte haberler, kafa karıştıran mesajlar ve kutuplaştırıcı içerikler milyonlarca seçmene ulaştı. Amaç seçmenleri korkutup sandığa gitmemelerini sağlamak veya yanlış bilgilendirerek yanlış karar vermelerine yol açmaktı. Seçim günü WhatsApp gruplarında veya sosyal medyada gördüğün doğrulanmamış bilgiler, benzer bir manipülasyonun parçası olabilir.
+
+## <span class="heading-num">16.7</span> Sandık Başında Dijital Güvenlik
+
+<AudienceBadge audience="V" />
+
+Sandık başında müşahit olarak bulunduğunda dijital güvenlik açısından ek sorumlulukların var. Bu bölüm müşahit haklarını ve sınırlarını açıklar.
+
+### Müşahit Hakları
+
+- Sandık kurulunun çalışmasını izleme hakkına sahipsin.
+- Sayım sürecini gözlemleyebilir, tutanakları kontrol edebilirsin.
+- Usulsüzlük görürsen tutanak altına itirazını yazdırma hakkın var.
+
+### Fotoğraf ve Video Yasakları
+
+- Oy verme işlemi sırasında sandık çevresinde fotoğraf veya video çekmek yasaktır.
+- Oy pusulasının fotoğrafını çekmek suçtur. Seçim kanunlarına göre oy gizliliğini ihlal anlamına gelir.
+- Sayım anında genel ortam fotoğrafı çekebilirsin, ama oy pusulalarının içeriği görünmemeli.
+- Sandık kurulu başkanı fotoğraf çekimini yasaklayabilir. Kararına uymak zorundasın.
+
+### Canlı Yayın Riskleri
+
+- Sandık başından canlı yayın yapmak, yüzleri ifşa eder. Kişisel verilerin korunması kanununa aykırı olabilir.
+- Canlı yayında senin konumun açıkça belli olur. Bu bilgi kötü niyetli kişiler tarafından kullanılabilir.
+- Yayın sırasında arka planda hassas belge, pusula veya liste görünebilir.
+
+Sandık başında dijital güvenlik hak ve sorumluluklarının tamamı için [Seçim İhlalleri](/secim-ihlalleri/) bölümüne bak.
+
+## <span class="heading-num">16.8</span> Seçim Günü İletişim Planı
+
+<AudienceBadge audience="V" />
+
+Seçim günü iletişim ağı hayati önem taşır. Önceden bir plan hazırla. Gün içinde kriz çıkarsa iletişim araçların hazır olsun.
+
+### Grup Mesaj Güvenliği
+
+- Seçim günü için özel bir WhatsApp veya Signal grubu kur. Gruba yalnızca güvenilir kişileri ekle.
+- Grubun adında "seçim", "sandık", "müşahit" gibi belirgin kelimeler kullanma. Basit ve genel bir isim seç.
+- Gruba katılımcı eklerken telefon numarasını doğrula. Tanımadığın numarayı gruba alma.
+- Grup ayarlarında "Yalnızca yöneticiler mesaj gönderebilir" seçeneğini değerlendir. Bilgi kirliliğini önler.
+
+### Acil İletişim Kanalı
+
+- Kriz anında ulaşabileceğin bir acil kontak belirle. Avukat, parti sorumlusu veya güvenilir bir arkadaş.
+- Bu kişinin telefon numarasını telefon rehberine kaydet. İnternet bağlantısı olmasa bile arayabilmelisin.
+- SMS bazen internet kesintisinde bile çalışır. Acil durum planına SMS seçeneğini de ekle.
+- Acil durumda arayacağın kişiyi önceden belirle ve haber ver. O da seni beklesin.
+
+### Güvenli İletişim Araçları
+
+- Hassas konuşmalar için Signal kullan. Mesajlar uçtan uca parolalı ve kaybolan mesajlar özelliği var.
+- Telegram'ın normal sohbeti parolasız. Hassas bilgi gönderme. Detaylı karşılaştırma için [Güvenli İletişim Uygulamaları](/mesajlasma/) bölümüne bak.
+- Telefon görüşmesi yaparken yakınında kimse olduğunu kontrol et. Omuz sörfü riskini unutma.
+
+<DoDont items={[
+  { text: 'Kendi mobil verini kullan, açık Wi-Fi bağlanma', type: 'do' },
+  { text: 'Telefonunu her an yanında taşı, kilitli ekran bırak', type: 'do' },
+  { text: 'Paylaşmadan önce üç kere düşün: savcı okursa sor olur mu?', type: 'do' },
+  { text: 'Önceden acil iletişim planı hazırla', type: 'do' },
+  { text: 'Hassas konuşmalar için Signal kullan', type: 'do' },
+  { text: 'Oy pusulasının fotoğrafını çek veya paylaş', type: 'dont' },
+  { text: 'Kaynağını bilmediğin QR kodu tara', type: 'dont' },
+  { text: 'Ortak bilgisayardan hesaplarına giriş yap', type: 'dont' },
+  { text: 'Sandık başında canlı yayın aç', type: 'dont' },
+  { text: 'Doğrulamadan "İlet" düğmesine bas', type: 'dont' },
+]} />
+
+**Saldırı zinciri:** Seçim günü dijital saldırılar genellikle üç aşamalıdır. Önce sahte bir SMS veya WhatsApp mesajıyla "Sandığın taşındı" veya "Oy kullanma yerin değişti" gibi yanlış bilgi yayılır. İkinci aşamada bu mesajı alan seçmen doğru sandığı bulamaz, panikler, sosyal medyada paylaşır. Üçüncü aşamada bu yanlış bilgi bot hesaplar tarafından hızla yayılır ve seçim güvenliğine şüphe düşer. Bu zinciri kırmanın tek yolu: gelen her bilgiyi resmi kaynaktan doğrulamak ve doğrulamadan paylaşmamaktır.
+
+**Benzetme:** Seçim günü dijital güvenlik, kalabalık bir çarşıda cüzdanını korumaya benzer. Kalabalık arttıkça yankesiciler de artar. Ama önlem alırsan, onlar başka birini bulur. O gün cüzdanın kadar, içindeki telefonu da düşün.
+
+
+<Checklist title="Seçim Günü Çantası">
+<li>Powerbank yanında ve dolu</li>
+<li>Şarj kablosu yanında</li>
+<li>Taşınabilir şarj adaptörü yanında</li>
+<li>Kimlik belgesi yanında</li>
+<li>Acil kontak numaraları telefon rehberine kaydedildi</li>
+<li>Signal kurulu ve hazır</li>
+<li>Mobil veri (hücresel veri) dolu</li>
+<li>Taşınabilir Wi-Fi kapatıldı, yalnızca mobil veri kullanılacak</li>
+</Checklist>
+
+## İlgili Bölümler
+
+- [Seçim İhlalleri](/secim-ihlalleri/)
+- [Dezenformasyon](/dezenformasyon/)
+- [Mesajlaşma Güvenliği](/mesajlasma/)
+- [Kriz Karar Ağacı](/kriz/)
+- [Acil Durum Kartı](/acil-durum-karti/)
+- [Ağ ve Wi-Fi Güvenliği](/ag-ve-wifi-guvenligi/)

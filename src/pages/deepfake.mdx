@@ -1,0 +1,170 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Derin Sahte (Deepfake)'
+description: 'Deepfake tehditleri, gerçek vakalar, tespit yöntemleri ve korunma stratejileri.'
+order: 39
+audience: V
+hero: '/img/hero/obje-maske.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import DoDont from '../components/DoDont.astro';
+import Alert from '../components/Alert.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+<AudienceBadge audience="V" />
+
+Telefonun çalıyor. Arayan, bir yakınının sesi. "Çok acil, başım dertte, hemen para gönder." Ses o kadar gerçek ki, tereddüt etmiyorsun. Oysa o ses, senin yakınına ait değil. Yapay zekâ, sadece 30 saniyelik bir konuşma kaydından bir insanın sesini birebir kopyalayabiliyor. Bir röportaj, bir telefon konuşması, bir toplantı kaydı... Hepsi, sesini kopyalamak için yeterli malzeme. Deepfake artık bir bilim kurgu değil; her gün kullanılan bir manipülasyon aracı.
+
+<Alert level="tip">Aile üyeleri ve yakın çalışma arkadaşlarıyla önceden gizli bir güven kelimesi (safe word) kararlaştır. Telefonla acil talep geldiğinde arayan kişiye güven kelimesini sor. Bilemezse ses deepfake olabilir.</Alert>
+
+**Hacker gözüyle:** Deepfake için sesinin 30 saniyesi yeter. Telefon konuşmaların, videoların, hatta bir röportajın: hepsi senin sesini kopyalamak için malzeme. Arkadaşın arar, "çok acil para gönder" derse duyguna değil, önceden belirlediğin güven kelimesine güven.
+
+## <span class="heading-num">39.1</span> Nedir?
+
+Derin sahte (deepfake), yapay zekâ kullanılarak gerçek insanların yüzünü, sesini veya hareketlerini taklit eden sahte video, ses kaydı veya görüntü üretme teknolojisidir. 2020'den itibaren bu teknoloji o kadar gelişti ki, teknik bilgisi olmayan biri bile birkaç dakikada inandırıcı sahte içerik üretebilir.
+
+## <span class="heading-num">39.2</span> Gerçek Vakalar
+
+**Zelensky Deepfake Videosu (Mart 2022)**
+
+Rusya-Ukrayna Savaşı'nın en kritik günlerinde, Ukrayna Devlet Başkanı Volodymyr Zelensky'in yüzünü taşıyan bir video sosyal medyada patladı. Videoda "Zelensky" askerlere silah bırakmalarını ve evlerine dönmelerini söylüyordu. Video önce bir Rus haber sitesinde yayınlandı, ardından Twitter ve Telegram'da hızla yayıldı.
+
+Neyse ki video hızlıca tespit edildi: Başın hareketleri doğal değildi, dudak senkronizasyonu bozuktu ve ses tonu Zelensky'inkine uymuyordu. Zelensky'nin gerçek medya kanalları derhal yalanladı. Video saatler içinde kaldırıldı.
+
+Ama bu bir "ön deneme"ydi. Gelecekteki deepfake'ler çok daha kusursuz olacak.
+
+**Biden Ses Deepfake Robocall (Ocak 2024)**
+
+ABD'nin New Hampshire eyaletinde, Demokratik parti ön seçimlerinden iki gün önce, 20.000'den fazla seçmen telefonla arandı. Arayan kişi ABD Başkanı Joe Biden'dı (en azından öyle düşünülüyordu). "Oy kullanma, seçimi kurtarın" diyordu. Ancak bu ses tamamen yapay zekâ ile üretilmişti. Siyasi bir danışman, sadece 500 dolara bu sahte sesi üretip robocall olarak yayınlattı. FCC (ABD İletişim Komisyonu) ardından robocall'larda yapay zekâ sesini yasakladı.
+
+**Slovakya Seçimi Ses Deepfake (Ekim 2023)**
+
+Slovakya'da seçime iki gün kala, muhalefet lideri Michal Šimečka'nın sesinden bir kayıt ortaya çıktı. Kayıtta "seçim hile mekanizmasını nasıl kuracaklarını" tartışıyordu. Tamamen sahteydi. Ama seçim yasakları nedeniyle medya haberi yalanlayamadı. Seçime iki gün kala yayınlanmıştı, doğrulama için zaman kalmamıştı.
+
+**İngiltere Enerji CEO'su Ses Dolandırıcılığı (2019)**
+
+Almanya merkezli bir enerji şirketinin CEO'sunun sesi kopyalandı. Sahte sesle İngiltere'deki yan kuruluşun CEO'su arandı ve 220.000 euro havale istendi. Çünkü ses birebir aynıydı, para aktarıldı.
+
+**Hindistan 2024 Seçimleri**
+
+Hindistan'da genel seçimlerde deepfake teknolojisi geniş çapta kullanıldı. Özellikle ölmüş politikacıların seslerinden deepfake mesajlar yayınlandığı, bunların seçmen üzerinde etkili olduğu rapor edildi.
+
+**Gerçek olay:** 2023'te Fransa Devlet Başkanı Emmanuel Macron'un sesinin yapay zeka ile kopyalanarak sahte bir ses mesajı oluşturulma girişimi tespit edildi. Sadece birkaç saniyelik ses örneğiyle inandırıcı sahte mesajlar üretmek artık mümkün. Bu tür saldırılar özellikle seçim dönemlerinde siyasetçilerin sesini taklit ederek seçmenleri yanıltmak, sahte talimatlar vermek veya kriz çıkarmak için kullanılabilir. Ses kopyalama teknolojisi her geçen gün daha erişilebilir hale geliyor.
+
+## <span class="heading-num">39.3</span> Seni Nasıl Etkiler?
+
+<table>
+<caption>Deepfake tehdit senaryoları</caption>
+<thead>
+<tr>
+  <th scope="col">Tehdit</th>
+  <th scope="col">Senaryo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Ses kopyalama</strong></td>
+  <td>Telefonla arayan kişi siyasetçi, patron veya aile üyesi gibi konuşuyor. Aslında ses yapay zekâ ile kopyalanmış. "Acil para gönder" veya "Şu bilgiyi ver" diyor.</td>
+</tr>
+<tr>
+  <td><strong>Video montaj</strong></td>
+  <td>Siyasetçinin yüzü uygunsuz bir videoya monte ediliyor. Seçim öncesi sızdırılıyor.</td>
+</tr>
+<tr>
+  <td><strong>Sahte telefon araması</strong></td>
+  <td>Çocuğunun sesi kopyalanıyor: "Baba hastanedeyim, para gönder."</td>
+</tr>
+<tr>
+  <td><strong>Sahte talimat</strong></td>
+  <td>Parti genel merkezinden geldiği sanılan sesli mesajla yanlış yönlendirilirsin.</td>
+</tr>
+</tbody>
+</table>
+
+## <span class="heading-num">39.4</span> Korunma Yöntemleri
+
+**Güven kelimesi (safe word) belirle:**
+- Aile üyeleri ve yakın çalışma arkadaşlarıyla önceden gizli bir kelime kararlaştır.
+- Telefonla acil bir talep geldiğinde, arayan kişiye güven kelimesini sor. Bilemezse bu ses deepfake olabilir.
+- Bu kelimeyi asla mesajla, e-postayla veya yazılı olarak paylaşma.
+
+**Çapraz doğrulama yap:**
+- Telefonla bir talep geldiğinde, farklı bir kanaldan doğrula: Örneğin, arayan kişi telefonla istiyorsa, sen aynı kişiyi Signal veya yüz yüze teyit et.
+- "Acil" diye telaşlandıran her aramaya şüpheyle yaklaş.
+
+**Ses tespit ipuçları:**
+- Doğal olmayan duraksamalar veya aşırı düz ses tonu.
+- Yabancı kelimelerde veya az kullanılan terimlerde telaffuz hataları.
+- Elektronik artefaktlar: İyi bir kulaklıkla dinlediğinde sentetik seste metalik bir ses duyulabilir.
+
+**Video tespit ipuçları:**
+- Dudak hareketleri ile ses arasında ufak gecikme.
+- Yüzde doğal olmayan titreşimler veya bulanık alanlar.
+- Işık ve gölge uyumsuzlukları.
+- Göz kırpma sayısının normalden az veya çok olması.
+
+**Kurumsal savunma:**
+- Siyasetçi ve ekip, her kritik açıklama için önceden belirlenmiş "doğrulama kanalları" kullanmalı. Vatandaş, açıklamayı sadece bu kanallardan teyit etmeli.
+- Video yayınlandığında derhal inkar edilip, platformlardan kaldırma talep edilmeli.
+- Hukuki süreç (kişilik haklarına saldırı) başlatılmalı.
+
+<DoDont items={[
+  { text: 'Ailenle ve ekiple güven kelimesi (safe word) belirle', type: 'do', level: 'minimum' },
+  { text: 'Telefonla gelen talepleri farklı kanaldan doğrula', type: 'do' },
+  { text: 'Videoda dudak senkronizasyonu ve yüz hareketlerini kontrol et', type: 'do' },
+  { text: 'Kritik açıklamalar için önceden belirlenmiş doğrulama kanalları kullan', type: 'do', level: 'best' },
+  { text: '"Acil" diye telaşlandıran aramaya hemen inan', type: 'dont' },
+  { text: 'Tek kanaldan gelen bilgiye güven', type: 'dont' },
+  { text: 'Ses veya video kalitesi iyi diye hemen gerçek say', type: 'dont' },
+  { text: 'Kritik videoyu yalanlamadan sessiz kal', type: 'dont' },
+]} />
+
+<Checklist title="Şüpheli Video Kontrol Listesi">
+<li>Dudak hareketleri ile ses arasında gecikme var mı?</li>
+<li>Yüzde doğal olmayan titreşimler veya bulanık alanlar var mı?</li>
+<li>Işık ve gölge uyumsuzlukları fark ediliyor mu?</li>
+<li>Göz kırpma sayısı normal mi?</li>
+<li>Ses tonu kişiye özgü mü, yoksa düz ve yapay mı?</li>
+<li>Yabancı kelimelerde telaffuz hataları var mı?</li>
+<li>Farklı bir kanaldan kişiyi teyit ettim</li>
+<li>Güven kelimesini sordum</li>
+</Checklist>
+
+<Scenario label="Senaryo: Zelensky Deepfake Videosu">
+Rusya-Ukrayna Savaşı'nın en kritik günlerinde, Ukrayna Devlet Başkanı Zelensky'in yüzünü taşıyan bir video sosyal medyada patladı. Videoda "Zelensky" askerlere silah bırakmalarını söylüyordu. Video bir Rus haber sitesinde yayınlandı, ardından Twitter ve Telegram'da hızla yayıldı. Neyse ki başın hareketleri doğal değildi, dudak senkronizasyonu bozuktu ve ses tonu Zelensky'inkine uymuyordu. Hızlıca tespit edilip kaldırıldı. Ama gelecekteki deepfake'ler çok daha kusursuz olacak. Böyle bir video sana ulaştığında nasıl doğrulardin?
+</Scenario>
+
+<Accordion question="Deepfake türleri nelerdir?" id="deepfake-types">
+**1. Yüz değiştirme (Face Swap):** Bir kişinin yüzünü başka bir kişinin videosuna montajlama. En yaygın deepfake türüdür. Örnek: Siyasetçinin yüzü uygunsuz bir videoya monte edilmesi.
+
+**2. Ses kopyalama (Voice Cloning):** Bir kişinin sesini yapay zekâ ile kopyalayıp sahte konuşma üretme. Sadece birkaç saniyelik ses örneğiyle bile başarılı sonuçlar verilebilir. Örnek: Biden robocall olayı.
+
+**3. Torso/Beden Canlandırma (Puppet Master):** Bir kişinin vücut hareketlerini ve ifadelerini başka bir kişinin videosuna aktarma. Kişinin konuştuğu ve hareket ettiği görülür ama aslında tamamen sentetiktir.
+
+**4. Metinden Video Üretme (Text-to-Video):** Yapay zekâ modelleriyle sadece metin açıklamasından tamamen sahte ama gerçekçi video üretme. Henüz mükemmel değildir ama hızla gelişmektedir.
+</Accordion>
+
+**Saldırı zinciri:** Deepfake saldırıları üç adımda gerçekleşir:
+
+1. **Birinci adım:** Saldırgan hedef kişinin yeterli miktarda ses, video veya fotoğraf verisini toplar (hedefin sosyal medyadaki açık kaynakları).
+2. **İkinci adım:** Yapay zeka modelini bu veriyle eğiterek inandırıcı sahte içerik üretir (mağdurun kendi verisini internette açık bırakması).
+3. **Üçüncü adım:** Sahte içerik yayılır: itibar zedelenir, seçmenler yanıltılır veya şantaj yapılır (zararın internete yayılması).
+
+Deepfake'in en korkutucu yanı, tamamen masum birinin bile saniyeler içinde sahte bir videonun kurbanı olabilmesidir. Korunma yolu:
+
+- Dijital ayak izini minimize etmek
+- Fotoğraflarını herkese açık paylaşmamak
+- Şüpheli video/görselleri tersine görsel arama ile doğrulamak
+
+**Benzetme:** Deepfake, bir kukla tiyatrosuna benzer. Kuklanın ipini kimin oynattığını göremezsin ama kuklanın gerçek olmadığını bilirsin. Önemli olan, kuklaya değil, ipi oynatana bakmaktır.
+
+## İlgili Bölümler
+
+- [Hibrit Harp](/bilgi-savasi/)
+- [Sosyal Mühendislik](/sosyal-muhendislik/)
+- [Tehdit ve Şantaj](/tehdit-santaj/)
+- [Dezenformasyon](/dezenformasyon/)
+- [Dijital Ayak İzi ve Mahremiyet](/dijital-ayak-izi-ve-mahremiyet/)

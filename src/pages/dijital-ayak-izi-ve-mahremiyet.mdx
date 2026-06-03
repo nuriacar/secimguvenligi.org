@@ -1,0 +1,98 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Dijital Ayak İzi ve Mahremiyet'
+description: 'İnternette bıraktığın izler, veri toplama, profilleme, gizlilik ve çevrimiçi mahremiyetini koruma.'
+order: 14
+audience: [V]
+hero: '/img/hero/dijital-ayak-izi-ve-mahremiyet.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+<AudienceBadge audience="V" />
+
+Bir sabah uyandın ve telefonunda bir reklam gördün. Dün akşam arkadaşınla konuştuğun bir ürünün reklamıydı. "Telefon beni dinliyor" diye düşündün. Belki dinlemiyordur ama kesin olan bir şey var: her tıklaman, her araman, her beğeni, her gezdiğin sayfa, her izlediğin video kaydediliyor. Bu kayıtlardan oluşan bir dosyan var. O dosyada senin hakkında senin bilmediğin kadar çok şey var.
+
+Buna dijital ayak izi denir. İnternette bıraktığın her iz, seni tanımlayan bir parçadır. Zamanla bu parçalar birleşir ve ortaya senin dijital bir kopyan çıkar. O kopya senin kadar değerlidir - bazen senden daha değerli.
+
+**Özlü kural:** İnternette her adımın bir iz bırakır. O izleri bilerek yürü.
+
+## <span class="heading-num">14.1</span> Dijital Ayak İzi Nedir?
+
+- **Ne demek:** İnternette yaptığın her şeyin bıraktığı izdir. Gezdiğin siteler, arama geçmişin, beğenilerin, yorumların, paylaştığın fotoğraflar, kullandığın uygulamalar, hatta telefonunun pil seviyesi bile bir veridir.
+- **Aktif ayak izi:** Bilerek bıraktığın izler (bir yorum yazmak, fotoğraf paylaşmak, profil oluşturmak)
+- **Pasif ayak izi:** Farkında olmadan bıraktığın izler (hangi siteye ne zaman girdiğin, ne kadar süre kaldığın, hangi reklama tıkladığın)
+- **Kural:** Pasif ayak izin aktif ayak izinden daha büyüktür. Çoğu insan sadece aktif olanı görür.
+
+## <span class="heading-num">14.2</span> Senin Hakkında Neler Toplanıyor?
+
+- **Kimlik bilgileri:** Ad, soyad, doğum tarihi, TC kimlik numarası, adres, telefon
+- **Cihaz bilgileri:** Hangi telefonu kullandığın, işletim sistemi, ekran çözünürlüğü, dil, saat dilimi
+- **Alışkanlıklar:** Hangi saatlerde internete girdiğin, hangi siteleri ziyaret ettiğin, ne kadar süre kaldığın
+- **İlgi alanları:** Neye tıkladığın, neyi beğendiğin, neyi aradığın
+- **Sosyal ağ:** Kiminle konuştuğun, kimleri takip ettiğin, kimlerin seni takip ettiği
+- **Konum:** Nerede olduğun, nereye gittiğin, ne kadar süre orada kaldığın
+
+<Alert level="warning">
+Telefonunda bir uygulama kullanıyorsun. O uygulama, senin kim olduğunu, nerede yaşadığını, kimlerle görüştüğünü, ne zaman uyuyup ne zaman uyandığını bilebilir. Bu bilgilerin ne kadarını paylaşmak istediğine sen karar vermelisin.
+</Alert>
+
+## <span class="heading-num">14.3</span> Veri Toplayıcılar Kimler?
+
+- **Sosyal medya platformları:** Facebook, Instagram, X (Twitter), LinkedIn, TikTok
+- **Arama motorları:** Google, Yandex, Bing
+- **Reklam şirketleri:** Google Ads, Meta Ads
+- **Veri brokerları:** Senin hakkında toplanan verileri satın alıp satan şirketler (Türkiye'de de faaliyet gösteriyorlar)
+- **Uygulamalar:** Kullandığın neredeyse her uygulama bir miktar veri toplar
+
+**Gerçek olay:** 2018'de Cambridge Analytica skandalı ortaya çıktı. 87 milyon Facebook kullanıcısının verisi, bir test uygulaması aracılığıyla izinsiz toplandı. Bu veriler, kullanıcıların psikolojik profillerini çıkarmak ve onları siyasi reklamlarla hedeflemek için kullanıldı. Kullanıcılar sadece bir test yaptıklarını sanıyordu ama aslında tüm sosyal ağlarını, beğenilerini, paylaşımlarını bir şirkete teslim etmişlerdi. Veriler, seçim kampanyalarında kullanıldı. Bu olay, basit bir testin bile ne kadar büyük bir veri sızıntısına yol açabileceğini gösterdi.
+
+## <span class="heading-num">14.4</span> Dijital Ayak İzini Azaltma Yöntemleri
+
+- **Arama motoru değiştir:** Google yerine DuckDuckGo kullan. DuckDuckGo aramalarını kaydetmez, seni profillemez.
+- **Tarayıcı değiştir:** Firefox veya Brave kullan. Bunlar varsayılan olarak takip kodlarını engeller.
+- **Sosyal medya ayarları:** Profillerini gizli yap. Paylaşımlarını sadece tanıdıkların görsün.
+- **Çerezleri temizle:** Tarayıcı ayarlarından çerezleri düzenli sil. Haftada bir yap.
+- **Gereksiz uygulamaları sil:** Kullanmadığın uygulamaları telefonundan sil. Her uygulama bir veri toplama noktasıdır.
+- **Konum paylaşımını kapat:** Fotoğraf çekerken konum eklemeyi kapat. Sosyal medyada konum etiketi kullanma.
+- **Sanal kart kullan:** Alışverişlerinde banka kartın yerine sanal kart kullan. Her siteye gerçek kart bilgini verme.
+
+<DoDont items={[
+  { text: 'DuckDuckGo gibi gizli arama motoru kullan', type: 'do' },
+  { text: 'Sosyal medya profillerini gizli yap', type: 'do' },
+  { text: 'Çerezleri düzenli temizle', type: 'do' },
+  { text: 'Gereksiz uygulamaları sil', type: 'do' },
+  { text: 'Dijital ayak izini düzenli kontrol et', type: 'do' },
+  { text: 'Konum paylaşımını herkese açık bırakma', type: 'dont' },
+  { text: 'Her siteye gerçek bilgilerini verme', type: 'dont' },
+  { text: 'Tüm çerezlere izin verme', type: 'dont' },
+  { text: 'Bilinmeyen uygulamalara kişisel veri verme', type: 'dont' },
+]} />
+
+## <span class="heading-num">14.5</span> Adını ve Bilgilerini Aramak
+
+- **Kendini arat:** Google'da adını ve soyadını ara. Çıkan sonuçları kontrol et. Neler var, neler yok?
+- **Google Uyarıları kur:** Kendi adın için uyarı kur. Biri senin hakkında yeni bir şey yayınlarsa haberin olsun.
+- **Sosyal medyada adını ara:** Sahte hesap var mı kontrol et.
+- **Veri brokerlarından çıkış:** Bazı siteler (örneğin `whitepages.com`) kişisel bilgilerini yayınlar. Bu sitelere başvurarak bilgilerini kaldırabilirsin.
+
+## <span class="heading-num">14.6</span> Çocukların Ayak İzi
+
+- **Kural:** Çocuğunun fotoğraflarını sosyal medyada paylaşmadan önce düşün. O fotoğraf bir gün çocuğunun karşısına çıkabilir.
+- **Yapma:** Çocuğunun okulunu, adresini, günlük rutinini paylaşma.
+- **Yap:** Çocuğunun fotoğraflarını paylaşırken yüzünü kapat veya siluet kullan. (bkz. Aile Güvenliği bölümü 32.7)
+
+**Benzetme:** Dijital ayak izin, kumsalda yürürken bıraktığın ayak izlerine benzer. Gelgit geldiğinde çoğu iz silinir ama bazıları kalıcı olur. İnternette de bıraktığın izlerin çoğu kalıcıdır. O yüzden kumsalda yürür gibi dikkatli adım at.
+
+## İlgili Bölümler
+
+- [Sosyal Medya Güvenliği](/sosyal-medya/)
+- [Haftalık Kontrol Listesi](/haftalik-kontrol/)
+- [Çocukların Dijital Güvenliği](/cocuk-dijital-guvenlik/)
+- [Aile Güvenliği](/aile-guvenlik/)
+- [İnternet Tarayıcı Güvenliği](/internet-tarayici-guvenligi/)

@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = 'Dijital güvenlik kılavuzu', image = '/img/hero/home.webp' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteDomain = Astro.site?.hostname || 'secimguvenligi.org';
+const otherDomain = siteDomain === 'bilgiguvenligi.org' ? 'secimguvenligi.org' : 'bilgiguvenligi.org';
+---
+
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL.href} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site).href} />
+    <meta property="og:locale" content="tr_TR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site).href} />
+    <title>{title} | Dijital Güvenlik Kılavuzu</title>
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Ana içeriğe geç</a>
+
+    <nav class="nav">
+      <div class="nav-brands">
+        <a href="/" aria-label="Ana sayfa" class="nav-brand">{siteDomain}</a>
+        <span class="nav-brand-sep">|</span>
+        <a href={`https://${otherDomain}`} aria-label={`Diğer site: ${otherDomain}`} class="nav-brand-alt">{otherDomain}</a>
+      </div>
+      <div class="nav-spacer"></div>
+      <div id="nav-links" class="nav-links">
+        <div id="search-wrapper" class="search-wrapper">
+          <form id="search-form" onsubmit="return false;">
+            <input id="search-input" type="search" placeholder="Ara..." aria-label="Site içi arama" autocomplete="off" class="search-input" />
+          </form>
+          <div id="search-results" class="search-results"></div>
+        </div>
+        <a href="/" aria-label="Ana sayfa" class="nav-link">İçindekiler</a>
+        <a href="/sss" aria-label="Sık Sorulan Sorular" class="nav-link">SSS</a>
+        <a href="/egitim" aria-label="Eğitim" class="nav-link">Eğitim</a>
+        <a href="/lisans" aria-label="Lisans" class="nav-link">Lisans</a>
+        <a href={`https://${otherDomain}`} class="nav-brand-alt-mobile">{otherDomain} &#8599;</a>
+        <button id="mode-toggle" aria-label="Tema değiştir" class="mode-toggle">&#9790;</button>
+      </div>
+      <button id="nav-toggle" aria-label="Menüyü aç/kapa" class="nav-toggle">☰</button>
+    </nav>
+
+    <main id="main-content" class="main">
+      <div class="main-inner">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-controls">
+          <button id="easy-read-toggle" aria-label="Kolay okuma modunu aç/kapa">Kolay Okuma</button>
+          <span id="font-size-group" class="font-size-group" role="group" aria-label="Yazı boyutu">
+            <button id="font-shrink" aria-label="Yazı boyutunu küçült" class="font-btn">A&#8722;</button>
+            <button id="font-reset" aria-label="Varsayılan yazı boyutu" class="font-btn font-btn-active">A</button>
+            <button id="font-grow" aria-label="Yazı boyutunu büyüt" class="font-btn">A&#43;</button>
+          </span>
+          <button id="contrast-toggle" aria-label="Yüksek kontrast modunu aç/kapa" class="contrast-btn">Yüksek Kontrast</button>
+        </div>
+        <hr class="footer-hr" />
+        <p class="footer-copy">
+          Telif Hakkı &copy; 2026 <a href="https://nuriacar.com" target="_blank" rel="noopener noreferrer" class="footer-link">Nuri ACAR &#8599;</a>. Tüm hakları saklıdır. Kullanım koşulları ve lisans için <a href="/lisans" class="footer-link">tıklayın! &#8599;</a>
+        </p>
+      </div>
+    </footer>
+
+    <script is:inline src="/js/main.js"></script>
+  </body>
+</html>
+

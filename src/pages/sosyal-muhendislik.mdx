@@ -1,0 +1,227 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Sosyal Mühendislik'
+description: 'Sosyal mühendislik saldırı teknikleri, insan psikolojisinin zayıf noktaları, oltalama, korkutma, derin sahtekarlık ve korunma stratejileri.'
+hero: '/img/hero/sosyal-muhendislik.webp'
+order: 3
+audience: [V]
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+import Checklist from '../components/Checklist.astro';
+
+<AudienceBadge audience="V" />
+
+Telefonuna bir mesaj geliyor: "Annen kaza geçirdi, hastanedeyim. Acil bu numarayı ara." Mesajı gönderen numara tanıdık geliyor. Ama durup düşünmüyorsun. Annen aklına geliyor, hemen arıyorsun. Karşındaki ses: "Önce şu kadar parayı gönder, sonra bilgi vereceğim." O an anlıyorsun: kandırıldın. Bu bir sosyal mühendislik saldırısıydı. Tek bir mesaj, en zayıf noktanı hedef aldı: seni sen yapan duyguları.
+
+**Hacker gözüyle:** Sosyal mühendislik bir kilit kırma sanatı değil, bir ikna sanatıdır. Kilit kırmayı bilmeyen saldırgan bile "acil" mesajı atabilir. Parolanı tahmin edemeyen saldırgan bile "parolanı sıfırla" linki gönderebilir. Tek koruman: şüphe. Merhaba beni bilir misin, diyeni tanımıyorsan cevap bile verme.
+
+<Alert level="tip">En güçlü güvenlik duvarı sensin. Tüm teknik önlemler, insan faktörü zayıfsa etkisiz kalır.</Alert>
+
+## Sosyal Mühendislik Nedir?
+
+Sosyal mühendislik, saldırganın teknik araçlar yerine insan psikolojisini kullanarak bilgi çalması, erişim elde etmesi veya hedefi istenen eyleme yönlendirmesidir. Kilit kırmak yerine sana kilidi kendin açtırır. Parolanı tahmin etmek yerine sana kendin söylerler. Bilgisayarına sızmak yerine sana dosyayı kendin indirtirler.
+
+En tehlikeli yönü budur: Teknik bilgi gerektirmez, yalnızca ikna becerisi yeterlidir. Bir yazılım açığı zamanla kapatılır ama insan doğası değişmez. Bu yüzden sosyal mühendislik, siber saldırıların en yaygın ve en başarılı yöntemidir.
+
+Araştırmalar, siber saldırıların yüzde 80'inden fazlasının sosyal mühendislik ile başladığını gösteriyor. En güçlü güvenlik duvarı bile linke tıklayan bir kullanıcıya karşı koruma sağlayamaz.
+
+## İnsan Psikolojisinin Zayıf Noktaları
+
+Sosyal mühendislik, insan doğasının altı temel zayıf noktasını sömürür. Bu zayıf noktaları bilmek, saldırıları tanımanın ilk adımıdır.
+
+**1. Otorite eğilimi:** "Polis aradı, parolanı vermem lazım" dediğinde çoğu insan sorgulamaz. 1963 Milgram deneyi bunu kanıtladı: sıradan insanlar, otorite figürünün talimatıyla başkalarına zarar verebilir. Üniforma, unvan, resmi e-posta adresi yeterli olur. Telefonda "yetkili kişi" diyen birine parolanı verebilirsin.
+
+**2. Aciliyet baskısı:** "Hesabın 24 saat içinde kapatılacak" mesajı panik yaratır. Panik anında mantıklı düşünme durur. Bu, beynin amygdala bölgesinin devreye girmesiyle olur: tehdit algılandığında vücut hızlı tepki verir, yavaş düşünme kapanır. Sakinleşip düşünene kadar geç olabilir.
+
+**3. Sosyal kanıt:** "Herkes bu linki tıkladı" algısı güven verir. Seçim dönemlerinde "Tüm parti üyeleri bu uygulamayı kurdu" mesajı, kurmaya itebilir. Gerçekte kimse kurmamış olabilir ama sosyal kanıt dürtüsü durumu sorgulamanı engeller. Bir şeyi çok kişinin yapıyor olması, o şeyin doğru olduğu anlamına gelmez.
+
+**4. Güven ve sempati:** Seni tanıyan, seni takdir eden birinin isteğini reddetmek zordur. Sosyal mühendis önce güven inşa eder, sonra ister. Haftalarce sizinle sohbet eden "Ayşe" aslında bir dolandırıcı olabilir. Uzun süreli ilişki kuran saldırgan, yeterince güven oluşturduğunda asıl isteğini sunar.
+
+**5. Korku:** En güçlü motivatördür. "Çocuğunu kaçırdık" SMS'i, saniyeler içinde harekete geçirir. Korku, mantığı devre dışı bırakır ve hızlı karar vermeye zorlar. "Hakkında dava açıldı", "Hesabına izinsiz giriş yapıldı" gibi mesajlar da aynı etkiyi yapar. Önce derin nefes al, sonra araştırın.
+
+**6. Merak:** "Gizli videon var, bak" linki tıklanır çünkü merak bastırılması en zor dürtülerden biridir. Merak, en masum görünen ama en tehlikeli dürtüdür: zararlı yazılımların en yaygın bulaşma yolu merak uyandıran linklerdir. Bir linkin arkasında ne olduğunu merak ediyorsan, bağımsız bir yoldan araştırın, linke tıklama.
+
+Bu altı zayıf noktayı bilmek, sosyal mühendislik saldırılarını tanımanı sağlar. Ama bilmek yetmez: tatbikat yapman gerekir. Bir arkadaşın sana sahte bir oltalama mesajı göndersin, tıklayıp tıklamadığını test etsin. Bu tür egzersizler, kurumsal dünyada "phishing simulation" olarak bilinir ve en etkili savunma yöntemlerinden biridir.
+
+Bu altı mekanizma tek başına veya birleşik kullanılır. "Genel müdür acil olarak bu belgeyi istiyor" hem otorite hem aciliyet sömürüsüdür.
+
+## 12 Saldırı Tekniği
+
+### 1. Doğrudan İsteme (Direct Request)
+
+En basit tekniktir. Saldırgan doğrudan ister. "Merhaba, teknik destekten arıyorum. Parolanı söyler misin? Sistemin güncellenmesi gerekiyor." İnanılmaz derecede basit ama şaşırtıcı derecede başarılıdır. Özellikle kurumsal ortamlarda, yeni başlayan çalışanlar veya stajyerler bu tür taleplere karşı savunmasızdır.
+
+**Gerçek örnek:** Bir şirkette arayan kişi "Ben bilgi işlem departmanından Ahmet, sistemin güncellemesi için parolanı vermene gerek var" der. Çalışan parolayı verir çünkü bilgi işlem departmanından birinin böyle talepte bulunması normal karşılanır. O kişi bilgi işlem departmanından değildir.
+
+### 2. Yemleme (Baiting)
+
+Saldırgan cazip bir teklifle hedefi tuzağa çeker. USB bellekleri, ücretsiz yazılımlar, indirme linkleri yaygın yemlerdir. Merak veya açgözlülük sömürülür.
+
+**Gerçek örnek:** Şirket otoparkında "Maaş Listesi 2024" etiketli bir USB bellek bulan çalışan, merak edip bilgisayarına takar. Bellekte zararlı yazılım vardır. ABD'de yapılan bir deneyde, şirket çalışanlarının yüzde 60'ı otoparkta buldukları USB belleği bilgisayarlarına takmıştır.
+
+### 3. Bir Şey İçin Bir Şey (Quid Pro Quo)
+
+Saldırgan bir hizmet veya çıkar sunar, karşılığında bilgi ister. "Ücretsiz teknik destek" veya "Bedava hediye kazandın" yaygın yöntemlerdir.
+
+**Gerçek örnek:** Arayan kişi "Bilgisayarını hızlandırmak için ücretsiz bakım yapıyoruz" der. Uzaktan bağlanır. "Sistem taraması için yönetici parolasını girmen gerekiyor" der. Kurban parolayı girer. Saldırgan bilgisayara tam erişim sağlar.
+
+### 4. Korkutma (Scareware)
+
+Sahte uyarı ve alarmlarla panik yaratılır. "Bilgisayarına virüs bulaştı" veya "Hesabın hacklendi" şeklinde sahte bildirimler çıkar. Panik halindeki kullanıcı, sunulan "çözüm" linkine tıklar ve asıl zararlı yazılımı kendisi yükler.
+
+**Gerçek örnek:** Web sitesinde gezinirken aniden "Cihazına 13 virüs bulaştı. Hemen tıkla ve temizle" pop-up'ı çıkar. Kullanıcı panikle tıklar ve indirdiği dosya gerçek zararlı yazılımdır. Tarayıcı bildirimlerini açtıysan bu tür sahte uyarılar sürekli karşına çıkar.
+
+### 5. Ön Mesajlaşma (Pretexting)
+
+Saldırgan kapsamlı bir senaryo hazırlar ve bu rolü ustaca oynar. "Ben bankadan arıyorum, kimlik doğrulama yapmam gerekiyor" veya "Kargo şirketinden arıyorum, adresini teyit etmem lazım" der. Her şey planlıdır, sorular önceden hazırlanmıştır.
+
+**Gerçek örnek:** Saldırgan önce hedefin hakkında bilgi toplar: hangi bankada hesabı var, ne zaman doğum günü, hangi şehirde yaşıyor. Sonra bankadan arıyor gibi yapar. "Hesabında şüpheli işlem tespit ettik, doğrulama için TC kimlik numaranı ve kartının son dört hanesini söyleyebilir misin?" der. Topladığı bilgilerle inandırıcıdır.
+
+### 6. Kuyruğa Takılma (Tailgating)
+
+Fiziksel bir güvenlik tekniğidir. Saldırgan, yetkili birinin arkasına takılarak kontrollü alana giriş yapar. Kart okuyuculu kapılarda, önceki kişinin açtığı kapıdan içeri süzülür. "Ellem doluyum, kapıyı tutar mısın?" diyerek giriş yapılır.
+
+**Gerçek örnek:** Karta bağlı kapıdan geçen çalışanın arkasına takılan kişi, ellerinde dosyalarla "Teşekkür ederim" der ve içeri girer. Kimse kimliğini sormaz. Güvenlik kamerası olsa bile normal bir çalışan gibi görünür. Ofise girdikten sonra masalardaki bilgisayarlara USB takabilir, belge çalabilir, ağ kablosuna bağlanabilir.
+
+### 7. Sulama Deliği (Watering Hole)
+
+Saldırgan, hedefin sık kullandığı bir web sitesini zehirler. Hedef o siteye gittiğinde otomatik olarak zararlı yazılım bulaşır. Doğrudan hedefe gitmek yerine hedefin yolunun üzerinde pusu kurar.
+
+**Gerçek örnek:** Belirli bir sektördeki çalışanların sık kullandığı bir mesleki foruma zararlı kod yerleştirilir. Forumu ziyaret eden herkesin bilgisayarına otomatik olarak casus yazılım yüklenir. Saldırgan kimi hedeflediğini bilir, o kişilerin yolunu tahmin eder.
+
+### 8. Omuz Sörfü (Shoulder Surfing)
+
+Saldırgan fiziksel olarak yanına yaklaşıp ekranını veya klavyeni izler. Parola girerken, mesaj yazarken veya hassas bilgi okurken omzundan gözetler. Kafe, toplu taşıma, havalimanı gibi kalabalık yerlerde yaygındır.
+
+**Gerçek örnek:** Kafede oturan kişi, yan masadakinin ekrana açık hesap bilgilerini veya parola girişini görebilir. Telesekreterde mesaj okunurken arkadaki kişi ekranı okuyabilir. Toplu taşımda parola giren birinin ekranı yanındaki yolcu tarafından rahatça görülür. Gözetleme amaçlı gizli kameralar da bu kategoriye girer.
+
+### 9. Çöp Karıştırma (Dumpster Diving)
+
+Atılan belgeler, notlar, basılı mesajlar ve donanım parçaları çöpten toplanır. İnsanlar çöpe attıkları şeylerin değerini küçümser. Ama atılmış bir notta yazılı parola, basılı bir raporda müşteri listesi veya atılmış bir sabit disk altın değerindedir.
+
+**Gerçek örnek:** Şirket çöğünden çıkan basılı belgelerde çalışanların kullanıcı adları ve telefon numaraları bulunur. Atılmış bir post-it üzerinde parola yazılıdır. Eski bir sabit disk kurtarılarak içindeki dosyalar okunur. Saldırgan bu bilgilerle kuruma sızma girişimini planlar.
+
+### 10. Gizli Dinleme (Eavesdropping)
+
+Halka açık yerlerde yapılan telefon veya yüz yüze görüşmeleri dinlenir. Kafede, restoranda, lobide yüksek sesle yapılan iş konuşmaları, parola bilgileri, toplantı detayları yetişkin bir dinleyici tarafından kaydedilebilir.
+
+**Gerçek örnek:** Restoranda telefonla görüşen kişi "Parolam 1984Elif olsun" der. Yan masadaki kişi bunu duyar. "Toplantı yarın saat 14'te genel müdürün odasında" diyen kişi, toplantı detayını açıklamış olur. Hassas bilgileri asla halka açık yerlerde sesli olarak paylaşma.
+
+### 11. Oltalama (Phishing)
+
+En yaygın sosyal mühendislik tekniğidir. Sahte e-posta, SMS veya mesajla kurban, zararlı linke yönlendirilir veya bilgi girmesi için sahte bir sayfaya çekilir. Banka, sosyal medya, kargo veya devlet kurumu taklidi yapılır. Oltalama mesajlarında genellikle aciliyet vurgusu ve korku unsuru bulunur: "Hesabın kapatılacak", "Ödemenin son günü", "Hakkında dava açıldı".
+
+**Gerçek örnek:** E-posta gelir: "Bankandan önemli bildirim. Hesabında şüpheli işlem tespit edildi. Doğrulamak için tıkla." Link sahte banka sayfasına gider. Kullanıcı parolasını girer. Parola saldırgana gider. Gerçek banka sayfasıyla bire benzer tasarlanır, adres çubuğunda ufak bir fark vardır: "banka.com" yerine "banka-secure.com" veya "banka.com.tr" yerine "banka-tr.com".
+
+**Vurgulama oltalaması (Spear Phishing):** Belirli bir kişiye özel hazırlanmış oltalama mesajıdır. Saldırgan hedef hakkında bilgi toplar ve mesajı kişiselleştirir. "Sayın Başkan, bugünkü toplantı tutanağı ekte" şeklinde gelen mesaj çok daha inandırıcıdır. Siyasetçiler ve üst düzey yöneticiler bu türün birincil hedefidir.
+
+**Balina avlama (Whaling):** Üst düzey yöneticilere yapılan vurgulama oltalamasıdır. CEO, bakan veya genel müdür hedeflenir. Mesajın inandırıcılığı daha yüksek, hasar potansiyeli daha büyüktür.
+
+### 12. Derin Sahtekarlık (Deepfake)
+
+Yapay zeka kullanılarak gerçek insanların yüzünü, sesini veya hareketlerini taklit eden sahte içerik üretilir. Ses kopyalama ile telefonda tanıdığın birinin sesini duyar, video montajı ile gerçekte söylemediği bir şeyi söylerken görürsün. Derin sahtekarlık, sosyal mühendisliğin en yeni ve en tehlikeli formudur.
+
+**Gerçek örnek:** Telefonda çocuklarının sesini duyarsın: "Baba hastanedeyim, acil para gönder." Ama ses yapay zekayla üretilmiştir. Benzer şekilde, videolu aramada patronun yüzünü görürsün ve para transferi talimatı alırsın. Video tamamen sahtedir. Derin sahtekarlık tehditleri ve korunma yöntemleri hakkında detaylı bilgi için [Derin Sahte (Deepfake)](/deepfake/) sayfasına bak.
+
+## Korunma Stratejileri
+
+**Doğrulama alışkanlığı:** Her talebi doğrula. Bankadan aradığını iddia eden kişiyi geri ara. Mesajla gelen linki doğrudan tıklamak yerine, tarayıcıya bankanın adresini kendin gir. E-postayla gelen talebi telefonla teyit et.
+
+**Yavaşla ve düşün:** Aciliyet hissi yaratan her mesaja şüpheyle yaklaş. "24 saat içinde" baskısı, düşünmeni engellemek için vardır. Dur, düşün, doğrula. Acil diyen herkesin acelesi yoktur.
+
+**Bilgi paylaşımı kuralları:** Parolanı kimseyle paylaşma. Teknik destek bile parolana ihtiyaç duymaz. TC kimlik numaranı, kart bilgilerini veya hesap numaranı telefonla veya mesajla iletme. Kurumsal ortamda hassas bilgiyi yalnızca doğrulanmış kanallardan ilet.
+
+**Fiziksel dikkat:** Ekranını başkalarının göremeyeceği şekilde konumlandır. Parola girirken klavyeyi gizle. Hassas belgeleri çöpe atmadan önce yırt veya yak. USB bellek bulursan bilgisayarına takma. Karta bağlı kapılarda arkana takılan kişiyi kontrol et.
+
+**Eğitim ve farkındalık:** Sosyal mühendislik tekniklerini öğren. En iyi savunma, saldırı yöntemlerini tanımaktır. Düzenli olarak yeni oltalama yöntemlerini takip et. Çalışanlara ve aile üyelerine de öğret.
+
+**Teknik önlemler:** İki faktörlü doğrulama (2FA) aç. Parolan çalınsa bile ikinci adım saldırganı durdurur. E-posta filtrelerini aktif et. Bilinmeyen göndericilerden gelen ekleri indirme. Tarayıcıda pop-up engelleyici kullan.
+
+<DoDont items={[
+  { text: 'Gelen talebi farklı bir kanaldan doğrula', type: 'do' },
+  { text: 'Aciliyet baskısı yaratan mesajlara şüpheyle yaklaş', type: 'do' },
+  { text: 'İki faktörlü doğrulama (2FA) aktif et', type: 'do' },
+  { text: 'Hassas belgeleri çöpe atmadan önce yok et', type: 'do' },
+  { text: 'Parolanı kimseyle paylaşma, teknik destek bile istememeli', type: 'do' },
+  { text: 'USB bellek bulunca bilgisayarına takma', type: 'do' },
+  { text: 'Mesajla gelen linke doğrudan tıkla', type: 'dont' },
+  { text: 'Telefonla gelen talebe hemen inan ve parola ver', type: 'dont' },
+  { text: '"Acil" diye panikle hareket et', type: 'dont' },
+  { text: 'Kafe veya toplu taşımda hassas bilgiyi ekranda açık bırak', type: 'dont' },
+  { text: 'Tanımadığın kişilere kapıyı tut', type: 'dont' },
+  { text: 'E-posta eklerini kontrol etmeden indir', type: 'dont' },
+]} />
+
+<Scenario label="Senaryo: Oltalama Mesajı">
+Telefona SMS gelir: "Seçim Kurulundan önemli bildirim. Adaylık başvurunda eksik belge tespit edildi. Son düzeltme tarihi bugün saat 18:00. Düzeltmek için tıkla: [link]." Mesaj resmi görünür, aciliyet hissi yaratır. Ama Seçim Kurulu SMS ile link göndermez. Bu bir oltalama mesajıdır. Linke tıklamak yerine Seçim Kurulunun resmi web sitesine kendin gir ve durumu kontrol et. Telefonla arayıp teyit et. Asla mesajdaki linke tıklama.
+</Scenario>
+
+<Accordion question="Doğrudan isteme saldırısına karşı ne yapmalıyım?" id="direct-request">
+Parola veya hassas bilgi isteyen herkese şüpheyle yaklaş. Teknik destek asla parolana ihtiyaç duymaz. Yöneticin olsa bile, talebi farklı bir kanaldan doğrula. Telefonla isterse yüz yüze teyit et, e-postayla isterse telefonla ara. Doğrulayamadığın hiçbir talebi yerine getirme.
+</Accordion>
+
+<Accordion question="Oltalama mesajını nasıl tanırım?" id="phishing-recognize">
+Altı işaret aranır:
+
+1. Gönderen adresini kontrol et, tanıdık görünse bile ufak harf değişiklikleri olabilir.
+2. Mesaj aciliyet ve korku yaratıyorsa şüphelen.
+3. Linkin üzerine fareyle gel (tıklamadan), adres çubuğunda nereye gittiğini gör.
+4. Dilbilgisi ve imla hataları ara.
+5. Kişisel bilgi isteniyorsa şüphelen.
+6. "Hesabın kapatılacak" gibi genel tehditler varsa şüphelen.
+
+Gerçek kuruluşlar bu şekilde iletişim kurmaz.
+</Accordion>
+
+<Accordion question="Derin sahtekarlık (deepfake) saldırısına karşı nasıl korunurum?" id="deepfake-defense">
+Aile üyeleri ve yakın çalışma arkadaşlarıyla önceden gizli bir güven kelimesi kararlaştır. Telefonla acil talep geldiğinde arayan kişiye bu kelimeyi sor. Bilemezse ses deepfake olabilir. Her telefon talebini farklı bir kanaldan doğrula. Detaylı bilgi için [Derin Sahte (Deepfake)](/deepfake/) sayfasına bak.
+</Accordion>
+
+<Accordion question="Fiziksel sosyal mühendislik saldırılarına karşı ne yapmalıyım?" id="physical-se">
+- Karta bağlı kapılarda arkana takılanları kontrol et, kimliksiz kişileri içeri alma.
+- Çöpe atılan belgeleri parçala veya yak.
+- USB bellek bulursan asla bilgisayarına takma.
+- Kafe veya toplu taşımda ekranını koru, parola girerken klavyeni gizle.
+- Bilgisayarını kilitlemeden masadan uzaklaşma.
+- Tanımadığın kişilere telefonunu veya bilgisayarını verme.
+</Accordion>
+
+<Accordion question="Sulama deliği saldırısından nasıl korunurum?" id="watering-hole">
+- Sık kullandığın siteler için tarayıcının güncel olduğundan emin ol.
+- Tarayıcı eklentilerini sınırlı tut.
+- Reklam engelleyici kullan.
+- Antivirüs yazılımının web koruması açık olsun.
+- Bilinmeyen veya yeni keşfettiğin sitelerden dosya indirme.
+- Gerekli olmadıkça yönetici hesabı kullanma, standart kullanıcı hesabıyla çalış.
+</Accordion>
+
+<Accordion question="Kurumsal ortamda sosyal mühendislik eğitimi neden önemli?" id="corporate-training">
+Bir kişinin hatası tüm kurumu riske atar. Tek bir oltalama e-postasına tıklayan çalışan, kurumsal ağı ele geçirme fırsatı verir. Düzenli eğitim ve simülasyon, çalışanların saldırıyı tanımasını sağlar. Yeni başlayanlar, stajyerler ve üst düzey yöneticiler en sık hedeflenen gruplardır. Herkesin temel sosyal mühendislik farkındalığı kazanması gerekir.
+</Accordion>
+
+<Checklist title="Sosyal Mühendislikten Korunma Kontrol Listesi">
+<li>Gelen talebi farklı bir kanaldan doğrula</li>
+<li>Aciliyet baskısına aldanma, dur ve düşün</li>
+<li>Kişisel bilgi verme (parola, TC kimlik, kart bilgisi)</li>
+<li>Kaynağı bağımsız olarak doğrula</li>
+<li>Fiziksel erişimi sınırla (kapı, bilgisayar, telefon)</li>
+<li>Çöpte belge bırakma, yok etmeden atma</li>
+<li>Omuz sörfüne karşı dikkatli ol, ekranını koru</li>
+<li>Tanımadığın linki açma, göndereni kontrol et</li>
+</Checklist>
+
+**Benzetme:** Sosyal mühendislik bir yankesicinin hikmetinden sual olunmaz kibarlığı gibidir. Sırtına çarpar, özür diler, cüzdanını alır. Sen kibarlığına bakarken cüzdanın çoktan kaybolmuştur.
+
+
+## İlgili Bölümler
+
+- [Derin Sahte (Deepfake)](/deepfake/)
+- [Çevrimiçi Dolandırıcılık](/cevrimici-dolandiricilik/)
+- [Sosyal Medya](/sosyal-medya/)
+- [Temel Kavramlar](/temel-kavramlar/)
+- [Tehdit ve Şantaj](/tehdit-santaj/)

@@ -1,0 +1,130 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Emanet Güvenliği'
+description: 'Telefonunu başkasına verirken veya devrederken alman gereken güvenlik önlemleri.'
+order: 17
+audience: [V]
+hero: '/img/hero/emanet-guvenligi.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
+
+<AudienceBadge audience="V" />
+
+Bir arkadaşın sana telefonunu uzatıyor: "Şu numarayı arar mısın, ellerim dolu." Ne yaparsın? İçgüdüsel olarak alırsın. Oysa o telefonda neler var? Galeri, banka uygulamaları, mesajlar, fotoğraflar... Sana güvenen birinin telefonu, senin elinde bir an için bile olsa, içindeki her şeye açılan bir kapıdır. Peki ya sen telefonunu birine verdiğinde? O kişi sadece bir arama mı yapıyor, yoksa 30 saniyede galerini kopyalıyor, bir uygulama yüklüyor veya mesajlarını okuyor olabilir mi?
+
+**Özlü kural:** Telefonunu birine veriyorsan, o kişiye sadece ekranı verdiğini unutma. İçindeki her şey senin sırrın.
+
+<Alert level="critical">Telefonunu asla gözünden ayırma. 30 saniye yeterli: galeri yedeği alınabilir, casus yazılım yüklenebilir, mesajların okunabilir.</Alert>
+
+## <span class="heading-num">17.1</span> Kısa Süreli Verme (Arama, şarkı açma, harita)
+
+Birisi telefonunu istediğinde ekran sabitleme özelliğini kullan. Sadece izin verdiğin ekran görünür, diğer uygulamalara geçiş yapılamaz.
+
+**Android: Ekran Sabitleme**
+1. Ayarlar > Güvenlik (veya Biyometrik veriler ve güvenlik)
+2. "Uygulamayı sabitle" seçeneğini aç
+3. Son kullanılanlar ekranını aç, uygulama simgesine dokun, "Sabitle" seç
+4. Sabitlemeyi kaldırmak için Geri + Son kullanılanlar tuşlarına birlikte bas
+
+**iPhone: Kılavuzlu Erişim**
+1. Ayarlar > Erişilebilirlik > Kılavuzlu Erişim (aç)
+2. Parola ayarla (farklı bir parola kullan)
+3. Kullanmadan önce: istediğin uygulamayı aç, Yan tuşuna üç kez bas, "Başla" de
+4. Kılavuzlu erişimi bitirmek için Yan tuşuna üç kez bas, parolayı gir
+
+## <span class="heading-num">17.2</span> Tam Teslim (Satış, tamir, devir)
+
+Telefonu tamamen başka birine vereceksen sıfırlama öncesi bu adımları izle:
+
+1. Tüm fotoğraflarını yedekle (bulut veya bilgisayar)
+2. Google, Apple ID, e-Devlet, banka uygulamalarından çıkış yap
+3. SIM kartı ve hafıza kartını çıkar
+4. Fabrika ayarlarına döndür (sadece dosya silmek yetmez, cihaz tamamen sıfırlanacak)
+5. SD kart varsa biçimlendir
+
+<Checklist title="Vermeden Önce Kontrol Listesi">
+<li>Galeri yedeğini aldın mi?</li>
+<li>Google / Apple ID çıkışını yaptın mi?</li>
+<li>e-Devlet uygulamalarından çıkış yaptın mi?</li>
+<li>Banka uygulamalarından çıkış yaptın mi?</li>
+<li>SIM kartı çıkardın mi?</li>
+<li>Hafıza kartını çıkardın mi?</li>
+<li>Fabrika ayarlarına döndürdün mü?</li>
+</Checklist>
+
+## <span class="heading-num">17.3</span> Geri Alınca Ne Yapılır?
+
+Telefonu geri aldığında ilk kontrol noktaları:
+
+Geri aldığın telefonun güvenilir olduğundan emin olana kadar hassas uygulamalara (banka, e-posta, sosyal medya) girmeyi ertele. Önce tüm kontrolleri tamamla, sonra normal kullanıma dön. Eğer telefonundan şüpheleniyorsan, hiç vakit kaybetmeden fabrika ayarlarına dön ve sıfırdan kur.
+
+1. Yeni uygulama kurulmuş mu diye bak: Ayarlar > Uygulamalar listesini tara
+2. Pil kullanımında şüpheli artış var mi: Ayarlar > Pil > Pil kullanımı
+3. Veri kullanımında anomali var mi: Ayarlar > Ağ ve internet > Veri kullanımı
+4. Şüpheli bir şey görürsen [Casus Yazılım](/casus-yazilim/) bölümüne git
+
+<DoDont items={[
+  { text: 'Ekran sabitleme aç, sonra telefonu ver', type: 'do' },
+  { text: 'Vermeden önce çıkış yap ve SIM kartı çıkar', type: 'do' },
+  { text: 'Geri alınca uygulama listesini kontrol et', type: 'do' },
+  { text: 'Telefonu gözünden ayır', type: 'dont' },
+  { text: 'Fabrika ayarlarına dönmüş olsa bile kontrolleri atla', type: 'dont' },
+  { text: 'Kilit ekranı açıkken telefonu herhangi birine ver', type: 'dont' },
+]} />
+
+<Scenario label="Senaryo: Tamirciye Veriyorsun">
+Telefonun ekranı bozuldu, tamirciye vereceksin. Önce tüm fotoğraflarını buluta yedekle. Google ve Apple ID'den çıkış yap. SIM kartı çıkar. Fabrika ayarlarına döndür. Tamirciye ver. Geri aldığında ayarlardan yeni uygulama kurulup kurulmadığını kontrol et. Şüpheli bir şey görürsen [Casus Yazılım](/casus-yazilim/)'e bak.
+</Scenario>
+
+## <span class="heading-num">17.4</span> Telefon Tamircisine Verirken
+
+Telefon tamircisi, cihazına fiziksel ve yazılımsal olarak tam erişim sağlar. Bu erişim, casus yazılım yüklemek, verilerini kopyalamak veya donanıma izleme cihazı yerleştirmek için yeterlidir.
+
+<Scenario label="Senaryo: Ekranın Kırıldı, Tamirciye Vereceksin">
+Telefonunun ekranı kırıldı, tamirciye vermen gerekiyor. Önce tüm fotoğraflarını ve önemli belgelerini bilgisayara yedekle. Google ve Apple ID'den çıkış yap. SIM kartı ve hafıza kartını çıkar. Fabrika ayarlarına döndür. Tamirciye temiz bir cihaz ver. Tamir bittiğinde telefonu geri al ama eski yedeği doğrudan geri yükleme. Yeni bir kurulum yap, uygulamalarını tek tek güncel kaynaklardan yükle. Eski yedekten sadece fotoğrafları seçici olarak aktar.
+</Scenario>
+
+**Tamirciye vermeden önce:**
+
+1. Tüm fotoğraflarını ve önemli belgelerini yedekle (bilgisayar veya bulut)
+2. Fabrika ayarlarına döndür (tüm verileri sil)
+3. SIM kartı ve hafıza kartını çıkar
+4. Google, Apple ID, e-Devlet ve banka uygulamalarından çıkış yap
+
+**Tamir bitince:**
+
+1. Ayarlardan yeni uygulama kurulup kurulmadığını kontrol et
+2. Pil kullanımında şüpheli artış var mı bak
+3. Fabrika ayarlarına bir kez daha dön ve sıfırdan kur
+4. Uygulamalarını tek tek, güncel kaynaklardan yükle
+ 5. Eski yedekten sadece fotoğrafları seçici olarak aktar, sistem yedeğini geri yükleme
+
+**Gerçek olay:** 2019'da Avrupa'da bir siber güvenlik araştırması, telefon tamir merkezlerinde müşteri cihazlarına fark edilmeden casus yazılım yüklendiğini ortaya çıkardı. Teknisyenler, ekran veya pil değişimi gibi rutin işlemler sırasında cihaza kısa süreli erişerek casus yazılım kuruyor, mağdurların tüm mesajlarını, fotoğraflarını ve arama kayıtlarını haftalarca izliyordu. Mağdurların çoğu, telefonlarında beklenmedik pil tüketimi veya veri kullanımı fark edene kadar izlendiklerini anlamadı. Bu olay, telefonu tamirciye vermeden önce fabrika ayarlarına döndürmenin ve tamir sonrası temiz kurulum yapmanın hayati önemini gösterdi.
+
+<Accordion question="Cihazına fiziksel müdahale yapıldığını nasıl anlarsın?" id="physical-tamper-signs">
+Telefonun bir süre başkasının elinde kaldıysa (tamir, kargo, devir) şu belirtilere bak:
+
+**Yazılım belirtileri:** Bilmediğin bir uygulama kurulmuş olabilir. Ayarlar > Uygulamalar listesini tara. Pil kullanımında normalden yüksek bir uygulama var mı kontrol et. Veri kullanımında beklenmedik artış var mı bak. Telefon normalden yavaş çalışıyor mu?
+
+**Fiziksel belirtiler:** Telefon kapağında açılma izi var mı? Vida yerlerinde çizik var mı? Ekran koruyucu yeniden takılmış gibi duruyor mu? SIM kart tepsisi yerinden oynamış mı?
+
+**Ne yapmalısın:** Şüpheleniyorsan hiç bekleme. Tüm verilerini yedekle, fabrika ayarlarına döndür, sıfırdan kur. Eski yedeği geri yükleme (yedek de bulaşık olabilir). Sadece fotoğraf ve belgeleri seçerek al.
+</Accordion>
+
+**Saldırı zinciri:** Cihaz emanet edildiğinde saldırgan genellikle üç yol dener. Birincisi: cihaza casus yazılım yüklemek. İkincisi: dokunmatik ekran desenini, parolayı veya PIN'i gözlemlemek (shoulder surfing). Üçüncüsü: cihazdaki verileri kopyalamak veya fotoğraflamak. En etkili korunma yöntemi: cihazını asla gözetimsiz bırakmamak. Bırakmak zorundaysan kapat veya uçuş moduna al. Fiziksel güvenlik, siber güvenliğin ilk ve en önemli katmanıdır.
+
+**Benzetme:** Telefonunu birine vermek, cüzdanını bir yabancıya açmaya benzer. Cüzdanı verirken içinde ne olduğunu bilirsin. Telefonu verirken içinde neler olduğunu biliyor musun?
+
+
+## İlgili Bölümler
+
+- [Casus Yazılım](/casus-yazilim/)
+- [Çalıntı veya Kayıp Telefon](/calinti-kayip/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Güvenli Silme ve Cihaz Devri](/guvenli-silme/)

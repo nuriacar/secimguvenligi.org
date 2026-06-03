@@ -1,0 +1,647 @@
+---
+import Base from '../layouts/Base.astro';
+import { chapters } from '../data/chapters';
+
+const cards = [
+  {
+    slug: '/temel-kavramlar',
+    do: [
+      'Her hesap için benzersiz parola kullan',
+      'İki adımlı doğrulama (2FA) aç',
+      'Güncellemeleri 24 saat içinde yükle',
+      'Herkese açık Wi-Fi ağında VPN kullan veya mobil veriye geç',
+      'Düzenli yedekleme al',
+      'Uygulama izinlerini gözden geçir',
+    ],
+    dont: [
+      'Aynı parolayı birden fazla yerde kullanma',
+      'Gelen bağlantılara göndereni kontrol etmeden tıklama',
+      'Bilinmeyen kaynaklardan uygulama yükleme',
+      'Bluetooth ve konumu sürekli açık bırakma',
+      'Güncellemeleri erteleme',
+      'Ekran kilidi olmadan telefonu bırakma',
+    ],
+  },
+  {
+    slug: '/tehdit-modelleme',
+    do: [
+      'Tehdit modelini kağıda dök ve ekipçe tartış',
+      'Rolüne uygun koruma seviyesini belirle',
+      'Eylem planını belirle ve uygulama takvimi koy',
+      'Ekipteki herkesin tehdit bilincini artır',
+      'Düzenli olarak tehdit modelini güncelle',
+    ],
+    dont: [
+      'Herkes için aynı koruma seviyesini uygulama',
+      'Tehdit modeli oluşturduktan sonra unutma',
+      'Paranoyak olup tüm iletişimi kesme',
+      'Teknik önlemleri alıp insan faktörünü ihmal etme',
+      'Yabancı istihbarat peşimde diyerek temel önlemleri atlama',
+    ],
+  },
+  {
+    slug: '/sosyal-muhendislik',
+    do: [
+      'Gelen talebi farklı bir kanaldan doğrula',
+      'Aciliyet baskısı yaratan mesajlara şüpheyle yaklaş',
+      'İki faktörlü doğrulama (2FA) aktif et',
+      'Hassas belgeleri çöpe atmadan önce yok et',
+      'Parolanı kimseyle paylaşma, teknik destek bile istememeli',
+      'USB bellek bulunca bilgisayarına takma',
+    ],
+    dont: [
+      'Mesajla gelen linke doğrudan tıklama',
+      'Telefonla gelen talebe hemen inanma ve parola verme',
+      '"Acil" diye panikle hareket etme',
+      'Kafe veya toplu taşımda hassas bilgiyi ekranda açık bırakma',
+      'Tanımadığın kişilere kapıyı tutma',
+      'E-posta eklerini kontrol etmeden indirme',
+    ],
+  },
+  {
+    slug: '/cevrimici-dolandiricilik',
+    do: [
+      'Fotoğrafları Google Görseller\'de tersine ara',
+      'Duygusal bağın ne kadar hızlı geliştiğine dikkat et',
+      'Acil para taleplerini sorgula, doğrula',
+      'Ailene veya arkadaşına bu kişiden bahset, dışarıdan bir göz daha objektif bakar',
+      'Kripto yatırımı yapmadan önce platformu bağımsız kaynaklardan araştır',
+    ],
+    dont: [
+      'Yüz yüze görüşmediğin kişiye para gönderme',
+      'Kişisel bilgilerini (adres, TC kimlik) tanımadığın kişiyle paylaşma',
+      'Kargo/fatura SMS\'lerindeki linklere tıklama, önce resmi siteyi kontrol et',
+      'İş tekliflerinde eğitim ücreti veya depozito isteyenlere güvenme',
+    ],
+  },
+  {
+    slug: '/cihaz-guvenligi',
+    do: [
+      '6+ haneli parola belirle',
+      'Yüz tanıma / parmak izi aç',
+      'Güncellemeleri 24 saat içinde yükle',
+      "Bluetooth'u kullanmadığında kapat",
+      'SIM kartına PIN koy',
+    ],
+    dont: [
+      '1234, doğum tarihi, telefon numarası parola olmaz',
+      'Halka açık USB ile şarj olma',
+      "Bilinmeyen USB'yi bilgisayara bağlama",
+      'Bluetooth "Herkes" modunda bırakma',
+    ],
+  },
+  {
+    slug: '/ag-ve-wifi-guvenligi',
+    do: [
+      'Modem yönetici şifresini değiştir (varsayılanı kullanma)',
+      'Kablosuz ağ şifreni en az 12 karakter belirle',
+      'WPA2 veya WPA3 şifreleme kullan',
+      'Modemi düzenli güncelle',
+    ],
+    dont: [
+      'Varsayılan kullanıcı adı ve şifreyi kullanma (admin/admin)',
+      'WEP şifreleme kullanma - dakikalar içinde kırılır',
+      'Doğum tarihi, soyad, 123456 gibi şifre belirleme',
+    ],
+  },
+  {
+    slug: '/hesap-parola',
+    do: [
+      'Her hesaba farklı parola',
+      'Parola yöneticisi kullan (Bitwarden)',
+      'İki aşamalı doğrulama aç (tüm hesaplar)',
+      'Kurtarma kodlarını kağıda yaz',
+    ],
+    dont: [
+      'Aynı parolayı birden fazla yerde kullanma',
+      "E-Devlet parolanı kimseye verme",
+      'Tarayıcıda "Parolayı hatırla" bırakma',
+      'Kurtarma kodlarını telefonda tutma',
+    ],
+  },
+  {
+    slug: '/internet-tarayici-guvenligi',
+    do: [
+      'Güncel bir tarayıcı kullan (Firefox, Brave)',
+      'Adres çubuğunda kilit simgesini kontrol et',
+      'Eklenti sayısını 5 ile sınırla, güvenilir kaynaklardan yükle',
+      'Reklam engelleyici kullan (uBlock Origin)',
+      'Üçüncü taraf çerezlerini engelle',
+    ],
+    dont: [
+      'Bilinmeyen eklentiler yükleme',
+      'Tüm çerezlere izin verme',
+      '"Güvenli değil" uyarısı alınca devam etme',
+      'Tarayıcıda şifre kaydetme (parola yöneticisi kullan)',
+    ],
+  },
+  {
+    slug: '/mesajlasma',
+    do: [
+      "WhatsApp Web'i açık bırakıp kalkma",
+      'Grup davetlerini "Yalnızca rehberimdekiler" yap',
+      'Signal kullan (en güvenli)',
+      'Ekran gizlilik filmi tak',
+    ],
+    dont: [
+      'SMS kodunu kimseye söyleme',
+      '"Şok haber" linklerine tıklama',
+      'Banka arıyor diye parola verme',
+      'Kalabalıkta açık telefonla parola girme',
+    ],
+  },
+  {
+    slug: '/eklenti-ve-uygulama-izinleri',
+    do: [
+      'Her uygulamanın izinlerini düzenli kontrol et',
+      'Konum için "Kullanırken" seçeneğini tercih et',
+      'Sadece gerekli izinlere izin ver',
+      'Fotoğraflar için "Sınırlı Erişim" kullan',
+    ],
+    dont: [
+      'Tüm izinleri açıp kullanmaya başlama',
+      'Her uygulamaya arka plan konum izni verme',
+      'Bilinmeyen kaynaklardan uygulama yükleme',
+    ],
+  },
+  {
+    slug: '/veri-paylasimi',
+    do: [
+      'Kaybolan mesajları tüm hassas sohbetlerde etkinleştir',
+      'Signal veya Telegram gizli sohbet kullan',
+      'PDF ve Office belgelerine parola koy',
+      'Parolayı dosyayı gönderdiğin kanaldan ayrı bir kanal ile ilet',
+      'VPN kullanarak internete bağlan, bağlantı kesiciyi etkinleştir',
+      'Bitwarden Send gibi şifreli paylaşım araçları tercih et',
+    ],
+    dont: [
+      'Hassas dosyaları WhatsApp grubunda korumasız paylaşma',
+      'Google Drive linkini "linki bilen herkes" olarak ayarlama',
+      'Ücretsiz VPN kullanma',
+      'Otel veya kafe kablosuz ağında VPN\'siz gezinme',
+      'Parolayı dosyanın ekinde veya aynı mesajda iletme',
+    ],
+  },
+  {
+    slug: '/sosyal-medya',
+    do: [
+      'Profilini "özel" yap, sadece takipçilerin görsün',
+      'Telefon numaranı profilinde gizli tut',
+      'Konum etiketlemeyi kapat',
+    ],
+    dont: [
+      'Adres, günlük rutin, konum etiketi paylaşma',
+      'Herkesin profilini ve gönderilerini görmesine izin verme',
+      'Telefon numaranı herkese açık bırakma',
+    ],
+  },
+  {
+    slug: '/guvenli-odeme',
+    do: [
+      'Sanal kart kullan, limitini anlık belirle',
+      'Alışveriş öncesi sitesini ve yorumlarını araştır',
+      '3D Secure doğrulamasını her zaman açık tut',
+    ],
+    dont: [
+      'Tanımadığın sitede kart bilgisi girme',
+      'Hediye çeki, kupon vaatlerine tıklama',
+      'Kart bilgilerini telefon veya mesajla paylaşma',
+    ],
+  },
+  {
+    slug: '/dijital-ayak-izi-ve-mahremiyet',
+    do: [
+      'DuckDuckGo gibi gizli arama motoru kullan',
+      'Sosyal medya profillerini gizli yap',
+      'Çerezleri düzenli temizle',
+      'Gereksiz uygulamaları sil',
+      'Dijital ayak izini düzenli kontrol et',
+    ],
+    dont: [
+      'Konum paylaşımını herkese açık bırakma',
+      'Her siteye gerçek bilgilerini verme',
+      'Tüm çerezlere izin verme',
+      'Bilinmeyen uygulamalara kişisel veri verme',
+    ],
+  },
+  {
+    slug: '/haftalik-kontrol',
+    do: [
+      'Hedef haftada bir kontrol, en az ayda bir',
+      'Haftalık kontrolleri belirli bir güne ve saate planla',
+      'Her kontrol sonucunu not al ve değişiklikleri takip et',
+      'Kontrol sırasında şüpheli bir şey bulduğunda sakin davran',
+      'Bağlı cihaz ve hesap girişlerini her hafta sırasıyla kontrol et',
+    ],
+    dont: [
+      'Kontrolü bir hafta atlayıp sonraya bırakma',
+      'Sadece bir şeyden şüphelendiğinde kontrol yapma',
+      'Kontrol listesini hızlıca göz atıp detayları atlama',
+      'Şüpheli bir uygulama veya giriş bulunca görmezden gelme',
+    ],
+  },
+  {
+    slug: '/secim-gunu',
+    do: [
+      'Kendi mobil verini kullan',
+      'Telefonu üstünde (iç cepte) taşı',
+      'Yüzleri, oy pusulalarını gizle',
+    ],
+    dont: [
+      "Parola koruması olmayan Wi-Fi'ye bağlanma",
+      'Kaynağı belirsiz QR kod tarama',
+      'Ortak bilgisayardan hesaba girme',
+      'Doğrulanmamış içerik yayma',
+    ],
+  },
+  {
+    slug: '/emanet-guvenligi',
+    do: [
+      'Ekran sabitleme aç, sonra telefonu ver',
+      'Vermeden önce çıkış yap ve SIM kartı çıkar',
+      'Geri alınca uygulama listesini kontrol et',
+    ],
+    dont: [
+      'Telefonu gözünden ayırma',
+      'Fabrika ayarlarına dönmüş olsa bile kontrolleri atlama',
+      'Kilit ekranı açıkken telefonu herhangi birine verme',
+    ],
+  },
+  {
+    slug: '/yedekleme-ve-veri-kurtarma',
+    do: [
+      '3-2-1 kuralını uygula: 3 kopya, 2 ortam, 1 farklı konum',
+      'Haftada bir otomatik yedekleme ayarla',
+      'Yedeklerin çalıştığını ayda bir kontrol et',
+      'Yedekleri şifreli tut (parola veya şifreleme ile)',
+    ],
+    dont: [
+      'Sadece telefonda tutma - her an kaybolabilir',
+      'Yedeklemeyi "bir gün" erteleme',
+    ],
+  },
+  {
+    slug: '/guvenli-silme',
+    do: [
+      'Hesaptan çıkış yap, sonra fabrika ayarlarına döndür',
+      'İkinci ele satmadan önce mutlaka sıfırla',
+    ],
+    dont: [
+      'Hesaptan çıkmadan sadece dosyaları silme',
+      'Find My iPhone / Google hesabını açık bırakma',
+    ],
+  },
+  {
+    slug: '/seyahat-sinir',
+    do: [
+      'Seyahate temiz cihazla çık',
+      'Sanal özel ağ (VPN) kullan',
+      'Büyükelçilik numaralarını önceden kaydet',
+      'Sınırda biyometrikle açılan cihaz verme',
+    ],
+    dont: [
+      'Otel kasasında değerli cihaz bırakma',
+      'Kablosuz ağa VPN olmadan bağlanma',
+      'Asıl telefonu seyahate götürme',
+      'Sınırda cihaza el konulduğunda itiraz etme',
+    ],
+  },
+  {
+    slug: '/calinti-kayip',
+    do: [
+      'Cihazı uzaktan kilitle ("Cihazımı Bul")',
+      'SIM kartı derhal askıya aldır',
+      'Tüm hesaplardan çıkış yap',
+      'E-posta ve banka parolalarını değiştir',
+      'Polise kayıp/çalıntı tutanağı bildir',
+    ],
+    dont: [
+      'Panik yaparak telefonu aramaya devam etme',
+      'Yedekleme yapmaya çalışma (veriler sızdırılıyor olabilir)',
+      'SIM kartı askıya aldırmayı geciktirme',
+    ],
+  },
+  {
+    slug: '/tehdit-santaj',
+    do: [
+      'Şüpheli mesajı ekran görüntüsü ile güvenlik sorumlusuna ilet',
+      'Link tıklamadan önce kaynağı doğrulat',
+    ],
+    dont: [
+      'Güvenlik sorumlusundan onay almadan linke dokunma',
+      '"Sayın Başkan" diye başlayan mesajlardaki linklere güvenme',
+      'Parti genel merkezinden geldiğini iddia eden mesajlardaki linklere tıklama',
+    ],
+  },
+  {
+    slug: '/santaj-ve-kriz',
+    do: [
+      'Kanıtları derhal kaydet: ekran görüntüsü, mesaj kayıtları, IP bilgileri',
+      'Avukata ve savcılığa başvur',
+      'Materyalin gerçek olup olmadığını uzmana doğrulat',
+      'Hesap güvenliğini gözden geçir, kök nedeni bul ve kapat',
+      'Kriz iletişim danışmanıyla birlikte hareket et (kamuoyu figürüysen)',
+    ],
+    dont: [
+      'Paniğe kapılıp ödeme yapma',
+      'Şantajcıyla pazarlık yapma veya tehdit etme',
+      'Kanıt olan mesajları silme',
+      'Tek başına açıklama yapma (avukat onayı olmadan)',
+      'Olayı görmezden gelip hiçbir adım atmama',
+    ],
+  },
+  {
+    slug: '/virus-ve-kotu-amacli-yazilimlar',
+    do: [
+      'İşletim sistemini ve uygulamaları güncel tut',
+      'Windows Defender kullan, yeterlidir',
+      'Düzenli yedekleme al (fidye yazılımına karşı)',
+      'Şüpheli bağlantılara tıklamadan önce düşün',
+    ],
+    dont: [
+      'Ücretsiz antivirüs programları yükleme (şişmeye gerek yok)',
+      'Bilinmeyen kaynaktan uygulama indirme',
+      'Masada bulduğun USB belleği bilgisayarına takma',
+      'Fidye yazılımında ödeme yapma',
+    ],
+  },
+  {
+    slug: '/casus-yazilim',
+    do: [
+      'Şüpheli uygulamaların ekran görüntüsünü al ve yedekle',
+      'Pil ve veri kullanım kayıtlarını başka cihaza aktar',
+      'E-posta ve banka parolalarını güvenilir başka cihazdan değiştir',
+      'İki aşamalı doğrulamayı açık olduğundan emin ol',
+    ],
+    dont: [
+      'Fabrika ayarlarına hemen dönüp kanıtları yok etme',
+      'Telefondan şüpheli bir şey fark ettiğinde hemen parola değiştirme',
+      'Casus yazılım temizleyici uygulamalara güvenerek yükleme',
+      'Şüphelendiğini telefonda yazışarak veya konuşarak ifade etme',
+    ],
+  },
+  {
+    slug: '/casus-yazilim-teshisi',
+    do: [
+      'Telefonu arada sırada kapat-aç (şüphelenmesen bile)',
+      'iPhone Kilit Modu aç (yüksek risk)',
+      'Haftalık kontrol yap',
+    ],
+    dont: [
+      "Bilinmeyen .apk dosyası indirme",
+      'Şüpheli mesajlardaki linklere tıklama',
+      '"Sistem Servisi" gibi gizlenmiş uygulamaları gözden kaçırma',
+    ],
+  },
+  {
+    slug: '/hesap-calma',
+    do: [
+      'Panik yapma, hızlı hareket et',
+      'Hesaba girmeyi dene, parola değiştir',
+      'Erişemiyorsan: parolamı unuttum',
+      'Tüm cihazlardan çıkış yap',
+    ],
+    dont: [
+      'Vakit kaybetme - her saniye önemli',
+      'Aynı parolayı tekrar kullanma',
+      'Kurtarma seçeneklerini kontrol etmeden bırakma',
+    ],
+  },
+  {
+    slug: '/cift-telefon',
+    do: [
+      'İş ve özel hayat için iki ayrı telefon kullan',
+      'Özel telefonu her zaman yanında tut',
+      'İş telefonunu danışmanlarla paylaş',
+    ],
+    dont: [
+      'Özel telefonu başkasına verme',
+      'Özel telefonu şarja bırakıp gitme',
+      'Özel telefonu toplantı masasında açık bırakma',
+    ],
+  },
+  {
+    slug: '/yakin-calisma-ekibi',
+    do: [
+      'Acil durumda geçici erişim ver, iş bitince parolayı değiştir',
+      'Sosyal medya için Business Manager / Teams rolü kullan',
+      'Personel ayrılınca yetkileri tek tıkla geri al',
+    ],
+    dont: [
+      'Yakın çalışma ekibi parolasını siyasetçinin hesabına verme',
+      'Danışmanlara sosyal medya parolasını paylaşma',
+      'Ayrılan personelin yetkilerini kaldırmayı unutma',
+    ],
+  },
+  {
+    slug: '/yasal-haklar',
+    do: [
+      'Delilleri derhal kaydet: ekran görüntüsü, mesaj kayıtları, IP bilgileri',
+      'Savcılığa suç duyurusunda bulun, geciktirme',
+      'KVKK başvuru hakkını kullan: verilerini taşı, sil veya düzelt talep et',
+      'Dijital kanıtları yedekle: bulut ve fiziksel kopya',
+    ],
+    dont: [
+      'Olayı görmezden gelip hiçbir adım atmama',
+      'Kanıt olan mesajları, e-postaları veya dosyaları silme',
+      'Sosyal medyadan açıkça suçlama yapma (hukuki süreç zarar görebilir)',
+      'Şüpheliyle doğrudan iletişime geçme veya tehdit etme',
+    ],
+  },
+  {
+    slug: '/dijital-miras',
+    do: [
+      'Google Etkin Olmayan Hesap Yöneticisi\'ni şimdi ayarla',
+      'Apple Legacy Contact (Miras Bağlantısı) ekle',
+      'Şifre yöneticisinde acil durum erişimi kur',
+      'Dijital varlık envanteri çıkar, yılda bir güncelle',
+      'Güvendiğin birine envanterin yerini söyle (içeriğini değil)',
+    ],
+    dont: [
+      'Şifrelerini kâğıda yazıp çekmeceye koyma',
+      'Hiçbir şey yapmayıp ailen halleder sanma',
+      'Kripto para cüzdan anahtarlarını yalnızca kafanda taşıma',
+    ],
+  },
+  {
+    slug: '/aile-guvenlik',
+    do: [
+      'Aile üyeleri için güçlü parola ve iki aşamalı doğrulama kur',
+      'Çocukların sosyal medya hesaplarını gizli tut',
+      'Aile üyelerine oltalama farkındalığı eğitimi ver',
+      'WhatsApp Web ve bağlı cihazları düzenli kontrol et',
+    ],
+    dont: [
+      'Ailenin konumunu ve programını sosyal medyada paylaşma',
+      'Eşle ortak iCloud veya Google hesabı kullanma',
+      'Eşin telefonunda iş belgeleri veya strateji mesajları taşıma',
+      'Tanınmayan kişilerden gelen siyasetçi adına mesajlara itibar etme',
+    ],
+  },
+  {
+    slug: '/cocuk-dijital-guvenlik',
+    do: [
+      'Çocuğun fotoğrafını sosyal medyada paylaşırken yüzünü gizle',
+      'Çocuğun cihazlarında ebeveyn kontrolü aktif et',
+      'Çocuğun oyunlarda yabancılarla mesajlaşma özelliğini kapat',
+      'Çocuğa temel dijital güvenlik kurallarını yaşına uygun dille anlat',
+      'Çocuğun tüm hesaplarında iki aşamalı doğrulamayı aktif et',
+    ],
+    dont: [
+      'Çocuğun adını, okulunu, rutinlerini sosyal medyada paylaşma',
+      'Çocuğun sosyal medya hesabını herkese açık bırakma',
+      'Çocuğun arkadaş listelerini kontrol etmeden bırakma',
+      'Siber zorbalık belirtilerini (içe kapanma, okul başarısında düşüş) görmezden gelme',
+    ],
+  },
+  {
+    slug: '/siber-zorbalik-ve-dijital-siddet',
+    do: [
+      'Ekran görüntüsü al, kanıt topla',
+      'Saldırganı engelle ve platforma bildir',
+      'Güvenilir birine anlat, yalnız kalma',
+      'Hukuki yardım al (savcılığa başvur)',
+    ],
+    dont: [
+      'Saldırgana cevap verme, bu onu güçlendirir',
+      'Kanıtları silme, sakla',
+      'Utandığın için sessiz kalma',
+    ],
+  },
+  {
+    slug: '/bilgi-savasi',
+    do: [
+      'Duygusal tetikleyene dikkat et (öfke, korku)',
+      'Kaynağı kontrol et',
+      'En az 2 bağımsız kaynaktan doğrula',
+      'Paylaşmadan önce 5 dakika bekle',
+    ],
+    dont: [
+      '"Kesin sonuç" gibi sunulan hiçbir şeye inanma',
+      'Ters görsel arama yapmadan fotoğrafa inanma',
+      '"Hemen paylaşmazsan kaybederiz" baskısına yenilme',
+    ],
+  },
+  {
+    slug: '/dezenformasyon',
+    do: [
+      'Haberi en az iki bağımsız kaynakta ara',
+      'Ters görsel arama ile fotoğrafı doğrula',
+      'URL ve kaynağın güvenilirliğini kontrol et',
+      'Sadece başlığı değil haberin tamamını oku',
+    ],
+    dont: [
+      'Duygusal tepki veren haberi hemen paylaşma',
+      '"Herkes paylaşıyor" diyerek düşünmeden katılma',
+      'Sahte gazete logosu taşıyan habere güvenme',
+      'Doğrulanmamış "son dakika" iddialarını iletme',
+    ],
+  },
+  {
+    slug: '/bot-hesaplar',
+    do: [
+      'Şüpheli hesapları not et ve ekran görüntüsü al',
+      'Koordineli sahte hesap ağı olarak toplu bildirim yap',
+      'YSK ve BTK\'ya resmi şikayette bulun',
+      'Botların içeriğini retweet veya beğeni ile amplifiye etme',
+    ],
+    dont: [
+      'Botların paylaştığı içeriği "retweet" veya "beğeni" ile yayma',
+      '"Bu kadar kişi söylüyorsa doğrudur" diyerek kanıt aramadan inanma',
+      'Bot saldırısına duygusal tepki verme',
+      'Şüpheli hesapları görmezden gelip sessiz kalma',
+    ],
+  },
+  {
+    slug: '/secim-ihlalleri',
+    do: [
+      'Paylaşımlarında seçim kanunlarına aykırı ifadeden kaçın',
+      'Sandık sonuçlarını resmi kanallardan (YSK/SCS) paylaş',
+      'Kişisel verileri KVKK\'ya uygun kullan',
+      'İhlal tespit ettiğinde kanıtı koru ve yetkili kurumlara bildir',
+    ],
+    dont: [
+      'Yasak saatlerinde sosyal medyadan paylaşım yapma',
+      'Adayın özel hayatına ilişkin içerik paylaşma',
+      'Doğrulanmamış "son dakika" iddialarını iletme',
+      'Sandık çevresinde fotoğraf veya canlı yayın yapma',
+    ],
+  },
+  {
+    slug: '/deepfake',
+    do: [
+      'Ailenle ve ekiple güven kelimesi (safe word) belirle',
+      'Telefonla gelen talepleri farklı kanaldan doğrula',
+      'Videoda dudak senkronizasyonu ve yüz hareketlerini kontrol et',
+      'Kritik açıklamalar için önceden belirlenmiş doğrulama kanalları kullan',
+    ],
+    dont: [
+      '"Acil" diye telaşlandıran aramaya hemen inanma',
+      'Tek kanaldan gelen bilgiye güvenme',
+      'Ses veya video kalitesi iyi diye hemen gerçek sayma',
+      'Kritik videoyu yalanlamadan sessiz kalma',
+    ],
+  },
+];
+
+const chapterMap = new Map(chapters.map(c => [c.slug, c.title]));
+---
+
+<Base title="Kontrol Kartları" description="Yazdırılabilir kontrol kartları - her bölümün kritik yap/yapma kuralları" image="/img/hero/kontrol-kartlari.webp">
+  <img class="hero-img i-hero-img" src="/img/hero/kontrol-kartlari.webp" alt="Kontrol Kartları" width="2912" height="1440" />
+  <h1 class="i-page-title-alt2">Kontrol Kartları</h1>
+  <p class="i-subtitle-dim">Her bölümün en kritik yap / yapma kurallarını tek kart boyutunda özetleyen yazdırılabilir şablonlar.</p>
+
+  <button onclick="window.print()" class="i-print-btn">Yazdır / PDF Kaydet</button>
+
+  <div data-pagefind-body>
+
+    <div class="i-grid-auto">
+      {cards.map((card, i) => (
+        <div class="i-card-flat">
+          <div class="i-card-header">
+            <h2 class="i-card-header-title">Kart {i + 1}: {chapterMap.get(card.slug)}</h2>
+          </div>
+          <div class="i-card-body-grid">
+            <div>
+              <div class="i-do-heading">Bunu Yap</div>
+              <ul class="i-checklist">
+                {card.do.map(item => (
+                  <li><span class="i-text-do">&#10003;</span> {item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div class="i-dont-heading">Bunu Yapma</div>
+              <ul class="i-checklist">
+                {card.dont.map(item => (
+                  <li><span class="i-text-dont">&#10007;</span> {item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="i-callout">
+      <h2 class="i-h2-bright">Baskı ve Kullanım</h2>
+      <ul class="i-info-list">
+        <li>Her kart A6 boyutunda (105 x 148 mm) yazdırılabilir</li>
+        <li>Çift yüzlü renkli baskı önerilir (yeşil: yap, kırmızı: yapma)</li>
+        <li>Kredi kartı boyutunda kesip cüzdana koyabilirsin</li>
+        <li>Laminate ederek dayanıklı hale getirebilirsin</li>
+        <li>Seçim ofislerinde ve eğitimlerde dağıtmak için idealdir</li>
+      </ul>
+    </div>
+
+    <div class="i-mb-6">
+      <h2 class="i-h2-bright">İlgili Bölümler</h2>
+      <ul class="i-info-list">
+        <li><a href="/acil-durum-karti/" class="link">Acil Durum Kartı</a> — kritik anlarda hızlı başvuru rehberi</li>
+        <li><a href="/haftalik-kontrol/" class="link">Haftalık Kontrol Listesi</a> — düzenli güvenlik taraması şablonu</li>
+      </ul>
+    </div>
+
+  </div>
+</Base>

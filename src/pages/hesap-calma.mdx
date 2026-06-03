@@ -1,0 +1,139 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Hesap Çalındığında Acil Protokol'
+description: 'Sosyal medya, e-posta veya e-Devlet hesabın çalındığında ilk yapman gerekenler.'
+order: 27
+audience: [V]
+hero: '/img/hero/hesap-calma.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+import AudienceBadge from '../components/AudienceBadge.astro';
+
+<AudienceBadge audience="V" />
+
+Bir sabah uyandın ve Instagram'a giremiyorsun. "Parola yanlış" diyor. Parolayı sıfırlamaya çalışıyorsun, kurtarma e-postası değiştirilmiş. Telefonuna bir mesaj geliyor: "Hoş geldin, yeni cihazında iki aşamalı doğrulama aktif edildi." O mesajı sen göndermedin. Hesabın artık senin değil. İçinde bir boşluk, midende ağırlık. Ama paniğe gerek yok: ilk saniyede atacağın adımlar, her şeyi geri almanı sağlayabilir.
+
+**Özlü kural:** Hesabının çalındığını fark ettiğin ilk saniye, en kritik saniyedir. Ne kadar erken harekete geçersen, o kadar az veri kaybedersin.
+
+<Alert level="critical">Panik yapma ama hızlı hareket et. İlk 5 dakika kritik: saldırgan bu sürede parolayı, kurtarma e-postasını ve telefon numarasını değiştirebilir.</Alert>
+
+Sosyal medya, e-posta veya e-Devlet hesabının çalındığını fark edersen:
+
+## <span class="heading-num">27.1</span> İlk 5 Dakika (0-5 dakika)
+
+1. **Telefonunu kontrol et:** SMS ile gelen "parolan değiştirildi" veya "yeni cihazdan giriş yapıldı" bildirimi var mı?
+2. **Hesaba girmeyi dene:** Hâlâ erişebiliyorsan derhal parolayı değiştir ve iki aşamalı doğrulama aç.
+3. **Erişemiyorsan:** "Parolami unuttum" ile sıfırlamayı dene. E-postana erişimin varsa sıfırlama linki gelir.
+4. **Banka hesabın bağlıysa:** Bankanı ara, internet bankacılığını geçici olarak kapattır.
+
+## <span class="heading-num">27.2</span> 5-30 Dakika Arası
+
+1. Kurtarma e-postasını kontrol et: saldırgan e-postanı değiştirdiyse, eski e-postana bir bildirim gelmiş olabilir
+2. E-postana erişemiyorsan: e-posta sağlayıcının destek formunu kullan (Google, Microsoft, Yahoo)
+3. Telefonun "şebeke yok" diyorsa: SIM swap saldırısı olabilir, operatörü derhal ara
+4. E-Devlet hesabın varsa: e-Devlet kapısı çağrı merkezi üzerinden hesabını kilitle
+
+## <span class="heading-num">27.3</span> Saldırgan E-postayı Değiştirdiyse
+
+Saldırgan kurtarma e-postasını kendi e-postasına değiştirdiyse normal kurtarma yolları çalışmaz:
+
+1. Platformun destek formunu kullan (facebook.com/hacked, Google Destek)
+2. Kimlik doğrulama sürecine hazırlan: kimlik fotokopisi, selfie istenebilir
+3. Hesap ne kadar eskiyse, kurtarma ihtimalin o kadar yüksek
+4. Bekleme süresi 1-7 gün arası olabilir
+
+## <span class="heading-num">27.4</span> SIM Swap Saldırısı
+
+Telefonun aniden "şebeke yok" diyorsa ve çekiyorsan, birisi kimliğinle operatöre gidip numaranı kendi SIM kartına aktarmış olabilir.
+
+1. Başka bir telefondan operatörü derhal ara
+2. SIM kartını iptal ettir, yenisini çıkar
+3. SMS ile gelen doğrulama kodları artık saldırgana gidiyordur: tüm hesaplarının parolalarını değiştir
+4. Banka hesaplarını kontrol et: SIM swap ile banka hesabı da ele geçirilebilir
+
+## <span class="heading-num">27.5</span> Çalınma Sonrası Temizlik
+
+Hesabı kurtardıktan sonra:
+
+- Tüm aktif oturumları sonlandır ("Tüm cihazlardan çıkış yap")
+- İki aşamalı doğrulamayı aç (açık değilse)
+- Parolayı değiştir (daha önce kullanmadığın, güçlü bir parola)
+- Hesabından gönderilmiş olan tanımadığın mesajları, paylaşımları sil
+- Takipçilerine "Hesabım ele geçirilmişti, son mesajlara itibar etmeyin" bildirimi yap
+- Kurtarma seçeneklerini (telefon, yedek e-posta) kontrol et, değiştirilmiş mi bak
+
+## <span class="heading-num">27.6</span> Platform Bazlı Kurtarma
+
+<table>
+<thead>
+<tr><th>Platform</th><th>Kurtarma Adresi</th></tr>
+</thead>
+<tbody>
+<tr><td>Facebook / Instagram</td><td>facebook.com/hacked</td></tr>
+<tr><td>X (Twitter)</td><td>twitter.com/account/begin_password_reset</td></tr>
+<tr><td>Google (Gmail)</td><td>accounts.google.com/signin/recovery</td></tr>
+<tr><td>TikTok</td><td>tiktok.com/feedback/report</td></tr>
+<tr><td>LinkedIn</td><td>linkedin.com/help/linkedin/asks</td></tr>
+<tr><td>Telegram</td><td>telegram.org/support</td></tr>
+<tr><td>E-Devlet</td><td>Çağrı merkezi veya PTT şubesi</td></tr>
+</tbody>
+</table>
+
+<Checklist title="Hesabım Çalındı: Acil Kontrol Listesi">
+<li>Hesaba girmeyi denedim (parola değiştirildi mi?)</li>
+<li>Kurtarma e-postasını kontrol ettim</li>
+<li>SMS doğrulama kodları hâlâ bana geliyor mu?</li>
+<li>SIM swap kontrolü yaptım (şebeke var mı?)</li>
+<li>Platform destek formunu doldurdum</li>
+<li>Banka hesaplarımı kontrol ettim</li>
+<li>E-Devlet hesabımı kontrol ettim</li>
+<li>Kurtarma sonrası tüm oturumları kapattım</li>
+<li>İki aşamalı doğrulamayı açtım</li>
+</Checklist>
+
+<DoDont items={[
+  { text: 'Hesabı fark ettiğin anda parola değiştirmeyi dene', type: 'do' },
+  { text: 'SIM swap şüphesinde operatörü derhal ara', type: 'do' },
+  { text: 'Kurtarma sonrası tüm oturumları kapat', type: 'do' },
+  { text: 'Banka hesaplarını kontrol et', type: 'do' },
+  { text: 'Saldırgana ulaşmaya veya pazarlık yapmaya çalış', type: 'dont' },
+  { text: 'Aynı parolayı tekrar kullan', type: 'dont' },
+  { text: 'Hesabı kurtarmadan sosyal medyada paylaş', type: 'dont' },
+]} />
+
+<Scenario label="Senaryo: Instagram Hesabı Çalındı">
+Sabah uyandın, telefonuna "Instagram'dan çıkış yapıldı" bildirimi geldi. Uygulamayı açtın, parola değiştirilmiş. E-postana baktın, "e-posta adresin değiştirildi" mesajı var. Ne yapacaksın? Önce facebook.com/hacked adresinden hesap kurtarma sürecini başlat. Aynı anda e-posta sağlayıcının destek formunu doldur. SIM kartının çalıştığından emin ol (çalışmıyorsa SIM swap olabilir). Banka hesapların bu e-postaya bağlıysa bankanı ara. 1-3 gün içinde kimlik doğrulama ile hesabını geri alabilirsin.
+</Scenario>
+
+**Gerçek olay:** 2020 yılında Twitter'a sızan hackerlar, Barack Obama, Joe Biden, Elon Musk ve Jeff Bezos gibi yüz milyonlarca takipçisi olan hesapları ele geçirdi. Hesaplardan "Bitcoin gönder, ikiye katlayıp geri gönderirim" tweeti atıldı ve saatler içinde 100.000 dolardan fazla toplandı. Saldırganlar hesap parolalarını değil, Twitter'ın kendi iç sistem yetkilerini kötüye kullandı. Bu olay, hesabının çalınmasının sadece senin hatan olmayabileceğini, platformun kendisinin de güvenlik açığı barındırabileceğini gösterir.
+
+**Saldırı zinciri:** Hesabın çalındığında saldırganın ilk yaptığı şey, hesabını bir "kale" olarak kullanmaktır. Önce rehberini, mesajlarını ve yazışmalarını inceler, kimlerle iletişimde olduğunu öğrenir. Sonra arkadaşlarına, ailene veya iş ortaklarına senden geliyormuş gibi mesajlar gönderir. Bu ikinci dalga saldırısı çok daha başarılı olur çünkü mesaj senin hesabından geliyor gibi görünür. Zincir büyümeye devam eder: her yeni ele geçirilen hesap bir sonraki saldırının üssü olur. 2020 Twitter hack'inde saldırganlar iç sisteme sızdıktan sonra tam olarak bu yöntemi kullandılar ve Obama, Biden gibi hesapları ele geçirdiler.
+
+<Accordion question="Hesabım çalındı diye utanmalı mıyım?" id="no-shame">
+**Kesinlikle hayır.** Hesap çalınması, senin hatan değildir. 2020 Twitter hack'inde dünyanın en güçlü insanlarının hesapları çalındı. 2021'de Pegasus ile devlet başkanlarının telefonları dinlendi. 2023'te yüzlerce milletvekilinin e-posta hesapları sızdırıldı. En büyük güvenlik açığı sen değil, kullandığın platformlardır.
+
+**Utanç en tehlikeli duygudur.** Utanırsan susarsın. Susarsan zaman kaybedersin. Zaman kaybedersen daha çok veri sızar. Unutma: siber güvenlik sadece teknik bir konu değil, aynı zamanda psikolojik bir savaştır. Saldırganlar utancını silah olarak kullanır. Bu silahı onların elinden al: hemen harekete geç ve birine anlat.
+
+**Hesabın çalındıysa yapacakların basit:**
+1. Panik yapma, protokolü uygula
+2. Çevrendekilere haber ver ("Hesabım ele geçirildi, gelen mesajlara itibar etmeyin")
+3. Yetkililere bildir
+4. Bu deneyimden öğren, sonraki adımda güçlen
+</Accordion>
+
+Şimdi gidip iki aşamalı doğrulamayı aç. Hatırlaman gereken tek şey o.
+
+**Benzetme:** Hesabın çalınması, arabanın çalınması gibidir. İlk saniyede polisi ararsan araba bulunur. Bir gün bekleyip "belki kendisi döner" dersen, araba çoktan sökülmüştür.
+
+
+## İlgili Bölümler
+
+- [Yasal Haklar](/yasal-haklar/)
+- [Hesap ve Parola](/hesap-parola/)
+- [Kriz Karar Ağacı](/kriz/)
+- [Sosyal Mühendislik](/sosyal-muhendislik/)

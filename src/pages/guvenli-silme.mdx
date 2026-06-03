@@ -1,0 +1,93 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Güvenli Silme ve Cihaz Devri'
+description: 'Telefon, tablet veya bilgisayarı satmadan, vermeden veya bağışlamadan önce verilerini güvenli şekilde temizleme.'
+order: 19
+audience: V
+hero: '/img/hero/guvenli-silme.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+
+<AudienceBadge audience="V" />
+
+Telefonunu satacaksın. Ya da çocuğuna vereceksin. Belki iş yerindeki eski bilgisayarları topluca bağışlayacaksın. İçinde fotoğrafların, mesajların, banka uygulamaların var. "Sildim, tamam" deme. Silmekle temizlemek aynı şey değil.
+
+**Hızlı ipucu:** Telefonu satmadan önce kendine sor: "Elimde olsaydı, bu cihazdaki eski sahibinin verilerini kurtarabilir miydim?" Cevabın "hayır" olmalı.
+
+## Telefonu Satmadan veya Vermeden Önce
+
+Üç adım, unutma:
+
+1. **Hesabından çıkış yap.** iPhone'da "Find My iPhone"u kapat, Android'de Google hesabını kaldır. Unutursan yeni sahibi telefonu açamaz, sana geri getirmek zorunda kalır.
+
+2. **İçindekileri yedekle.** Fotoğraflar, rehber, notlar. Buluta veya bilgisayarına al. Bir daha göremeyeceğini varsay.
+
+3. **Fabrika ayarlarına döndür.** iPhone: Ayarlar > Genel > Sıfırla > Tüm İçerik ve Ayarları Sil. Android: Ayarlar > Sistem > Sıfırla > Fabrika ayarlarına sıfırla.
+
+Telefon kutusundan çıkmış gibi "Merhaba" ekranı gösteriyorsa tamamdır.
+
+<DoDont items={[
+  { text: 'Hesaptan çıkış yap, sonra fabrika ayarlarına döndür', type: 'do' },
+  { text: 'Hesaptan çıkmadan sadece dosyaları sil', type: 'dont' },
+  { text: 'İkinci ele satmadan önce mutlaka sıfırla', type: 'do' },
+  { text: 'Find My iPhone / Google hesabını açık bırak', type: 'dont' },
+]} />
+
+## Bilgisayarı Satmadan veya Vermeden Önce
+
+1. **Hesabından çıkış yap.** Windows: Microsoft hesabını kaldır. Mac: iCloud'dan çıkış yap.
+
+2. **Disk şifreleme varsa kapat.** BitLocker (Windows) veya FileVault (Mac) varsa kapat. Açık kalırsa yeni sahibi bilgisayarı açamaz.
+
+3. **Sıfırla.** Windows: Ayarlar > Güncelleştirme ve Güvenlik > Bu bilgisayarı sıfırla > Her şeyi sil. Mac: Bilgisayarı kapat, açılırken Command+R basılı tut > Disk Yardımcı Programı > diski seç > Sil.
+
+Bilgisayar ilk açılışta "Bölge Seçin" ekranına geliyorsa tamamdır.
+
+## Eski Telefonu Çocuğuna Verirken
+
+Aynı üç adımı uygula (çıkış, yedek, sıfırla). Ardından:
+
+4. **Çocuğuna kendi hesabını aç.** iPhone'da Aile Paylaşımı ile 13 yaş altı Apple ID'si oluşturabilirsin. Android'de Google Family Link ile çocuk hesabı aç.
+
+5. **Kısıtlama koy.** Ekran süresi, uygulama izinleri, satın alma onayı. iPhone'da "Ekran Süresi", Android'de "Family Link" üzerinden ayarlayabilirsin.
+
+<Alert level="tip">Çocuğuna verdiğin telefonda kendi fotoğraflarının, mesajlarının veya banka uygulamalarının kalıntısı kalmadığından emin ol. Sıfırlama sonrası telefonu kurmadan önce depolamada dosya kalıntısı var mı kontrol edebilirsin.</Alert>
+
+## "Sildim, Yine de Kurtarılır mı?"
+
+Kafan rahat olsun diye:
+
+- **Telefon ve tablette** fabrika ayarlarına döndürmek yeterli. Veriler şifrelenir ve anahtar atılır. Profesyonel kurtarma firmaları bile okuyamaz.
+
+- **Bilgisayarda** sadece "Çöp Kutusu"nu boşaltmak yetmez. Ama "Bu bilgisayarı sıfırla" dediğinde gelen "dosyaları kaldır ve sürücüyü temizle" seçeneği yeterlidir.
+
+- **SSD'li bilgisayarlar** (2015 sonrası çoğu bilgisayar): Sıfırlamak yeterli. SSD'ler veriyi kendi kendine temizler.
+
+- **HDD'li eski bilgisayarlar** (2015 öncesi): Sıfırlamak genelde yeterli. Çok özel verin varsa ücretsiz bir programla (Eraser) bir kere üzerine sıfır yazdırabilirsin.
+
+<Alert level="warning">Gerçekçi ol: Senin bilgisayarını hedef alıp özel ekipmanla veri kurtarma yapacak biri, ancak devlet sırrı taşıyorsan gelir. Herkes için fabrika sıfırlaması yeterli. Paranoyak olmana gerek yok.</Alert>
+
+## İş Yerinde Toplu Cihaz Devri
+
+Bu bölüm özellikle **kamu görevlileri** için:
+
+Kurum eski bilgisayarları bağışlıyor veya satıyorsa:
+
+1. **Kurumsal profili kaldır.** Cihazda "Bu cihaz kurum tarafından yönetiliyor" uyarısı kalırsa yeni sahibi kullanamaz. BT birimi MDM profilini kaldırmalı.
+
+2. **Her cihazı tek tek sıfırla.** Toplu sıfırlama yapacak yazılım varsa kullan, yoksa tek tek yap. Atlanan cihaz olmasın.
+
+3. **Envanter tut.** Hangi cihaz kime gitti, seri numarası ne, silme işlemi yapıldı mı? Bir tabloya yazmak yeterli.
+
+4. **Çok gizli veri varsa depolamayı fiziksel imha et.** Harddiski söküp deldirmek veya kırdırmak en kesin yöntem. Sertifikalı e-atık firmaları bu hizmeti verir.
+
+## İlgili Bölümler
+
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Emanet Güvenliği](/emanet-guvenligi/)
+- [Çalıntı veya Kayıp Telefon](/calinti-kayip/)
+- [Yakın Çalışma Ekibi Güvenliği](/yakin-calisma-ekibi/)
+- [Yedekleme ve Veri Kurtarma](/yedekleme-ve-veri-kurtarma/)

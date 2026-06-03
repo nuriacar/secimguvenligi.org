@@ -1,0 +1,110 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Vatandaş İçin Dijital Güvenlik'
+description: 'Vatandaşlar için temel korunma, dezenformasyon farkındalığı ve dijital güvenlik.'
+hero: '/img/hero/vatandas.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+import Checklist from '../components/Checklist.astro';
+
+<AudienceBadge audience="V" />
+
+Telefonuna bir mesaj geldi: "Seçmen listesi güncellendi, bilgilerini doğrula." İçinde bir link var. Linki tıklıyorsun: bir hata yok, her şey normal görünüyor. Ama o anda telefonuna zararlı bir yazılım indi. Artık tüm kişisel bilgilerin, banka hesap bilgilerin, parolaların bir saldırganın elinde. Ve sen farkında bile değilsin. Bu bir kimlik avı saldırısıydı. Başına gelmeyeceğini düşünme: herkesin başına gelebilir.
+
+**Özlü kural:** "Bana bir şey olmaz" demek, olacağını garantilemenin en kısa yoludur.
+
+<Alert level="info">
+Bu sayfa, bir seçmen veya vatandaş olarak ihtiyaç duyduğun role özgü güvenlik bilgilerini içerir. Temel kurallar ana kılavuz bölümlerinde ayrıntılı olarak anlatılır: bu sayfada onlara link bulacaksın.
+</Alert>
+
+## Tehdit Profilin
+
+Herkes hedef olabilir. Seçmen, vatandaş, müşahit, kritik kurum çalışanı: hedef olmak için önemli biri olman gerekmez.
+
+**Vatandaş / Seçmen:**
+- Kimlik avı (phishing) ve dolandırıcılık en yaygın tehdittir.
+- Sahte haber ve dezenformasyon, seçim kararını etkilemeyi hedefler.
+- Sosyal medya hesapların ele geçirilebilir, adına sahte paylaşımlar yapılabilir.
+
+**Müşahit / Sandık Görevlisi:**
+- Sandık sonuçlarını iletmek için kullandığın iletişim kanalları hedeftir.
+- Telefonundaki mesajlar ve fotoğraflar (sandık tutanakları) değerlidir.
+- Seçim günü fiziksel güvenlik riskin artar.
+
+**Kritik Kurum Çalışanı (kamu, hakim, polis, diplomat, hastane çalışanı):**
+- Doğrudan siyasetçi olmasan bile elindeki veri seni hedef yapar.
+- Seçim tutanakları, kimlik kayıtları, istihbarat notları: bunlar saldırgan için altın değerindedir.
+- Kurum cihazlarında kişisel uygulama kullanmamak en temel kuraldır.
+
+## Dezenformasyon Farkındalığı
+
+Seçim dönemlerinde dezenformasyon (yalan haber, manipülasyon, bot saldırıları) artar. Kendini korumak için:
+
+- **Kaynağı sorgula:** Bir haber görünce önce kimin yayınladığına bak. Tanımadığın bir site veya hesapsa doğruluğundan emin olmayın.
+- **Duygusal tuzaklara dikkat:** Öfke, korku veya aşırı sevinç uyandıran haberlere şüpheyle yaklaş. Duygusal içerik eleştirel düşünmeyi zayıflatır.
+- **Doğrulama alışkanlığı:** Bir haberin doğruluğunu bağımsız doğrulama platformlarından kontrol et.
+- **Paylaşmadan önce dur:** Bir haberi paylaşmadan önce üç saniye durup düşün: bu doğru olabilir mi? Neden bana ulaştı? Kimin işine yarar?
+
+Detaylı bilgi: [Yalan Haber ve Doğrulama →](/dezenformasyon/), [Bot Saldırıları →](/bot-hesaplar/)
+
+## Müşahit İçin Güvenlik Kuralları
+
+Sandık görevlisi veya müşahit olarak seçim günü şunlara dikkat et:
+
+**Seçim günü öncesi:**
+- Telefonunun şarjı tam olsun, yedek şarj cihazı bulundur.
+- Signal kurulu olsun, partinin saha iletişim kanalını öğren.
+- Acil durumda kullanacağın numaraları (parti merkezi, hukuk danışmanı) telefonuna kaydet.
+
+**Seçim günü:**
+- Sandık sonuçlarını iletmek için sadece belirlenmiş şifreli kanalı kullan. SMS ile sonuç gönderme.
+- Telefonunu gözünden ayırma. Sandık başında telefonunu masada bırakma.
+- Şüpheli bir durumda (sandığa müdahale, oy hırsızlığı) önce fotoğraf/video çek, sonra iletişim kanalından bildir.
+- Sandık çevresinde tartışma çıkarsa önce kendi güvenliğini sağla, sonra raporla.
+
+Detaylı bilgi: [Seçim Günü Sahra →](/secim-gunu/)
+
+## Kritik Kurum Çalışanı İçin Notlar
+
+Bir seçim döneminde sahip olduğun bilgi seni hedef yapar. Unutma:
+
+- Kurum cihazlarında kişisel uygulama kullanma. O cihazda oyun oynama, kişisel e-postana girme, sosyal medyada gezme.
+- Resmi iletişim kanalları dışına çıkma. Hassas verileri kişisel e-postana gönderme, kişisel telefonunda saklama.
+- Şüpheli e-postalara karşı dikkatli ol. Kurum içinden gelse bile tanımadığın bir linke tıklama. Oltalama saldırıları kurum içi gibi görünebilir.
+- Kurumun BT politikalarını bil ve uygula. Polikaları bilmiyorsan BT departmanına sor.
+
+<DoDont items={[
+  { text: 'Şüpheli linklere tıklamadan önce kaynağını doğrula', type: 'do' },
+  { text: 'Haberlerin doğruluğunu bağımsız kaynaklardan kontrol et', type: 'do' },
+  { text: 'Müşahit olarak belirlenmiş şifreli iletişim kanalını kullan', type: 'do' },
+  { text: 'Kurum cihazında kişisel işlem yap', type: 'dont' },
+  { text: 'Duygusal içerikli haberleri sorgulamadan paylaş', type: 'dont' },
+  { text: 'Sandık sonuçlarını SMS ile gönder', type: 'dont' },
+]} />
+
+## Başlaman Gereken Bölümler
+
+Tüm bölümler herkes için geçerlidir. Halk için kritik öncelik sırası:
+
+1. **[Temel Kavramlar →](/temel-kavramlar/)**: Bilgi güvenliği temelleri
+2. **[Tehdit Modelleme →](/tehdit-modelleme/)**: Kendi tehdit profilini oluştur
+3. **[Cihaz Güvenliği →](/cihaz-guvenligi/)**: Telefon ve bilgisayar temel koruması
+4. **[Hesap ve Parola →](/hesap-parola/)**: Güçlü parola, iki aşamalı doğrulama
+5. **[Mesajlaşma Güvenliği →](/mesajlasma/)**: Signal kurulumu, şifreli iletişim
+6. **[Sosyal Medya →](/sosyal-medya/)**: Hesap koruma, sahte hesapları tespit
+7. **[Sosyal Mühendislik →](/sosyal-muhendislik/)**: 12 saldırı tekniği
+8. **[Seçim Günü Sahra →](/secim-gunu/)**: Müşahit ve sandık görevlisi için
+9. **[Güvenli Ödeme →](/guvenli-odeme/)**: Kredi kartı ve online alışveriş güvenliği
+10. **[Yalan Haber →](/dezenformasyon/)**: Doğrulama yöntemleri
+11. **[Haftalık Kontrol →](/haftalik-kontrol/)**: Düzenli güvenlik taraması
+12. **[Hesap Çalındığında →](/hesap-calma/)**: Acil durum protokolü
+
+## İlgili Kaynaklar
+
+- [Kriz Karar Ağacı →](/kriz/): Acil durumda ne yapacağını bilmiyorsan buradan başla
+- [Sözlük →](/sozluk/): Dijital güvenlik terimleri

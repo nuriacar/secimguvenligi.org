@@ -1,0 +1,133 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Haftalık Kontrol Listesi'
+description: 'Şüphe olmasa bile haftada bir yapılması gereken güvenlik kontrol listesi.'
+order: 15
+audience: [V]
+hero: '/img/hero/haftalik-kontrol.webp'
+---
+
+import AudienceBadge from '../components/AudienceBadge.astro';
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Checklist from '../components/Checklist.astro';
+import Accordion from '../components/Accordion.astro';
+
+<AudienceBadge audience="V" />
+
+<Alert level="warning">En iyisi haftada bir kontrol yapmak. Ama ayda bir bile yapsan hiç yapmamaktan iyidir, önemli olan düzenli olmak.</Alert>
+
+Haftalık kontrol, dijital güvenliğin temel taşıdır. Neden haftada bir? Çünkü saldırganlar haftalar içinde yavaşça sızar. Bir casus yazılımı pazartesi yüklenip cumaya kadar veri toplamış olabilir. Ayda bir yapılan kontrol, bu tür bir saldırıyı ancak 30 gün sonra fark eder. Bu süre zarfında parolalar, mesajlar, fotoğraflar çoktan ele geçirilmiş olur. Hiç kontrol yapmamak ise kendini korumasız bir evde, açık kapıyla yaşamak gibi düşün.
+
+Dijital tehditler sabit kalmaz. Her hafta yeni bir güvenlik açığı keşfedilir, yeni bir oltalama yöntemi ortaya çıkar. Haftalık kontrol, bu değişen tehdit ortamında güvende kalmanın en pratik yoludur. Beş dakika süren bir kontrol, haftalarca süren bir temizlik sürecinden kurtulmanı sağlar. Düzenli kontrol alışkanlığı, farkındalığını da artırır. Neyin normal, neyin şüpheli olduğunu her hafta gözden geçirdikçe algılama yeteneğin keskinleşir.
+
+**Hızlı ipucu:** 5 dakikanı ayır. Telefonunu al ve şu üç yere bak:
+
+1. Bağlı cihazlar listesi
+2. Son giriş yapılan cihazlar
+3. Bilinmeyen uygulama listesi
+
+Üçü temizse bu hafta güvendesin.
+
+**Benzetme:** Haftalık kontrol, evin önünü süpürmek gibidir. Her gün yapmazsan birikir. Biriken her gün, kapıya dayanan davetsiz misafir için bir fırsattır.
+
+Şüphe yoksa bile haftada bir yap:
+
+## <span class="heading-num">15.1</span> Bağlı Cihazlar
+
+- WhatsApp / Telegram / Signal > Ayarlar > Bağlı Cihazlar
+- Senin bilgisayarın haricinde tanımadığın bir cihaz aktif mi?
+- Varsa: "Tüm cihazlardan çıkış yap" de.
+
+## <span class="heading-num">15.2</span> Erişilebilirlik İzinleri (Android)
+
+- Ayarlar > Erişilebilirlik
+- Senin yüklemediğin veya şüpheli görünen hiçbir uygulama "Açık" olmamalı.
+- Şüpheli biri varsa: Hemen kapat ve sil.
+
+## <span class="heading-num">15.3</span> Bilinmeyen Profiller (iPhone)
+
+- Ayarlar > Genel > VPN ve Cihaz Yönetimi
+- Şirket veya şahıs adı taşıyan tanınmayan bir profil varsa cihaz tehlikede.
+- Profil silinir, gerekirse cihaz fabrika ayarlarına döndürülür.
+
+## <span class="heading-num">15.4</span> Hesap Giriş Geçmişi
+
+- Google: myaccount.google.com > Güvenlik > Cihazlar
+- iCloud: appleid.apple.com > Cihazlar
+- Sen İstanbul'dayken İzmir'den veya yurtdışından biri giriş yapmış mı?
+- Tanımadığın bir giriş varsa: Parolayı derhal değiştir, iki aşamalı doğrulama aç, tüm cihazlardan çıkış yap.
+
+## <span class="heading-num">15.5</span> Uygulama Listesi Kontrolü
+
+- Ayarlar > Uygulamalar listesine göz at.
+- Tanımadığın, yüklemediğini hatırlamadığın bir uygulama var mı?
+- Varsa: Hemen sil. Casus yazılımlar kendini "Sistem Servisi", "Güncelleme" gibi isimlerle gizleyebilir. Şüphelenilen bir uygulamanın ismini internette araştır.
+
+## <span class="heading-num">15.6</span> Konum ve Hareket Geçmişi
+
+- Google: myactivity.google.com > Konum Geçmişi
+- Google Maps > Zaman Çizelgesi
+- Tanımadığın konum kayıtları var mı? Konum geçmişi kapalı mı?
+
+## <span class="heading-num">15.7</span> Parola Değişim Takvimi
+
+- **Kural:** Siyasetçi ve ekip her 90 günde bir tüm kritik hesapların parolasını değiştirir.
+- **Kural:** Herhangi bir şüpheli durumda (bilinmeyen giriş, tuhaf mesaj, cihaz tuhaflığı) beklemeden tüm parolalar anında değiştirilir.
+
+<Scenario label="Senaryo: Cuma akşamı haftalık kontrol">
+Cuma akşamı geldin. Hafta yorgunsun, kanepede diz izlemek istiyorsun. Ama telefonun üzerinde biriken bir haftalık risk var. Ayarlara giriyorsun: önce WhatsApp bağlı cihazlar. Tanımadığın bir bilgisayaydı, hemen çıkış yaptın. Sonra Google hesap girişleri. Bakıyorsun, dün Ankara'dan bir giriş var. Ama sen Ankara'da değilsin. Parolayı değiştiriyorsun, iki aşamalı doğrulamayı açıyorsun. Üç dakika sürdü. Eğer bu kontrolü yapmasaydın, saldırgan bir hafta boyunca hesabında dolaşmaya devam edecekti.
+</Scenario>
+
+<DoDont items={[
+  { text: 'Hedef haftada bir kontrol, en az ayda bir', type: 'do' },
+  { text: 'Haftalık kontrolleri belirli bir güne ve saate planla', type: 'do' },
+  { text: 'Her kontrol sonucunu not al ve değişiklikleri takip et', type: 'do' },
+  { text: 'Kontrol sırasında şüpheli bir şey bulduğunda sakin davran', type: 'do' },
+  { text: 'Bağlı cihaz ve hesap girişlerini her hafta sırasıyla kontrol et', type: 'do' },
+  { text: 'Kontrolü bir hafta atlayıp sonraya bırakma', type: 'dont' },
+  { text: 'Sadece bir şeyden şüphelendiğinde kontrol yap', type: 'dont' },
+  { text: 'Kontrol listesini hızlıca göz atıp detayları atla', type: 'dont' },
+  { text: 'Şüpheli bir uygulama veya giriş bulunca görmezden gel', type: 'dont' },
+]} />
+
+<Checklist title="Haftalık 7 Günlük Kontrol Listesi">
+<li>Bağlı cihazlar kontrol edildi (WhatsApp, Telegram, Signal)</li>
+<li>Erişilebilirlik izinleri kontrol edildi (Android)</li>
+<li>Bilinmeyen profiller kontrol edildi (iPhone)</li>
+<li>Hesap giriş geçmişi kontrol edildi (Google, iCloud)</li>
+<li>Uygulama listesi kontrol edildi</li>
+<li>Konum ve hareket geçmişi kontrol edildi</li>
+<li>Parola değişim takvimi kontrol edildi</li>
+</Checklist>
+
+**Saldırı deseni:** Casus yazılımlar, telefonuna girdikten sonra fark edilmemek için gizlenir. Kendini sistem uygulaması gibi gösterir. Bildirim göndermez. Pil ve veri kullanımını normal seviyede tutar. Haftalık kontrolün amacı tam olarak budur: fark edilmeden haftalardır cihazında olan bir casusu yakalamak. Tek bir kontrol attığında "Bu uygulamayı ben yüklemedim ki?" diye fark edersin. Oysa haftada bir kontrol etmeseydin, o casus aylarca veri toplamaya devam ederdi.
+
+<Accordion question="Her kontrol detayı" id="weekly-detail">
+
+**Bağlı cihazlar:** WhatsApp, Telegram ve Signal ayarlarında "Bağlı Cihazlar" bölümünü aç. Sadece senin bilgisayarların görünmeli. Yabancı cihaz varsa hemen tüm oturumları kapat.
+
+**Erişilebilirlik (Android):** Ayarlar > Erişilebilirlik yolunu izle. Senin yüklemediğin hiçbir uygulama açık olmamalı. Şüpheli bir şey varsa kapat ve sil.
+
+**Bilinmeyen profiller (iPhone):** Ayarlar > Genel > VPN ve Cihaz Yönetimi'ni kontrol et. Tanımadığın bir profil varsa cihaz tehlikede olabilir.
+
+**Hesap girişleri:** Google ve iCloud hesaplarında son giriş yapılan cihazları ve konumları incele. Tanımadığın bir giriş varsa parolayı derhal değiştir.
+
+**Uygulama listesi:** Ayarlar > Uygulamalar listesini karıştır. "Sistem Servisi", "Güncelleme" gibi gizlenmiş casus yazılımlara dikkat et. Arka planda çalışan gereksiz PowerShell veya WMI süreçleri: dosyasız saldırı (LotL) belirtisi olabilir.
+
+**Konum geçmişi:** Google Aktivite ve Maps zaman çizelgesinde tanımadığın konum kayıtları var mı kontrol et.
+
+**Parola takvimi:** Kritik hesapların parolası son 90 gün içinde değiştirildi mi? Herhangi bir şüpheli durumda beklemeden tüm parolalar yenilenmeli.
+
+</Accordion>
+
+**Gerçek olay:** 2019'da Avrupa'da bir siyasi parti çalışanı, ofis bilgisayarını haftalarca güncellemedi. Bir gün açılan bir e-posta ekindeki casus yazılım, güncellenmemiş bir yazılım açığı sayesinde sisteme sızdı. Haftalık kontrol yapılmadığı için casus yazılım 4 ay boyunca tüm e-postaları, belgeleri ve iç yazışmaları dışarı sızdırdı. Seçim kampanyası boyunca strateji belgeleri rakibin elindeydi, parti bunu aylar sonra fark etti. Basit bir haftalık kontrol alışkanlığı (güncelleme, belirti taraması, oturum kontrolü) bu saldırıyı durdurabilirdi.
+
+
+## İlgili Bölümler
+
+- [Casus Yazılım](/casus-yazilim/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Casus Yazılım Teşhisi](/casus-yazilim-teshisi/)
+- [Hesap ve Parola](/hesap-parola/)
