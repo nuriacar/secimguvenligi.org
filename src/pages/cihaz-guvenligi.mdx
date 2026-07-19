@@ -1,0 +1,189 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Cihaz Güvenliği'
+description: 'Telefon kilidi, biyometrik güvenlik, uygulama izinleri, güncellemeler, Bluetooth, USB ve SIM kart güvenliği.'
+order: 5
+audience: V
+hero: '/img/hero/cihaz-guvenligi.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Telefonun yeni. Kutuyu açarken içinde bir heyecan. Ekranın o ilk parıltısı, sıfırın kokusu... Sonra karşına "Ayarlar" çıkıyor. Dil, saat, Wi-Fi, bildirimler, gizlilik, izinler... Bir sürü madde. Çoğumuz o ekrana bakar, "Sonra hallederim" der geçeriz. O "sonra" bazen hiç gelmez. Oysa telefonunu eline aldığın ilk an, onu korumaya başlaman gereken andır. Tıpkı yeni bir ev tuttuğunda kapının kilidini kontrol etmen gibi.
+
+Belki bir kamu görevlisisin, belki bir hakim, bir polis memuru, bir diplomat veya bir hastane çalışanı. "Ben siyasetçi değilim, beni kim hedeflesin?" diye düşünebilirsin. Oysa kritik kurumlarda çalışan herkes (elindeki veri, sahip olduğu yetki veya üstlendiği rol nedeniyle) bir seçim döneminde hedef olabilir. Bir zabıt katibinin elindeki seçim tutanakları, bir polisin mobil cihazındaki istihbarat notları, bir hastane çalışanının eriştiği kimlik bilgileri... Bunların hepsi bir saldırgan için değerlidir. Bu rehber sadece siyasetçiler için değil, seçim sürecine dokunan herkes için.
+
+Cihaz güvenliği teknik bir konu gibi görünür ama aslında en önemli adım alışkanlıktır. Telefonun en gelişmiş kilidine sahip olsan bile, "şarj olmuyor" diyen yabancıya telefonu eline verirsen bu kilidin hiçbir anlamı kalmaz. (Açık kapı bırakmak: teknik bir açıklık olmasa da insanın kendi davranışıyla oluşturduğu bir zafiyettir.)
+
+**Özlü kural:** Telefonun, evinin dijital hâlidir. Evinin kapısını açık bırakmazsın, telefonunu da öyle bırakma.
+
+## <span class="heading-num">5.1</span> Ekran Kilidi
+
+- **Yap:** 6 haneli veya daha uzun bir parola belirle. Harf ve rakam birleşimi tercih et.
+- **Yapma:** 1234, 0000, doğum tarihi, ardışık sayılar, telefon numarası.
+- **Kural:** Telefonunu masada bıraktığında biri 5 saniyede açamamalı.
+
+<DoDont items={[
+  { text: '6 haneli veya daha uzun parola belirle, harf ve rakam birleşimi tercih et', type: 'do' },
+  { text: 'Biyometrik + parola kombinasyonu kullan', type: 'do', level: 'best' },
+  { text: '1234, 0000, doğum tarihi, ardışık sayılar kullanma', type: 'dont' },
+  { text: 'Desen kilidi kullanma (görsel olarak çalınabilir)', type: 'dont' },
+]} />
+
+## <span class="heading-num">5.2</span> Biyometrik Güvenlik
+
+- **Yap:** Yüz tanıma veya parmak izi aktif et.
+- **Dikkat:** Uykuda biri telefonunu yüzüne tutup açabilir. Uykunda telefonun yataktan uzakta olsun. iPhone'da yüz tanıma için "Dikkat Gerektir" açık olmalı.
+
+## <span class="heading-num">5.3</span> Uygulama İzinleri
+
+- **Kural:** Bir uygulama ne istiyor, neden istiyor, sor. Fener uygulaması fotoğrafına, oyun rehberine neden ulaşsın?
+- **Yap:** Ayarlar > Uygulamalar üzerinden her uygulamanın izinlerini kontrol et. Gereksiz izinleri kaldır.
+- **Yapma:** İndirirken "Tüm izinleri ver" diyerek hızlıca geçme.
+
+## <span class="heading-num">5.4</span> İşletim Sistemi Güncellemeleri
+
+- **Yap:** iOS veya Android güncellemesi geldiğinde 24 saat içinde yükle. Güvenlik açıklarının çoğu bu yamalarla kapatılır.
+- **Yapma:** "Telefon yavaşlar" diye güncellemeleri aylarca erteleme.
+
+## <span class="heading-num">5.5</span> Bluetooth ve Kablosuz Dosya Paylaşımı Güvenliği
+
+- **Kural:** Bluetooth'u kullanmadığında kapalı tut. Açık Bluetooth, yakınındaki bir saldırgana cihazına sızma fırsatı verir.
+- **Yapma:** "Herkes tarafından bulunabilir" / "Herkese açık" modda Bluetooth bırakma.
+- **Yap:** iPhone'da AirDrop özelliğini yalnızca "Yalnızca Kişiler" veya "Kapalı" olarak ayarla. "Herkes" modunda tanımadığın biri telefonuna istenmeyen dosya veya zararlı içerik gönderebilir.
+- **Android:** "Yakındaki Cihazlar" / "Hızlı Paylaşım" ayarını kontrol et, "Herkes" seçeneğini kapat.
+
+## <span class="heading-num">5.6</span> Şarj Kablosu ve USB Saldırıları
+
+- **Kural:** Halka açık şarj istasyonlarında (havalimanı, kafe, otobüs, AVM) doğrudan USB kablosuyla telefonunu şarja takma.
+- **Neden:** USB kablosu hem enerji hem veri taşır. Kötü niyetli bir şarj noktası telefonuna sızabilir.
+- **Yap:** Kendi şarj adaptörünü ve kablonu kullan. Ya da "USB veri koruyucu" adı verilen ucuz bir adaptör tak. Bu adaptör sadece enerji geçirir, veri geçmez.
+- **Yapma:** Bilinmeyen bir bilgisayara USB kablosuyla telefonunu bağlama. "Güven" veya "Dosya Aktarımı" seçeneğine asla basma.
+- **Kötü Niyetli USB Aygıtı (BadUSB) Tehditi:** Sıradan bir USB bellek gibi görünen bir cihaz, içine gizlenmiş kod sayesinde bilgisayara bağlandığı an klavye gibi davranabilir. Saniyede yüzlerce tuş vuruşu yaparak arka planda zararlı yazılım yükleyebilir, dosya çalabilir veya sistemi ele geçirebilir. Masada bulduğun, sana hediye edilen veya kaynağını bilmediğin hiçbir USB cihazını bilgisayarına veya telefonuna bağlama.
+
+**Gerçek olay:** 2010'da ABD ve İsrail'in ortak operasyonuyla İran'ın Natanz nükleer tesisine sızan Stuxnet solucanı, USB bellek aracılığıyla fiziksel ortamdan yayıldı. İnternet bağlantısı olmayan, tamamen izole bir tesisteki bilgisayarlara bulaşmak için enfekte USB bellekler bilerek ortama bırakıldı. Bu olay, USB cihazlarının ne kadar tehlikeli olabileceğinin bilinen en büyük örneğidir. Masada bulduğun bir USB bellek bile küresel bir operasyonun parçası olabilir.
+
+<Alert level="warning">
+Halka açık şarj istasyonlarında USB kablosuyla telefonunu şarja takma. USB hem enerji hem veri taşır. Kendi adaptörünü veya "USB veri koruyucu" kullan.
+</Alert>
+
+## <span class="heading-num">5.7</span> VPN Kullanımı
+
+- **Kural:** Kamuya açık Wi-Fi ağlarında (kafe, havalimanı, otel, AVM) İnternete çıkarken mutlaka VPN kullan.
+- **Neden:** Saldırgan, aynı ağdaki cihazlar arasında dinleme yapabilir. VPN tüm trafiğini şifreler.
+- **Yap:** Güvenilir bir VPN sağlayıcısı seç. Açık kaynak protokol kullananları tercih et.
+- **Yap:** Güvenmediğin her ağda VPN kullan. Sadece kafe Wi-Fi'sı değil, komşununki, apartman ortak ağı, bir arkadaşının paylaştığı ağ: hepsi aynı riski taşır. VPN yoksa mobil verini kullan.
+- **Yapma:** Çoğu ücretsiz VPN verini satar veya kendisi casusluk yapar. ProtonVPN'in ücretsiz sürümü gibi sayılı istisna vardır ama genel kural: ücretsiz VPN kullanma.
+- **Yapma:** Tanınmamış VPN uygulamaları yerine, sektörde bilinen sağlayıcıları tercih et.
+- **Kural:** VPN seçerken gizlilik politikasını oku, kayıt tutmayanları tercih et.
+
+## <span class="heading-num">5.8</span> Bilgisayar (PC/Mac) Güvenliği
+
+Bu rehber ağırlıklı olarak mobil cihazlara odaklansa da, bilgisayarlar da en az telefonlar kadar önemlidir. Özellikle seçim dönemlerinde kampanya ofislerinde kullanılan bilgisayarlar, e-posta yazışmaları ve belge düzenleme için kritik öneme sahiptir.
+
+### İşletim Sistemi Güncellemeleri
+
+- **Windows:** Ayarlar > Windows Update > Güncellemeleri denetle. Otomatik güncellemeleri açık tut.
+- **macOS:** Sistem Ayarları > Genel > Yazılım Güncelleme. Otomatik güncellemeleri etkinleştir.
+- **Linux:** Dağıtımına bağlı olarak `sudo apt update && sudo apt upgrade` veya grafik arayüzden güncelle.
+- **Kural:** Güncelleme geldiğinde 24 saat içinde yükle. Telefonlarda olduğu gibi bilgisayarlarda da güncellemeler güvenlik açıklarını kapatır.
+
+### Disk Şifreleme
+
+- **Windows:** BitLocker (Windows Pro) veya VeraCrypt ile tüm diski şifrele.
+- **macOS:** FileVault'u aç (Sistem Ayarları > Gizlilik ve Güvenlik > FileVault).
+- **Neden:** Bilgisayarın çalınırsa veya kaybolursa, disk şifrelemesi olmadan tüm dosyalarına erişilebilir.
+
+### Ekran Kilidi ve Oturum Yönetimi
+
+- Bilgisayar başından kalktığında ekranı kilitle (Windows: Win+L, Mac: Ctrl+Cmd+Q).
+- 5 dakika hareketsizlikte otomatik ekran kilidi ayarla.
+- Kullanmadığın zaman bilgisayarı uykuya alma veya kapat.
+
+### Güvenli E-posta ve Dosya Paylaşımı
+
+- E-posta eklerini (.exe, .zip, .docm) göndereni doğrulamadan indirme.
+- PDF gibi dosyaları tarayıcıda aç, bilgisayara indirme. İndirmen gerekiyorsa virüs taraması yap.
+- Resmî kurumlardan geldiği söylenen e-postalardaki bağlantılara tıklamadan önce adresi dikkatlice kontrol et.
+- USB bellekleri bilgisayara takmadan önce güvenilir kaynaktan geldiğinden emin ol.
+
+### Antivirüs ve Güvenlik Yazılımı
+
+- **Windows:** Windows Defender varsayılan olarak yeterlidir. Ücretsiz antivirüs yazılımları (Avast, AVG) gereksizdir, sistemi şişirir.
+- **macOS:** Entegre koruma (XProtect) yeterlidir, ek antivirüs gerekmez.
+- **Kural:** Güvenlik yazılımı senin dikkatinin yerini tutmaz. Şüpheli bağlantılara tıklamamak en iyi antivirüstür.
+
+### VPN ve Ağ Güvenliği
+
+- Kamuya açık Wi-Fi ağlarında (kafe, otel, AVM) bilgisayar kullanırken VPN açık olsun.
+- Kendi bilgisayarını başkasına ödünç verme. Vermen gerekiyorsa misafir kullanıcı hesabı oluştur.
+- Bilgisayarındaki paylaşılan klasörleri kontrol et. Gereksiz dosya paylaşımlarını kapat.
+
+### Yedekleme Stratejisi
+
+- **Windows:** Ayarlar > Güncelleştirme ve Güvenlik > Yedekleme > Dosya Geçmişi.
+- **macOS:** Time Machine ile harici diske düzenli yedekleme.
+- **Kural:** 3-2-1 kuralı: 3 kopya, 2 farklı ortam, 1 kopya farklı konumda.
+
+### Parola Yöneticisi (Bitwarden vb.)
+
+İnternetteki her site için aynı parolayı kullanmak en büyük hatalardan biridir. Bir siteye sızıldığında tüm hesapların çalınır. Oysa her site için farklı, güçlü parolalar kullanman gerekir. Bunları aklında tutman imkansızdır. İşte burada parola yöneticisi devreye girer.
+
+- **Ne işe yarar:** Tüm parolalarıni tek bir ana parolayla korunan bir kasada tutar. Sen sadece bu tek ana parolayı hatırlarsın. Geri kalan her şeyi uygulama senin yerine halleder: güçlü parolalar üretir, sitelere otomatik doldurur, hangi parolanın ele geçirildiğini bildirir.
+- **Önerilen uygulama:** Bitwarden. Açık kaynak kodludur (bağımsız denetçiler kodunu inceler), ücretsizdir, telefon ve bilgisayar arasında senkronize olur.
+- **Nasıl kurulur:**
+  1. Bitwarden.com adresine git veya telefonuna Bitwarden uygulamasını indir.
+  2. Bir hesap oluştur. Güçlü bir ana parola belirle (en az 12 karakter, harf+rakam+sembol).
+  3. Tarayıcına Bitwarden eklentisini kur (Chrome, Firefox, Safari, Edge).
+  4. Mevcut parolalarıni tek tek kasa ekle veya tarayıcıdan içe aktar.
+  5. Tarayıcının kendi parola kaydetme özelliğini kapat, Bitwarden kullan.
+- **Güvenlik:** Ana parolanı asla unutma. Bitwarden ana parolanı bilmez, sıfırlama seçeneği yoktur. Ana parolanı kağıda yazıp güvenli bir yerde (cüzdan, kasa) saklayabilirsin.
+- **Dikkat:** Ana parolanı kimseyle paylaşma. "Parolamı unuttum" diyen birine bile asla ana parolanı söyleme. Bitwarden hesabına iki adımlı doğrulama (2FA) ekle.
+
+<Alert level="tip">
+Parola yöneticisi kullanmak "tüm yumurtaları tek sepete koymak" gibi görünebilir ancak durum tam tersidir: her sitede aynı parolayı kullanmak tüm yumurtaları tek sepete koymaktır. Bir site çalındığında hepsi gider. Parola yöneticisi ise her yumurtayı ayrı bir sepete koyup tüm sepetleri tek bir anahtarla kilitler.
+</Alert>
+
+## <span class="heading-num">5.9</span> SIM Kart ve Hattını Koruma
+
+- **Kural:** Telefonunu ve SIM kartını birlikte kaybetme. SIM kart el değiştirirse, saldırgan tüm hesaplarını sıfırlayabilir (SMS doğrulama kodlarını o alır).
+- **Yap:** SIM kartına PIN kodu koy. Telefon her yeniden başladığında SIM PIN'i sorulsun.
+- **Yap:** Operatöründen "SIM değişikliği için parola/onay" talep et. Bazı operatörler ekstra güvenlik katmanı sunar.
+- **SIM Kart Değiştirme (SIM Swap) Saldırısı:** Birisi kimliğinle operatöre gidip senin numaranı kendi SIM kartına aktarabilir. Sonra tüm hesaplarını ele geçirir. Bunu önlemek için operatör hesabına ek güvenlik (parola, SMS onay) eklet.
+
+<Scenario label="Senaryo: Yeni Telefon Aldın">
+Yeni telefonunu aldın. İlk yapman gerekenler: ekran kilidi belirle (6+ haneli), biyometrik güvenliği aç, SIM kartına PIN koy, Bluetooth'u kapat, uygulamaların izinlerini kontrol et, işletim sistemi güncellemesini kontrol et, AirDrop/Hızlı Paylaşım ayarlarını kapat.
+</Scenario>
+
+<Checklist title="İlk Kurulum Kontrol Listesi">
+<li>Ekran kilidi: 6+ haneli parola belirle</li>
+<li>Biyometrik güvenlik: Yüz tanıma veya parmak izi aktif et</li>
+<li>SIM kart PIN kodu koy</li>
+<li>Bluetooth kapalı olduğundan emin ol</li>
+<li>Uygulama izinlerini kontrol et</li>
+<li>İşletim sistemi güncellemesini kontrol et</li>
+<li>AirDrop / Hızlı Paylaşım ayarını kontrol et</li>
+</Checklist>
+
+<Accordion question="Güvenlik alışkanlığı neden teknik bilgiden daha önemli?" id="social-vs-tech">
+En gelişmiş telefon kilidi bile, onu sana "acil bir şey" diyerek aldıran bir dolandırıcıya karşı işe yaramaz. 2023'te yapılan bir araştırma, siber saldırıların yüzde 74'ünde insan hatası olduğunu gösterdi. Yani en zayıf halka işletim sistemi değil, insanın kendisidir. Bunun çözümü teknik bilgi değil, güvenlik alışkanlığıdır: birine telefonunu verirken durup düşünmek, "neden istiyor?" sorusunu sormak, panik yapmamak. Bu alışkanlıklar, herhangi bir uygulama veya ayardan daha güçlü bir korumadır.
+</Accordion>
+
+**Benzetme:** Telefon güvenliği, evini kilitlemek gibidir. Kapını ne kadar sağlam yaparsan yap, anahtarı paspasın altına bırakırsan bir anlamı yoktur. O kapıya koyduğun her kilitle kendine şunu hatırlat: kapıyı kapatan da sensin, açık bırakan da.
+
+
+## İlgili Bölümler
+
+- [Hesap ve Parola](/hesap-parola/)
+- [Casus Yazılım](/casus-yazilim/)
+- [Haftalık Kontrol Listesi](/haftalik-kontrol/)
+- [Çift Telefon Sistemi](/cift-telefon/)
+- [Güvenli Silme ve Cihaz Devri](/guvenli-silme/)
+- [Ağ ve Wi-Fi Güvenliği](/ag-ve-wifi-guvenligi/)
+- [Yedekleme ve Veri Kurtarma](/yedekleme-ve-veri-kurtarma/)
+- [Virüs ve Kötü Amaçlı Yazılımlar](/virus-ve-kotu-amacli-yazilimlar/)

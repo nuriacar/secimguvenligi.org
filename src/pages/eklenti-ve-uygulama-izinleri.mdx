@@ -1,0 +1,131 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Eklenti ve Uygulama İzinleri'
+description: 'Uygulama izinleri, Android/iOS gizlilik ayarları, eklenti güvenliği, sideload riskleri ve izin denetimi.'
+order: 10
+audience: V
+hero: '/img/hero/eklenti-ve-uygulama-izinleri.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Bir uygulama indirdin. Yüklerken "Bu uygulama kamerana, rehberine, konumuna, mikrofona ve fotoğraflarına erişmek istiyor" yazıyor. Ne yapıyorsun? "Kabul et" diyorsun. Çünkü kullanmak istiyorsun, başka seçeneğin yok gibi geliyor. Oysa var. Her uygulamanın her şeye erişmesi gerekmez. Bir fener uygulaması neden rehberine baksın? Bir oyun neden mikrofona erişsin? Bir duvar kağıdı uygulaması neden konumunu bilsin?
+
+Uygulama izinleri, cihazının kapılarıdır. Her uygulamaya tüm kapıları açarsan, hangisinin içeri kötü bir şey soktuğunu bilemezsin.
+
+**Özlü kural:** Bir uygulamanın ne istediğini ve neden istediğini bilmiyorsan, izin verme.
+
+## <span class="heading-num">10.1</span> İzin Nedir, Neden Önemlidir?
+
+- **Ne demek:** Uygulama izni, bir uygulamanın telefonunun belirli bir özelliğine erişmesine izin vermektir. Kamera, mikrofon, konum, rehber, fotoğraflar, SMS, arama kaydı...
+- **Neden önemli:** Zararsız görünen bir uygulama, gizlice kameranı açıp seni izleyebilir, konumunu takip edebilir, rehberindeki herkesi toplayabilir.
+- **Kural:** En az yetki ilkesi: bir uygulama ne kadar az yetkiye sahipse o kadar güvenli.
+
+## <span class="heading-num">10.2</span> Android Uygulama İzinleri
+
+- **Nereden bakılır:** Ayarlar > Uygulamalar > [Uygulama adı] > İzinler (veya Android'de Ayarlar > Gizlilik > İzin Yöneticisi)
+- **Nasıl kontrol edilir:**
+  - Her uygulamanın izin listesine gir
+  - "Kullanım sırasında sor" seçeneğini tercih et (sadece uygulamayı kullanırken izin ver)
+  - Gereksiz izinleri "Reddet" veya "İzin verme"
+- **Dikkat edilecek izinler:** Kamera, mikrofon, konum, rehber, SMS, arama kaydı, telefon durumu
+
+<Alert level="warning">
+Bir uygulama sürekli arka planda konumunu takip ediyorsa bu şüphelidir. Ayarlar > İzinler > Konum'dan hangi uygulamaların "Her zaman" erişimi olduğunu kontrol et. Sadece harita ve navigasyon uygulamaları için gerekli olabilir.
+</Alert>
+
+## <span class="heading-num">10.3</span> iPhone (iOS) Uygulama İzinleri
+
+- **Nereden bakılır:** Ayarlar > Gizlilik ve Güvenlik
+- **Her izin türü ayrı listelenir:** Konum, Kamera, Mikrofon, Fotoğraflar, Rehber, Bluetooth, Yerel Ağ...
+- **Konum ayarı:** Bir uygulamanın konumuna erişmesi için "Uygulamayı Kullanırken" seçeneğini tercih et, "Her Zaman" seçme.
+- **Fotoğraflar ayarı:** "Sınırlı Erişim" seçeneği ile sadece belirli fotoğrafları paylaş, tüm arşivini değil.
+- **Kamera/Mikrofon:** Uygulama kullanılmadığında bu izinlerin kapalı olduğundan emin ol. Bir uygulama arka planda kamera veya mikrofon kullanıyorsa, iPhone üst kısmında yeşil/turuncu nokta yanar.
+
+<DoDont items={[
+  { text: 'Her uygulamanın izinlerini düzenli kontrol et', type: 'do', level: 'minimum' },
+  { text: 'Konum için "Kullanırken" seçeneğini tercih et', type: 'do' },
+  { text: 'Sadece gerekli izinlere izin ver', type: 'do' },
+  { text: 'Fotoğraflar için "Sınırlı Erişim" kullan', type: 'do', level: 'best' },
+  { text: 'Tüm izinleri açıp kullanmaya başlama', type: 'dont' },
+  { text: 'Her uygulamaya arka plan konum izni verme', type: 'dont' },
+  { text: 'Bilinmeyen kaynaklardan uygulama yükleme', type: 'dont' },
+]} />
+
+## <span class="heading-num">10.4</span> Hangi İzinler Riskli?
+
+<table>
+<caption>Eklenti ve Uygulama İzinleri — Özet Tablo</caption>
+<thead>
+<tr><th scope="col">İzin</th><th scope="col">Risk</th><th scope="col">Ne Zaman Verilmeli</th></tr>
+</thead>
+<tbody>
+<tr><td>KAMERA</td><td>Uygulama gizlice fotoğraf/video çekebilir</td><td>Sadece fotoğraf/video çeken uygulamalar (Instagram, WhatsApp, Kamera)</td></tr>
+<tr><td>MİKROFON</td><td>Uygulama konuşmalarını kaydedebilir</td><td>Sadece sesli arama/mesaj uygulamaları (WhatsApp, Signal, Ses Kaydedici)</td></tr>
+<tr><td>KONUM</td><td>Uygulama her an nerede olduğunu bilir</td><td>Sadece harita/navigasyon için, "Her zaman" değil "Kullanırken"</td></tr>
+<tr><td>REHBER</td><td>Uygulama tüm kişi listeni toplar</td><td>Sadece mesajlaşma uygulamaları (WhatsApp, Signal)</td></tr>
+<tr><td>FOTOĞRAFLAR</td><td>Tüm fotoğraflarına erişebilir</td><td>"Sınırlı erişim" ile, tüm arşiv değil</td></tr>
+<tr><td>SMS</td><td>Mesajlarını okuyabilir</td><td>Neredeyse hiçbir uygulama için gerekmez</td></tr>
+</tbody>
+</table>
+
+## <span class="heading-num">10.5</span> Bilinmeyen Kaynaklardan Uygulama Yükleme (Sideload)
+
+- **Kural:** Sadece resmi uygulama mağazalarından (App Store, Google Play) uygulama indir.
+- **Neden:** Resmi mağazalar uygulamaları güvenlik taramasından geçirir. Dışarıdan indirilen uygulamalar denetlenmez.
+- **Android:** "Bilinmeyen kaynaklar" ayarını kapalı tut. Bir uygulamayı APK dosyası olarak indirip kurmak çok risklidir.
+- **iPhone:** Sadece App Store'dan indir. "Kurumsal Uygulama" profillerine dikkat et; biri seni bilmediğin bir profili yüklemeye ikna ediyorsa bu bir saldırı olabilir.
+
+## <span class="heading-num">10.6</span> Tarayıcı Eklentileri (Uzantılar) İzinleri
+
+Tarayıcı eklentileri de birer uygulamadır. Onların da izinleri vardır:
+- **Yap:** Eklenti yüklemeden önce hangi izinleri istediğini oku. "Tüm sitelerdeki verilerine eriş" istiyorsa şüphelen.
+- **Yapma:** Az bilinen eklentilere "Okuma ve değiştirme" izni verme.
+- **Yap:** Kullanmadığın eklentileri kaldır. Eklenti sayısını az tut.
+
+## <span class="heading-num">10.7</span> Yeni Uygulama Yükleme Kontrol Listesi
+
+<Checklist title="Yeni Uygulama Yükleme Kontrol Listesi">
+<li>Uygulama resmi mağazadan indiriliyor mu?</li>
+<li>Geliştirici adı güvenilir mi?</li>
+<li>İndirme sayısı yüksek mi (10.000+)?</li>
+<li>Yorumlar şüpheli mi? (5 yıldız + Türkçe hatalı yorumlar = bot)</li>
+<li>Uygulama hangi izinleri istiyor, mantıklı mı?</li>
+<li>Kamera, mikrofon, konum izinleri gerçekten gerekli mi?</li>
+</Checklist>
+
+**Gerçek olay:** 2019'da Google Play Store'da 200 milyondan fazla kez indirilen bir dizi "fener" ve "duvar kağıdı" uygulaması, kullanıcıların konumunu, rehberini ve cihaz bilgilerini toplayarak reklam şirketlerine satıyordu. Kullanıcılar fener uygulamasının neden rehber izni istediğini sorgulamadı. Uygulamalar kaldırıldı ama veriler çoktan sızmıştı. Ders: küçük bir uygulama büyük bir veri hırsızı olabilir.
+
+**Benzetme:** Uygulama izinleri, evine gelen bir misafire verdiğin yetkiler gibidir. Birine evinin anahtarını verirsen her an gelebilir. Birine sadece zili çalmasına izin verirsen sadece kapıda durur. Her uygulamaya evinin anahtarını verme.
+
+<Scenario label="Senaryo: El Feneri Uygulaması">
+Telefonuna bir el feneri uygulaması indirdin. Kurarken "Kamera, rehber, konum ve mikrofon erişimi istiyor" uyarısı çıktı. "Kabul et" dedin, çünkü feneri kullanmak istiyordun. Oysa bir fener uygulamasının sadece kameraya (flaş ışığı için) ihtiyacı var. Rehberine neden baksın? Konumunu neden bilsin? Uygulama arka planda rehberini alıp bir sunucuya gönderiyor, senin haberin olmadan. Ayarlara gir, izinleri kontrol et: sadece kamera izni kalsın, diğerlerini kapat. Gereksiz izin isteyen uygulama, şüpheye değer.
+</Scenario>
+
+<Accordion question="Bir uygulamanın izinlerini nasıl geri alırım?" id="izin-geri-al">
+Ayarlar > Uygulamalar > [Uygulama adı] > İzinler yolunu izle (iPhone'da Ayarlar > [Uygulama adı]). Oradan her izni tek tek kapatabilir veya "Kullanım sırasında sor" seçeneğine geçebilirsin. Bir izni kapatınca uygulama çalışmazsa, o izin gerçekten gereklidir. Ama fener uygulaması rehber izni olmadan da çalışır. Çalışmıyorsa bile, o izin şüphelidir; başka bir amaca hizmet ediyordur.
+</Accordion>
+
+<Accordion question="Tarayıcı eklentilerini nasıl denetlerim?" id="eklenti-denetim">
+Chrome'da `chrome://extensions`, Firefox'ta `about:addons` adresine git. Yüklü tüm eklentileri görürsün. Her eklentinin hangi izinleri istediğini kontrol et. "Tüm sitelerdeki verilerime eriş" isteyen bir eklenti, gördüğün her şeyi okuyabilir: banka parolan, mesajların, e-posta içeriğin. Kullanmadığın eklentiyi kaldır. Eklenti sayın ne kadar azsa o kadar güvendesin.
+</Accordion>
+
+<Accordion question="Bir uygulama çok fazla izin istiyorsa ne yapayım?" id="fazla-izin">
+İzinleri reddet. Uygulama çalışmak için o izinlere gerçekten ihtiyaç duyuyorsa, neden ihtiyaç duyduğunu açıkça belirtir. Açıklama yoksa veya mantıksızsa, uygulama yerine alternatif ara. Android'de izinlerden her bir izni tek tek kapatabilirsin. iOS'ta "Ayarlar > Gizlilik" üzerinden kontrol et.
+</Accordion>
+
+<Accordion question="Tarayıcı eklentilerinde nelere dikkat etmeliyim?" id="eklenti-guvenlik">
+Sadece tanınmış geliştiricilerin eklentilerini yükle. Eklenti sayısını minimal tut. Eklentiler tarayıcıdaki tüm sayfalara erişebilir; parolan, kredi kartın, gezdiğin siteler hepsi görünür. Düzenli olarak kullanmadığın eklentileri kaldır. Eklenti mağazasında düşük puanlı veya yeni açılmış geliştiricilerden uzak dur.
+</Accordion>
+
+## İlgili Bölümler
+
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [İnternet Tarayıcı Güvenliği](/İnternet-tarayici-guvenligi/)
+- [Haftalık Kontrol Listesi](/haftalik-kontrol/)
+- [Aile Güvenliği](/aile-guvenlik/)

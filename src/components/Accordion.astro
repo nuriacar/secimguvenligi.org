@@ -1,0 +1,21 @@
+---
+export interface Props {
+  question: string;
+  id: string;
+}
+
+const { question, id } = Astro.props;
+---
+
+<details id={id} class="accordion">
+  <summary class="accordion-summary">
+    <span>{question}</span>
+    <svg class="accordion-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </summary>
+  <div class="accordion-body">
+    <slot />
+  </div>
+</details>
+

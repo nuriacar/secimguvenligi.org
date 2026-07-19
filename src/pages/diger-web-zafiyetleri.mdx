@@ -1,0 +1,349 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Diğer Kritik Web Zafiyetleri'
+description: "SSRF, mass assignment, insecure deserialization, security misconfiguration, frontend framework güvenliği (React/Angular/Vue) ve OWASP Top 10'un geri kalanı."
+order: 59
+audience: B
+hero: '/img/hero/internet-tarayici-guvenligi.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+SQL injection, XSS, CSRF — [Enjeksiyon Saldırıları →](/enjeksiyon-saldirilari/) bölümünde işledik. Ama OWASP Top 10 bununla bitmiyor. SSRF ile bulut sunucudan IMDS metadata çalmak, mass assignment ile admin yetkisi kazanmak, insecure deserialization ile uzaktan kod çalıştırmak, frontend framework'lerin "bypass security" tuzağına düşmek... Bunlar gerçek production açıklarıdır. Capital One 2019'da 100 milyon kaybı SSRF ile oldu.
+
+Bu bölüm, [Enjeksiyon Saldırıları →](/enjeksiyon-saldirilari/) ve [Kimlik Doğrulama →](/kimlik-dogrulama-ve-yetkilendirme/) bölümlerinin kapsamadığı kritik web zafiyetlerini toplar: SSRF, Mass Assignment, Insecure Deserialization, Security Misconfiguration, Frontend framework güvenliği. Her biri için Python örneğiyle yanlış/doğru karşılaştırması.
+
+## <span class="heading-num">59.1</span> SSRF (Sunucu Taraflı İstek Sahteciliği, İng. Server-Side Request Forgery)
+
+SSRF, sunucunuzu "vekil" yapar. Saldırgan, sunucudan kendi yerine istek yapmasını ister. Sunucu güvenlik duvarı arkasında olduğu için, saldırganın doğrudan ulaşamayacağı kaynaklara (iç servisler, bulut metadata, yönetim arayüzleri) erişebilir.
+
+**Senaryo:** Sitenizde "URL'den profil fotoğrafı yükle" özelliği var. Kullanıcı `https://example.com/avatar.jpg` girer, sunucu onu indirir. Saldırgan `http://169.254.169.254/latest/meta-data/iam/security-credentials/` girer. Bu, AWS EC2'nin metadata servisidir — sunucudan erişilebilir. Saldırgan, sunucunun IAM credential'larını alır, tüm AWS hesabını ele geçirir.
+
+```python
+# KÖTÜ: SSRF açık — herhangi URL'ye istek
+import requests
+from flask import Flask, request
+
+@app.route('/fetch_avatar')
+def fetch_avatar():
+    url = request.args.get('url')
+    r = requests.get(url)  # saldırgan iç IP/localhost/metadata girebilir
+    return r.content
+
+# İYİ: URL doğrulama + allowlist
+from urllib.parse import urlparse
+
+ALLOWED_DOMAINS = {'cdn.example.com', 'avatars.githubusercontent.com'}
+
+@app.route('/fetch_avatar')
+def fetch_avatar():
+    url = request.args.get('url')
+    parsed = urlparse(url)
+
+    # 1. HTTPS zorunlu
+    if parsed.scheme != 'https':
+        abort(400, 'Only HTTPS allowed')
+
+    # 2. Domain allowlist
+    if parsed.hostname not in ALLOWED_DOMAINS:
+        abort(400, 'Domain not allowed')
+
+    # 3. IP kontrolü — iç ağ adreslerine gitme
+    import socket
+    ip = socket.gethostbyname(parsed.hostname)
+    if ip.startswith(('10.', '172.16.', '192.168.', '169.254.', '127.')):
+        abort(400, 'Internal IP blocked')
+
+    # 4. Redirect'leri kapat (DNS rebinding koruması)
+    r = requests.get(url, allow_redirects=False, timeout=5)
+    return r.content
+```
+
+<Alert level="warning">
+Bulut ortamlarında SSRF kritik. AWS IMDSv2 kullanmıyorsanız, bir SSRF açığı tüm hesabı ele geçirebilir. IMDSv2 (PUT-tabanlı token) zorunlu kılın. Ayrıca AWS metadata servisi için `HttpTokens=required` set edin.
+</Alert>
+
+## <span class="heading-num">59.2</span> Mass Assignment (Overposting)
+
+Framework'lerin "kolaylık" özelliğinin yarattığı açık. Form verisi otomatik olarak model'e atanır. Ama saldırgan forma gizli bir alan ekler: `is_admin=true`. Sunucu, bu alanı da işler ve kullanıcı admin olur.
+
+**Senaryo:** Kayıt formu: `name`, `email`, `password`. Backend:
+
+```python
+# KÖTÜ: Tüm input direct model'e
+@app.route('/register', methods=['POST'])
+def register():
+    user = User(**request.json)  # saldırgan {"is_admin": true} eklerse?
+    db.session.add(user)
+    db.session.commit()
+    return 'OK'
+
+# Saldırgan payload: {"name": "x", "email": "x@x.com", "password": "x", "is_admin": true}
+# User admin olarak oluşturuldu!
+```
+
+```python
+# İYİ: Whitelist ile sadece beklenen alanları al
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    user = User(
+        name=data.get('name'),
+        email=data.get('email'),
+        password=hash_password(data.get('password'))
+        # is_admin, is_premium, role — KESİNLİKLE yok
+    )
+    db.session.add(user)
+    db.session.commit()
+    return 'OK'
+
+# Python dataclass / Pydantic ile de çözüm
+from pydantic import BaseModel
+
+class RegisterDTO(BaseModel):
+    name: str
+    email: str
+    password: str
+    # is_admin burada yok, eklenirse reddedilir
+```
+
+<DoDont items={[
+  { text: `**Whitelist (beyaz liste) ile alan seçimi:** Sadece beklenen form alanlarını al`, type: 'do' },
+  { text: `**DTO pattern:** Pydantic / dataclass ile input modeli tanımla`, type: 'do' },
+  { text: `**"@mapper" veya "@validates" decorator:** Hangi alanlar atanabilir, hangileri readOnly net belirt`, type: 'do' },
+  { text: `**Audit logging:** Yetki değişiklikleri loglanır, anormal değişiklik uyarı`, type: 'do' },
+  { text: `**User(**request.json) tarzı toplu atama:** En tehlikeli pattern`, type: 'dont' },
+  { text: `**ORM'nin "auto-fill" özelliğine güvenme:** Model'de var ama forma yok ≠ güvenli`, type: 'dont' },
+  { text: `**Frontend form'da alan yok = güvenli varsay:** Saldırgan kendi form'unu yazar`, type: 'dont' },
+  { text: `**Mass assignment hatalarını "küçük" görme:** Admin yetkisi, ücretsen premium, e-posta değiştirme — hepsi exploit`, type: 'dont' }
+]} />
+
+## <span class="heading-num">59.3</span> Insecure Deserialization
+
+Nesnelerin (object) disk üzerine kaydedilip geri yüklenmesi (serialization/deserialization). Eğer güvenilmeyen veri deserialize edilirse, saldırgan kod çalıştırabilir.
+
+**Etkilenen formatlar:**
+- **Python pickle:** Güvenilmeyen veri ile kullanımı KABUL EDİLEMEZ
+- **PHP unserialize:** Tarihin en sömürülmüş açığı
+- **Java ObjectInputStream:** Apache Commons Collections RCE zinciri (Equifax 2017 — 147 milyon kayıt)
+- **Node.js:** `node-serialize`, `js-function-eval`
+- **YAML:** `yaml.load()` (güvenli olan `yaml.safe_load()`)
+
+```python
+# KÖTÜ: pickle ile güvenilmeyen veri
+import pickle
+import base64
+
+@app.route('/session')
+def session_data():
+    cookie = request.cookies.get('session')
+    data = pickle.loads(base64.b64decode(cookie))  # RCE!
+    return data['username']
+
+# Saldırgan cookie'ye şu pickle'ı yazar:
+# pickle.dumps(Sınıf(__reduce__=lambda: (os.system, ('rm -rf /',))))
+# Sunucu bunu açınca os.system('rm -rf /') çalışır
+```
+
+```python
+# İYİ: JSON + schema validation
+import json
+from pydantic import BaseModel
+
+class SessionData(BaseModel):
+    username: str
+    role: str
+
+@app.route('/session')
+def session_data():
+    cookie = request.cookies.get('session')
+    data = json.loads(base64.b64decode(cookie))
+    session = SessionData(**data)  # tip kontrolü, RCE yok
+    return session.username
+```
+
+<Alert level="critical">
+pickle.loads() güvenilmeyen veri ile = remote code execution. Bu, "`senin sunucunu ele geçirmenin en kolay yolu`" olarak bilinir. Asla kullanıcı verisini pickle ile okuma. JSON, Protobuf veya imzalı JWT kullan.
+</Alert>
+
+## <span class="heading-num">59.4</span> Security Misconfiguration
+
+Yanlış yapılandırma, OWASP Top 10'da yıllardır ilk 5'te. Konfigürasyon hataları "kodda açık yok ama sistem yine de savunmasız" durumudur.
+
+### Yaygın örnekler:
+
+- **Production'da debug açık:** Django `DEBUG=True`, Flask `app.debug=True` → stack trace sızar
+- **Varsayılan parololar:** admin/admin, root/root, sa/sa — sadece değiştirilmeyi bekleyen açık kapı
+- **Gereksen özellikler açık:** Yönetim paneli internete açık, pingback, dizin listeleme
+- **Eksik TLS:** HTTP hâlâ açık, mixed content, zayıf cipher suite
+- **Hata mesajları detaylı:** `500 Internal Server Error: psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "users_email_key"` — DB yapısı sızar
+- **S3 bucket public:** `acl:public-read` — herkes veriyi indirir
+- **Cloud IAM geniş:** `*" *"` policy — tek IAM token tüm hesabı ele geçirir
+
+```python
+# KÖTÜ: Production config
+app.config['DEBUG'] = True  # stack trace sızar
+app.config['SECRET_KEY'] = 'dev'  # zayıf secret
+CORS(app, origins='*')  # her origin
+
+# İYİ: Production config
+app.config['DEBUG'] = False
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']  # güçlü, env var
+CORS(app, origins=['https://sirketiniz.com'], supports_credentials=True)
+```
+
+### Docker ve Konteyner Misconfiguration
+
+```dockerfile
+# KÖTÜ Dockerfile
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y python3
+COPY . /app
+CMD ["python3", "/app/server.py"]
+# root olarak çalışır, latest tag belirsen, dependency'ler her build'de farklı
+
+# İYİ Dockerfile
+FROM python:3.12-slim AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM python:3.12-slim
+WORKDIR /app
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY . .
+RUN useradd -m appuser
+USER appuser  # root değil
+HEALTHCHECK --interval=30s CMD curl -f http://localhost:8000/health || exit 1
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+```
+
+## <span class="heading-num">59.5</span> Frontend Framework Güvenliği
+
+Modern frontend framework'ler (React, Vue, Angular) XSS'e karşı temel koruma sağlar ama "bypass" özellikleri tehlike yaratır.
+
+### React
+
+```jsx
+// KÖTÜ: dangerouslySetInnerHTML (XSS)
+function Comment({ text }) {
+  return <div dangerouslySetInnerHTML={{ __html: text }} />;
+}
+
+// Saldırgan text: <img src=x onerror=alert(document.cookie)>
+// React bu HTML'i render eder, XSS çalışır
+
+// İYİ: JSX otomatik escape
+function Comment({ text }) {
+  return <div>{text}</div>;  // HTML değil text, otomatik güvenli
+}
+
+// Markdown için: DOMPurify ile sanitize
+import DOMPurify from 'dompurify';
+function Comment({ text }) {
+  const clean = DOMPurify.sanitize(text);
+  return <div dangerouslySetInnerHTML={{ __html: clean }} />;
+}
+```
+
+### Vue
+
+```vue
+<!-- KÖTÜ: v-html (XSS) -->
+<template>
+  <div v-html="userContent"></div>
+</template>
+
+<!-- İYİ: {{ }} interpolation -->
+<template>
+  <div>{{ userContent }}</div>  <!-- escape'li -->
+</template>
+```
+
+### Angular
+
+```typescript
+// KÖTÜ: bypassSecurityTrustHtml
+constructor(private sanitizer: DomSanitizer) {}
+content = this.sanitizer.bypassSecurityTrustHtml(this.userData);
+// Bypass demek "güvendiğin varsay" — genelde öyle değil
+
+// İYİ: default binding (Angular auto-escape)
+content = this.userData;
+// [innerHTML]="content" — Angular sanitize eder
+```
+
+<Alert level="warning">
+Üç framework'ün ortak kuralı: "bypass" özelliği aslında "tehlike" bayrağıdır. `dangerouslySetInnerHTML`, `v-html`, `bypassSecurityTrust*` — hepsi XSS açığı yaratır. Kullanmadan önce iki kez düşün; çoğu durumda gerekmez.
+</Alert>
+
+## <span class="heading-num">59.6</span> OWASP Top 10 Bağlantıları
+
+Bu bölümün kapsadığı OWASP kategorileri:
+
+- **A01 - Broken Access Control** → [Erişim Kontrolü ve API Güvenliği →](/erisim-kontrolu-ve-api-guvenligi/) (IDOR, yetkilendirme)
+- **A04 - Insecure Design** → Bu bölüm (mass assignment)
+- **A05 - Security Misconfiguration** → Bu bölüm
+- **A08 - Software and Data Integrity Failures** → Bu bölüm (insecure deserialization)
+- **A10 - SSRF** → Bu bölüm
+
+Diğer OWASP maddeleri için:
+- A02 - Cryptographic Failures → [Kriptografi ve Secret Yönetimi →](/kriptografi-ve-secret-yonetimi/)
+- A03 - Injection → [Enjeksiyon Saldırıları →](/enjeksiyon-saldirilari/)
+- A06 - Vulnerable Components → [Tedarik Zinciri Güvenliği →](/tedarik-zinciri-guvenligi/)
+- A07 - Auth Failures → [Kimlik Doğrulama →](/kimlik-dogrulama-ve-yetkilendirme/)
+
+<Checklist title="Diğer Web Zafiyetleri Kontrol Listesi">
+<li>SSRF: URL girdilerinde scheme + domain + IP kontrolü</li>
+<li>AWS IMDSv2 zorunlu (metadata servisi token gerektirir)</li>
+<li>Mass assignment: whitelist/DTO ile alan seçimi</li>
+<li>Asla pickle/güvenilmeyen deserialize yok</li>
+<li>Production</li>
+<li>Yönetim panelleri internete kapalı (VPN/ZTNA arkasında)</li>
+<li>Frontend</li>
+<li>CORS: wildcard değil, specific origin + credentials</li>
+<li>Cloud IAM least privilege, bucket private</li>
+<li>Docker: root değil, digest pinned, multi-stage</li>
+<li>User input pickle/eval/exec ile işleniyor</li>
+<li>Framework bypass (v-html vb.) kullanılıyor</li>
+<li>Production DEBUG=True kalmış</li>
+<li>CORS wildcard </li>
+</Checklist>
+
+**Gerçek olay:** 2019'da Capital One, 100 milyon müşterinin verisini sızdırdı. Bir AWS WAF'ta SSRF açığı vardı. Saldırgan bu açığı kullanarak EC2 metadata servisinden IAM credentials çekti, bu credentials ile S3 bucket'ı okudu. Maliyet: 190 milyon dolar ceza + 270 milyon dolar yasal maliyet. Açık 4 ay açık kaldı. Saldırgan bir ön koşuldu: IAM policy çok geniş, IMDSv1 kullanıyor, WAF kuralları yetersizdi. Bir SSRF = tüm şirket.
+
+**Benzetme:** Web uygulaman bir otele benzer. SQL injection, resepsiyonisteki sır vermemeyi beceremeyen bir görevli. Bu bölümdeki açıklar ise:
+
+- **SSRF:** Otel görevlisine "şu kapalı kapının arkasındaki kasayı getir" diyen misafir; görevli, misafirin yetkisi olmadığını sormadan gider getirir.
+- **Mass assignment:** Misafir "oda numaram 101" derken formda "oda tipi: prezidansiyel süit" ekler; resepsiyonist hepsini sisteme işler.
+- **Insecure deserialization:** Misafir, otele kendi kargosunu gönderir; görevli paketi açar ve içinde bomba vardır.
+- **Misconfiguration:** Otelin tüm kapılarında şifre 1234, yönetim paneli sokağa açık, yangın kapısı engelli.
+- **Frontend bypass:** Misafir "ben pre-approve edilmişim" der, görevli "evet efendim" deyip içeri alır.
+
+Her açığın çözümü aynı prensibe dayanır: varsayılan olarak güvenme, her girdiyi doğrula, en az yetki ver, izle.
+
+## İlgili Bölümler
+
+- [Enjeksiyon Saldırıları →](/enjeksiyon-saldirilari/) — SQL, command, XSS, CSRF
+- [Kimlik Doğrulama ve Oturum Yönetimi →](/kimlik-dogrulama-ve-yetkilendirme/) — Login, session, JWT
+- [Erişim Kontrolü ve API Güvenliği →](/erisim-kontrolu-ve-api-guvenligi/) — RBAC, IDOR, rate limiting
+- [Bulut Güvenliği →](/bulut-guvenligi/) — IAM, S3, IMDS, misconfig
+- [Kriptografi ve Secret Yönetimi →](/kriptografi-ve-secret-yonetimi/) — Şifreleme, anahtar
+- [Tedarik Zinciri Güvenliği →](/tedarik-zinciri-guvenligi/) — Dependency, SBOM
+- [Güvenlik Testi ve DevSecOps →](/guvenlik-testi-ve-devsecops/) — SAST, DAST, fuzzing
+
+<Accordion question="SSRF açığını tam kapatmak mümkün mü?" id="ssrf-tam">
+Zor ama yüksek oranda azaltılabilir. (1) URL allowlist (sadece ihtiyaç duyulan domainler). (2) IP kontrolü (RFC 1918, link-local, localhost reddet). (3) DNS pinning — DNS lookup bir kez, sonra IP'ye bağlan (DNS rebinding önlemi). (4) AWS IMDSv2 (token gerektiren metadata servisi). (5) Network policy: uygulama sunucusunun outbound trafiği kısıtlı. (6) Proxy katmanı: uygulama direkt dışarı çıkmasın, proxy üzerinden. Hiçbir tek çözüm %100 değil, derinlemesine savunma gerek.
+</Accordion>
+
+<Accordion question="Pickle yerine ne kullanmalıyım?" id="pickle-alt">
+Veri tipine göre: (1) Yapılandırılmış veri → JSON + Pydantic. (2) İkili veri → MessagePack, Protobuf. (3) Konfigürasyon → YAML (`safe_load` ile!). (4) Cache → Redis (JSON serialization). (5) Session → JWT veya server-side session store. Asla pickle, PHP unserialize, Java ObjectInputStream ile güvenilmeyen veri okuma. Eğer pickle kullanmak zorundaysan (legacy), HMAC imza ile veriyi doğrula, sadece kendi yazdığın pickle'ı oku.
+</Accordion>
+
+<Accordion question="React/Vue/Angular otomatik XSS koruması yapıyor, why bother?" id="framework-xss">
+Framework'ler "text interpolation" için XSS koruması yapar (otomatik escape). Ama HTML render gerektiğinde (zengin metin editörü, markdown, kullanıcı içeriği) bypass kullanmak gerekir. İşte o noktada: (1) DOMPurify gibi sanitize kütüphanesi kullan. (2) Markdown için marked + DOMPurify pipeline. (3) CSP (Content-Security-Policy) ile ek katman. (4) Framework sürümlerini güncel tut — bypass'lar yeni sürümlerde düzeltiliyor. Framework = birincil savunma, ama tek başına yeterli değil.
+</Accordion>

@@ -1,0 +1,314 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Mobil Uygulama Güvenliği'
+description: 'iOS ve Android uygulama güvenliği, certificate pinning, secure storage, jailbreak/root detection, ekran kaydı koruması, deep link güvenliği ve OWASP MASVS.'
+order: 61
+audience: B
+hero: '/img/hero/cihaz-guvenligi.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+Banka uygulamanız App Store'da. Bir saldırgan, müşterinizin telefonunu çaldı veya cihaza casus yazılım yükledi. Müşteri banka uygulamasını açar, parolasını girer. Eğer uygulama SSL pinning yapmıyorsa, saldırgan proxy ile trafiği dinler ve parolayı çalar. Eğer uygulama ekran kaydına karşı korumasızsa, müşterinin ekran görüntüsü alınır. Eğer jailbreak detection yoksa, saldırgan root ile tüm veriyi çeker. Mobil, web'ten farklı bir tehdit yüzeyi; desktop mantığı burada çalışmaz.
+
+Mobil uygulama güvenliği iki boyutlu: (1) Network — SSL pinning ile MITM (ortadaki adam)'i engelle. (2) Device — secure storage ile veriyi koru, jailbreak/root tespiti ile riskli cihazları engelle. OWASP MASVS (Mobile Application Security Verification Standard) endüstri standardıdır.
+
+## <span class="heading-num">61.1</span> OWASP MASVS
+
+OWASP'ın mobil uygulamalar için versiyon标准u. 8 kategori:
+
+1. **MASVS-STORAGE:** Secure storage (Keychain, Keystore)
+2. **MASVS-CRYPTO:** Kriptografi kullanımı
+3. **MASVS-NETWORK:** Network iletişim güvenliği (TLS, pinning)
+4. **MASVS-PLATFORM:** Platform interaction (deep link, IPC)
+5. **MASVS-CODE:** Code quality (anti-tampering)
+6. **MASVS-RESILIENCE:** Anti-tampering, obfuscation
+7. **MASVS-PRIVACY:** Privacy
+8. **MASVS-CONFIG:** Configuration
+
+İki seviye: L1 (temel), L2 (yüksek riskli uygulamalar — banka, sağlık). Bankacılık apps için L2 zorunlu.
+
+## <span class="heading-num">61.2</span> Certificate Pinning
+
+Mobil uygulama, sunucuyla TLS konuşur. Ama TLS bile MITM (man-in-the-middle) saldırısına açıktır — saldırgan, cihaza kendi root certificate'ini yükleyip trafiği araya girebilir. Certificate pinning, uygulamanın sadece belirli sertifikaları kabul etmesini sağlar.
+
+**Neden pinning?**
+- Kullanıcıya kötü niyetli root sertifikası yüklenmiş olabilir
+- Kurumsal MDM ile proxy kurulabilir
+- Ağdaki firewall (güvenlik duvarı) SSL inspection yapıyor olabilir
+- Telefondaki casus yazılım trafiği dinliyor olabilir
+
+```swift
+// iOS (Swift) - URLSession delegate ile pinning
+import CryptoKit
+
+func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge,
+                completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    guard let serverTrust = challenge.protectionSpace.serverTrust,
+          let certificate = SecTrustGetCertificateAtIndex(serverTrust, 0) else {
+        completionHandler(.cancelAuthenticationChallenge, nil)
+        return
+    }
+
+    // Server certificate'ın hash'i
+    let serverCertData = SecCertificateCopyData(certificate) as Data
+    let serverHash = SHA256.hash(data: serverCertData)
+
+    // Pinned hash (uygulama içine gömülü)
+    let pinnedHash: [UInt8] = [/* beklenen SHA256 */]
+
+    if Array(serverHash) == pinnedHash {
+        completionHandler(.useCredential, URLCredential(trust: serverTrust))
+    } else {
+        completionHandler(.cancelAuthenticationChallenge, nil)
+    }
+}
+```
+
+```kotlin
+// Android (Kotlin) - OkHttp ile pinning
+val client = OkHttpClient.Builder()
+    .certificatePinner(
+        CertificatePinner.Builder()
+            .add("api.bank.com", "sha256/ABC123...=")  // public key hash
+            .add("api.bank.com", "sha256/BACKUP456...=")  // backup
+            .build()
+    )
+    .build()
+```
+
+<Alert level="warning">
+Pinning'de mutlaka backup pin kullanın. Sertifika yenilenirse, ana pin geçersen olur. Backup pin olmadan uygulama çöker ve güncelleme yayınlamak zorunda kalırsınız.
+</Alert>
+
+## <span class="heading-num">61.3</span> Secure Storage
+
+Mobil cihazda veri saklama yöntemleri, güvenlik seviyesine göre değişir.
+
+### iOS — Keychain
+
+```swift
+// KÖTÜ: UserDefaults (güvenli değil)
+UserDefaults.standard.setValue("token123", forKey: "auth_token")
+
+// İYİ: Keychain (donanım destekli)
+let query: [String: Any] = [
+    kSecClass as String: kSecClassGenericPassword,
+    kSecAttrAccount as String: "auth_token",
+    kSecValueData as String: "token123".data(using: .utf8)!,
+    kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+]
+SecItemAdd(query as CFDictionary, nil)
+```
+
+`kSecAttrAccessibleWhenUnlockedThisDeviceOnly` — cihaz kilitli değilse okunabilir, iCloud'a yedeklenmez.
+
+### Android — Keystore + EncryptedSharedPreferences
+
+```kotlin
+// KÖTÜ: SharedPreferences (plain text)
+val prefs = getSharedPreferences("auth", MODE_PRIVATE)
+prefs.edit().putString("token", "token123").apply()
+
+// İYİ: EncryptedSharedPreferences (Jetpack Security)
+val masterKey = MasterKey.Builder(context)
+    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+    .build()
+
+val prefs = EncryptedSharedPreferences.create(
+    context,
+    "auth",
+    masterKey,
+    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+)
+prefs.edit().putString("token", "token123").apply()
+```
+
+Modern Android (API 23+), Keystore'da donanım destekli anahtar saklar.
+
+## <span class="heading-num">61.4</span> Jailbreak / Root Detection
+
+Jailbreak'li iOS veya root'lu Android cihazlarda, uygulama güvenliği ciddi şekilde azalır: sandbox atlanır, bellek okunabilir, kod enjekte edilebilir. Banka uygulamaları bu cihazları reddetmelidir.
+
+```kotlin
+// Android - basit root detection
+fun isDeviceRooted(): Boolean {
+    val paths = listOf(
+        "/system/app/Superuser.apk",
+        "/sbin/su",
+        "/system/bin/su",
+        "/system/xbin/su",
+        "/data/local/xbin/su",
+        "/data/local/bin/su"
+    )
+    return paths.any { File(it).exists() }
+}
+```
+
+```swift
+// iOS - basit jailbreak detection
+func isJailbroken() -> Bool {
+    let paths = ["/Applications/Cydia.app", "/Library/MobileSubstrate/MobileSubstrate.dylib",
+                 "/bin/bash", "/usr/sbin/sshd", "/etc/apt"]
+    return paths.contains { FileManager.default.fileExists(atPath: $0) }
+}
+```
+
+Production'da bu basit check'ler atlatılabilir. Ticari çözümler (Guardsquare DexGuard, Promon SHIELD, OneSpan) güçlü koruma sağlar.
+
+## <span class="heading-num">61.5</span> Ekran Kaydı ve Screenshot Koruması
+
+Banka uygulamalarında kritik: ekran görüntüsü alındığında veya ekran kaydı yapıldığında hassas alanlar gizlenmeli.
+
+```swift
+// iOS - ekran kaydı koruması
+let field = UITextField()
+field.isSecureTextEntry = true  // screenshot'ı engeller
+
+// Ekran kaydı tespiti (iOS 11+)
+NotificationCenter.default.addObserver(self, selector: #selector(screenCaptured),
+                                       name: UIScreen.capturedDidChangeNotification, object: nil)
+```
+
+```kotlin
+// Android - FLAG_SECURE ile screenshot engelle
+window.setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+               WindowManager.LayoutParams.FLAG_SECURE)
+```
+
+## <span class="heading-num">61.6</span> Deep Link ve URL Scheme Güvenliği
+
+Uygulamalar, `myapp://` şemaları veya Universal Links / App Links ile açılır. Saldırgan, sahte deep link ile uygulamanı tetikleyip, parametreleri sömürebilir.
+
+```xml
+<!-- Android Manifest - riskli deep link -->
+<intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="http" android:host="bank.com" />
+</intent-filter>
+<!-- Saldırgan sahte link ile bu intent'i tetikleyebilir -->
+```
+
+**Savunma:**
+- Deep link'leri verify et (Android App Links = assetlinks.json)
+- Universal Links (iOS) için `apple-app-site-association`
+- Gelen URL'yi validate et, sadece beklenen parametreler
+- Hassas aksiyon (para transferi) için tekrar kimlik doğrulama iste
+
+## <span class="heading-num">61.7</span> IPC (Inter-Process Communication) Güvenliği
+
+Android'de Activity, Service, BroadcastReceiver'lar diğer uygulamalarla konuşabilir. Bu yüzden export edilmiş bileşenler risklidir.
+
+```xml
+<!-- KÖTÜ: Exported, korumasız -->
+<activity android:name=".LoginActivity" android:exported="true">
+    <!-- Her uygulama LoginActivity'i çağırabilir -->
+</activity>
+
+<!-- İYİ: Sadece aynı app veya belirli app -->
+<activity android:name=".LoginActivity" android:exported="false">
+    <!-- Veya permission ile kısıtla -->
+</activity>
+```
+
+iOS'ta URL scheme ve pasteboard benzer şekilde sömürülebilir.
+
+## <span class="heading-num">61.8</span> Code Obfuscation ve Anti-Tampering
+
+Mobil APK/IPA, kolayca decompile edilebilir. Banka uygulamasında hardcoded secret varsa, reverse engineering ile çıkarılır.
+
+```bash
+# APK decompile
+apktool d bankapp.apk
+# → Java koduna yakın kaynak
+# → Smali code
+# → AndroidManifest.xml
+# → strings.xml
+# → Tüm görseller, layout'lar
+```
+
+**Savunma:**
+- **ProGuard / R8** (Android) — code shrinking + obfuscation (built-in)
+- **Guardsquare DexGuard** — R8'den daha güçlü, anti-tampering
+- **iOS:** Code obfuscation + anti-debug (ulinstruments检测)
+- **String encryption:** Hassas string'ler runtime'da decrypt edilir
+- **Root/jailbreak detection** (yukarıda)
+- **SafetyNet / Play Integrity API** (Android) — cihaz güvenilir mi
+
+<Scenario label="Bankacılık App'inde Reverse Engineering">
+Sızma testçisi banka app'ini Google Play'den indirir. `apktool d` ile decompile. Smali kod'u okur. Bir hardcoded API key bulur: `a1b2c3d4...`. Bu key, bankanın backend'ine erişim sağlıyor. Sızmacı, kendi uygulamasını yazıp, bu key ile backend'e "kullanıcı adı/parola sıfırlama" isteği yapar — normal app'in hızı limit'ine takılmadan, milyonlarca kombinasyon dener (credential stuffing). Banka'nın yarısı bu denemelerden habersen. Çözüm: hardcoded secret yok, her yükleme için unique token, code obfuscation, RASP (Runtime App Self-Protection).
+</Scenario>
+
+<DoDont items={[
+  { text: `**Certificate pinning:** Backup pin ile birlikte (iOS, Android)`, type: 'do' },
+  { text: `**Secure storage:** Keychain / Keystore / EncryptedSharedPreferences`, type: 'do' },
+  { text: `**Jailbreak/root detection:** Banka, sağlık, finans app'lerinde zorunlu`, type: 'do' },
+  { text: `**FLAG_SECURE / isSecureTextEntry:** Hassas ekranlarda screenshot koruması`, type: 'do' },
+  { text: `**App Attest / Play Integrity:** Cihaz ve uygulama bütünlüğü doğrulama`, type: 'do' },
+  { text: `**RASP:** Runtime'da uygulama kendini korur (Promon, Guardsquare)`, type: 'do' },
+  { text: `**OWASP MASVS L2:** Banka, sağlık, kritik altyapı için`, type: 'do' },
+  { text: `**Hardened WebView:** JavaScript Native Bridge'i kısıtla`, type: 'do' },
+  { text: `**Hardcoded secret:** Anahtar, parola, token koda gömülü`, type: 'dont' },
+  { text: `**Plain SharedPreferences / UserDefaults:** Token, PII saklamak için`, type: 'dont' },
+  { text: `**TLS verification off:** "Sertifika hatası var, kapatayım" = ölümcül`, type: 'dont' },
+  { text: `**Exported component'ler:** Gerek olmadıkça dışa açık`, type: 'dont' },
+  { text: `**Trust all certificates:** TrustManager neu write'den kaçının`, type: 'dont' },
+  { text: `**Log'da hassas veri:** Production'da token, parola loglama`, type: 'dont' },
+  { text: `**HTTP destekle:** Sadece HTTPS, plain HTTP kapat`, type: 'dont' }
+]} />
+
+<Checklist title="Mobil Uygulama Güvenliği Kontrol Listesi">
+<li>Certificate pinning (iOS + Android) aktif, backup pin ile</li>
+<li>Tüm secret</li>
+<li>Jailbreak / root detection (finansal apps)</li>
+<li>FLAG_SECURE / isSecureTextEntry hassas ekranlarda</li>
+<li>ProGuard / R8 obfuscation aktif</li>
+<li>OWASP MASVS L1 audit yapıldı (L2 finansal için)</li>
+<li>App Attest (iOS) / Play Integrity (Android) entegre</li>
+<li>Deep link</li>
+<li>Exported component</li>
+<li>Sadece HTTPS, plain HTTP kapatılmış (Android: usesCleartextTraffic=false)</li>
+<li>Hardcoded API key / parola koda gömülü</li>
+<li>TrustManager tüm sertifikaları kabul ediyor</li>
+<li>Production</li>
+<li>MASVS audit yapılmamış, </li>
+</Checklist>
+
+**Gerçek olay:** 2020'de bir sızma testçisi, büyük bir bankacılık uygulamasında hardcoded AWS credentials buldu. App'in Android APK'sını decompile etti, kaynak kod içinde access_key gömülüydü. Bu credentials ile bankanın S3 bucket'ına erişti, müşteri KYC belgelerini (kimlik, fatura) görebildi. Sadece decompile yetti — jailbreak/root gerekmedi. Banka 24 saat içinde credentials rotate etti, ama çevrimdışı kopya bilinmiyor. Mobil app = sunucudaki kod değil; reverse engineering'e açık.
+
+**Benzetme:** Mobil uygulama, bir banka şubesinin "müşteriye açılan kapısı" gibidir. Web sitesi şube binası; mobil app ise ATM'ye benzer — son kullanıcının elinde, kontrolünüz dışında bir cihazda çalışır. ATM'nin:
+
+- **Certificate pinning:** ATM ile banka arasındaki kablodan başka kimse veriyi okuyamaz.
+- **Secure storage:** ATM'nin iç kasası — paralar orada, çalan çalamaz.
+- **Jailbreak detection:** ATM'nin kasasına zorla girmeye çalışan alarmı tetikler.
+- **Code obfuscation:** ATM'nin iç mekanizması kilitli kapı arkasında; çalan açsa da kolay anlayamaz.
+- **MASVS:** ATMsleşmiş standard — tüm bankalar aynı güvenlik seviyesinde.
+
+Her güvenlik katmanı tek başına yeterli değil. Bir banka ATM'sinin fiziksel kasası, network şifrelemesi, alarm sistemi, gözetim kamerası, ekipman denetimi bir arada çalışır. Mobil app'de de derinlemesine savunma şart.
+
+## İlgili Bölümler
+
+- [Kimlik Doğrulama ve Oturum Yönetimi →](/kimlik-dogrulama-ve-yetkilendirme/) — Token, OAuth, PKCE
+- [Diğer Kritik Web Zafiyetleri →](/diger-web-zafiyetleri/) — Mass assignment, misconfig
+- [Kriptografi ve Secret Yönetimi →](/kriptografi-ve-secret-yonetimi/) — Şifreleme, key management
+- [Bulut Güvenliği →](/bulut-guvenligi/) — Mobile backend API güvenliği
+- [Güvenlik Testi ve DevSecOps →](/guvenlik-testi-ve-devsecops/) — MobSF, static analysis
+
+<Accordion question="Mobil app güvenlik testi nasıl yapılır?" id="mobile-test">
+3 aşama: (1) **Statik analiz** — MobSF (Mobile Security Framework), NowSecure, Fortify ile APK/IPA'yı decompile edip kod analizi. Hardcoded secret, zafiyet, misconfig aranır. (2) **Dinamik analiz** — Çalışan app'i Frida, Objection ile hook'layıp runtime'da test. SSL pinning bypass, jailbreak detection bypass denenir. (3) **Penetration test** — Backend API ile birlikte, mobil app + server'ı uçtan uca test. OWASP MASVS checklist'i kullan. Yıllık olarak dış denetim.
+</Accordion>
+
+<Accordion question="SSL pinning yapıyorum ama sertifika yenilendi, app çöktü." id="mobile-pin-rotate">
+İki çözüm: (1) **Backup pin:** Her zaman 2 pin set et — aktif ve yedek. Yeni sertifika yedek pin ile uyumlu olsun. (2) **Public key pin, certificate pin değil:** Sertifika yenilense de public key aynı kalır (Let's Encrypt gibi). Public key'in hash (özet)'ini pin'le. (3) **Remote pin update:** App'in config'i sunucudan güncellenir, yeni pin remote eklenir. (4) **Kill switch:** Hata oranını izle, pinning geçersizse acil güncelleme.
+</Accordion>
+
+<Accordion question="Bankacılık app'imizde biometric authentication kullanıyoruz, yeterli mi?" id="mobile-biometric">
+Biometric tek başına yeterli değil. (1) **Biometric anahtar gibi değil,** "evet/hayır" verir. cryptographic key ile birleştir (Keystore'da setUserAuthenticationRequired). (2) **Biometric binding:** Cihazda kayıtlı parmak izi değiştiğinde (yeni parmak eklendi) tekrar parola sor. (3) **Liveness detection:** deepfake/yüz değiştirme sömürüsüne karşı. (4) **Fallback:** Biometric başarısız olursa parola/PIN. (5) **Server-side validation:** Sadece cihazda değil, backend de biometric doğrulamasını onaylasın.
+</Accordion>

@@ -1,0 +1,126 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Çalıntı veya Kayıp Telefon'
+description: 'Telefon kaybedildiğinde veya çalındığında ilk 10 dakikada yapılması gerekenler ve kurtarma adımları.'
+order: 22
+audience: V
+hero: '/img/hero/calinti-kayip.webp'
+---
+
+import DoDont from '../components/DoDont.astro';
+import Alert from '../components/Alert.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+O anı bilirsin. Cebine elini atarsın ve telefon yok. Montun ceplerini karıştırırsın, çantayı açarsın, her yere bakarsın. Yok. O an içinde bir boşluk oluşur. Sadece telefonun değeri değildir kaybettiğin. İçindeki fotoğraflar, mesajlar, hesaplar, anılar... Ama en önemlisi, telefonunu bulan kişi artık senin adına işlem yapabilir. O andan itibaren her saniye önemlidir. Utanmak, beklemek, "acaba düşürdüm mü" diye düşünmek... Bunların her biri, verilerinin sızması için geçen süredir.
+
+Telefon kaybı veya çalınması, çoğu insan için utanç vericidir. "Ben düşürdüm" veya "Çaldırdım" demek zordur. Oysa bu tepki tam da saldırganların işine yarar: utanç yüzünden vakit kaybedilir, bildirim gecikir, veriler sızmaya başlar. Siber güvenlik önce zihin temizliğiyle başlar: "Başıma geldi, şimdi ne yapmalıyım?" demek. Telefon kaybetmek insanlık halidir. Bunu bir an önce kabullenip harekete geçmek, kaybettiğin telefon değil, içindeki verilerdir. Bunun için bir saniye bile utanma. Hemen protokolü uygula.
+
+**Saldırı zinciri:** Telefonunu bulan veya çalan biri, ilk iş olarak ekran kilidini aşmaya çalışır. Başaramazsa SIM kartı çıkarıp başka cihaza takar, SMS doğrulama kodlarını ele geçirir. Ardından bu kodlarla parola sıfırlama yaparak hesaplarına girer. Bu zinciri kırmanın tek yolu: SIM kartı derhal askıya almak ve tüm hesaplardan çıkış yapmaktır. Zaman kaybetmeden ilk 10 dakikada bu adımları at.
+
+<Scenario label="Senaryo: Metroda Telefonunu Düşürdün">
+Kalabalık bir metro vagondasın. Telefondan mesaj kontrolü yaparken birden cihaz elinden kaydı ve yere düştü. Eğildiğinde telefon artık yerinde değildi. Acil yapman gerekenler: SIM kartı askıya aldır, hesaplardan çıkış yap, parolaları değiştir. Ama tüm bunlar için başka bir cihaza ve hızlı tepkiye ihtiyacın var. İlk 10 dakika kritik.
+</Scenario>
+
+**Saldırgan gözüyle:** Telefon bulan biri için ilk hedef ekran kilidi değil, SIM karttır. SIM kartı alır, başka telefona takar, SMS doğrulama kodlarını toplar. Tüm banka hesaplarına bu yolla girer. Bu yüzden ilk işin SIM kartı durdurmak: parola değiştirmek değil. Saldırgan kilitli kapıyı zorlamaz, anahtarı çalar.
+
+## <span class="heading-num">22.1</span> Telefonunu Kaybettiğinde İlk 10 Dakika
+
+1. **Uzaktan kilitle:** "Cihazımı Bul" özelliği ile cihazı uzaktan kilitle.
+2. **SIM kartı durdur:** Operatörünü ara, SIM kartı askıya aldır.
+3. **Hesaplardan çıkış yap:** Mümkünse başka cihazdan tüm sosyal medya ve e-posta hesaplarından "Tüm cihazlardan çıkış yap."
+4. **Parolaları değiştir:** E-posta ve banka parolalarını derhal değiştir.
+
+<DoDont items={[
+  { text: 'Cihazı uzaktan kilitle ("Cihazımı Bul")', type: 'do' },
+  { text: 'SIM kartı derhal askıya aldır', type: 'do' },
+  { text: 'Tüm hesaplardan çıkış yap', type: 'do' },
+  { text: 'E-posta ve banka parolalarını değiştir', type: 'do' },
+  { text: 'Polise kayıp/çalıntı tutanağı bildir', type: 'do' },
+  { text: 'Panik yaparak telefonu aramaya devam et', type: 'dont' },
+  { text: 'Yedekleme yapmaya çalış (veriler sızdırılıyor olabilir)', type: 'dont' },
+  { text: 'SIM kartı askıya aldırmayı geciktir', type: 'dont' },
+]} />
+
+## <span class="heading-num">22.2</span> Kurtarma veya Silme
+
+- **Kurtarma şansı yoksa:** "Cihazımı Bul" üzerinden cihazı uzaktan sil. Tüm veriler yok olur.
+
+<Alert level="critical">
+
+**Kurtarma şansı kalmadıysa cihazı uzaktan silmeyi geciktirme.** Her geçen dakika bulan kişi kişisel verilerine erişebilir. "Cihazımı Bul" üzerinden uzaktan silme işlemi cihaz İnternete bağlandığı an tetiklenir. Silme işlemi geri alınamaz; bu nedenle öncesinde yedeklemenin varlığından emin ol.
+
+</Alert>
+
+- **Yedekten dön:** Yedekleme yapılmışsa (parolalı), yeni cihaza geri yükle.
+- **Polise bildir:** Kayıp/çalıntı tutanağı, SIM kartın kötüye kullanımını önlemek için gerekli.
+
+<Checklist title="Kayıp Telefon Protokolü">
+<li>Cihazı uzaktan kilitle ("Cihazımı Bul")</li>
+<li>SIM kartı askıya aldır</li>
+<li>Tüm hesaplardan çıkış yap</li>
+<li>E-posta ve banka parolalarını değiştir</li>
+<li>Kurtarma şansı yoksa uzaktan sil</li>
+<li>Polise kayıp/çalıntı tutanağı bildir</li>
+<li>Yeni cihaza yedekten geri yükle</li>
+</Checklist>
+
+**Gerçek olay:** 2019'da bir ABD senatörünün telefonu otel odasından çalındı. Hırsız, telefonun SIM kartını hemen başka bir cihaza taktı. SMS doğrulama kodlarını kullanarak senatörün sosyal medya hesaplarına 15 dakika içinde erişti ve sahte paylaşımlar yaptı. Senatörün ekibi, durumu ancak medya kuruluşlarının aramasıyla fark etti. Bu olay, telefon kaybında ilk 10 dakikanın neden kritik olduğunu gösteren gerçek bir örnektir. SIM kartı saniyeler içinde askıya alınmazsa, saldırgan SMS kodlarıyla tüm hesapları ele geçirebilir.
+
+## <span class="heading-num">22.3</span> Yedekleme Stratejisi
+
+Telefonun kaybolur, çalınır veya çöker. Cihaz yerine konur, veri yerine konmaz. Yedekleme hayati önem taşır.
+
+<Accordion question="Yedekleme yöntemleri karşılaştırması" id="backup-compare">
+
+<table>
+<caption>Çalıntı veya Kayıp Telefon — Özet Tablo</caption>
+<thead>
+<tr><th scope="col">Yöntem</th><th scope="col">Avantaj</th><th scope="col">Dezavantaj</th><th scope="col">Güvenlik</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>iCloud yedekleme</strong></td><td>Otomatik, kolay</td><td>Bulut riski, hesap ele geçirilirse arşiv sızar</td><td>Orta (2FA gerekli)</td></tr>
+<tr><td><strong>iTunes/Finder yedekleme</strong></td><td>Parolalı, yerel</td><td>Manuel işlem, harici disk gerektirir</td><td>Yüksek</td></tr>
+<tr><td><strong>Google yedekleme</strong></td><td>Otomatik (Android)</td><td>Bulut riski, Google hesabına bağlı</td><td>Orta</td></tr>
+<tr><td><strong>Harici diske yedekleme</strong></td><td>Tam kontrol, offline</td><td>Fiziksel kayıp riski, düzenli gerektirir</td><td>Çok yüksek (parolalı)</td></tr>
+<tr><td><strong>Şifreli bulut (Cryptomator vb.)</strong></td><td>Uzaktan erişim, şifreli</td><td>Ek yazılım gerektirir</td><td>Yüksek</td></tr>
+</tbody>
+</table>
+
+**Kamu görevlisi önerisi:** Fiziksel, parolalı harici diske yedekleme en güvenli seçenektir. Bulut yedekleme kullanılacaksa mutlaka şifreli bulut aracı (Cryptomator, VeraCrypt) ile korunmalı.
+
+</Accordion>
+
+**Yedekleme kuralları:**
+- **Düzenli:** Haftada bir otomatik yedekleme ayarla (parolalı).
+- **Parolalı:** Yedekleme parolasız olmamalıdır. Bulut yedekleme kullanılıyorsa hesabın iki adımlı doğrulama ile korunmalı.
+- **Çift kopya:** Bir yedek bulutta, bir yedek fiziksel (parolalı harici disk) olsun.
+- **Test et:** Yedeğin gerçekten çalıştığını ayda bir kontrol et. Bozuk yedek, yedek değildir.
+- **Bulut yedekleme uyarısı:** Özel fotoğraf ve videoların buluta otomatik yüklenmesi güvenlik riski oluşturur. Bulut hesabı ele geçirilirse tüm arşiv sızdırılır. Kamu görevlileri için fiziksel, parolalı harici diske yedekleme tercih edilmelidir (bkz. [Tehdit ve Şantaj](/tehdit-santaj/)).
+
+**iPhone yedekleme:**
+- Ayarlar > Apple ID > iCloud > iCloud Yedekleme açık
+- Parolalı yedekleme için: iTunes/Finder'da "Yerel yedeklemeyi parolala" kutusunu işaretle
+
+**Android yedekleme:**
+- Ayarlar > Google > Yedekle açık
+- Google Fotoğraflar'da otomatik yedekleme aktif
+
+## <span class="heading-num">22.4</span> Önleyici Kurallar
+
+- **Yap:** "Cihazımı Bul" özelliğini önceden açık olduğundan emin ol. Kapalıysa uzaktan kilitleyemezsin.
+  - **iPhone:** Ayarlar > Apple ID > Cihazımı Bul açık olmalı.
+  - **Android:** Ayarlar > Google > Cihazımı Bul açık olmalı.
+- **Yap:** Düzenli yedekleme al (parolalı). Telefon kaybında en büyük kayıp veri olur, cihaz değil.
+
+**Benzetme:** Telefon kaybı, ev anahtarını kaybetmek gibidir. Anahtarın kendisi değil, anahtarla açılan kapılar asıl kaygı vericidir. Neyse ki dijital dünyada anahtarı değiştirmek, evin kilidini değiştirmekten çok daha kolaydır.
+
+
+## İlgili Bölümler
+
+- [Hesap Çalındığında Acil Protokol](/hesap-calma/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Kriz Karar Ağacı](/kriz/)
+- [Güvenli Silme ve Cihaz Devri](/guvenli-silme/)

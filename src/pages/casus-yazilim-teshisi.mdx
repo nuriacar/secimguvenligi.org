@@ -1,0 +1,197 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Casus Yazılım Teşhis ve Temizlik'
+description: 'Devlet düzeyinde casus yazılımlar (Pegasus, Predator), korunma yöntemleri, teşhis protokolü ve cihaz temizliği.'
+order: 27
+audience: V,G,K
+hero: '/img/hero/casus-yazilim-teshisi.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import Accordion from '../components/Accordion.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+
+
+Telefonunda öyle bir casus yazılım olabilir ki onu asla fark etmezsin. Belirti göstermez, pil tüketmez, sıcaklık yapmaz. Sessizce oturur, yazdıklarını okur, konuştuklarını dinler, nereye gittiğini izler. Bu yazılımlar sıradan antivirüslerin göremediği açıkları kullanır. Milyonlarca dolarlık bu araçlar, sadece devletlerin ve istihbarat servislerinin kullanımına sunulur. Seni hedef aldılarsa, tespit edemeyebilirsin. Ama korunabilirsin.
+
+**Hızlı ipucu:** Devlet düzeyinde casus yazılımları tespit edemezsin. Ama korunabilirsin: telefonunu arada sırada (şüphelenmesen bile) kapatıp açmak birçok sıfır tıklama açığını etkisiz hale getirir. Şüpheleniyorsan da mutlaka kapatıp aç. Bunu alışkanlık haline getir.
+
+## <span class="heading-num">27.1</span> Nedir?
+
+Devlet düzeyinde ticari casus yazılımlar, özel şirketler tarafından geliştirilen ve yalnızca devletlere, istihbarat servislerine ve kolluk kuvvetlerine satılan gözetim araçlarıdır. Sıradan antivirüs programları bunları tespit edemez. Çünkü bu yazılımlar, henüz keşfedilmemiş veya henüz kapatılmamış sistem açıklarını (sıfırıncı gün / 0-day exploit) kullanır. Milyonlarca dolarlık yazılımlardır ve belirli hedeflere yönelik kullanılır.
+
+## <span class="heading-num">27.2</span> Bilinen Örnekler
+
+<table>
+<caption>Bilinen devlet düzeyinde ticari casus yazılımlar</caption>
+<thead>
+<tr>
+  <th scope="col">Yazılım</th>
+  <th scope="col">Üretici</th>
+  <th scope="col">Sızma Yöntemi</th>
+  <th scope="col">Öne Çıkan Özellik</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Pegasus</strong></td>
+  <td>NSO Group (İsrail)</td>
+  <td>Sıfır tıklama (zero-click). WhatsApp aramasıyla, kurban açmasa bile sızar. Ardından arama kaydını siler.</td>
+  <td>Tüm fotoğraflar, parolalı mesajlar (Signal, WhatsApp dahil), anlık konum ve ortam dinlemesi doğrudan saldırgan paneline düşer.</td>
+</tr>
+<tr>
+  <td><strong>Predator</strong></td>
+  <td>Cytrox / Intellexa (Kuzey Makedonya / Yunanistan)</td>
+  <td>Tek tıklama (one-click). Çok inandırıcı kargo takip linki, haber linki veya kurumsal e-posta ile sızar. Linke tıklandığı an arka planda yüklenir.</td>
+  <td>Telefon kapatılıp açılsa bile cihazda kalıcı olabilir. Yunanistan'da siyasetçi ve gazeteci dinleme skandalıyla ortaya çıktı.</td>
+</tr>
+<tr>
+  <td><strong>FinFisher (FinSpy)</strong></td>
+  <td>FinFisher (Almanya)</td>
+  <td>Sahte uygulama dosyaları (.apk), sahte web siteleri (oltalama). 2017 Türkiye'de Adalet Yürüyüşü sırasında "yürüyüş takvibi.apk" ve sahte CHP giriş sayfalarıyla muhalif isimlerin telefonlarına sızdırıldı.</td>
+  <td>Mikrofonu açar, kamerayı izler, WhatsApp yazışmalarını ekrandan okur. Şirket yasa dışı ihracat soruşturmaları sonucu kapatıldı.</td>
+</tr>
+<tr>
+  <td><strong>Galileo (RCSI)</strong></td>
+  <td>Hacking Team (İtalya)</td>
+  <td>Oltalama linkleri ve sahte güncelleme bildirimleri.</td>
+  <td>2015 yılında şirketin kendisi hacklendi; tüm müşteri listeleri ve kaynak kodları İnternete sızdırıldı.</td>
+</tr>
+<tr>
+  <td><strong>Subzero / Knotweed</strong></td>
+  <td>DSIRF (Avusturya)</td>
+  <td>Windows sıfırıncı gün açıklarını kullanarak kurumlara sızar.</td>
+  <td>Sadece telefonları değil, Windows işletim sistemli bilgisayarları da hedef alır. Kurumsal belge hırsızlığı yapar.</td>
+</tr>
+</tbody>
+</table>
+
+**Gerçek olay:** NSO Group'un Pegasus casus yazılımı 2016'dan beri dünya genelinde gazeteci, aktivist ve siyasetçileri hedef aldı. 2021'de 50.000'den fazla telefon numarasının sızdırılmasıyla skandal ortaya çıktı. Pegasus, kurban hiçbir yere tıklamadan (sıfır tıklama) telefona bulaşabiliyor. 2018'de Amazon kurucusu Jeff Bezos'un telefonuna, Suudi Arabistan veliaht prensi Mohammed bin Salman'ın WhatsApp üzerinden gönderdiği bir video dosyası aracılığıyla Pegasus yüklendiği iddia edildi. Bu olay, devlet düzeyinde casus yazılımların sadece doğrudan hedefleri değil, onlarla iletişim kuran herkesi de tehlikeye atabileceğini gösterdi.
+
+## <span class="heading-num">27.3</span> Türkiye'den Bilinen Vakalar
+
+- **2017 - FinFisher / Adalet Yürüyüşü:** Muhalif isimlere sahte Twitter hesapları üzerinden "yürüyüş takvibi" uygulaması (.apk dosyası) gönderildi. Ayrıca sahte CHP giriş sayfalarıyla (oltalama) parolalar çalındı. Telefonlara FinFisher yüklendi; mikrofon, kamera ve mesajlar ele geçirildi.
+- **Bu vakadan çıkan ders:** Siyasi gerginlik ve toplumsal olaylar döneminde, "destekleyin", "katılım sağlayın", "takip edin" gibi söylemlerle gelen linklere ve dosyalara karşı özellikle dikkatli olunmalıdır.
+
+<Scenario label="Senaryo: Adalet Yürüyüşü Vakası">
+2017 yılında muhalif isimlere sahte Twitter hesapları üzerinden "yürüyüş takibi" uygulaması gönderildi. Kurbana göre bu destek amaçlı bir uygulamaydı; gerçekte ise FinFisher casus yazılımını yüklüyordu. Aynı dönemde sahte CHP üye giriş sayfalarıyla parolalar da çalındı. Toplumsal olaylar döneminde duygusal söylemlerle gelen tüm link ve dosyalara şüpheyle yaklaş.
+</Scenario>
+
+## <span class="heading-num">27.4</span> Korunma Yöntemleri
+
+- **Arada sırada telefonu kapatıp aç (şüphelenmesen bile):** Bu tür yazılımlar telefon hafızasında (RAM) canlı kalır. Kapatıp açmak aktif saldırıyı kırar. Saldırgan tekrar sızmak zorunda kalır. Zaman zaman kapat-aç yapılırsa, saldırgan tekrar tekrar sızmak zorunda kalır ve bu da yakalanma ihtimalini artırır. Bazı vakalarda saldırganlar pes edip bırakmıştır. Şüpheleniyorsan vakit kaybetmeden kapatıp aç.
+- **iPhone Kilit Modu (Lockdown Mode):** Yüksek risk altındaki siyasiler için Ayarlar > Gizlilik ve Güvenlik > Kilit Modu açılır. Bu mod:
+  - Mesajlardaki ek ve bağlantıları engeller
+  - Bilinmeyen aramaları engeller
+  - Bilinen sızma yollarını tıkar
+
+<Alert level="critical">
+
+**Kilit Modu (Lockdown Mode) yüksek riskli siyasiler için zorunludur.** Ayarlar > Gizlilik ve Güvenlik > Kilit Modu'nu aç. Bu mod mesajlardaki ekleri, bilinmeyen aramaları ve bilinen sızma yollarını engeller. Kilit Modu aktifken bile arada sırada (şüphelenmesen bile) telefonu kapatıp açmayı ihmal etme.
+
+</Alert>
+- **iPhone'da iMessage ve FaceTime'ı kapat:** iMessage, iOS'ta varsayılan olarak açık gelir ve Pegasus gibi yazılımların birincil sızma vektörüdür. Kaspersky GReAT Global Direktörü Costin Raiu'ya göre, iMessage'ı kapatmak Pegasus'a karşı en etkili önlemlerden biridir. Yüksek risk altındaki siyasiler bunu bir ödünleşim olarak kabul etmeli ve kapatmalıdır.
+- **Alternatif tarayıcı kullan (Firefox Focus):** iOS'taki tüm tarayıcılar aynı WebKit motorunu kullansa da, bazı exploitler Firefox Focus gibi alternatif tarayıcılarda düzgün çalışmaz. Varsayılan tarayıcı yerine Firefox Focus tercih edilmeli.
+- **Android: Google Play Koruması (Play Protect):** Ayarlar > Google > Güvenlik > Play Protect açık olmalı. Düzenli tarama yaptır.
+- **Sıfırıncı gün açıklarına karşı en güçlü önlem:** İşletim sistemini güncel tutmak (Cihaz Güvenliği bölümü) ve iPhone'da Kilit Modu açmaktır. Bu yazılımların kullandığı açıkların çoğu, Apple ve Google'ın yayınladığı güncellemelerle kapatılır. Pek çok iOS exploit kiti zaten yamalanmış açıkları hedefler; güncellemeyi ertelersen hacklenmen kaçınılmaz olur.
+- **Kaynağı belirsiz hiçbir dosyayı indirme:** Özellikle .apk (Android uygulama dosyası) ve bilinmeyen kaynaklardan gelen kurulum dosyaları. Bu dosyalar FinFisher gibi yazılımların en yaygın bulaşma yoludur.
+- **Android'de "Bilinmeyen Kaynaklar" kapalı olmalı:** Ayarlar > Güvenlik > Bilinmeyen kaynaklardan uygulama yüklemeyi kapat. Sadece Google Play Store veya App Store'dan uygulama indirilmeli.
+- **Oltalama sayfalarına karşı dikkat:** "CHP üye girişi", "Parti içi anket", "Yürüyüş takvibi" gibi sahte web siteleri en çok siyasi dönemlerde kullanılır. Parolanı sadece resmi uygulama veya adreste gir. Adres çubuğunu her zaman kontrol et.
+- **Sahte İnternet adresi (domain) taktiklerini tanı:** Gelişmiş tehdit grupları (APT), gerçek kurumların İnternet adreslerine çok benzeyen sahte adresler kaydeder. Örnekler:
+  - `gov.hu` (Macar Hükümeti) yerine `qov.hu.com`
+  - `gov.pl` (Polonya Hükümeti) yerine `q0v.pl`
+  - `standartnews.com` (Bulgar haber sitesi) yerine `standartnevvs.com` (iki tane v harfi)
+  - `kavkazcenter.com` (haber ajansı) yerine `kavkazcentr.info`
+  - `osce.org` (AGİT) yerine `login-osce.org`
+  - Bu taktik, adres çubuğuna hızlıca göz atan kurbanı kandırmak için tasarlanmıştır. Giriş yapmadan önce adresi harf harf kontrol et.
+- **Sanal özel ağ (VPN) seçimine dikkat:** Bazı exploitler, GSM operatörü aradaki adam saldırısı (MitM), DNS ele geçirme (hijack) veya HTTP sitelerde gezinirken bulaştırılır. VPN bunlardan korur ama her VPN güvenli değildir:
+  - Ücretsiz VPN kullanılmamalı
+  - Kripto varlıklarla ödeme kabul eden, kayıt bilgisi gerektirmeyen VPN'ler tercih edilmeli
+  - VPN uygulaması yerine WireGuard veya OpenVPN gibi açık kaynaklı araçlarla VPN profili kullanılmalı
+  - Yeni değil, geçmişi olan köklü VPN sağlayıcıları seçilmeli
+- **Ayda bir yedek al ve tarat:** iPhone'da iTunes/Finder yedeklemesi ayda bir alınmalı. Bu yedek, Mobil Doğrulama Aracı (MVT) ile Pegasus ve benzeri yazılımların izini taramak için kullanılır.
+- **Sistem tanılama çalıştır ve harici diske yedekle:** iPhone'da Ses Yukarı + Ses Aşağı + Güç tuşuna aynı anda basılarak sistem tanılama (sysdiagnose) oluşturulur. Bu dosya, ileride forensik analiz gerektiğinde kanıt niteliği taşır. Harici bir diske kopyalanmalı.
+- **Jailbreak kontrolü yapan uygulama kullan:** Saldırgan, tekrar tekrar kapat-aç nedeniyle usanmışsa sonunda kalıcılık (persistence) oluşturmak için cihazı jailbreak yapacaktır. Bu, saldırganın yakalanma olasılığının en yüksek olduğu andır. Jailbreak tespiti yapan bir uygulama kur.
+- **İşletim sistemi değiştirmeyi düşün:** iOS kullanıyorsan bir süre Android'e, Android kullanıyorsan iOS'a geçmeyi düşün. Bazı tehdit aktörleri yalnızca belirli bir işletim sistemi için geliştirilmiş exploit sistemi satın alır. İşletim sistemi değiştirmek saldırganın planını bozar.
+- **İkincil güvenli cihaz edin:** Yüksek risk altındaki siyasiler, GrapheneOS (güvenlikle sertleştirilmiş Android) çalıştıran ikincil bir cihaz edinmeli. İçine ön ödemeli SIM kart takılmalı veya yalnızca uçak modundayken kablosuz ağ (Wi-Fi) ve Tor ile bağlanılmalı. Telefon numarasına bağlı olmayan Session gibi mesajlaşma uygulamaları tercih edilmeli. Çünkü saldırgan telefon numaranı ele geçirirse WhatsApp, Signal, Telegram gibi tüm uygulamalardan seni hedefleyebilir.
+
+<DoDont items={[
+  { text: 'Arada sırada telefonu kapatıp aç (şüphelenmesen bile)', type: 'do' },
+  { text: 'iPhone Kilit Modu (Lockdown Mode) aç', type: 'do' },
+  { text: 'İşletim sistemini güncel tut', type: 'do' },
+  { text: 'Firefox Focus gibi alternatif tarayıcı kullan', type: 'do' },
+  { text: 'Google Play Koruması açık tut (Android)', type: 'do' },
+  { text: 'Kaynağı belirsiz dosya indirmemek', type: 'do' },
+  { text: 'Ayda bir yedek al ve MVT ile tarat', type: 'do' },
+  { text: 'Sıfırıncı gün açıklarına karşı güncellemeyi erteleme', type: 'do' },
+  { text: 'Bilinmeyen kaynaklardan uygulama yükleme', type: 'dont' },
+  { text: 'iMessage ve FaceTime açık bırak (yüksek riskli)', type: 'dont' },
+  { text: 'Ücretsiz VPN kullan', type: 'dont' },
+  { text: 'Oltalama linklerine tıkla', type: 'dont' },
+  { text: 'Adres çubuğunu kontrol etmeden giriş yap', type: 'dont' },
+]} />
+
+## <span class="heading-num">27.5</span> Sızıldığından Şüpheleniyorsan
+
+1. **Cihazı derhal kapat.**
+2. **Yedek alma girişiminde bulunma** (casus yazılım yedeğe de sızabilir, yedekleme işlemi sırasında veriler saldırgana da aktarılabilir).
+3. **Güvenilir bir uzmana veya siber güvenlik kuruluna başvur.**
+
+<Checklist title="Sızıldığından Şüpheleniyorsan">
+<li>Cihazı derhal kapat</li>
+<li>Yedek alma girişiminde bulunma</li>
+<li>Güvenilir bir siber güvenlik uzmanına başvur</li>
+<li>SIM kartı değiştirmeyi düşün</li>
+<li>Tüm hesap parolalarını değiştir</li>
+<li>MVT taraması yaptır</li>
+</Checklist>
+
+## <span class="heading-num">27.6</span> Cihaza Casus Yazılım Bulaştığı Kesinleştiyse Ne Yapılır?
+
+Eğer bir siyasetçinin telefonuna Pegasus, Predator veya benzeri üst düzey bir casus yazılım bulaştığı kesinleştiyse, o telefon artık **radyoaktif atıktır.** Sıradan temizlik yöntemleri yetmez:
+
+1. **Telefonu fiziksel olarak kullanımdan kaldır:** Fabrika ayarlarına döndürmek bile kesin çözüm olmayabilir. Predator gibi yazılımlar telefon kapatılıp açılsa bile cihazda kalıcı olabilir. Telefon imha edilmeli veya güvenilir bir forensik laboratuvara teslim edilmeli.
+2. **SIM kartı değiştir:** Eski SIM kartı kullanımdan kaldır, operatörden yeni SIM kart çıkar.
+3. **Yeni telefona eski yedekten hiçbir veri aktarma:** Özellikle eski uygulamalar, ayarlar ve sistem dosyaları yeni telefona kesinlikle taşınmamalı. Her şeye sıfırdan başlanmalı.
+4. **Tüm hesap parolalarını değiştir:** Eski parolalar artık güvensiz. Yeni, güçlü ve benzersiz parolalar belirle.
+5. **Mobil Doğrulama Aracı (MVT) taraması:** Uluslararası Af Örgütü'nün geliştirdiği açık kaynaklı Mobil Doğrulama Aracı (MVT - Mobile Verification Toolkit) ile telefonun yedeklemesi alınarak Pegasus, Predator ve benzeri yazılımların izi taranabilir. Bu işlemi güvenilir bir siber güvenlik uzmanına yaptır.
+
+<Accordion question="Spyware karşılaştırma tablosu" id="spyware-compare">
+
+<table>
+<thead>
+<tr><th>Yazılım</th><th>Üretici</th><th>Sızma Yöntemi</th><th>Kalıcılık</th><th>Kapsam</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Pegasus</strong></td><td>NSO Group (İsrail)</td><td>Sıfır tıklama (zero-click)</td><td>RAM tabanlı, kapat-aç ile kırılır</td><td>Fotoğraflar, mesajlar, konum, ortam dinleme</td></tr>
+<tr><td><strong>Predator</strong></td><td>Cytrox / Intellexa</td><td>Tek tıklama (one-click)</td><td>Cihazda kalıcı olabilir</td><td>Mikrofon, kamera, mesajlar</td></tr>
+<tr><td><strong>FinFisher</strong></td><td>FinFisher (Almanya)</td><td>Sahte APK, oltalama</td><td>Kalıcı</td><td>Mikrofon, kamera, WhatsApp okuma</td></tr>
+<tr><td><strong>Galileo</strong></td><td>Hacking Team (İtalya)</td><td>Oltalama, sahte güncelleme</td><td>Orta düzey</td><td>Kapsamlı gözetim</td></tr>
+<tr><td><strong>Subzero</strong></td><td>DSIRF (Avusturya)</td><td>Windows sıfırıncı gün açıkları</td><td>Kurumsal</td><td>Windows bilgisayarlar, belge hırsızlığı</td></tr>
+</tbody>
+</table>
+
+</Accordion>
+
+**Saldırı zinciri:** Paralı casus yazılım saldırıları genellikle üç aşamalıdır:
+
+1. **İlk aşama:** Hedefe sıfır tıklama (zero-click) veya tek tıklama yöntemiyle casus yazılım bulaştırılır (WhatsApp sesli arama veya SMS ile gönderilen özel hazırlanmış mesaj).
+2. **İkinci aşama:** Casus yazılım hedef cihazın tüm sensörlerine erişir: mikrofon, kamera, GPS, mesajlar, arama kayıtları, WhatsApp ve Signal verisi.
+3. **Üçüncü aşama:** Toplanan veriler şifrelenerek saldırganın sunucusuna gönderilir.
+
+Bu saldırı türünü tespit etmek neredeyse imkansızdır çünkü cihazda hiçbir iz bırakmaz. Korunma yolu:
+
+- Düzenli güvenlik güncellemeleri
+- Gereksiz uygulamaları kaldırma
+- Riskli kişilerden gelen bağlantıları açmamak
+
+**Benzetme:** Devlet düzeyinde casus yazılımlar, evine anahtarını kopyalayıp giren bir hırsız gibidir. Kapını kırmaz, iz bırakmaz, sen yokken gelir gider. Ama kapına iyi bir kilit takarsan, anahtarı kopyalaması zorlaşır.
+
+## İlgili Bölümler
+
+- [Casus Yazılım](/casus-yazilim/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Haftalık Kontrol](/haftalik-kontrol/)
+- [Virüs ve Kötü Amaçlı Yazılımlar](/virus-ve-kotu-amacli-yazilimlar/)

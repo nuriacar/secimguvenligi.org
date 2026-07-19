@@ -1,0 +1,24 @@
+---
+export interface Props {
+  level?: 'info' | 'warning' | 'critical' | 'tip';
+}
+
+const { level = 'info' } = Astro.props;
+
+const icons: Record<string, string> = {
+  info: 'i',
+  warning: '!',
+  critical: '!!',
+  tip: '*',
+};
+---
+
+<div role={level === 'critical' || level === 'warning' ? 'alert' : 'status'} aria-label={level === 'info' ? 'Bilgi' : level === 'warning' ? 'Uyarı' : level === 'critical' ? 'Kritik uyarı' : 'İpucu'} class={`alert alert-${level}`}>
+  <div class="alert-inner">
+    <span aria-hidden="true" class="alert-icon">{icons[level]}</span>
+    <div class="alert-content">
+      <slot />
+    </div>
+  </div>
+</div>
+

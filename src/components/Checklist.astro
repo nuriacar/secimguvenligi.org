@@ -1,0 +1,15 @@
+---
+export interface Props {
+  title?: string;
+}
+
+const { title = 'Kontrol Listesi' } = Astro.props;
+---
+
+<div role="region" aria-label={title} class="checklist">
+  <div class="checklist-title">{title}</div>
+  <ul class="checklist-items">
+    <slot />
+  </ul>
+</div>
+

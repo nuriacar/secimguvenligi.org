@@ -1,0 +1,120 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Güvenli Silme ve Cihaz Devri'
+description: 'Telefon, tablet veya bilgisayarı satmadan, vermeden veya bağışlamadan önce verilerini güvenli şekilde temizleme.'
+order: 20
+audience: V
+hero: '/img/hero/guvenli-silme.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Telefonunu satacaksın. Ya da çocuğuna vereceksin. Belki iş yerindeki eski bilgisayarları topluca bağışlayacaksın. İçinde fotoğrafların, mesajların, banka uygulamaların var. "Sildim, tamam" deme. Silmekle temizlemek aynı şey değil.
+
+**Hızlı ipucu:** Telefonu satmadan önce kendine sor: "Elimde olsaydı, bu cihazdaki eski sahibinin verilerini kurtarabilir miydim?" Cevabın "hayır" olmalı.
+
+## <span class="heading-num">20.1</span> Telefonu Satmadan veya Vermeden Önce
+
+Üç adım, unutma:
+
+1. **Hesabından çıkış yap.** iPhone'da "Find My iPhone"u kapat, Android'de Google hesabını kaldır. Unutursan yeni sahibi telefonu açamaz, sana geri getirmek zorunda kalır.
+
+2. **İçindekileri yedekle.** Fotoğraflar, rehber, notlar. Buluta veya bilgisayarına al. Bir daha göremeyeceğini varsay.
+
+3. **Fabrika ayarlarına döndür.** iPhone: Ayarlar > Genel > Sıfırla > Tüm İçerik ve Ayarları Sil. Android: Ayarlar > Sistem > Sıfırla > Fabrika ayarlarına sıfırla.
+
+Telefon kutusundan çıkmış gibi "Merhaba" ekranı gösteriyorsa tamamdır.
+
+<DoDont items={[
+  { text: 'Hesaptan çıkış yap, sonra fabrika ayarlarına döndür', type: 'do' },
+  { text: 'Hesaptan çıkmadan sadece dosyaları sil', type: 'dont' },
+  { text: 'İkinci ele satmadan önce mutlaka sıfırla', type: 'do' },
+  { text: 'Find My iPhone / Google hesabını açık bırak', type: 'dont' },
+]} />
+
+## <span class="heading-num">20.2</span> Bilgisayarı Satmadan veya Vermeden Önce
+
+1. **Hesabından çıkış yap.** Windows: Microsoft hesabını kaldır. Mac: iCloud'dan çıkış yap.
+
+2. **Disk şifreleme varsa kapat.** BitLocker (Windows) veya FileVault (Mac) varsa kapat. Açık kalırsa yeni sahibi bilgisayarı açamaz.
+
+3. **Sıfırla.** Windows: Ayarlar > Güncelleştirme ve Güvenlik > Bu bilgisayarı sıfırla > Her şeyi sil. Mac: Bilgisayarı kapat, açılırken Command+R basılı tut > Disk Yardımcı Programı > diski seç > Sil.
+
+Bilgisayar ilk açılışta "Bölge Seçin" ekranına geliyorsa tamamdır.
+
+## <span class="heading-num">20.3</span> Eski Telefonu Çocuğuna Verirken
+
+Aynı üç adımı uygula (çıkış, yedek, sıfırla). Ardından:
+
+4. **Çocuğuna kendi hesabını aç.** iPhone'da Aile Paylaşımı ile 13 yaş altı Apple ID'si oluşturabilirsin. Android'de Google Family Link ile çocuk hesabı aç.
+
+5. **Kısıtlama koy.** Ekran süresi, uygulama izinleri, satın alma onayı. iPhone'da "Ekran Süresi", Android'de "Family Link" üzerinden ayarlayabilirsin.
+
+<Alert level="tip">Çocuğuna verdiğin telefonda kendi fotoğraflarının, mesajlarının veya banka uygulamalarının kalıntısı kalmadığından emin ol. Sıfırlama sonrası telefonu kurmadan önce depolamada dosya kalıntısı var mı kontrol edebilirsin.</Alert>
+
+## <span class="heading-num">20.4</span> "Sildim, Yine de Kurtarılır mı?"
+
+Kafan rahat olsun diye:
+
+- **Telefon ve tablette** fabrika ayarlarına döndürmek yeterli. Veriler şifrelenir ve anahtar atılır. Profesyonel kurtarma firmaları bile okuyamaz.
+
+- **Bilgisayarda** sadece "Çöp Kutusu"nu boşaltmak yetmez. Ama "Bu bilgisayarı sıfırla" dediğinde gelen "dosyaları kaldır ve sürücüyü temizle" seçeneği yeterlidir.
+
+- **SSD'li bilgisayarlar** (2015 sonrası çoğu bilgisayar): Sıfırlamak yeterli. SSD'ler veriyi kendi kendine temizler.
+
+- **HDD'li eski bilgisayarlar** (2015 öncesi): Sıfırlamak genelde yeterli. Çok özel verin varsa ücretsiz bir programla (Eraser) bir kere üzerine sıfır yazdırabilirsin.
+
+<Alert level="warning">Gerçekçi ol: Senin bilgisayarını hedef alıp özel ekipmanla veri kurtarma yapacak biri, ancak devlet sırrı taşıyorsan gelir. Herkes için fabrika sıfırlaması yeterli. Paranoyak olmana gerek yok.</Alert>
+
+## <span class="heading-num">20.5</span> İş Yerinde Toplu Cihaz Devri
+
+Bu bölüm özellikle **kamu görevlileri** için:
+
+Kurum eski bilgisayarları bağışlıyor veya satıyorsa:
+
+1. **Kurumsal profili kaldır.** Cihazda "Bu cihaz kurum tarafından yönetiliyor" uyarısı kalırsa yeni sahibi kullanamaz. BT birimi MDM profilini kaldırmalı.
+
+2. **Her cihazı tek tek sıfırla.** Toplu sıfırlama yapacak yazılım varsa kullan, yoksa tek tek yap. Atlanan cihaz olmasın.
+
+3. **Envanter tut.** Hangi cihaz kime gitti, seri numarası ne, silme işlemi yapıldı mı? Bir tabloya yazmak yeterli.
+
+4. **Çok gizli veri varsa depolamayı fiziksel imha et.** Harddiski söküp deldirmek veya kırdırmak en kesin yöntem. Sertifikalı e-atık firmaları bu hizmeti verir.
+
+<Scenario label="Senaryo: İkinci El Telefonda Kalıntı">
+Telefonunu İnternette sattın. Alıcı geldi, telefona baktı, parasını verdi, gitti. Bir hafta sonra alıcıdan mesaj: "Telefonda eski fotoğrafların duruyor." Nasıl? Fabrika ayarlarına döndün ama Google hesabından çıkmamıştın. Telefon sıfırlandı ama Google bulut yedeklemesi geri yüklendi ve fotoğraflar geri geldi. Alıcı senin aile fotoğraflarını, banka bildirimlerini, WhatsApp yazışmalarını gördü. Çözüm basitti: önce hesaptan çıkış yap, sonra fabrika ayarlarına dön. Sıra önemli.
+</Scenario>
+
+<Accordion question="Telefonu satmadan önce sadece 'tüm verileri sil' yeterli mi?" id="sadece-sil">
+Hayır. "Tüm verileri sil" seçeneği bazen sadece referansları kaldırır, veriler fiziksel olarak bellekte kalır. Fabrika ayarlarına dönmen gerekir. Çoğu modern telefon fabrika sıfırlamasında veriyi şifreler ve anahtarı atar, bu nedenle kurtarılamaz. Ama emin olmak için fabrika ayarlarına dönmeden önce hesaplardan çıkış yap.
+</Accordion>
+
+<Accordion question="Eski bilgisayarın harddiskini nasıl yok etmeliyim?" id="disk-imha">
+Eğer bilgisayarda çok hassas veri varsa ve sıfırlamaya güvenmiyorsan, fiziksel imha en garantili yöntemdir. Harddiski sök, büyük bir mıknatısla manyetik olarak sil (degaussing) ya da bir çivi ile del. SSD'lerde manyetik silme işe yaramaz; fiziksel kırmak veya sertifikalı e-atık firmasına vermek gerekir. Şirket ortamında sertifikalı imha belgesi düzenleyen firmaları kullan.
+</Accordion>
+
+<Accordion question="Çocuğuma verdiğim telefonda kendi verilerim nasıl kalmasın?" id="cocuk-telefon">
+Telefonu fabrika ayarlarına döndür. Ardından çocuğun için yeni bir hesap oluştur (Apple Aile Paylaşımı veya Google Family Link). Kendi hesabınla giriş yapma. Eğer çocuğun senin hesabını kullanması gerekiyorsa, en azından banka uygulamalarını, e-postayı ve özel fotoğrafları sil. Ebeveyn kontrolü ile çocuğun bu uygulamaları açmasını engelle.
+</Accordion>
+
+<Checklist title="Cihaz Devri Güvenlik Kontrol Listesi">
+<li>Hesaplardan çıkış yapıldı (Apple ID, Google, Microsoft)</li>
+<li>Find My iPhone / Find My Device kapatıldı</li>
+<li>Veriler yedeklendi</li>
+<li>Fabrika ayarlarına dönüldü</li>
+<li>Cihaz ilk açılışta "Merhaba" ekranını gösteriyor</li>
+<li>(Çocuğa verilirse) Ebeveyn kontrolü kuruldu</li>
+<li>(Kurumsal) MDM profili kaldırıldı</li>
+</Checklist>
+
+## İlgili Bölümler
+
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Emanet Güvenliği](/emanet-guvenligi/)
+- [Çalıntı veya Kayıp Telefon](/calinti-kayip/)
+- [Yakın Çalışma Ekibi Güvenliği](/yakin-calisma-ekibi/)
+- [Yedekleme ve Veri Kurtarma](/yedekleme-ve-veri-kurtarma/)

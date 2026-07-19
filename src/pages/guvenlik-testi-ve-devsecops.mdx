@@ -1,0 +1,374 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Güvenlik Testi ve DevSecOps'
+description: 'SAST, DAST, SCA güvenlik test yöntemleri, fuzzing, CI/CD güvenlik pipeline entegrasyonu, container ve IaC güvenliği. Bandit, OWASP ZAP, pip-audit araçları ile pratik örnekler.'
+order: 63
+audience: B
+hero: '/img/hero/obje-el-sikisma.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+2021'de Codecov adlı bir CI/CD aracı tedarik zinciri saldırısına uğradı. Saldırgan, Codecov'un betiğini değiştirdi ve binlerce şirketin pipeline'ından gizli anahtarları çaldı. Saldırı 2 ay fark edilmedi. O şirketlerin CI/CD pipeline'larında güvenlik testi vardı ama pipeline'ın kendisi test edilmiyordu.
+
+Güvenli kod yazmak yetmez. Yazılan kodun güvenli olduğunu otomatik olarak kanıtlamak da şarttır. DevSecOps, güvenliği geliştirme sürecinin doğal bir parçası yapar: geliştirici kod yazarken, CI/CD hattı çalışırken, üretime dağıtırken güvenlik testleri otomatik çalışır.
+
+**Özlü kural:** Güvenlik testi, "bitti" deyince başlayan bir denetim değil, "başladı" deyince çalışan bir sürece gömülmeli. Geliştirici kod gönderdiği an, güvenlik testi çalışmalı ve açık varsa dağıtım durmalı.
+
+**Hızlı ipucu:** `pip install bandit && bandit -r src/` komutunu bugün çalıştır. HIGH seviyeli bulgular, düzeltilmeyi bekliyor.
+
+## <span class="heading-num">63.1</span> SAST (Statik Uygulama Güvenlik Testi, İng. Static Application Security Testing)
+
+SAST, kaynak kodu çalıştırmadan analiz eder. Kodu tarar ve bilmiş güvenlik açığı kalıpları arar. "Bu `os.system()` çağrısı kullanıcı girdisi içeriyor, bu bir command injection riski" der.
+
+### Python SAST Aracı: Bandit
+
+```bash
+# Bandit kurulumu
+pip install bandit
+
+# Tek dosyayi tara
+bandit app.py
+
+# Tum projeyi tara
+bandit -r src/
+
+# Sonucu JSON olarak kaydet
+bandit -r src/ -f json -o bandit-report.json
+```
+
+Bandit çıktısı örneği:
+
+```
+Issue: [B602:user-input-call-subprocess] subprocess call with shell=True
+   Severity: HIGH   Confidence: HIGH
+   Location: app/utils.py:45
+   More Info: https://bandit.readthedocs.io/en/latest/plugins/b602_subprocess_popen_shell_true.html
+
+45  subprocess.call("convert " + filename, shell=True)
+```
+
+Bu bulgu, "satır 45'te `shell=True` ile kullanıcı girdisi kullanılıyor, command injection riski var" der. Severity (önem) ve Confidence (güven) dereceleri, hangi bulguların öncelikli düzeltilmesi gerektiğini gösterir.
+
+<Alert level="tip">
+SAST araçları false positive (yanlış alarm) üretir. Bandit'in her bulgusu gerçek bir açık değildir. Önemli olan: HIGH severity + HIGH confidence bulgularını öncelikli düzelt. LOW confidence bulguları incele ama panik yapma. False positive oranını zamanla azaltmak için baseline dosyası oluştur ve bilinen false positive'leri dışla.
+</Alert>
+
+**Diğer SAST Araçları:**
+
+| Araç | Dil | Tip | Özellik |
+|------|-----|------|---------|
+| Bandit | Python | Açık kaynak | Hızlı, basit |
+| Semgrep | Çoklu | Açık kaynak | Özel kural yazılabilir |
+| SonarQube | Çoklu | Ücretsiz/Ücretli | Code quality + security |
+| Fortify | Çoklu | Ücretli | Kurumsal, detaylı |
+| CodeQL | Çoklu | GitHub | GitHub Advanced Security |
+
+## <span class="heading-num">63.2</span> DAST (Dinamik Uygulama Güvenlik Testi, İng. Dynamic Application Security Testing)
+
+DAST, çalışan uygulamayı dışarıdan tarar. Kaynak koda ihtiyacı yoktur. Uygulamaya HTTP istekleri gönderir, SQL injection, XSS, CSRF gibi açıkları canlı test eder. "Kara kutu" testidir: saldırganın bakış açısıyla.
+
+### OWASP ZAP (Açık Web Uygulamaları Güvenlik Projesi - Zed Attack Proxy)
+
+```bash
+# OWASP ZAP kurulumu (Docker)
+docker run -t owasp/zap2docker-stable zap-baseline.py \
+    -t https://staging.example.com \
+    -r zap-report.html
+
+# Tam tarama (daha yavas, daha detayli)
+docker run -t owasp/zap2docker-stable zap-full-scan.py \
+    -t https://staging.example.com \
+    -r zap-report.html
+```
+
+ZAP raporu şunları bulur:
+- SQL injection açıkları (forma `' OR 1=1` gönderir, yanıtı analiz eder)
+- XSS açıkları (forma `<script>alert(1)</script>` gönderir)
+- Missing security headers (HSTS, X-Frame-Options, CSP)
+- Broken authentication
+- Session management zafiyetleri
+
+**SAST vs DAST:**
+
+| Özellik | SAST | DAST |
+|---------|------|------|
+| Ne tarar | Kaynak kod | Çalışan uygulama |
+| Ne zaman | Commit/push anında | Staging/pre-prod |
+| Hız | Saniyeler/dakikalar | Saatler |
+| False positive | Yüksek | Düşük |
+| Açık tipi | Kod kalıbı | Çalışan zafiyet |
+| Dil gerekli | Evet | Hayır (kara kutu) |
+
+İkisini birlikte kullan. SAST erken yakalar (geliştirme aşaması), DAST gerçek açığı doğrular (staging aşaması).
+
+## <span class="heading-num">63.3</span> SCA (Yazılım Bileşen Analizi, İng. Software Composition Analysis)
+
+SCA, projenin kullandığı üçüncü parti kütüphanelerdeki bilinen açıkları tarar. Modern uygulamanın %80'i açık kaynak kütüphanelerden oluşur. Senin yazdığın kod güvenli olabilir ama bağımlılıklarında bilinen bir açık varsa, tüm sistemin tehlikededir.
+
+### Python Bağımlılık Tarama
+
+```bash
+# pip-audit: Python bağımlılıklarını CVE veritabanıyla karsilastirir
+pip install pip-audit
+pip-audit
+
+# Cikti ornegi:
+# Found 2 known vulnerabilities in 1 package:
+#   flask  == 1.1.0
+#     * CVE-2023-30861  HIGH  Flask versions prior to 2.2.5 contain...
+#     CVE-2023-36801    MEDIUM  Flask versions prior to 3.0.0 contain...
+
+# safety: Alternatif tarama aracı
+pip install safety
+safety check --requirements requirements.txt
+```
+
+**requirements.txt Analiz:**
+
+```bash
+# Tum bağımlılıkları güncel mi kontrol et
+pip list --outdated
+
+# Bilinen açıklara sahip paketler
+pip-audit --requirement requirements.txt
+
+# SBOM (Software Bill of Materials) uret
+pip install cyclonedx-bom
+cyclonedx-py -r -o sbom.json
+# SBOM, projenin tum bağımlılık agacini cikarır
+# Yeni bir CVE yayinlandiginda "bu kutuphane bizde var mi?" diye SBOM'a bakarsin
+```
+
+<Alert level="info">
+Log4Shell (CVE-2021-44228) krizinde SBOM'u olan şirketler 30 dakika içinde etkilenip etkilenmediklerini belirledi. SBOM'u olmayan şirketler günlerce manuel olarak tüm projeleri taradı. SBOM, bağımlılık kriz anında hayati önem taşır. Bu bölümün SCA kısmında SBOM üretimini ve kullanımını detaylıca işledik.
+</Alert>
+
+## <span class="heading-num">63.4</span> Fuzzing
+
+Fuzzing, programa rastgele (veya yarı-rastgele) veri gönderip çökme veya beklenmeyen davranış bulma tekniğidir. SAST ve DAST bulamayan açıkları bulur çünkü "bunu denemek kimse aklına gelmez" türünden girdileri otomatik üretir.
+
+```python
+# Basit fuzzing ornegi (atheris kutuphanesi)
+import atheris
+import sys
+
+def test_parser(data: bytes):
+    """Parser fonksiyonunu fuzz et"""
+    try:
+        # Rastgele veriyi parser'a ver
+        parsed = my_parser(data)
+        assert parsed is not None
+    except (ValueError, TypeError):
+        pass  # Beklenen hatalar
+    # Beklenmeyen crash'ler yakalanir ve raporlanir
+
+# Fuzzing baslat
+atheris.Setup(sys.argv, test_parser)
+atheris.Fuzz()
+```
+
+**Fuzzing türleri:**
+
+| Tür | Nasıl çalışır | Örnek |
+|-----|--------------|-------|
+| Dumb fuzz | Tamamen rastgele byte'lar | `/dev/urandom` |
+| Smart fuzz | Formatı bilir, kurallı üretir | JSON grammar ile |
+| Coverage-guided | Hangi girdi yeni kod yol açar, onu takip eder | AFL, libFuzzer |
+| Grammar-based | Dilbilgisi kurallarına göre üretir | SQL ifadeleri |
+
+AFL (American Fuzzy Lop) ve libFuzzer, en bilinen coverage-guided fuzzing araçlarıdır. Güvenlik açığı araştırmacıları, fuzzing ile sıfırıncı gün (zero-day) açıklar bulur.
+
+<Accordion question="Fuzzing production'da mı, test'te mi çalışır?" id="fuzz-prod">
+Asla production'da. Fuzzing, programa kasıtlı olarak geçersiz/bozuk veri gönderir. Bu, production veritabanını bozabilir, hizmet çökertebilir. Fuzzing her zaman test/staging ortamında, izole edilmiş bir sanal makinede çalıştırılır. CI pipeline'ına eklenebilir ama her zaman ayrı bir job olarak, uzun süreli (gece boyu) çalışacak şekilde.
+</Accordion>
+
+## <span class="heading-num">63.5</span> CI/CD Güvenlik Pipeline'ı
+
+DevSecOps'un kalbi CI/CD pipeline'ıdır. Her commit, her pull request otomatik olarak güvenlik testinden geçer. Manuel denetime gerek yoktur.
+
+### GitHub Actions Örneği
+
+```yaml
+# .github/workflows/security.yml
+name: Security Pipeline
+
+on: [push, pull_request]
+
+permissions:
+  contents: read  # En az yetki prensibi
+
+jobs:
+  # 1. SAST: Statik kod analizi
+  bandit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4  # SHA ile sabitlemek daha guvenli
+      - name: Bandit ile Python kod tara
+        run: |
+          pip install bandit
+          bandit -r src/ -f json -o bandit-report.json || true
+      - name: HIGH severity varsa basarisiz ol
+        run: |
+          if grep -q '"issue_severity": "HIGH"' bandit-report.json; then
+            echo "HIGH severity guvenlik açığı bulundu!"
+            exit 1
+          fi
+
+  # 2. SCA: Bagimlilik taramasi
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: pip-audit calistir
+        run: |
+          pip install pip-audit
+          pip-audit --requirement requirements.txt
+
+  # 3. Secret tarama (commit hash ile pinle, @main ASLA)
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Tam git history
+      - name: TruffleHog ile secret tara
+        uses: trufflesecurity/trufflehog@v3.81.2  # @main DEGIL, spesifik surum
+
+  # 4. Container tarama (Docker image)
+  container-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker image olustur
+        run: docker build -t app:${{ github.sha }} .
+      - name: Trivy ile image tara
+        uses: aquasecurity/trivy-action@0.20.0  # @master DEGIL, spesifik surum
+        with:
+          image-ref: app:${{ github.sha }}
+          severity: CRITICAL,HIGH
+          exit-code: 1  # CRITICAL/HIGH varsa pipeline durur
+```
+
+Bu pipeline'da:
+1. `bandit` kodu statik olarak tarar
+2. `pip-audit` bağımlılıkları kontrol eder
+3. `trufflehog` secret sızıntısı arar
+4. `trivy` Docker image'ı tarar
+
+Herhangi bir adımda HIGH/CRITICAL bulunursa pipeline durur. Kod üretime ulaşamaz.
+
+<Alert level="tip">
+Pipeline'ı kademeli kur. İlk hafta sadece "report" modunda çalıştır (uyarı ver ama pipeline'ı durdurma). Ekip tooling alıştığında "enforced" moda geç (pipeline'ı durdur). Bu, "security team broke my build" kültürel direncini azaltır.
+</Alert>
+
+## <span class="heading-num">63.6</span> Container ve IaC Güvenliği
+
+Modern altyapı, Docker container ve Terraform/CloudFormation gibi Infrastructure as Code (IaC) üzerine kuruludur. Bunlarda da güvenlik açığı olabilir.
+
+### Docker Image Tarama
+
+```dockerfile
+# KÖTÜ Dockerfile
+FROM python:3.11          # full image, cok buyuk, fazla saldiri yuzeyi
+RUN apt-get update        # build sirasinda root olarak calisir
+COPY . /app               # .env dosyasi da kopyalanir!
+CMD ["python", "app.py"]  # root user olarak calisir
+```
+
+```dockerfile
+# İYİ Dockerfile
+FROM python:3.11-slim@sha256:<digest>  # Digest ile sabitle (tag degil)
+RUN useradd -m appuser    # root olmayan kullanici olustur
+COPY --chown=appuser:appuser . /app
+# .dockerignore ile .env, .git, __pycache__ dislanmali
+USER appuser              # root'tan cik, appuser olarak calis
+HEALTHCHECK --interval=30s CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
+CMD ["python", "app.py"]
+```
+
+**Trivy ile container tarama:**
+
+```bash
+# Docker image'i bilinen açıklar icin tara
+trivy image app:latest
+
+# Sadece CRITICAL ve HIGH açıklari goster
+trivy image --severity CRITICAL,HIGH app:latest
+
+# Cikti ornegi:
+# app:latest (debian 11.8)
+# Total: 23 (HIGH: 5, CRITICAL: 1)
+#
+# CRITICAL: openssl (CVE-2023-5363)
+# HIGH:     curl (CVE-2023-48695)
+# HIGH:     git (CVE-2023-45323)
+```
+
+### IaC Tarama (Terraform)
+
+```bash
+# tfsec: Terraform kodunu guvenlik acisindan tara
+tfsec src/terraform/
+
+# Cikti ornegi:
+# [AWS018] AWS S3 bucket is not encrypted
+#   src/terraform/storage.tf:12
+#   Impact: S3 bucket verileri sifresiz saklaniyor
+#   Resolution: server_side_encryption_configuration ekle
+
+# checkov: Alternatif IaC tarayici
+checkov -d src/terraform/
+```
+
+<Accordion question="Distroless image nedir, neden daha güvenli?" id="distroless">
+Distroless image, içinde işletim sistemi paket yöneticisi (apt, yum), shell, debug araçları BARINDIRMAYAN minimal Docker image'dir. Sadece uygulama çalışması için gereken paylaşılan kütüphaneler ve uygulamanın kendisi vardır. Avantajı: saldırgan container'a girse bile shell yok, package manager yok, yeni araç indiremez. Saldırı yüzeyi minimumdadır. Google Distroless ve Chainguard Images en bilinen sağlayıcılardır.
+</Accordion>
+
+<Accordion question="SBOM'u pipeline'a nasıl eklerim?" id="sbom-pipeline">
+CI/CD pipeline'ında her build'de SBOM üret ve artifact olarak sakla. Syft (container image için) veya cyclonedx (dil bazlı) araçlarını kullan. SBOM'u güncel tut: her yeni build'de yeni SBOM üret, eskisini arşivle. Yeni bir CVE yayınlandığında, en son SBOM'u al, etkilenen paket var mı diye sorgula. SBOM'u olmayan bir proje, bağımlılık krizinde günlerce manuel arama yapar.
+</Accordion>
+
+<DoDont items={[
+  { text: 'SAST, SCA, secret tarama pipeline\'a entegre', type: 'do' },
+  { text: 'Docker image\'da root yerine non-root kullanıcı kullan', type: 'do' },
+  { text: 'Slim veya distroless base image kullan', type: 'do' },
+  { text: 'Her build\'de SBOM üret', type: 'do' },
+  { text: '.env dosyasını Docker COPY ile kopyala', type: 'dont' },
+  { text: 'Latest tag kullan (sürüm sabit değil)', type: 'dont' },
+  { text: 'Pipeline\'ı sadece report modda bırak (enforced\'a geçmezsen anlamı yok)', type: 'dont' },
+  { text: "SAST false positive'lerini görmezden gel", type: 'dont' },
+]} />
+
+<Scenario label="Senaryo: Pipeline Olmasaydı">
+Bir geliştirici, yeni bir özellik için `requests` kütüphanesinin eski bir sürümünü ekledi. Bu sürümde bilinen bir açık var (CVE-2024-1234, CVSS 9.8). Ekip hızlı shipping için pipeline'ı atladı, kodu direkt main branch'e merge etti. 1 hafta sonra otomatik bir tarayıcı, şirketin public API'sinde bu açığı buldu. Saldırgan, açığı sömürerek sunucuda kod çalıştırdı. SCA pipeline olsaydı, merge anında "requests 2.20.0'da CRITICAL açık, 2.31.0'a yükselt" derdi ve merge'i engellerdi. Pipeline, birkaç saniyelik gecikme kurtarır; ama milyonlarca liralık ihlal masrafını önler.
+</Scenario>
+
+<Checklist title="DevSecOps Pipeline Kontrol Listesi">
+<li>SAST (Bandit/Semgrep) her PR'da otomatik çalışıyor</li>
+<li>SCA (pip-audit) bağımlılıkları CVE veritabanıyla kontrol ediyor</li>
+<li>Secret tarama (TruffleHog) pre-commit hook ve pipeline'da</li>
+<li>DAST (OWASP ZAP) staging ortamında haftalık çalışıyor</li>
+<li>Docker image'lar Trivy ile taranıyor</li>
+<li>IaC (Terraform) tfsec/checkov ile denetleniyor</li>
+<li>Container non-root kullanıcı ile çalışıyor</li>
+<li>SBOM her build'de üretiliyor ve saklanıyor</li>
+<li>Pipeline enforced modda (HIGH/CRITICAL = durdur)</li>
+<li>False positive'ler için baseline tanımlı</li>
+</Checklist>
+
+**Gerçek olay:** 2021'de Codecov adlı bir CI/CD aracı tedarik zinciri saldırısına uğradı. Saldırgan, Codecov'un bash uploader betiğini ele geçirdi ve binlerce şirketin CI/CD pipeline'ına sızdı. Sızan veriler arasında API anahtarları, token'lar ve gizli değişkenler vardı. Saldırı 2 ay fark edilmedi. Ders: CI/CD pipeline'ı güvenlik testi yapan bir araç bile olsa, kendisi de saldırı hedefidir. Tedarik zinciri güvenliği şarttır.
+
+**Benzetme:** DevSecOps, bir otomobil fabrikasının kalite kontrol bandına benzer. Her parça (kod) monte edilirken (commit), kalite kontrol (SAST) kontrol eder. Boya sonrası (test), denetmen (DAST) aracı test eder. Yola çıkmadan (dağıtım), son muayene (secret scan) yapılır. Hiçbir adım atlanamaz. Atlanan adım, yolda kalmanın garantisidir.
+
+## İlgili Bölümler
+
+- [Güvenli Kodlama Temelleri](/guvenli-kodlama-temelleri/)
+- [Enjeksiyon Saldırıları ve Savunma](/enjeksiyon-saldirilari/)
+- [Kriptografi ve Secret Yönetimi](/kriptografi-ve-secret-yonetimi/)
+- [Tehdit Modelleme Çerçeveleri](/tehdit-modelleme-cerceveleri/)

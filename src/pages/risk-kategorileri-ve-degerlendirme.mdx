@@ -1,0 +1,171 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Risk Kategorileri ve Değerlendirme'
+description: 'BT risk kategorileri, risk tanımlama yöntemleri, niteliksel ve niceliksel risk değerlendirme.'
+order: 45
+audience: B
+hero: '/img/hero/acil-durum-karti.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Accordion from '../components/Accordion.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+
+
+Riskleri tanımladın. Şimdi sıra onları sıralamada. Her risk aynı önceliği taşımaz. Bütçesi sınırlı, zamanı kısıtlı bir kurumun her riski aynı ciddiyetle ele alması imkansızdır. Ölçemiyorsan yönetemezsin.
+
+**Özlü kural:** Kaynak sınırlı, risk sonsuz. Önceliklendirmeyen, her yere yarım dokunur.
+
+## <span class="heading-num">45.1</span> Risk Kategorileri
+
+BT risklerini kategorize etmek, gözden kaçanı önler. Başlıca kategoriler:
+
+<Accordion question="Bütçe riskleri" id="kat-butce">
+BT güvenliğine ayrılan bütçenin yetersiz olması. Ucuza kaçılan güvenlik çözümleri, ciddi açıklar bırakır.
+</Accordion>
+
+<Accordion question="Bilgi güvenliği riskleri" id="kat-bg">
+Sosyal mühendislik, iç tehdit, kurumsal casusluk, dış saldırganlar. En bilinen ama en alt edilen kategori.
+</Accordion>
+
+<Accordion question="Operasyonel riskler" id="kat-op">
+Süreçlerin, personelin ve günlük işleyişin yarattığı riskler. Mutsuz bir çalışan, bakımsız bir sistem, eksik bir prosedür.
+</Accordion>
+
+<Accordion question="Organizasyonel riskler" id="kat-org">
+Yapısal değişiklikler, yönetici dönüşümleri, rol belirsizlikleri. Yeni gelen CISO'nun farklı bir iş yapış kültürü getirmesi bile risktir.
+</Accordion>
+
+<Accordion question="Regülasyonel riskler" id="kat-reg">
+KVKK, GDPR gibi düzenlemelere uyum sağlayamama. Mevzuat değiştikçe sistemlerin güncellenmemesi.
+</Accordion>
+
+<Accordion question="Kaynaksal riskler" id="kaynak">
+Çip krizi, personel açığı, kaliteli eleman kaybı. İhtiyaç duyulan teknolojiye veya insana zamanında ulaşamama.
+</Accordion>
+
+<Accordion question="Takvimsel riskler" id="takvim">
+Proje takviminden sapmalar. Bir projenin gecikmesi, bağlı diğer projeleri ve bütçeyi zincirleme etkiler.
+</Accordion>
+
+<Accordion question="Stratejik riskler" id="strateji">
+Kurumun hedeflerine ulaşmasını engelleyebilecek yanlış kararlar. Değişen ortama uyum sağlayamama.
+</Accordion>
+
+<Accordion question="Tedarik zinciri riskleri" id="tedarik">
+Üçüncü parti yazılım ve hizmetlerin yarattığı riskler. Kullanılan bir bileşen hacklenirse, sen de hacklenmiş olursun.
+</Accordion>
+
+<Accordion question="Teknolojik riskler" id="teknoloji">
+Eski altyapılar, modernize edilemeyen sistemler. Sorunsuz çalışan ama güncellenemez hale gelmiş miras sistemler.
+</Accordion>
+
+## <span class="heading-num">45.2</span> Risk Tanımlama Yöntemleri
+
+Riskleri tespit etmek için kullanılan başlıca yöntemler:
+
+- **Zafiyet değerlendirmesi:** Nessus, OpenVAS gibi araçlarla aktif tarama. Sistemlerdeki açık noktalar belirlenir, bir şey bozulmaz.
+- **Sızma testi:** Bulunan zafiyetlerin gerçekten sömürülebilir olduğunu kanıtlama. Bilgi toplama, tarama, sömürme, raporlama adımlarından oluşur.
+- **Red teaming:** Gerçek bir saldırgan gibi davranarak sisteme sızma. Doğaçlama ve TTP simülasyonu içerir.
+- **Güvenlik değerlendirmesi:** Tüm kaynaklardan kapsamlı değerlendirme alma.
+- **BT denetimleri:** GRC (Governance, Risk, Compliance) ekiplerince yürütülen denetimler.
+- **SWOT analizi:** Güçlü yanlar, zayıflıklar, fırsatlar, tehditler. İş odaklı stratejik bakış.
+- **İş etkisi analizi:** Bir risk gerçekleşirse iş süreçleri ne kadar etkilenir?
+
+<Alert level="warning">
+Riskler tek başına oluşmaz; bir risk diğerlerini doğurur. Buluta geçiş bir fırsattır ama beraberinde personel eğitimi, kontrol eksikliği, gizlilik ve uyumluluk sorunlarını getirir. Bir riski değerlendirirken "bu hangi riskleri tetikler?" sorusunu sor.
+</Alert>
+
+## <span class="heading-num">45.3</span> Niteliksel ve Niceliksel Değerlendirme
+
+İki farklı değerlendirme yöntemi vardır:
+
+**Niteliksel (Qualitative)**
+
+Etki ve olasılık matrisi kullanır. Tahmine dayalı, öznel ama uygulaması kolaydır.
+
+**Risk Skoru = Olasılık × Etki**
+
+Düşük-orta-yüksek etiketleriyle hızlı önceliklendirme yapılır.
+
+**Niceliksel (Quantitative)**
+
+Veri ve formüller kullanır. Objektif ama uygulaması zordur. Beş temel değişken:
+
+- **Varlık Değeri (VD):** Varlığın parasal değeri
+- **Maruz Kalma Faktörü (MKF):** Risk gerçekleştiğinde oluşacak kayıp oranı
+- **Solo Kayıp Beklentisi (SKB):** Tek olayda beklenen kayıp = VD x MKF
+- **Yıllık Meydana Gelme Sıklığı (YMGS):** Bir yıl içinde gerçekleşme sıklığı
+- **Yıllık Kayıp Beklentisi (YKB):** Yıllık beklenen kayıp = SKB x YMGS
+
+<Alert level="tip">
+Örnek: Değeri 100.000 TL olan bir sunucu, her 10 yılda bir sel riskiyle karşı karşıya. Sel durumunda sunucunun %40'ı zarar görüyor.
+
+- VD = 100.000 TL
+- MKF = 0,40
+- SKB = VD × MKF = 100.000 × 0,40 = 40.000 TL
+- YMGS = 0,1 (10 yılda bir)
+- YKB = SKB × YMGS = 40.000 × 0,1 = 4.000 TL
+
+Yıllık kayıp beklentin 4.000 TL. Koruma çözümü yıllık 8.000 TL'ye mal oluyorsa, riski kabul etmek mantıklı. 2.000 TL'ye mal oluyorsa, korumak mantıklı. Hesap kitap yapmadan karar verme.
+</Alert>
+
+<DoDont items={[
+  { text: 'Risk kategorilerini gözden geçir, eksik kategori olmasın', type: 'do' },
+  { text: 'Niteliksel ve niceliksel yöntemleri birlikte kullan', type: 'do' },
+  { text: 'Risk bağımlılıklarını düşün: bir risk diğerlerini tetikler', type: 'do' },
+  { text: 'Sadece teknik araçlarla riski tam olarak ölçtüğünü san', type: 'dont' },
+  { text: 'İştah ve tolerans seviyelerini belirmeden hareket et', type: 'dont' },
+]} />
+
+<Scenario label="Senaryo: Buluta Geçiş Risk Değerlendirmesi">
+Kurumun veri merkezini buluta taşımayı planlıyor. Risk kategorilerini sistematik olarak değerlendiriyorsun: Teknolojik risk (mevcut uygulamalar bulut uyumlu mu?), Regülasyonel risk (KVKK veri aktarımı izni var mı?), Operasyonel risk (ekip bulut yönetimi bilmiyor), Tedarik zinciri riski (bulut sağlayıcısının kesintisi), Bütçe riski (gizli maliyetler). Niteliksel matrisle önceliklendiriyorsun: en yüksek etki ve en yüksek olasılık önce çözülür. Niceliksel hesapla: bulut geçişinin yıllık risk maliyeti nedir? Mevcut sistemin risk maliyetiyle karşılaştır. Karar veriye dayalı olur, hislere değil.
+</Scenario>
+
+<Checklist title="Risk Değerlendirme Kontrol Listesi">
+<li>Tüm risk kategorilerini gözden geçirdim</li>
+<li>Zafiyet değerlendirmesi ve sızma testi yaptırdım</li>
+<li>Niteliksel risk matrisi oluşturdum</li>
+<li>Niceliksel yıllık kayıp beklentisi (YKB) hesapladım</li>
+<li>Risk bağımlılıklarını değerlendirdim</li>
+<li>Risk önceliklendirme tablosu oluşturdum</li>
+<li>Sonuçları yönetime sundum</li>
+</Checklist>
+
+## <span class="heading-num">45.4</span> Bilgi Kontrolü
+
+<Accordion question="S3. Asgari ücretten hallice maaş verdiğiniz personele zam yapmak yerine, lüx otellerde şirket eğlencesi düzenlemek aşağıdaki risk kategorilerinden hangisine girmez?" id="test-44-s3">
+
+a. Operasyonel Risk  
+b. Kaynaksal Risk  
+c. Takvimsel Risk  
+d. **Taktiksel Risk ✓**
+
+</Accordion>
+
+<Accordion question="S5. Aşağıdakilerden hangisi Anası - Danası (Parent - Child) bağımlılığı taşımaz?" id="test-44-s5">
+
+a. Adalet mülkün temelidir. (Hz. Ömer)  
+b. Anasına bak, kızını al; tarağına bak, bezini al.  
+c. **Faiz sebep, enflasyon neticedir. ✓**  
+d. Sakın bir çiviyi küçümseme! Bir çivi bir nalı, nal bir atı, at bir komutanı, komutan bir orduyu, ordu koca bir ülkeyi kurtarır! (Cengiz Han)
+
+</Accordion>
+
+<Accordion question="S6. Keyfimize göre değil de hesap kitap yaparak değerleme yaptığımız risk değerlendirme tipi hangisidir?" id="test-44-s6">
+
+a. Tipitip  
+b. Niteliksel  
+c. **Niceliksel ✓**  
+d. Matematiksel
+
+</Accordion>
+
+## İlgili Bölümler
+
+- [Risk Temelleri](/risk-temelleri/)
+- [Risk Yanıtları ve İzleme](/risk-yanitlari-ve-izleme/)
+- [Tehdit Modelleme Çerçeveleri](/tehdit-modelleme-cerceveleri/)
+- [KVKK: İdari Tedbirler](/kvkk-idari-tedbirler/)

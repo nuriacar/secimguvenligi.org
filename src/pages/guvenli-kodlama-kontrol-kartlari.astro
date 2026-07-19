@@ -1,0 +1,264 @@
+---
+import Base from '../layouts/Base.astro';
+import { chapters } from '../data/chapters';
+
+const cards = [
+  {
+    slug: '/guvenli-kodlama-temelleri',
+    do: [
+      'Güvenliği tasarım aşamasında planla, sonraya bırakma',
+      'Her kod inceleme isteğinde (PR) güvenlik odaklı inceleme yap',
+      'Geliştiricilere düzenli güvenli kodlama eğitimi ver',
+      'SBOM oluştur ve güncel tut',
+      'Saltzer-Schroeder prensiplerini uygula (en az yetki, derinlemesine savunma)',
+    ],
+    dont: [
+      'Güvenliği sadece test aşamasına bırak',
+      'Geliştiriciye eğitim vermeden "güvenli yaz" de',
+      'Karmaşık mimariyi "daha güvenli" san',
+      'Güvenlik belirsizliğine (obscurity) güven',
+    ],
+  },
+  {
+    slug: '/enjeksiyon-saldirilari',
+    do: [
+      'SQL sorgularında parametreli sorgu (parameterized query) kullan',
+      'Komut çalıştırmada subprocess.run(shell=False) kullan',
+      'Template engine otomatik escaping açık olsun',
+      'Her formda CSRF token ve SameSite cookie kullan',
+      'Girdi doğrulamayı beyaz liste (whitelist) ile yap',
+    ],
+    dont: [
+      'SQL sorgusunda string birleştirme veya f-string kullan',
+      'os.system() veya shell=True kullan',
+      'innerHTML ile kullanıcı verisini yaz',
+      'eval() veya exec() ile kullanıcı verisi çalıştır',
+    ],
+  },
+  {
+    slug: '/kimlik-dogrulama-ve-yetkilendirme',
+    do: [
+      'Parolaları bcrypt (rounds=12+) veya Argon2 ile hash\'le',
+      'Oturum ID\'leri secrets.token_urlsafe ile üret',
+      'Cookie\'lerde HttpOnly + Secure + SameSite bayrakları açık',
+      'JWT\'de algorithms parametresi zorunlu, alg:none kabul edilmesin',
+      'MFA için TOTP kullan, rate limiting açık olsun',
+    ],
+    dont: [
+      'MD5 veya SHA-256 ile parola hash\'le',
+      'Girişte yeni oturum ID üretmeyi unut (session fixation)',
+      'JWT payload\'a hassas veri (parola, kart) koy',
+      'SMS tabanlı MFA kullan (SIM swap açığı)',
+    ],
+  },
+  {
+    slug: '/erisim-kontrolu-ve-api-guvenligi',
+    do: [
+      'Her endpoint için yetki kontrolü (authorization) yap',
+      'IDOR koruması: kullanıcı sadece kendi kaynaklarına erişsin',
+      'Dosya yollarında Path.resolve() + taban dizin kontrolü yap',
+      'CORS\'ta sadece güvenilir origin listesine izin ver',
+      'Hassas endpoint\'larda sıkı rate limiting uygula',
+    ],
+    dont: [
+      'Kimlik doğrulama yaptım diye yetki kontrolünü atla',
+      'Access-Control-Allow-Origin: * + credentials: true kullan',
+      'Kullanıcı girdisini doğrudan dosya yolunda kullan',
+      'Artan sayısal ID kullan (UUID tercih et)',
+    ],
+  },
+  {
+    slug: '/kriptografi-ve-secret-yonetimi',
+    do: [
+      'AES-256-GCM veya Fernet ile veri şifrele',
+      'Secret\'ları environment variable veya Vault\'ta sakla',
+      '.env dosyasını .gitignore\'a ekle',
+      'Anahtar rotasyon politikası tanımla (örn. 90 günde bir)',
+      'Kriptografik rastgelelik için secrets modülü kullan',
+    ],
+    dont: [
+      'MD5, SHA-1, DES, RC4 veya ECB mod kullan',
+      'Koda secret (API key, parola) göm',
+      'Python random modülünü kriptografi için kullan',
+      'Şifreleme anahtarını veritabanında sakla',
+    ],
+  },
+  {
+    slug: '/guvenlik-testi-ve-devsecops',
+    do: [
+      'SAST (Bandit) her PR\'da otomatik çalışsın',
+      'SCA (pip-audit) bağımlılıkları CVE ile kontrol etsin',
+      'Docker image\'ları Trivy ile tara',
+      'Container\'da non-root kullanıcı kullan',
+      'Her build\'de SBOM üret ve sakla',
+    ],
+    dont: [
+      'GitHub Actions\'ı @main veya @master ile pinle (SHA kullan)',
+      'Dockerfile\'da .env dosyasını image\'a kopyala',
+      'Latest tag kullan (sürüm sabit değil)',
+      'Pipeline\'ı sadece report modda bırak (enforced\'a geç)',
+    ],
+  },
+  {
+    slug: '/diger-web-zafiyetleri',
+    do: [
+      'SSRF: URL girdilerinde scheme + domain + IP kontrolü',
+      'AWS IMDSv2 zorunlu (metadata servisi token gerektirir)',
+      'Mass assignment: whitelist/DTO ile alan seçimi',
+      'Asla pickle/güvenilmeyen deserialize yok',
+      'Production\'da DEBUG kapalı',
+      'Frontend\'de bypass (v-html, dangerouslySetInnerHTML) yok',
+      'CORS: wildcard değil, specific origin + credentials',
+    ],
+    dont: [
+      'User input pickle/eval/exec ile işleniyor',
+      'Framework bypass (v-html vb.) kullanılıyor',
+      'Production DEBUG=True kalmış',
+      'CORS wildcard "*" set edilmiş',
+      'Yönetim panelleri internete açık',
+    ],
+  },
+  {
+    slug: '/bulut-guvenligi',
+    do: [
+      'AWS root / Azure Global Admin MFA zorunlu',
+      'IAM policy\'ler least privilege, Access Analyzer çalışıyor',
+      'S3 / Blob / GCS bucket\'lar private, Block Public Access açık',
+      'AWS IMDSv2 zorunlu (metadata servisi token\'lı)',
+      'CloudTrail / Cloud Audit Logging açık',
+      'CSPM aracı (Prowler, ScoutSuite veya ticari) çeyreklik',
+      'Veri at-rest şifreli (S3 SSE-KMS, EBS, RDS)',
+      'Secret\'lar Secrets Manager / Key Vault\'ta, env var\'da değil',
+    ],
+    dont: [
+      'IAM policy Action: *, Resource: *',
+      'Cloud credentials koda/env\'ye hard-coded',
+      'S3 bucket public (static hosting değilse)',
+      'Logging kapalı (maliyet gerekçesiyle)',
+      '0.0.0.0/0 Security Group tüm portlar',
+    ],
+  },
+  {
+    slug: '/mobil-uygulama-guvenligi',
+    do: [
+      'Certificate pinning (iOS + Android) aktif, backup pin ile',
+      'Tüm secret\'lar Keychain / Keystore\'da, hardcoded yok',
+      'Jailbreak / root detection (finansal apps)',
+      'FLAG_SECURE / isSecureTextEntry hassas ekranlarda',
+      'ProGuard / R8 obfuscation aktif',
+      'OWASP MASVS L1 audit (L2 finansal için)',
+      'App Attest (iOS) / Play Integrity (Android) entegre',
+      'Sadece HTTPS, plain HTTP kapatılmış',
+    ],
+    dont: [
+      'Hardcoded API key / parola koda gömülü',
+      'TrustManager tüm sertifikaları kabul ediyor',
+      'Plain SharedPreferences / UserDefaults ile token sakla',
+      'Production\'da log\'da token / parola',
+      'Exported component\'ler (gerek olmadıkça dışa açık)',
+    ],
+  },
+  {
+    slug: '/tedarik-zinciri-guvenligi',
+    do: [
+      'Lock file commit ediliyor (package-lock.json, poetry.lock, go.sum)',
+      'npm ci / pip install --require-hashes ile reproducible install',
+      'SBOM üretiliyor (CycloneDX/SPDX)',
+      'Dependency vulnerability taraması CI\'da (Trivy/Grype)',
+      'GitHub Actions action\'ları commit SHA ile pin\'li',
+      'Cosign ile container/binary imzalanıyor',
+      'SLSA Level 2-3 provenance üretiliyor',
+      'Private registry veya proxy kullanılıyor',
+    ],
+    dont: [
+      'npm install (lock\'a sadık değil)',
+      'Action\'lar @v3 gibi tag ile (SHA değil)',
+      'Transitive dependency\'ler görünmüyor (SBOM yok)',
+      'latest tag kullan',
+      'Bildiğiniz popüler paketlerin bakımcılarını hiç doğrulamadınız',
+    ],
+  },
+  {
+    slug: '/llm-ve-ai-guvenligi',
+    do: [
+      'System/user/tool prompt rolleri net ayrılmış',
+      'Output validation: LLM yanıtı eyleme dökülmeden doğrulanıyor',
+      'Tool\'lar en az ayrıcalıkla, spesifik fonksiyonlar',
+      'Guardrail (NeMo/Lakera) prompt injection için',
+      'RAG\'da user-level ACL (yetkisiz belge gelmesin)',
+      'İnsan-in-the-loop: kritik kararlarda onay',
+      'API key\'ler secret manager\'da, rotasyonlu',
+      'Audit log\'lar SIEM\'de, anomali tespiti',
+    ],
+    dont: [
+      'LLM DB\'ye direkt yazma/silme yetkili',
+      'User input doğrudan prompt\'a yapıştırılıyor',
+      'Sistem promptu "asla ifşa etme" güvene alınmış',
+      'Fine-tuning verisi denetlenmeden kullanıldı',
+      'Kritik kararda AI\'ya körü körüne güven',
+    ],
+  },
+];
+
+const chapterMap = new Map(chapters.map(c => [c.slug, c.title]));
+---
+
+<Base title="Güvenli Kodlama Kontrol Kartları" description="Güvenli kodlama eğitimi bölümlerinin kritik yap/yapma kuralları - yazdırılabilir şablonlar" image="/img/hero/kontrol-kartlari.webp">
+  <img class="hero-img i-hero-img" src="/img/hero/kontrol-kartlari.webp" alt="Güvenli Kodlama Kontrol Kartları" width="2912" height="1440" />
+  <h1 class="i-page-title-alt2">Güvenli Kodlama Kontrol Kartları</h1>
+  <p class="i-subtitle-dim">Güvenli kodlama eğitimi bölümlerinin en kritik yap / yapma kurallarını tek kart boyutunda özetleyen yazdırılabilir şablonlar.</p>
+
+  <button data-action="print" class="i-print-btn">Yazdır / PDF Kaydet</button>
+
+  <div data-pagefind-body>
+
+    <div class="i-grid-auto">
+      {cards.map((card, i) => (
+        <div class="i-card-flat">
+          <div class="i-card-header">
+            <h2 class="i-card-header-title">Kart {i + 1}: {chapterMap.get(card.slug)}</h2>
+          </div>
+          <div class="i-card-body-grid">
+            <div>
+              <div class="i-do-heading" role="region" aria-label="Bunu Yap">Bunu Yap</div>
+              <ul class="i-checklist">
+                {card.do.map(item => (
+                  <li><span class="i-text-do" aria-hidden="true">&#10003;</span> {item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div class="i-dont-heading" role="region" aria-label="Bunu Yapma">Bunu Yapma</div>
+              <ul class="i-checklist">
+                {card.dont.map(item => (
+                  <li><span class="i-text-dont" aria-hidden="true">&#10007;</span> {item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="i-callout">
+      <h2 class="i-h2-bright">Baskı ve Kullanım</h2>
+      <ul class="i-info-list">
+        <li>Her kart A4 boyutunda (210 x 297 mm) yazdırılabilir</li>
+        <li>Çift yüzlü renkli baskı önerilir (yeşil: yap, kırmızı: yapma)</li>
+        <li>Geliştirici ekip toplantılarında ve kod incelemelerinde dağıt</li>
+        <li>Laminate ederek dayanıklı hale getirebilirsin</li>
+        <li>Geliştirici masasında görünür yerde asılı tut</li>
+      </ul>
+    </div>
+
+    <div class="i-mb-6">
+      <h2 class="i-h2-bright">İlgili Bölümler</h2>
+      <ul class="i-info-list">
+        <li><a href="/kontrol-kartlari/" class="link">Farkındalık Kontrol Kartları</a>: bireysel güvenlik ve KVKK için yap/yapma kuralları</li>
+        <li><a href="/kurumsal-kontrol-kartlari/" class="link">Kurumsal Kontrol Kartları</a>: risk yönetimi ve tehdit modelleme için yap/yapma kuralları</li>
+        <li><a href="/egitim/" class="link">Eğitimler</a>: kurumsal ve bireysel güvenlik eğitimleri</li>
+      </ul>
+    </div>
+
+  </div>
+</Base>

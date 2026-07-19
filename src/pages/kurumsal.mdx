@@ -1,0 +1,167 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Kurumsal Dijital Güvenlik'
+description: 'BT yöneticileri, sistem uzmanları, KVKK sorumluları ve karar vericiler için IT risk yönetimi, tehdit modelleme, KVKK uyumu ve kurumsal güvenlik yönetişimi.'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Kurumunda binlerce kişisel veri işleniyor. Müşteri kimlikleri, çalışan kayıtları, sözleşmeler, finansal veriler. Bir gün bir çalışan, "kargonuzu takip edin" başlıklı bir e-postadaki linke tıklıyor. Tek tıklama. O tıklama, tüm ağı yazılımınıza sızdıran bir kapı açıyor. Veriler karaborsada satılıyor. KVKK Kurumu kapınızda. Gazetelerde kurumunuzun adı. Müşteriler güvenini kaybediyor. Bu senaryo kurgu değil: her gün bir kurumda yaşanıyor.
+
+**Özlü kural:** Kurumsal güvenlik bir BT projesi değil, yönetişim meselesidir. Yazılım ve donanım, insan ve süreç olmadan hiçbir şey ifade etmez.
+
+<Alert level="info">
+Bu sayfa, BT ve kurumsal güvenlik sorumluluğu taşıyan herkes için role özgü rehberdir. Risk yönetimi, tehdit modelleme ve KVKK'nin ayrıntılı teknik anlatımı ana kılavuz bölümlerinde (41-50) bulunur.
+</Alert>
+
+## Tehdit Profilin
+
+Bir kurumun tehdit yüzeyi, bireysel tehdit yüzünden çok daha geniştir. Sadece senin cihazların değil, yüzlerce çalışanın cihazları, sunucular, bulut servisleri, üçüncü taraf tedarikçiler, hatta çalışanların kişisel telefonları birer saldırı vektörüdür.
+
+**İnsider tehditleri:** Kötü niyetli bir çalışan veri sızdırabilir. Ama daha yaygın olanı: iyi niyetli ama bilinçsiz bir çalışanın hatasıdır. Parolasını paylaşan, yetkisiz bulut servisi kullanan (Shadow IT), şüpheli e-postaya tıklayan çalışan kurumun en zayıf halkasıdır.
+
+**Dışsal saldırılar:** Fidye yazılımı, tedarik zinciri saldırıları, kimlik avı kampanyaları, DDoS saldırıları. Kurumların finansal kaynakları ve veri miktarı, saldırganlar için prim hedef oluşturur.
+
+**Yasal ve düzenleyici tehditler:** KVKK uyumsuzluğu, idari para cezaları, itibar kaybı, lisans iptali. Teknik bir güvenlik açığı kadar, yasal bir boşluk da kurumu yıkabilir.
+
+**Shadow IT:** Çalışanların BT departmanından habersiz kullandığı bulut servisleri, uygulamalar ve araçlar. Gölge BT, kurumun veri akışını görmezden geldiği ve denetleyemediği alanlar yaratır. Detaylı bilgi: [Shadow IT](/shadow-it/)
+
+## Kimler Bu Kategoride?
+
+<table>
+<caption>Kurumsal Dijital Güvenlik — Özet Tablo</caption>
+<thead>
+<tr><th scope="col">Rol</th><th scope="col">Sorumluluk</th><th scope="col">Risk seviyesi</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>BT Yöneticisi</strong></td><td>Altyapı güvenliği, erişim yönetimi, yedekleme</td><td>Yüksek</td></tr>
+<tr><td><strong>Sistem/Network Uzmanı</strong></td><td>Güvenlik duvarı, izleme, yama yönetimi</td><td>Yüksek</td></tr>
+<tr><td><strong>KVKK Sorumlusu / Veri Sorumlusu</strong></td><td>Uyum süreci, VERBİS kaydı, ihlal bildirimi</td><td>Kritik (yasal)</td></tr>
+<tr><td><strong>Karar Verici (Yönetim Kurulu, GM)</strong></td><td>Bütçe, politika onayı, risk kabulü</td><td>Stratejik</td></tr>
+<tr><td><strong>Departman Yöneticisi</strong></td><td>Ekibin güvenlik bilinci, erişim talepleri</td><td>Orta</td></tr>
+</tbody>
+</table>
+
+## Kurumsal Güvenlik Yönetişimi
+
+### Güvenlik Bir BT Departmanı İşidir Yanılgısı
+
+En yaygın hata: güvenliği sadece BT departmanının sorunu olarak görmek. Oysa güvenlik üç ayağı vardır:
+
+1. **İnsan:** Çalışan eğitimi, güvenlik bilinci, rol bazlı yetkilendirme
+2. **Süreç:** Politika, olay müdahale planı, denetim, iyileştirme döngüsü
+3. **Teknoloji:** Güvenlik duvarı, EDR, DLP, log toplama, yedekleme
+
+Üçünden biri eksikse, diğer ikisi ne kadar güçlü olursa olsun güvenlik çöker.
+
+<Alert level="warning">
+KVKK Madde 12(5): Kişisel veri ihlallerini Kişisel Verileri Koruma Kurumu'na ve ilgili kişilere en kısa sürede bildirmek zorunludur. İhlal bildirimi sürecini önceden tanımlamamış bir kurum, kriz anında gecikir ve ek ceza alır.
+</Alert>
+
+### Olay Müdahale Planı
+
+Bir güvenlik olayı olduğunda panik yapmamak için önceden bir planın olsun:
+
+1. **Tespit:** İzleme sistemleri (SIEM, EDR) sayesinde anormal aktiviteyi fark et
+2. **Kontrol:** Sızıntıyı durdur, etkilenen sistemleri izole et
+3. **İyileştirme:** Sistemleri güvenli duruma geri yükle, yedekten dön
+4. **Bildirim:** KVKK ihlal bildirimi (en kısa sürede), gerekirse ilgili kişilere ve kamuya
+5. **Sonuç Çıkarma:** Olay sonrası analiz, kök neden tespiti, iyileştirme
+
+Detaylı bilgi: [KVKK: İdari Tedbirler](/kvkk-idari-tedbirler/) ve [KVKK: Teknik Tedbirler](/kvkk-teknik-tedbirler/)
+
+## KVKK Uyumunda Kritik Noktalar
+
+KVKK uyumu tek seferlik bir proje değil, sürekli bir süreçtir. İşte kritik başlıklar:
+
+<Accordion question="VERBİS kaydı ne zaman yapılmalı?" id="verbis-kayit">
+Kişisel veri işleyen her veri sorumlusu, VERBİS'e (Veri Sorumluları Sicili) kayıt yaptırmak zorundadır. Kayıt süresi dolmadan önce mutlaka tamamlanmalıdır. Kayıt yaptırmamanın idari para cezası vardır. Detaylı bilgi: [KVKK: İdari Tedbirler](/kvkk-idari-tedbirler/)
+</Accordion>
+
+<Accordion question="Özel nitelikli kişisel veri nedir ve nasıl korunur?" id="ozel-nitelikli">
+Sağlık, biyometrik, ırk, etnik köken, siyasi düşünce, felsefi inanç, din, mezhep veya diğer cüzdan bilgileri özel nitelikli veridir. Bu veriler KVKK Madde 6 kapsamında ek koruma gerektirir. Yetersiz önlem alarak işlenmesi yasaktır. Detaylı bilgi: [KVKK: Teknik Tedbirler](/kvkk-teknik-tedbirler/)
+</Accordion>
+
+<Accordion question="İdari para cezaları ne kadar?" id="cezalar">
+KVKK ihlallerine uygulanan idari para cezaları her yıl yeniden değerlendirilir. Güncel tutarları Kişisel Verileri Koruma Kurumu'nun resmi sitesinden takip et. Ceza miktarı, ihlalin niteliğine ve kurumun kusuruna göre değişir.
+</Accordion>
+
+## Risk Yönetimi Yaklaşımı
+
+Kurumsal güvenliğin temeli risk yönetimidir. Tüm riskleri sıfıra indirmek imkansızdır; ama riskleri tanımlayıp önceliklendirmek ve kabul edilebilir seviyeye indirmek mümkündür.
+
+Süreç şöyle işler:
+
+1. **Varlık envanteri:** Korunacak veriyi ve sistemleri tanımla
+2. **Tehdit tanımlama:** Bu varlıklara kim, nasıl saldırabilir?
+3. **Risk değerlendirme:** Her riskin olasılığı ve etkisini ölç
+4. **Risk yanıtı:** Kabul et, azalt, devret, kaçın
+5. **İzleme ve güncelleme:** Riskler statik değildir, düzenli güncelle
+
+Detaylı bilgi: [Risk Temelleri](/risk-temelleri/), [Risk Kategorileri](/risk-kategorileri-ve-degerlendirme/), [Risk Yanıtları](/risk-yanitlari-ve-izleme/)
+
+## Tehdit Modelleme
+
+Kurumsal tehdit modelleme, bireysel tehdit modellemeden farklıdır. Sistem mimarisini, veri akışını, güven sınırlarını ve çoklu aktörleri kapsar. DFD (Veri Akış Diyagramı) çizerek sistemi görselleştir, STRIDE veya PASTA çerçeveleriyle tehditleri sınıflandır.
+
+Temel tehdit modelleme kavramları için: [Tehdit Modelleme](/tehdit-modelleme/). Kurumsal çerçeveler için: [Tehdit Modelleme Çerçeveleri](/tehdit-modelleme-cerceveleri/) ve [STRIDE ve PASTA](/stride-ve-pasta/).
+
+<DoDont items={[
+  { text: 'Risk değerlendirmesini yılda en az bir kez güncelle', type: 'do' },
+  { text: 'Çalışanlara düzenli güvenlik farkındalık eğitimi ver', type: 'do' },
+  { text: 'Erişim yetkilerini rol bazlı ve en az yetki ilkesiyle yapılandır', type: 'do' },
+  { text: 'Olay müdahale planını kağıt üzerinde bırak, tatbikatla', type: 'do' },
+  { text: 'Güvenliği sadece BT departmanının sorunu olarak gör', type: 'dont' },
+  { text: 'KVKK uyumunu tek seferlik proje olarak ele al', type: 'dont' },
+  { text: 'Çalışanların kullandığı gölge BT servislerini görmezden gel', type: 'dont' },
+  { text: 'Yedeklemeyi yap ama geri yükleme testi yapma', type: 'dont' },
+]} />
+
+<Checklist title="Kurumsal Güvenlik Temel Kontrol Listesi">
+<li>Varlık envanteri güncel mi?</li>
+<li>Risk değerlendirmesi yapıldı mı, ne zaman güncellendi?</li>
+<li>VERBİS kaydı tamam mı?</li>
+<li>Açık veri ihlali nedir, bildirim süreci tanımlı mı?</li>
+<li>Erişim yetkileri rol bazlı mı, ayrılan çalışanların yetkileri geri alınıyor mu?</li>
+<li>Yedekleme çalışıyor mu, geri yükleme testi yapıldı mı?</li>
+<li>Çalışan güvenlik eğitimi ne zaman yapıldı?</li>
+<li>Shadow IT taraması yapıldı mı?</li>
+<li>Tehdit modelleme çalışması yapıldı mı?</li>
+<li>Güvenlik duvarı, EDR, log toplama aktif mi?</li>
+</Checklist>
+
+## Başlaman Gereken Bölümler
+
+Tüm bölümler bu kılavuzda herkes için geçerlidir. BT ve kurumsal güvenlik için kritik öncelik sırası:
+
+1. **[KVKK: İdari Tedbirler →](/kvkk-idari-tedbirler/)**: VERBİS, süreçler, politika, ihlal bildirimi
+2. **[KVKK: Teknik Tedbirler →](/kvkk-teknik-tedbirler/)**: Şifreleme, erişim kontrolü, log, yedekleme
+3. **[Risk Temelleri →](/risk-temelleri/)**: Risk yönetimi kavramları, varlık-envanter yaklaşımı
+4. **[Risk Kategorileri ve Değerlendirme →](/risk-kategorileri-ve-degerlendirme/)**: Risk sınıflandırma, değerlendirme yöntemleri
+5. **[Risk Yanıtları ve İzleme →](/risk-yanitlari-ve-izleme/)**: Risk yanıtı stratejileri, sürekli izleme
+6. **[Tehdit Modelleme Çerçeveleri →](/tehdit-modelleme-cerceveleri/)**: Kurumsal çerçeveler (SDL, DREAD)
+7. **[STRIDE ve PASTA →](/stride-ve-pasta/)**: Uygulamalı tehdit sınıflandırma
+8. **[Tehdit Modelleme Pratiği →](/tehdit-modelleme-pratigi/)**: Oturum planlama, uygulama
+9. **[Shadow IT →](/shadow-it/)**: Gölge BT tespiti ve yönetimi
+10. **[Kurumsal Kontrol Kartları →](/kurumsal-kontrol-kartlari/)**: Hazır kontrol şablonları
+11. **[Güvenli Kodlama Temelleri →](/guvenli-kodlama-temelleri/)**: SDLC, sola kaydırma, güvenli tasarım prensipleri
+12. **[Enjeksiyon Saldırıları ve Savunma →](/enjeksiyon-saldirilari/)**: SQL injection, XSS, CSRF ve Python kod örnekleri
+13. **[Kimlik Doğrulama ve Oturum Yönetimi →](/kimlik-dogrulama-ve-yetkilendirme/)**: bcrypt, JWT, OAuth, MFA mimarisi
+14. **[Erişim Kontrolü ve API Güvenliği →](/erisim-kontrolu-ve-api-guvenligi/)**: RBAC, IDOR, CORS, rate limiting
+15. **[Kriptografi ve Secret Yönetimi →](/kriptografi-ve-secret-yonetimi/)**: AES, Fernet, Vault, anahtar rotasyonu
+16. **[Güvenlik Testi ve DevSecOps →](/guvenlik-testi-ve-devsecops/)**: SAST, DAST, SCA, CI/CD pipeline
+
+Ayrıca bireysel güvenlik bölümleri (1-40) tüm çalışanlar için geçerlidir. Kurumunuzu korumak için önce kendinizi ve ekibinizi koruyun.
+
+## İlgili Kaynaklar
+
+- [Kurumsal Kontrol Kartları →](/kurumsal-kontrol-kartlari/): Yazdırılabilir kontrol kartları
+- [Tehdit Modelleme →](/tehdit-modelleme/): Bireysel tehdit modelleme temelleri
+- [Temel Kavramlar →](/temel-kavramlar/): CIA üçgeni, temel güvenlik kavramları
+- [Kriz Karar Ağacı →](/kriz/): Acil durum protokolü
+- [Sözlük →](/sozluk/): Dijital güvenlik terimleri
+- [Güvenlik Eğitimleri →](/egitim/): Kurumsal güvenlik için ek kaynaklar

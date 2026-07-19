@@ -1,0 +1,81 @@
+export interface Chapter {
+  title: string;
+  slug: string;
+  audience: string;
+  order: number;
+  group: 'farkindalik' | 'risk' | 'kodlama';
+}
+
+export const chapters: Chapter[] = [
+  // FARKINDALIK (1-43)
+  { title: 'Temel Kavramlar', slug: '/temel-kavramlar', audience: 'V', order: 1, group: 'farkindalik' },
+  { title: 'Tehdit Modelleme', slug: '/tehdit-modelleme', audience: 'V', order: 2, group: 'farkindalik' },
+  { title: 'Sosyal Mühendislik', slug: '/sosyal-muhendislik', audience: 'V', order: 3, group: 'farkindalik' },
+  { title: 'Çevrimiçi Dolandırıcılık', slug: '/cevrimici-dolandiricilik', audience: 'V', order: 4, group: 'farkindalik' },
+  { title: 'Cihaz Güvenliği', slug: '/cihaz-guvenligi', audience: 'V', order: 5, group: 'farkindalik' },
+  { title: 'Ağ, Wi-Fi ve Akıllı Cihaz Güvenliği', slug: '/ag-ve-wifi-guvenligi', audience: 'V', order: 6, group: 'farkindalik' },
+  { title: 'Hesap ve Parola Güvenliği', slug: '/hesap-parola', audience: 'V', order: 7, group: 'farkindalik' },
+  { title: 'İnternet Tarayıcı Güvenliği', slug: '/internet-tarayici-guvenligi', audience: 'V', order: 8, group: 'farkindalik' },
+  { title: 'Mesajlaşma Güvenliği', slug: '/mesajlasma', audience: 'V', order: 9, group: 'farkindalik' },
+  { title: 'Eklenti ve Uygulama İzinleri', slug: '/eklenti-ve-uygulama-izinleri', audience: 'V', order: 10, group: 'farkindalik' },
+  { title: 'Güvenli Veri ve Dosya Paylaşımı', slug: '/veri-paylasimi', audience: 'V', order: 11, group: 'farkindalik' },
+  { title: 'Sosyal Medya Güvenliği', slug: '/sosyal-medya', audience: 'V', order: 12, group: 'farkindalik' },
+  { title: 'Güvenli Ödeme ve Alışveriş', slug: '/guvenli-odeme', audience: 'V', order: 13, group: 'farkindalik' },
+  { title: 'Dijital Ayak İzi ve Mahremiyet', slug: '/dijital-ayak-izi-ve-mahremiyet', audience: 'V', order: 14, group: 'farkindalik' },
+  { title: 'Yapay Zeka Tehditleri', slug: '/yapay-zeka-tehditleri', audience: 'V', order: 15, group: 'farkindalik' },
+  { title: 'Haftalık Kontrol Listesi', slug: '/haftalik-kontrol', audience: 'V', order: 16, group: 'farkindalik' },
+  { title: 'Seçim Günü Sahra Güvenliği', slug: '/secim-gunu', audience: 'V', order: 17, group: 'farkindalik' },
+  { title: 'Emanet Güvenliği', slug: '/emanet-guvenligi', audience: 'V', order: 18, group: 'farkindalik' },
+  { title: 'Yedekleme ve Veri Kurtarma', slug: '/yedekleme-ve-veri-kurtarma', audience: 'V', order: 19, group: 'farkindalik' },
+  { title: 'Güvenli Silme ve Cihaz Devri', slug: '/guvenli-silme', audience: 'V', order: 20, group: 'farkindalik' },
+  { title: 'Seyahat ve Sınır Güvenliği', slug: '/seyahat-sinir', audience: 'V,G,K', order: 21, group: 'farkindalik' },
+  { title: 'Çalıntı veya Kayıp Telefon', slug: '/calinti-kayip', audience: 'V', order: 22, group: 'farkindalik' },
+  { title: 'Tehdit ve Şantaj', slug: '/tehdit-santaj', audience: 'V', order: 23, group: 'farkindalik' },
+  { title: 'Şantaj ve Kriz Yönetimi', slug: '/santaj-ve-kriz', audience: 'V,G,K', order: 24, group: 'farkindalik' },
+  { title: 'Virüs ve Kötü Amaçlı Yazılımlar', slug: '/virus-ve-kotu-amacli-yazilimlar', audience: 'V', order: 25, group: 'farkindalik' },
+  { title: 'Casus Yazılım', slug: '/casus-yazilim', audience: 'V,G,K', order: 26, group: 'farkindalik' },
+  { title: 'Casus Yazılım Teşhis ve Temizlik', slug: '/casus-yazilim-teshisi', audience: 'V,G,K', order: 27, group: 'farkindalik' },
+  { title: 'Hesap Çalındığında Acil Protokol', slug: '/hesap-calma', audience: 'V', order: 28, group: 'farkindalik' },
+  { title: 'Çift Telefon Sistemi', slug: '/cift-telefon', audience: 'V,G,K', order: 29, group: 'farkindalik' },
+  { title: 'Yakın Çalışma Ekibi Güvenliği', slug: '/yakin-calisma-ekibi', audience: 'G,K', order: 30, group: 'farkindalik' },
+  { title: 'Yasal Haklar ve Başvuru Yolları', slug: '/yasal-haklar', audience: 'V', order: 31, group: 'farkindalik' },
+  { title: 'Dijital Miras', slug: '/dijital-miras', audience: 'V', order: 32, group: 'farkindalik' },
+  { title: 'Aile Üyelerinin Hedef Alınması', slug: '/aile-guvenlik', audience: 'V', order: 33, group: 'farkindalik' },
+  { title: 'Çocukların Dijital Güvenliği', slug: '/cocuk-dijital-guvenlik', audience: 'V', order: 34, group: 'farkindalik' },
+  { title: 'Siber Zorbalık ve Dijital Şiddet', slug: '/siber-zorbalik-ve-dijital-siddet', audience: 'V', order: 35, group: 'farkindalik' },
+  { title: 'Bilgi Savaşı, Algı Operasyonları ve Toplumsal Savunma', slug: '/bilgi-savasi', audience: 'V', order: 36, group: 'farkindalik' },
+  { title: 'Dezenformasyon', slug: '/dezenformasyon', audience: 'V', order: 37, group: 'farkindalik' },
+  { title: 'Bot Hesaplar', slug: '/bot-hesaplar', audience: 'V', order: 38, group: 'farkindalik' },
+  { title: 'Seçim İhlalleri', slug: '/secim-ihlalleri', audience: 'V', order: 39, group: 'farkindalik' },
+  { title: 'Derin Sahte (Deepfake)', slug: '/deepfake', audience: 'V', order: 40, group: 'farkindalik' },
+  { title: 'KVKK: İdari Tedbirler', slug: '/kvkk-idari-tedbirler', audience: 'V', order: 41, group: 'farkindalik' },
+  { title: 'KVKK: Teknik Tedbirler', slug: '/kvkk-teknik-tedbirler', audience: 'V', order: 42, group: 'farkindalik' },
+  { title: 'Kontrol Kartları', slug: '/kontrol-kartlari', audience: 'V', order: 43, group: 'farkindalik' },
+
+  // RISK (44-54)
+  { title: 'Risk Temelleri', slug: '/risk-temelleri', audience: 'B', order: 44, group: 'risk' },
+  { title: 'Risk Kategorileri ve Değerlendirme', slug: '/risk-kategorileri-ve-degerlendirme', audience: 'B', order: 45, group: 'risk' },
+  { title: 'Risk Yanıtları ve İzleme', slug: '/risk-yanitlari-ve-izleme', audience: 'B', order: 46, group: 'risk' },
+  { title: 'Olay Müdahalesi (Incident Response)', slug: '/olay-mudahalesi', audience: 'B', order: 47, group: 'risk' },
+  { title: 'Tehdit Modelleme Çerçeveleri', slug: '/tehdit-modelleme-cerceveleri', audience: 'B', order: 48, group: 'risk' },
+  { title: 'STRIDE ve PASTA', slug: '/stride-ve-pasta', audience: 'B', order: 49, group: 'risk' },
+  { title: 'Tehdit Modelleme Pratiği', slug: '/tehdit-modelleme-pratigi', audience: 'B', order: 50, group: 'risk' },
+  { title: 'Shadow IT', slug: '/shadow-it', audience: 'B', order: 51, group: 'risk' },
+  { title: 'Zero Trust Mimarisi', slug: '/zero-trust-mimarisi', audience: 'B', order: 52, group: 'risk' },
+  { title: 'E-posta Altyapı Güvenliği', slug: '/eposta-altyapi-guvenligi', audience: 'B', order: 53, group: 'risk' },
+  { title: 'Kurumsal Kontrol Kartları', slug: '/kurumsal-kontrol-kartlari', audience: 'B', order: 54, group: 'risk' },
+
+  // KODLAMA (55-66)
+  { title: 'Güvenli Kodlama Temelleri', slug: '/guvenli-kodlama-temelleri', audience: 'B', order: 55, group: 'kodlama' },
+  { title: 'Enjeksiyon Saldırıları ve Savunma', slug: '/enjeksiyon-saldirilari', audience: 'B', order: 56, group: 'kodlama' },
+  { title: 'Kimlik Doğrulama ve Oturum Yönetimi', slug: '/kimlik-dogrulama-ve-yetkilendirme', audience: 'B', order: 57, group: 'kodlama' },
+  { title: 'Erişim Kontrolü ve API Güvenliği', slug: '/erisim-kontrolu-ve-api-guvenligi', audience: 'B', order: 58, group: 'kodlama' },
+  { title: 'Diğer Kritik Web Zafiyetleri', slug: '/diger-web-zafiyetleri', audience: 'B', order: 59, group: 'kodlama' },
+  { title: 'Bulut Güvenliği', slug: '/bulut-guvenligi', audience: 'B', order: 60, group: 'kodlama' },
+  { title: 'Mobil Uygulama Güvenliği', slug: '/mobil-uygulama-guvenligi', audience: 'B', order: 61, group: 'kodlama' },
+  { title: 'Kriptografi ve Secret Yönetimi', slug: '/kriptografi-ve-secret-yonetimi', audience: 'B', order: 62, group: 'kodlama' },
+  { title: 'Güvenlik Testi ve DevSecOps', slug: '/guvenlik-testi-ve-devsecops', audience: 'B', order: 63, group: 'kodlama' },
+  { title: 'Tedarik Zinciri Güvenliği', slug: '/tedarik-zinciri-guvenligi', audience: 'B', order: 64, group: 'kodlama' },
+  { title: 'LLM ve AI Güvenliği', slug: '/llm-ve-ai-guvenligi', audience: 'B', order: 65, group: 'kodlama' },
+  { title: 'Güvenli Kodlama Kontrol Kartları', slug: '/guvenli-kodlama-kontrol-kartlari', audience: 'B', order: 66, group: 'kodlama' },
+];

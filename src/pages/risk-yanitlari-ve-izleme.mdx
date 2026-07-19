@@ -1,0 +1,183 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Risk Yanıtları ve İzleme'
+description: 'Dört risk yanıtı kategorisi, kalıntı risk, risk kütüğü, izleme ve kontrol yöntemleri, risk yönetiminin başarısızlık nedenleri.'
+order: 46
+audience: B
+hero: '/img/hero/sss.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Accordion from '../components/Accordion.astro';
+import Scenario from '../components/Scenario.astro';
+
+
+Riskleri tanımladın, değerlendirdin. Şimdi ne yapacaksın? Karar vermen gereken an: bu riski nasıl karşılayacaksın? Dört seçenek var ve her risk için doğru olanı seçmek, elindeki sınırlı kaynakları en verimli kullanmak demek.
+
+**Özlü kural:** Her riske aynı tepkiyi veren, kaynağını israf eder. Ölçülü davranmayan, ya çok harcar ya çok savunmasız kalır.
+
+## <span class="heading-num">46.1</span> Dört Risk Yanıtı
+
+Bir riskle karşılaştığında yapabileceğin dört şey vardır:
+
+- **Kaçınma:** Riskin kaynağından kurtulmak. Sineği öldürmek yerine bataklığı kurutmak. Güvenlik veya regülasyon açısından riskli bir bulut hizmetini hiç kullanmamak gibi.
+- **Kabul Etme:** Skoru düşük olan bir risk için aksiyon almamak. Riskin gerçekleşmesi durumunda sonuçlarını kabul ettiğini biliyor olman gerekir.
+- **Hafifletme:** Riskin etkisini veya olasılığını azaltmak. Tüm personele düzenli bilgi güvenliği eğitimi vermek, sızma testleri yaptırmak gibi.
+- **Transfer Etme:** Riski üçüncü tarafa aktarmak. Sigorta yaptırmak veya güvenliği dışarıdan uzman bir firmaya devretmek gibi.
+
+<Alert level="info">
+Bu dört yanıtı tek tek değil, bir arada kullanabilirsin. Önce hafiflet, kalan kısmı sigortala (transfer), en düşük seviyeyi kabul et. Buna birleştirilmiş risk karşılama denir. Örneğin: Veri merkezi sel riskine karşı cihazları yerden yüksekte kur (hafiflet), kalan hasarı sigortala (transfer), çok küçük olasılığı göze al (kabul).
+</Alert>
+
+## <span class="heading-num">46.2</span> Kalıntı Risk
+
+Bir riski hafiflettiğinde veya transfer ettiğinde, tamamen ortadan kalkmaz. Geriye kalan kısma **kalıntı risk** denir.
+
+**Kalıntı Risk = Risk - Risk Savunması Sonuçları**
+
+<Alert level="warning">
+Önlemini aldın diye risk bitti sanma. Kalıntı risk her zaman vardır. Önemli olan, kalıntı riskin kabul edilebilir seviyede olmasıdır.
+</Alert>
+
+## <span class="heading-num">46.3</span> Risk Kütüğü
+
+Risk kütüğü (risk register), tüm risklerin, durumlarının ve karşı önlemlerin kaydedildiği bir depodur. Özel bir yazılım gerekmez; bir Excel dosyası başlangıç için yeter.
+
+Risk kütüğü veriyi tek bir yerde tutar. Farklı ekiplerin elindeki dağınık bilgiyi birleştirir. Yönetim kuruluna okunmayacak e-posta raporları yerine tek bir tablo sunar. Tüm risklerin büyük resmini tek panelden görmeni sağlar.
+
+İyi bir risk kütüğü şunları içerir:
+
+<Checklist title="Risk Kütüğü İçeriği">
+<li>Risk tanımı ve kategorisi</li>
+<li>Olasılık ve etki değerlendirmesi</li>
+<li>Risk skoru (öncelik)</li>
+<li>Seçilen yanıt stratejisi (kaçın/kabul/hafiflet/transfer)</li>
+<li>Sorumlu kişi ve departman</li>
+<li>Durum (açık, kapalı, izleniyor)</li>
+<li>Hedef kapanış tarihi</li>
+</Checklist>
+
+## <span class="heading-num">46.4</span> İzleme ve Kontrol
+
+Riski kütüğe eklemek yetmez. İzleme ve kontrol şarttır. İki temel yöntem:
+
+**Sürekli İzleme**
+- Rutin iş operasyonlarının parçasıdır
+- Personel toplantıları, operasyonel incelemeler
+- Risk komitesi toplantıları (aylık veya üç aylık)
+- Anahtar risk göstergeleri (KRI) takibi
+
+**Ayrı Değerlendirme**
+- Belirli zamanlarda veya yapısal değişikliklerde yapılır
+- Organizasyon dışı inceleme (üçüncü taraf denetim)
+- İç inceleme (kendi ekibinle)
+- Eş inceleme (iç ve dış ekipler birlikte)
+
+**İzleme Araçları**
+- Risk kütüğü Excel dosyaları: Giriş seviyesi, ekstra masraf yok
+- Veri analitiği ve görselleştirme panelleri: Veri kaynağından otomatik arayüz üretir
+- Kurumsal risk yönetimi yazılımları: Pahalıdır, panel ve analizi içinde barındırır
+
+## <span class="heading-num">46.5</span> Neden Başarısız Olur?
+
+Risk yönetimi iyi kurulmuş bile olsa başarısız olabilir. En yaygın nedenler:
+
+- **Risk kültürünün olmaması:** Risk bildirmenin değil, bildirmemenin sorun çıkardığı bir ortam yoksa, insanlar konuşmaz.
+- **Direnen insanlar:** "Eski köye yeni adet getirmeyin" zihniyeti. Bunlar plan yapmana bile engel olur; en büyük risk kendileridir.
+- **Tepe yönetimin kayıtsızlığı:** Yönetim kurulu siber güvenliğe önem vermiyorsa, bütçe ve kaynak gelmez. Olay olduktan sonra ise üç katı parayı üç günde öderler.
+- **İletişim eksikliği:** Risk yönetim planı kurumda paylaşılmazsa, her departman kendi başına hareket eder.
+- **Stratejiye dahil etmemek:** Risk yönetimi ayrı bir süreç olarak duruyorsa, iş stratejisiyle bütünleşmez. Yeni riskler oluşmaya devam eder.
+
+<Alert level="info">
+2018 araştırmasına göre Kurumsal Risk Yönetimi sürecini başarıyla tamamlayan organizasyonların oranı %30. Yani sektördeki kurumların çoğu risk yönetimini doğru yapamıyor. Doğru yapanlar ise rakiplerinin önüne geçiyor.
+</Alert>
+
+<DoDont items={[
+  { text: 'Risk kütüğünü düzenli güncelle, sorumlu kişileri takip et', type: 'do' },
+  { text: 'Kalıntı riskin seviyesini bil ve kabul edilebilir sınırlarda tut', type: 'do' },
+  { text: 'Tepe yönetimi risk kültürüne dahil et', type: 'do' },
+  { text: 'Risk kütüğünü bir kez yaz ve unut', type: 'dont' },
+  { text: 'Yalnızca teknik önlemlere güven, süreci ve insanı atla', type: 'dont' },
+  { text: 'Olay olduktan sonra önlem almaya çalış', type: 'dont' },
+]} />
+
+<Scenario label="Senaryo: İç Tehdit ve Eksik İzleme">
+Bir çalışan ayrılma sürecinde, müşteri veritabanını kişisel bulut depolamasına kopyalıyor. Bunu fark ettiğinde risk çoktan sorun olmuş durumda. Risk kütüğüne bakıyorsun: "İç tehdit - veri sızdırma" riski yazılı ama yanıt stratejisi boş. Departman müdürü bu çalışanın erişim yetkilerini revize etmemiş. Şimdi kriz yönetiyorsun: hukuk süreci, KVKK ihlal bildirimi, müşteri bilgilendirmesi. Oysa doğru yanıt stratejisi uygulanmış olsaydı, ayrılan personelin erişimi aynı gün kapatılır (hafifletme), log izleme kurulurdu (izleme). Kalıntı risk her zaman vardır ama doğru yanıt seçimi, krizi baştan önler.
+</Scenario>
+
+<Scenario label="Senaryo: Risk Kabul mu, Azaltma mı?">
+Kurumda eski bir HR sistemi var. Destek süresi doldu, güncelleme almıyor. Zafiyet değerlendirmesinde kritik açıklar çıktı. Niceliksel hesap: sistemde 5.000 çalışan verisi var, tek seferlik kayıp riski 200.000 TL. Yıllık olasılık %30. YKB = 60.000 TL. Çözüm: yama desteği olan yeni sisteme geçiş 150.000 TL (tek seferlik). Riski kabul etmek mi daha ucuz? Kısa vadede evet. Ama KVKK ihlali durumunda idari para cezası bu rakamın katbekat üstünde. Risk kabul etme kararı sadece maliyete değil, yasal ve itibari etkiye de bakmalı.
+</Scenario>
+
+## <span class="heading-num">46.6</span> Bilgi Kontrolü
+
+<Accordion question="S4. Aşağıdakilerden hangisi vakit alan, pahalı ve utanç verici bir süreçtir?" id="test-45-s4">
+
+a. Risk Yönetimi  
+b. **Kriz Yönetimi ✓**  
+c. Zaman Yönetimi  
+d. Gayrimenkul alarak vatandaşlık edinimi
+
+</Accordion>
+
+<Accordion question="S7. Aşağıdakilerden hangisi risk hafifletme değildir?" id="test-45-s7">
+
+a. **Kur korumalı TL vadeli mevduat ✓**  
+b. Evlilik sözleşmesi  
+c. Yedek anahtar  
+d. Halt yedikten sonra kutsal mekanlarda poz verip medyaya servis etme
+
+</Accordion>
+
+## <span class="heading-num">46.7</span> Siber Sigorta ve Risk Transferi
+
+Risk "transferi" yanıtı, financial yükü üçüncü tarafa kaydırmaktır. En yaygın araç: **siber sigorta**. 2020'lerden itibaren siber sigorta pazarı hızla büyüyor; Türkiye'de de tüm büyük sigorta şirketleri ürün sunuyor.
+
+**Siber sigorta neyi kapsar?**
+
+**First-party (kendi zararın):**
+- İhlal sonrası müdahale maliyeti (IR firması, forensik)
+- İş durması kaybı (business interruption)
+- Veri geri yükleme maliyeti
+- Müşteri bilgilendirme maliyeti (KVKK zorunlu)
+
+**Third-party (başkasının zararı):**
+- Müşteri davaları
+- Regülatör cezaları (KVKK, GDPR)
+- Sözleşmesel tazminat
+
+**Neleri kapsamıyor (genelde)?**
+- Önceden bilinen açıklar
+- Savaş, terörizm
+- Fidye ödemesi (bazı poliçeler öder, bazıları ödemez)
+- Kripto varlık kaybı
+- İçeriden kasıtlı sızma
+
+**Underwriting süreci:**
+
+Sigorta şirketi poliçe vermeden önce sizin güvenlik olgunluğunuzu değerlendirir. Zayıfsa: poliçe pahalı veya verilmez. Güçlüyse: prim düşük, kapsam geniş. Tipik sorular:
+- MFA zorunlu mu?
+- Yedekler çevrimdışı mı?
+- IR planı var mı?
+- Çalışan eğitimi düzenli mi?
+- EDR/SIEM kurulu mu?
+
+Sigorta, aynı zamanda bir "güvenlik denetimi" görevi görür. İyi not almak için iyi güvenlik gerek.
+
+**İhlal anında:**
+
+Poliçede belirlenen IR firmasıyla çalışmak zorunda kalabilirsiniz. Sigorta şirketine hemen haber verin — onaysız masraflar karşılanmayabilir. Tüm iletişim yazılı (e-posta), gecikme kayıt altında.
+
+<Alert type="info">
+Siber sigorta bir "güvenlik" değildir; "mali risk azaltma"dır. Tek başına yeterli değil — IR planı, yedekleme, eğitimle birlikte kullanılır. Sigorta şirketinin "siz zaten koruyamadınız" diyerek ödemeyi reddetmesi (argued negligence) sık görülür; bu yüzden iyi dokümantasyon şart.
+</Alert>
+
+## İlgili Bölümler
+
+- [Risk Temelleri](/risk-temelleri/)
+- [Risk Kategorileri ve Değerlendirme](/risk-kategorileri-ve-degerlendirme/)
+- [KVKK: Teknik Tedbirler](/kvkk-teknik-tedbirler/)
+- [Haftalık Kontrol Listesi](/haftalik-kontrol/)
+- [Kurumsal Kontrol Kartları](/kurumsal-kontrol-kartlari/)

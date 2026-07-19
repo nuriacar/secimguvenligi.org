@@ -1,0 +1,138 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Sosyal Medya Güvenliği'
+description: 'Oltalama tuzakları, giriş yapılan cihazlar, gizlilik ayarları, sahte hesaplar, konum paylaşımı ve fotoğraf meta verisi güvenliği.'
+order: 12
+audience: V
+hero: '/img/hero/sosyal-medya.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Bir sabah uyanıp kendi yüzünü tanımadığın bir hesapta görmek... Instagram'da gezinirken karşına çıkıyor. Aynı fotoğraflar, aynı isim, hatta aynı profil yazısı. Ama o hesabı sen açmadın. Biri, senin kimliğini kopyalamış. Arkadaşlarına mesaj atıyor, adına bir şeyler paylaşıyor. O an midene bir ağrı saplanıyor: "Ben değilim" diyorsun ama kanıtlaması sana düşüyor.
+
+Veya daha basit bir senaryo: Geçen yıl tatile gittiğin bir fotoğrafı paylaştın. Tatildeydin, yani evde yoktun. O fotoğraftan evinin önünü, arabanı, çocuğunun okul kıyafetini gören biri, senin hakkında senin bilmediğin kadar çok şey biliyor olabilir.
+
+Bu sadece siyasetçiler için değil. Kritik bir kurumda çalışıyorsan: kamu görevlisi, hakim, savcı, polis, diplomat veya hastane çalışanı:  sosyal medyadaki bir fotoğrafın, saldırgana sana nasıl ulaşacağı, hangi kurumda çalıştığın, hangi saatlerde evde olmadığın gibi bilgiler verir. En masum paylaşım bile bir saldırgan için ipucudur.
+
+**Özlü kural:** Sosyal medyada paylaştığın her şey, bir gün sana karşı kullanılabilir. Paylaşmadan önce dur ve düşün: "Bunu bir yabancı görse ne olurdu?"
+
+## <span class="heading-num">12.1</span> Oltalama (Phishing) Tuzakları
+
+- **Senaryo:** "Hesabın askıya alındı, giriş yapın" veya "Şok gelişme, tıklayın" şeklinde sahte sayfalar.
+- **Kural:** Sosyal medya uygulamaları dışından, tarayıcıdan seni giriş yapmaya zorlayan hiçbir sayfaya inanma. Parolanı sadece resmi uygulamadan gir.
+- **Yap:** İnternet adresini (URL) kontrol et. facebook.com yerine faceb00k.com, faceboook.com gibi sahte adresler kullanılır.
+- **Sahte adreslerin yaygın taktikleri:**
+  - Harf değiştirme: `standartnews` → `standartnevvs` (w yerine iki v)
+  - Sıfır yerine O: `gov` → `g0v`
+  - Benzer harf: `gov` → `qov`
+  - Fazla ek: `osce.org` → `login-osce.org`
+  - Farklı uzantı: `kavkazcenter.com` → `kavkazcentr.info`
+- **Tetikleyici kelimelere dikkat:** "acil", "skandal", "ücretsiz", "ifşa", "en iyiler" gibi kelimeler tıklama dürtüsü yaratmak için özel seçilir. Bu kelimelerle gelen mesaj ve linklere karşı ekstra dikkatli ol.
+- **Otomatik çevrilmiş mesajlar:** Tanımadığın birinden dil bilgisi bozuk, otomatik çevrilmiş gibi görünen "Filana sayfa bıraktı, görmek için tıkla" tarzı mesajlar gelirse bunlar bot hesaplardan gönderilen oltalamadır. Tıklama.
+- **Kural:** Giriş yapmadan önce adres çubuğunu harf harf oku. Mobilde ekran küçük olduğunda sahte adresleri fark etmek zordur. Mümkünse masaüstü bilgisayarda kontrol et.
+- **Daha fazla örnek ve detay için [İnternet Tarayıcı Güvenliği →](/İnternet-tarayici-guvenligi/).**
+
+<Alert level="warning">
+Sosyal medya hesabın için tarayıcıdan giriş yapmaya zorlayan sayfalara asla inanma. URL'yi harf harf kontrol et. facebook.com yerine faceb00k.com, faceboook.com gibi sahte adresler kullanılır.
+</Alert>
+
+## <span class="heading-num">12.2</span> Giriş Yapılan Cihazları Kontrol Etme
+
+- **Yap:** Haftada bir, kullandığın tüm platformlarda "Giriş yapılan cihazlar" / "Aktif oturumlar" listesine bak.
+- **Nasıl:**
+  - **Facebook/Instagram:** Ayarlar > Güvenlik ve Giriş > Nerede giriş yaptın
+  - **X (Twitter):** Ayarlar > Güvenlik ve hesap erişimi > Uygulamalar ve oturumlar
+  - **Google:** myaccount.google.com > Güvenlik > Cihazlar
+- **Kural:** Tanımadığın şehir, cihaz veya tarayıcı görürsen "Tüm cihazlardan çıkış yap" de.
+
+## <span class="heading-num">12.3</span> Gizlilik Ayarları
+
+- **Yap:** Profilini "özel" yap. Sadece takipçilerin içeriklerini görsün.
+- **Yap:** Telefon numaranı profilinde gizli tut. Numara üzerinden hesabın bulunabilir.
+- **Yapma:** Adres, günlük rutin, konum etiketi ile nerede olduğunu paylaşma.
+
+<DoDont items={[
+  { text: 'Profilini "özel" yap, sadece takipçilerin görsün', type: 'do' },
+  { text: 'Telefon numaranı profilinde gizli tut', type: 'do' },
+  { text: 'Konum etiketlemeyi kapat', type: 'do' },
+  { text: 'Adres, günlük rutin, konum etiketi paylaşma', type: 'dont' },
+  { text: 'Herkesin profilini ve gönderilerini görmesine izin verme', type: 'dont' },
+  { text: 'Telefon numaranı herkese açık bırakma', type: 'dont' },
+]} />
+
+**Gerçek olay:** 2018'de ortaya çıkan Cambridge Analytica skandalında, 87 milyon Facebook kullanıcısının kişisel verisi izinsiz olarak toplandı. Veriler, siyasi kampanyalarda seçmenleri hedefli reklamlarla manipüle etmek için kullanıldığı iddia edildi. Facebook, verilerin üçüncü taraf uygulamalar aracılığıyla sızdırıldığını kabul etti. Bu olay, sosyal medyada paylaştığın bilgilerin siyasi manipülasyon aracına dönüşebileceğini gösterdi. Gizlilik ayarlarını kontrol etmenin nedeni sadece meraklı gözlerden korunmak değil, aynı zamanda verinin toplu kullanımına karşı savunma yapmaktır.
+
+## <span class="heading-num">12.4</span> Sahte Hesap ve Klonlama
+
+- **Senaryo:** Birisi senin adına, fotoğrafınla sahte hesap açar. Arkadaşlarına, akrabalarına "Benim, eski hesabım kapandı" diyerek eklenir ve para ister ya da bilgi toplar.
+- **Türkiye'den örnek:** Seçim dönemlerinde belediye başkanı adayının veya milletvekilinin adına sahte WhatsApp ve sosyal medya hesapları açıldığı, "Seçim ofisi için acil kaynak gerekiyor" diyerek bağış toplandığı vakalar yaşanmıştır.
+- **Yap:** Kendi adına açılmış sahte hesapları düzenli ara. Adını ve soyadını arama motorunda ve sosyal medyada arat.
+- **Yapma:** "Eski hesabım kapandı" diyen birinden gelen mesajlara hemen inanma. Telefonda veya yüz yüze teyit et.
+- **Yap:** Profil fotoğrafında "Bu benim tek resmi hesabım" şeklinde bir doğrulama ifadesi kullan.
+
+<Scenario label="Senaryo: Sahte Hesap Klonlama">
+Birisi senin adına, fotoğrafınla sahte hesap açar. Arkadaşlarına "Benim, eski hesabım kapandı" diyerek eklenir ve para ister ya da bilgi toplar. Seçim dönemlerinde belediye başkanı adayının adına sahte hesaplar açılıp "Seçim ofisi için acil kaynak gerekiyor" diyerek bağış toplandığı vakalar yaşanmıştır. Kendi adına açılmış sahte hesapları düzenli ara.
+</Scenario>
+
+## <span class="heading-num">12.5</span> Konum Paylaşımı ve Takip
+
+- **Kural:** Sosyal medyadan anlık konumunu paylaşma. "Şu an buradayım" paylaşımı senin evde olmadığını, nerede olduğunu ifşa eder.
+- **Yap:** Konum etiketlemeyi kapat. Fotoğraf paylaştıktan sonra konum ekleme.
+- **Yapma:** Google Maps, WhatsApp gibi uygulamalarda "Canlı Konum" paylaşımını unutup açık bırakma.
+- **Siyasetçi için detaylı konum güvenliği: [Tehdit ve Şantaj](/tehdit-santaj/).**
+
+## <span class="heading-num">12.6</span> Fotoğraf ve Video Meta Verisi
+
+- **Kural:** Çektiğin her fotoğraf ve videoda konum, tarih, saat, cihaz bilgisi gibi gizli veriler (üst veri, EXIF) saklanır.
+- **Yap:** Fotoğrafı sosyal medyaya atmadan önce üst verileri temizle. Bazı platformlar bunu otomatik yapar, ama mesajla gönderirken yapmaz.
+- **Dikkat:** WhatsApp üzerinden gönderdiğin fotoğraflar konum bilgisi taşır. "Dosya" olarak gönder (Belge gönder > Dosya seç) üst verileri temizler.
+
+<Checklist title="Hesap Güvenlik Kontrol Listesi">
+<li>Tüm sosyal medya hesaplarında iki adımlı doğrulama açık</li>
+<li>Giriş yapılan cihazlar kontrol edildi, tanınmayan yok</li>
+<li>Profil gizlilik ayarları "özel" olarak ayarlandı</li>
+<li>Telefon numarası profilde gizli</li>
+<li>Konum etiketleme kapalı</li>
+<li>Kendi adına sahte hesap araması yapıldı</li>
+<li>Fotoğraf üst verileri paylaşmadan önce temizleniyor</li>
+</Checklist>
+
+<Accordion question="Platform bazlı gizlilik adımları" id="platform-privacy">
+**Instagram:**
+1. Ayarlar ve gizlilik > Hesap gizliliği > "Hesabı gizli yap" aç
+2. Ayarlar ve gizlilik > İki adımlı doğrulama > Doğrulayıcı uygulaması seç
+3. Ayarlar ve gizlilik > Gizlilik > "Yakın arkadaşlar" dışındaki kişilerin mesaj göndermesini engelle
+
+**X (Twitter):**
+1. Ayarlar ve gizlilik > Güvenlik ve hesap erişimi > İki adımlı doğrulama aç
+2. Ayarlar ve gizlilik > Gizlilik ve güvenlik > "Hesabını koru" açık
+3. Ayarlar ve gizlilik > Gizlilik ve güvenlik > Konum bilgisi kapalı
+
+**Facebook:**
+1. Ayarlar > Güvenlik ve giriş > İki adımlı doğrulama aç
+2. Ayarlar > Gizlilik > "Kimler gelecekteki gönderilerini görebilir" > Yalnızca ben veya Arkadaşlar
+3. Ayarlar > Gizlilik > "Telefon numaranı kimler görebilir" > Yalnızca ben
+</Accordion>
+
+**Saldırı zinciri:** Saldırgan senin profilini klonlayarak arkadaşlarına "Bu fotoğrafa baktın mı?" diye doğrudan mesaj gönderir. Mesajdaki link tıklandığında sosyal medya giriş sayfasına benzer sahte bir sayfaya yönlendirilirler ve parolalarını oraya girerler. Hesabı ele geçiren saldırgan, iz bırakmamak için oltalama mesajlarını konuşmadan siler. 2022 yılında META platformları (Facebook, Instagram) üzerinden bu yöntemle binlerce kişiye hedefli oltalama dalgası yapıldı. Link tıklamadan önce göndereni ayrı bir kanaldan doğrula.
+
+**Benzetme:** Sosyal medya, bir vitrine benzer. Vitrine ne koyarsan herkes onu görür. Ama vitrindekiler sadece senin seçtiklerin değildir; arka planda görünenler de vardır. O arka planda ne bıraktığına dikkat et.
+
+Güzel bir fotoğraf paylaşmadan önce şunu sor: "Bu fotoğraf bir yabancının elinde bana karşı kullanılabilir mi?" Cevap "evet" ise paylaşma.
+
+
+## İlgili Bölümler
+
+- [Sosyal Mühendislik](/sosyal-muhendislik/)
+- [Derin Sahte (Deepfake)](/deepfake/)
+- [Bot Hesaplar](/bot-hesaplar/)
+- [Dezenformasyon](/dezenformasyon/)
+- [Hesap ve Parola Güvenliği](/hesap-parola/)
+- [Dijital Ayak İzi ve Mahremiyet](/dijital-ayak-izi-ve-mahremiyet/)
+- [Siber Zorbalık ve Dijital Şiddet](/siber-zorbalik-ve-dijital-siddet/)

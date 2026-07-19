@@ -1,0 +1,508 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Kimlik Doğrulama ve Oturum Yönetimi'
+description: 'Parola saklama (bcrypt, argon2), oturum yönetimi, JWT güvenliği, OAuth 2.0 ve MFA mimarisi. Python kod örnekleri ile güvenli kimlik doğrulama uygulamaları.'
+order: 57
+audience: B
+hero: '/img/hero/hesap-parola.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+2009'da RockYou adlı sosyal medya sitesi 32 milyon kullanıcının parolasını sızdırdı. Parolalar düz metin olarak veritabanında duruyordu. Hiç şifreleme yoktu. Bu sızıntı, dünyanın en büyük parola sözlüğüne kaynak oldu: sızan parolalar, bugün hâlâ brute force (deneme yanılma) saldırılarında kullanılıyor.
+
+**Özlü kural:** Parola asla düz metin olarak saklanmaz. Hash'lenir, tuzlanır ve yavaş bir algoritmayla işlenir. "Veritabanım güvende" diye düşünme; veritabanı bir gün sızar, o gün elinde ne kalırsa ona bakacaksın.
+
+**Hızlı ipucu:** Veritabanındaki parola kolonuna bak. Düz metin veya MD5 görüyorsan, bu gece düzelt.
+
+## <span class="heading-num">57.1</span> Parola Saklama
+
+Parola saklamanın tek doğru yolu vardır: yavaş, tuzlu, parametreli bir hash (özet) fonksiyonu kullanmak. Hızlı algoritmalar (MD5, SHA-1, SHA-256) parola saklamak için YANLIŞ'tır. Neden? Çünkü bu algoritmalar saniyede milyonlarca deneme yapabilir. Saldırgan bir GPU ile saniyede 100 milyar MD5 hash üretebilir. 8 karakterlik bir parola dakikalar içinde kırılır.
+
+### Kötü Yaklaşımlar
+
+```python
+import hashlib
+
+# YANLIŞ 1: Düz metin saklama
+def save_password_bad_v1(password):
+    db.execute("INSERT INTO users (password) VALUES (?)", (password,))
+    # Veritabanı sızarsa tüm parolalar açıkta
+
+# YANLIŞ 2: MD5 (kırılmış, çok hızlı)
+def save_password_bad_v2(password):
+    hashed = hashlib.md5(password.encode()).hexdigest()
+    db.execute("INSERT INTO users (password) VALUES (?)", (hashed,))
+    # MD5 saniyede 100 milyar deneme yapilabilir
+    # Rainbow table ile aninda kirilir
+
+# YANLIŞ 3: SHA-256 tuzsuz (hızlı, rainbow table açığı)
+def save_password_bad_v3(password):
+    hashed = hashlib.sha256(password.encode()).hexdigest()
+    db.execute("INSERT INTO users (password) VALUES (?)", (hashed,))
+    # SHA-256 saniyede milyarlarca deneme
+    # Tuz yok, ayni parola ayni hash uretir
+```
+
+Bu üç yöntem de yanlış çünkü hepsi HIZLI. Parola hash'lemek için hız istemezsin. Tam tersine, yavaş olmasını istersin. Saldırganın her denemesi 0.5 saniye sürerse, 8 karakterlik bir parolayı kırmak binlerce yıl alır.
+
+### Doğru Yaklaşım: bcrypt
+
+```python
+import bcrypt
+
+def hash_password(password: str) -> bytes:
+    """Parolayi bcrypt ile guvenli sekilde hash'le"""
+    # 1. Parolayi bytes'a cevir
+    password_bytes = password.encode('utf-8')
+    
+    # 2. bcrypt otomatik olarak tuz (salt) uretir
+    # gensalt(12) icindeki 12, maliyet faktorudur (cost factor)
+    # Her artis, hashleme suresini 2 katina cikarir
+    # 12 = yaklasik 0.3 saniye (varsayılan)
+    salt = bcrypt.gensalt(rounds=12)
+    
+    # 3. Hash'le
+    hashed = bcrypt.hashpw(password_bytes, salt)
+    return hashed
+
+def verify_password(password: str, hashed: bytes) -> bool:
+    """Kullanici girisini dogrula"""
+    password_bytes = password.encode('utf-8')
+    # checkpw, hash ve girisi karsilastirir
+    # timing attack'e karsi sabit sureli karsilastirma yapar
+    return bcrypt.checkpw(password_bytes, hashed)
+
+# Kullanim
+hashed_pw = hash_password("KullanicininParola123")
+# Veritabanına hashed_pw kaydet
+
+# Giris doğrulama
+if verify_password(input_password, stored_hashed_pw):
+    print("Parola dogru")
+else:
+    print("Parola yanlis")
+```
+
+bcrypt'in özelliği: hash'in içinde tuz (salt) gömülüdür. Aynı parola her seferinde farklı hash üretir. Maliyet faktörü (rounds=12) zamanla artırılabilir, böylece donanım geliştikçe güvenlik seviyesi korunur.
+
+### Alternatif: Argon2
+
+```python
+# Argon2, bcrypt'in halefidir, daha modern bir parola hash algoritmasidir
+# 2015 Parola Hashleme Yarismasi kazananidir
+from argon2 import PasswordHasher
+
+ph = PasswordHasher(
+    time_cost=3,       # Iterasyon sayisi (yuksek = yavas = guvenli)
+    memory_cost=65536, # 64 MB bellek kullanimi (GPU saldirilarini engeller)
+    parallelism=4,     # Es zamanli is parcaçığı sayisi
+)
+
+def hash_password_argon2(password: str) -> str:
+    return ph.hash(password)
+
+def verify_password_argon2(password: str, hash_str: str) -> bool:
+    try:
+        return ph.verify(hash_str, password)
+    except argon2.exceptions.VerifyMismatchError:
+        return False  # Parola yanlis
+    except argon2.exceptions.InvalidHashError:
+        return False  # Hash formati bozuk
+```
+
+Argon2, GPU ve ASIC saldırılarına karşı daha dirençli çünkü bellek gereksinimi yüksektir. Bir GPU 100 milyar MD5 hesaplayabilir ama sadece birkaç Argon2 hesaplayabilir çünkü her hesap 64 MB bellek ister.
+
+<Alert level="critical">
+Hangi algoritmayı kullanırsan kullan, kullanıcının parolasını ASLA loglama, ASLA ekrana yazma, ASLA hata mesajına ekleme. Parola hash'i bile loglanmamalı. Eğer bir hata ayıklama (debug) yapman gerekiyorsa, "parola doğru/yanlış" şeklinde çalış, parolanın kendisini asla yazdırma.
+</Alert>
+
+**Pepper (Biber) kavramı:** Salt her kullanıcı için farklıdır ve hash'in içinde saklanır. Pepper ise tüm kullanıcılar için aynıdır ve hash'in DIŞINDA, uygulamanın kodunda veya ayrı bir yapılandırmada saklanır. Saldırgan veritabanını çalsa bile pepper'ı bilemez, bu yüzden hash'leri kıramaz.
+
+```python
+import os
+import hmac
+import hashlib
+import bcrypt
+
+# Pepper uygulamanin environment variable'inda saklanir
+# Veritabanında DEGIL
+PEPPER = os.environ['PASSWORD_PEPPER']  # örneğin: 32 byte rastgele string
+
+def hash_with_pepper(password: str) -> bytes:
+    """Once pepper ile HMAC uygula, sonra bcrypt ile hash'le"""
+    # 1. Parola + pepper -> HMAC-SHA256
+    peppered = hmac.new(
+        PEPPER.encode('utf-8'),
+        password.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    
+    # 2. Pepper'lanmis degeri bcrypt ile hash'le
+    return bcrypt.hashpw(peppered.encode('utf-8'), bcrypt.gensalt(12))
+
+def verify_with_pepper(password: str, hashed: bytes) -> bool:
+    peppered = hmac.new(
+        PEPPER.encode('utf-8'),
+        password.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    return bcrypt.checkpw(peppered.encode('utf-8'), hashed)
+```
+
+<DoDont items={[
+  { text: 'bcrypt (rounds=12+) veya Argon2 kullan', type: 'do' },
+  { text: 'Her kullanıcı için ayrı tuz (salt) kullan', type: 'do' },
+  { text: 'Pepper uygulama kodunda sakla, veritabanında değil', type: 'do' },
+  { text: 'Maliyet faktörünü yıllık gözden geçir, gerekirse artır', type: 'do' },
+  { text: 'MD5, SHA-1, SHA-256 ile parola hash\'le', type: 'dont' },
+  { text: 'Aynı tuzu tüm kullanıcılar için kullan', type: 'dont' },
+  { text: 'Parolayı logla veya hata mesajına ekle', type: 'dont' },
+  { text: 'Kendi hash fonksiyonunu yaz', type: 'dont' },
+]} />
+
+## <span class="heading-num">57.2</span> Oturum Yönetimi
+
+Kullanıcı giriş yaptı. Şimdi "bu kullanıcı hâlâ giriş yapmış mı?" sorusunu her istekte yanıtlaman gerek. Bunu oturum (session) yönetimi ile yaparsın.
+
+### Güvenli Oturum ID'si Üretimi
+
+```python
+import secrets
+
+def generate_session_id() -> str:
+    """ Kriptografik olarak guvenli oturum ID'si uret"""
+    # secrets module, random'dan farkli olarak
+    # isletim sisteminin entropy kaynagini kullanir
+    # 32 byte = 256 bit = 43 karakterlik URL-safe string
+    return secrets.token_urlsafe(32)
+
+# KÖTÜ: random veya uuid kullanma
+import random
+bad_id = str(random.randint(100000, 999999))  # Tahmin edilebilir!
+import uuid
+bad_id2 = str(uuid.uuid4())  # uuid4 guvenlidir ama secrets daha kisadir
+```
+
+### Güvenli Cookie Ayarları
+
+```python
+from flask import Flask, make_response
+
+app = Flask(__name__)
+
+@app.route('/login', methods=['POST'])
+def login():
+    # ... parola doğrulama ...
+    
+    session_id = generate_session_id()
+    save_session(session_id, user_id)
+    
+    response = make_response("Giris basarili")
+    response.set_cookie(
+        'session_id',
+        session_id,
+        httponly=True,       # JavaScript erisemez (XSS korumasi)
+        secure=True,         # Sadece HTTPS uzerinden gonderilir
+        samesite='Lax',      # CSRF korumasi
+        max_age=3600,        # 1 saat sonra cookie biter
+        path='/',            # Tum site gecerli
+    )
+    return response
+```
+
+| Cookie bayrağı | Ne yapar | Neden önemli |
+|----------------|---------|-------------|
+| `HttpOnly` | JavaScript cookie'ye erişemez | XSS ile cookie çalınmasını engeller |
+| `Secure` | Cookie sadece HTTPS'te gönderilir | Dinleme (sniffing) saldırılarını engeller |
+| `SameSite=Lax` | Baska siteden gelen istekte cookie gitmez | CSRF koruması sağlar |
+| `max_age` | Cookie'nin ömrü | Sonsuz oturum riskini azaltır |
+
+<Alert level="warning">
+Oturum timeout'ı iki türdür: mutlak (absolute) ve atıl (idle). Mutlak timeout, kullanıcı ne kadar aktif olursa olsun X saat sonra otomatik çıkar (örneğin bankacılıkta 15 dk). Atıl timeout, kullanıcı X dakika işlem yapmazsa çıkar. Kritik uygulamalarda ikisini birlikte kullan: bankacılıkta 15 dk atıl + 8 saat mutlak.
+</Alert>
+
+**Oturum sabitleme (session fixation) saldırısı:** Saldırgan, kullanıcıya kendi belirlediği bir oturum ID'si verir (örneğin URL ile). Kullanıcı bu ID ile giriş yapar. Saldırgan aynı ID'yi kullanarak kullanıcı hesabına girer.
+
+```python
+def login_secure(user_id):
+    # ESKI oturum ID'sini hemen Invalidate et
+    old_session = request.cookies.get('session_id')
+    if old_session:
+        delete_session(old_session)
+    
+    # HER ZAMAN yeni oturum ID'si uret
+    # Giris sirasinda oturum ID değişmezse, fixation açığı var demektir
+    new_session_id = generate_session_id()
+    save_session(new_session_id, user_id)
+    return new_session_id
+```
+
+## <span class="heading-num">57.3</span> JWT (JSON Web Token) Güvenliği
+
+JWT (JSON Web Token), oturum bilgilerini JSON olarak taşıyan, dijital imzalı bir tokendır. Tarayıcıdan sunucuya her istekte gönderilir. Oturum bilgisi sunucuda değil, token'ın içinde taşınır (stateless).
+
+JWT üç bölümden oluşur: `header.payload.signature`
+
+```
+eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMjMsImV4cCI6MTcwMA==.aBcDeFgHiJkL
+|--- header ---||-------- payload --------||----- signature -----|
+```
+
+### Doğru Kullanım
+
+```python
+import jwt
+import datetime
+import os
+
+SECRET_KEY = os.environ['JWT_SECRET']  # Cok uzun, rastgele bir anahtar
+
+def create_jwt(user_id: int) -> str:
+    """Giris yapmis kullanici icin JWT uret"""
+    payload = {
+        'user_id': user_id,
+        'iat': datetime.datetime.now(datetime.timezone.utc),  # Olusturma zamani
+        'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=15),
+        'iss': 'myapp',  # Token'i kim yayinladi
+        'aud': 'myapp-users',  # Token kimin icin
+    }
+    # HS256 ile imzala
+    return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+def verify_jwt(token: str) -> dict:
+    """Token'i dogrula ve payload'u dondur"""
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=['HS256'],  # SADECE beklenen algoritma
+            issuer='myapp',
+            audience='myapp-users',
+        )
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise Exception("Token suresi dolmus")
+    except jwt.InvalidTokenError:
+        raise Exception("Gecersiz token")
+```
+
+### Kritik Güvenlik Açıkları
+
+**1. `alg: none` açığı:** En tehlikeli JWT açığı. Saldırgan token'ın header'ını `{"alg": "none"}` olarak değiştirir. Zayıf implementasyonlar imzayı kontrol etmeden token'ı kabul eder.
+
+```python
+# KÖTÜ KÜTÜPHANE: imzalamayı tamamen kapatir (alg=none dahil tüm ataklara açık)
+payload = jwt.decode(token, verify=False)  # ASLA boyle yapma!
+
+# İYİ KÜTÜPHANE: sadece HS256 kabul eder
+payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+# algorithms parametresi ZORUNLU, eksik olamaz
+```
+
+**2. Symmetric vs Asymmetric karışıklığı:** Token RS256 (asymmetric) ile imzalanmış ama sunucu HS256 (symmetric) bekliyorsa, saldırgan public key'i kendi imzası olarak kullanabilir.
+
+**3. Hassas veri payload'da:** JWT payload Base64 ile encode edilir, şifrelenmez. "password", "credit_card" gibi verileri payload'a KOYMA. Token herkes tarafından okunabilir.
+
+<Alert level="warning">
+JWT iptal edilemez. Bir token yayınladığında, süresi dolana kadar geçerlidir. Kullanıcı "çıkış yap" dediğinde, tarayıcı token'ı siler ama token hâlâ geçerlidir. Çalındıysa saldırgan süresi dolana kadar kullanabilir. Çözüm: kısa süreli access token (15 dk) + uzun süreli refresh token (7 gün). Refresh token'ı veritabanında tut, iptal edebilirsin.
+</Alert>
+
+## <span class="heading-num">57.4</span> OAuth 2.0 ve OIDC
+
+OAuth 2.0, bir uygulamanın başka bir uygulama adına hareket etmesine izin veren bir yetki protokolüdür. "Bu uygulamaya kendi adına tweet atma izni veriyor musun?" mantığı. OIDC (OpenID Connect), OAuth 2.0'ın üzerine inşa edilmiş bir kimlik doğrulama katmanıdır.
+
+En yaygın akış: Authorization Code Flow + PKCE
+
+```python
+# OAuth 2.0 Authorization Code Flow (kabaca)
+# 1. Kullaniciyi yetki sunucusuna yonlendir
+auth_url = (
+    f"https://auth.example.com/authorize?"
+    f"response_type=code"
+    f"&client_id={CLIENT_ID}"
+    f"&redirect_uri={REDIRECT_URI}"
+    f"&scope=openid profile email"
+    f"&state={random_state}"  # CSRF korumasi
+    f"&code_challenge={pkce_challenge}"  # PKCE
+)
+# Tarayici auth_url'e yonlenir
+
+# 2. Yetki sunucusu kod ile geri doner
+# https://app.example.com/callback?code=xyz123&state=xxx
+
+# 3. Kodu access token ile takas et
+response = requests.post("https://auth.example.com/token", data={
+    "grant_type": "authorization_code",
+    "code": auth_code,
+    "client_id": CLIENT_ID,
+    "code_verifier": pkce_verifier,  # PKCE
+    "redirect_uri": REDIRECT_URI,
+})
+access_token = response.json()["access_token"]
+```
+
+**PKCE (Proof Key for Code Exchange):** Mobil ve tek sayfa uygulamalarında client_secret güvenli saklanamaz. PKCE, her yetki isteği için dinamik bir secret üretir. 2024'ten beri tüm OAuth istemcilerinde PKCE zorunludur.
+
+<Accordion question="Implicit flow neden önerilmiyor?" id="implicit-flow">
+Eski OAuth 2.0 uygulamalarında "implicit flow" kullanılırdı. Bu akışta access token doğrudan URL fragment'ında (`#token=...`) gönderilir. Sorun: token tarayıcı geçmişinde kalır, JavaScript'e sızar, loglanabilir. Modern uygulamalarda implicit flow yerine authorization code flow + PKCE kullanılır. Token URL'de değil, sunucudan sunucuya POST ile alınır.
+</Accordion>
+
+## <span class="heading-num">57.5</span> MFA (Çok Faktörlü Doğrulama, İng. Multi-Factor Authentication) Mimarisi
+
+Multi-Factor Authentication (MFA), kullanıcının kim olduğunu kanıtlamak için iki veya daha fazla faktör ister. Faktörler:
+
+- **Bildiği bir şey** (parola, PIN)
+- **Sahip olduğu bir şey** (telefon, hardware token)
+- **Olduğu bir şey** (parmak izi, yüz tanıma)
+
+### TOTP (Time-based One-Time Password)
+
+```python
+import pyotp
+
+# 1. Kullanimci icin benzersiz secret uret
+secret = pyotp.random_base32()  # 32 karakter base32
+# Bu secret'i veritabaninda kullanici ile birlikte sakla
+# Kullaniciya QR kod olarak goster (Google Authenticator ile tara)
+
+# 2. 6 haneli kod uret (30 saniyede bir degisir)
+totp = pyotp.TOTP(secret)
+current_code = totp.now()  # örneğin: "123456"
+
+# 3. Giris sirasinda kullanicinin girdigi kodu dogrula
+user_code = request.form['mfa_code']
+if totp.verify(user_code):
+    print("MFA dogrulandi")
+else:
+    print("Yanlis kod")
+    # Burada rate limiting yap: 3 yanlistan sonra kilitle
+```
+
+**Backup codes:** Telefonunu kaybeden kullanıcı hesaba giremez. Bunun için kayıt sırasında tek kullanımlık yedek kodlar üret ve kullanıcıya yazdır:
+
+```python
+import secrets
+
+def generate_backup_codes(count=10) -> list:
+    """Tek kullanimlik yedek kodlar uret"""
+    codes = []
+    for _ in range(count):
+        # Her kod 16 haneli, tire ile ayrik (örneğin: ABCD-1234-EFGH-5678)
+        raw = secrets.token_hex(8).upper()
+        formatted = '-'.join([raw[i:i+4] for i in range(0, 16, 4)])
+        codes.append(formatted)
+    return codes
+```
+
+<Alert level="tip">
+MFA uygularken rate limiting şarttır. Saldırgan 6 haneli bir TOTP kodunu denemek için en fazla 1.000.000 kombinasyon dener. 30 saniyede sınırsız deneme yapılmasına izin verirsen, otomatik bir araç dakikalar içinde kodu bulur. Çözüm: 3 yanlış denemeden sonra hesabı 15 dakika kilitle veya denemeler arası 1 saniye bekleme süresi koy.
+</Alert>
+
+<Scenario label="Senaryo: JWT Token Çalındı">
+Bir kullanıcının JWT token'ı XSS açığı ile çalındı. Saldırgan bu token'ı kullanarak API'ye istek gönderiyor. JWT stateless olduğu için sunucu token'ın çalındığını bilemez. Token'ın süresi 1 saat. Bu 1 saat boyunca saldırgan istediği işlemi yapabilir. Çözüm: access token süresini kısa tut (15 dakika). Daha uzun süreli oturum için refresh token kullan ve refresh token'ı veritabanında tut. Çalınma şüphesi olduğunda refresh token'ı veritabanından sil, kullanıcı yeniden giriş yapmak zorunda kalsın.
+</Scenario>
+
+<Accordion question="SMS tabanlı MFA neden önerilmiyor?" id="sms-mfa">
+SMS ile gönderilen doğrulama kodu, SIM swap saldırısına açıktır. Saldırgan telefon sağlayıcısını kandırıp kullanıcının numarasını kendi SIM kartına aktarır. Artık doğrulama SMS'leri saldırgana gider. Ayrıca SMS trafiği parolasız protokollerle iletilebilir (SS7 açığı). NIST, SMS tabanlı MFA'yı "kısıtlı kullanım" kategorisine aldı. TOTP (Google Authenticator) veya hardware token (YubiKey) her zaman SMS'den daha güvenlidir.
+</Accordion>
+
+<Checklist title="Kimlik Doğrulama Güvenlik Kontrol Listesi">
+<li>Parolalar bcrypt (rounds=12+) veya Argon2 ile hash'leniyor</li>
+<li>Her kullanıcı için ayrı salt + pepper kullanılıyor</li>
+<li>Oturum ID'leri secrets.token_urlsafe ile üretiliyor</li>
+<li>Cookie'lerde HttpOnly + Secure + SameSite bayrakları açık</li>
+<li>Girişte yeni oturum ID üretiliyor (fixation koruması)</li>
+<li>JWT'de algorithms parametresi zorunlu, alg:none kabul edilmiyor</li>
+<li>JWT payload'da hassas veri yok</li>
+<li>Access token kısa (15 dk), refresh token veritabanında</li>
+<li>MFA için TOTP kullanılıyor, rate limiting açık</li>
+<li>Backup codes üretiliyor ve tek kullanımlık</li>
+</Checklist>
+
+**Gerçek olay:** 2012'de LinkedIn, 165 milyon kullanıcının parolasını sızdırdı. Parolalar SHA-1 ile hash'lenmişti ama tuzsuz (unsalted). Saldırganlar, hazır tablolarla milyonlarca parolayı kırdı. Sonuç: parolalar darknet'te satıldı, kullanıcıların diğer hesapları da ele geçirildi. Ders: hash yetmez, tuz (salt) ve yavaş algoritma şarttır.
+
+**Benzetme:** Kimlik doğrulama, bir binanın kapısındaki güvenlik görevlisidir. Parolanı söylersin, içeri alır. Oturum yönetimi, içeride dolaşırken "hâlâ sen misin?" diye biletini kontrol eden görevlidir. JWT ise kapıda biletini yırtıp cebine koyduğun sistemdir: içeride kimse seni tekrar kontrol etmez. Bilet çalınırsa, başkası senin yerine gezer.
+
+## <span class="heading-num">57.6</span> Passkeys ve WebAuthn — Parola Sonrası
+
+Parolaların temel sorunu: insanlar kötü seçer, yeniden kullanır, sosyal mühendislik ile verir. Çözüm: **parolayı tamamen kaldır**. Passkeys (Apple, Google, Microsoft tarafından 2022'den beri destekleniyor) bu yaklaşımı temsil eder.
+
+**Passkey nasıl çalışır?**
+
+Passkey, cihazınızda saklanan kriptografik bir anahtardır. İki parça:
+- **Public key:** Sunucuda saklanır
+- **Private key:** Cihazınızda (Secure Enclave / TPM / Trusted Platform Module) güvende
+
+Giriş yaparken:
+1. Sunucu size bir challenge gönderir
+2. Cihazınız, private key ile challenge'ı imzalar (Face ID, Touch ID, ekran kilidi ile)
+3. Sunucu, public key ile imzayı doğrular
+4. Private key hiçbir zaman cihazı terk etmez
+
+**Avantajları:**
+
+- **Phishing (oltalama)-proof:** Passkey, domaine bağlıdır. Sahte `g00gle.com` sitesinde Google passkey çalışmaz.
+- **Veri ihlali etkisi yok:** Sunucuda sadece public key var; çalınsa bile işe yaramaz.
+- **Kullanıcı dostu:** Parola hatırlama yok,Face ID/Touch ID ile saniyeler.
+- **Senkronize:** Apple iCloud Keychain / Google Password Manager ile cihazlar arası senkron.
+- **Çapraz platform:** 2023'ten beri Apple-Android-Google arasında QR ile geçiş.
+
+**Dezavantajları:**
+
+- Cihaz kaybı riski (ama yedekleme ve hesap kurtarma mekanizmaları var)
+- Eski sistemler desteklemeyebilir (legacy)
+- Bazı kullanıcılar hâlâ parola alışkanlığından kurtulamadı
+
+**WebAuthn (W3C standardı):**
+
+```javascript
+// Tarayıcı API — passkey oluşturma
+const credential = await navigator.credentials.create({
+  publicKey: {
+    challenge: new Uint8Array([/* sunucudan gelen random */]),
+    rp: { name: "Şirketim", id: "sirketim.com" },
+    user: {
+      id: new Uint8Array([/* user id */]),
+      name: "ahmet@sirketim.com",
+      displayName: "Ahmet"
+    },
+    pubKeyCredParams: [
+      { type: "public-key", alg: -7 },   // ES256
+      { type: "public-key", alg: -257 }  // RS256
+    ],
+    authenticatorSelection: {
+      userVerification: "required"  // biometric zorunlu
+    }
+  }
+});
+
+// Giriş — passkey kullanma
+const assertion = await navigator.credentials.get({
+  publicKey: {
+    challenge: new Uint8Array([/* yeni random */]),
+    allowCredentials: [{ type: "public-key", id: credential.rawId }],
+    userVerification: "required"
+  }
+});
+```
+
+**Migration stratejisi:**
+
+Mevcut parola sisteminize Passkey'i ek seçenek olarak sunun. Kullanıcı kendisi geçiş yapsın. Zorunlu geçiş = kullanıcı kaybı. Google, Apple, Microsoft bunu yapıyor — yan yana yaşama dönemi.
+
+**Kurumsal geçiş:**
+
+Zero Trust mimarisinde Passkeys çok değerli: MFA + phishing-proof + user-friendly. [Zero Trust Mimarisi →](/zero-trust-mimarisi/) bölümünde Passkeys'i "identity" sütunu olarak konumlandırdık.
+
+## İlgili Bölümler
+
+- [Hesap ve Parola Güvenliği](/hesap-parola/)
+- [Güvenli Kodlama Temelleri](/guvenli-kodlama-temelleri/)
+- [Enjeksiyon Saldırıları ve Savunma](/enjeksiyon-saldirilari/)
+- [Erişim Kontrolü ve API Güvenliği](/erisim-kontrolu-ve-api-guvenligi/)

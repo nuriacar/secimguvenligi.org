@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import { chapters } from '../data/chapters';
+
+const groups = [
+  { id: 'farkindalik', title: 'Herkes İçin Temel Bilgi Güvenliği Farkındalık Eğitimi' },
+  { id: 'risk', title: 'İT/BT Risk Yönetimi, Tehdit Modelleme ve Shadow IT' },
+  { id: 'kodlama', title: 'Güvenli Kodlama Eğitimi' },
+];
+---
+
+<Base title="Herkes için Bilgi Güvenliği Rehberi" description="Herkes için adım adım dijital güvenlik rehberi: vatandaş, gazeteci ve kamu görevlileri için pratik kılavuz" image="/img/hero/home.webp">
+  <div class="i-mb-8">
+    <img class="hero-img i-img-50" src="/img/hero/home.webp" alt="Dijital Güvenlik Kılavuzu" width="2912" height="1440" />
+  </div>
+
+  <div data-pagefind-body>
+  <div class="i-my-6">
+      <h1 class="i-hero-title">
+        Dijital Güvenlik Kılavuzu
+      </h1>
+      <p class="i-subtitle-wide">
+        Her yaş ve eğitim düzeyi için genel bilgi güvenliği farkındalığı rehberi.
+      </p>
+      <div class="i-callout-naked">
+        <p class="i-callout-lead">
+          Tehditler her an kapıda. Unvan, yaş, meslek sormaz.
+        </p>
+        <p class="i-body-para">
+          Bu kılavuzdaki bilgiler günlük hayatın her anında geçerli. Bahsedilenler her yaş ve eğitim düzeyine uygun genel bilgi güvenliği farkındalığı konuları. Bu sebeple zamandan ve rolden bağımsız oku, aklında kalanları ailene, arkadaşlarına ve yakın çevrene bahset.
+        </p>
+        <p class="i-body-para">
+          Güven zinciri, en zayıf halkası kadar güçlüdür. En zayıf halka sensin çünkü zaafların var, güven duymaya programlısın! Unutma! Cihazları hack'lemek, insanları hack'lemekten daha zor!
+        </p>
+      </div>
+    </div>
+
+  {groups.map(g => (
+    <div>
+      <h2 id={`group-${g.id}`} class="i-group-header">{g.title}</h2>
+      <div class="i-stack-1">
+        {chapters.filter(ch => ch.group === g.id).map(ch => (
+          <a href={ch.slug + '/'} class="i-chapter-link">
+            <span class="i-fw-semibold">{ch.order}.</span>
+            <span>{ch.title}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+
+  <div class="i-callout-mt8">
+    <p class="i-callout-title">Ek Kaynaklar</p>
+    <p class="i-label-heading">Bağımsız kılavuzlar ve referans sayfaları</p>
+    <div class="i-stack-1">
+      <a href="/vatandas/" class="i-resource-link">
+        <span class="i-fw-semibold">Vatandaş İçin Güvenlik</span>
+      </a>
+      <a href="/gazeteciler/" class="i-resource-link">
+        <span class="i-fw-semibold">Gazeteciler İçin Güvenlik</span>
+      </a>
+      <a href="/kamu-gorevlileri/" class="i-resource-link">
+        <span class="i-fw-semibold">Kamu Görevlileri İçin Güvenlik</span>
+      </a>
+      <a href="/kurumsal/" class="i-resource-link">
+        <span class="i-fw-semibold">Kurumsal Güvenlik</span>
+      </a>
+      <a href="/kriz/" class="i-resource-link">
+        <span class="i-fw-semibold">Kriz Karar Ağacı (Acil Durum)</span>
+      </a>
+      <a href="/sozluk/" class="i-resource-link">
+        <span class="i-fw-semibold">Sözlük</span>
+      </a>
+    </div>
+  </div>
+  </div>
+</Base>

@@ -1,0 +1,189 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Olay Müdahalesi (Incident Response)'
+description: "NIST IR lifecycle, siber olay müdahale planı, fidye yazılımı playbook'u, iletişim planı, forensik zincir, tabletop egzersizleri ve SOAR."
+order: 47
+audience: B
+hero: '/img/hero/kriz.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+Cuma akşamı 22:00. SOC (Güvenlik Operasyon Merkezi, İng. Security Operations Center) analisti bir uyarı görüyor: "Aşırı veri çıkışı, finans sunucusundan 50 GB". Logları açıyor — bilinmeyen bir IP, son 4 saattir veri çekiyor. Ne yapmalı? Kimi aramalı? Sistemi kapatmalı mı, izlemeli mi? Her saniye önemli. İşte olay müdahale (IR) tam budur: kriz anında soğukkanlı, planlı, disiplinli hareket etme disiplini.
+
+Olay müdahalesi (IR), bir siber saldırı tespit edildiğinde uygulanan planlı yanıt sürecidir. NIST 6 aşamalı lifecycle (Hazırlık, Tespit, İzolasyon, Temizlik, Kurtarma, Dersler) dünyada endüstri standardıdır. İyi bir IR planı, bir şirketin ortalama bir ihlalden 10 kat daha ucuz kurtulmasını sağlar.
+
+## <span class="heading-num">47.1</span> NIST IR Lifecycle
+
+ABD Ulusal Standartlar ve Teknoloji Enstitüsü (NIST), olay müdahale için 6 aşamalı bir yaşam döngüsü tanımlar (NIST SP 800-61). Türkiye'deki KVKK ve ISO 27001 uyum süreçleri de bu çerçeveye dayanır.
+
+### 1. Hazırlık (Preparation)
+
+Olay olmadan önce yapılması gerekenler. Bu olmadan diğer aşamalar çöker.
+
+- **IR ekibi tanımla:** Kim ne yapacak? (Teknik lider, iletişim sorumlusu, hukuk, yönetim)
+- **İletişim planı:** Kriz anında kim, hangi sırayla, hangi kanaldan haberdar edilecek? (Telefon, e-posta, sinyal)
+- **Araçlar hazır:** Forensik disk imaging, log toplama, sandbox, MDR platformu
+- **Yetkilendirme:** Ekip neyi yapmaya yetkili? (Sistemi kapatma, hesap dondurma, dış müdahale)
+- **Eğitim ve tatbikat:** Yılda en az 2 tabletop egzersiz
+
+<Alert level="info">
+KVKK Madde 12 "veri güvenliği ihlallerinin bildirimi" zorunluluğu, IR planınızın bir parçası olmak zorunda. İhlal sonrası 72 saat içinde KVKK Kurulu'na bildirim yapılması gerekiyor.
+</Alert>
+
+### 2. Tespit ve Analiz (Detection & Analysis)
+
+Olayın fark edilmesi ve kapsamının belirlenmesi.
+
+- **Kaynaklar:** SIEM (Güvenlik Bilgi ve Olay Yönetimi, İng. Security Information and Event Management) uyarıları, EDR (Uç Nokta Tehdit Tespiti ve Yanıtı, İng. Endpoint Detection and Response) bildirimleri, kullanıcı şikayetleri, dış ihbar (araştırmacı, medya)
+- **İlk triyaj:** Gerçek pozitif mi, yanlış alarm mı? (MTTD — Mean Time to Detect)
+- **Kapsam:** Hangi sistemler, hangi hesaplar, hangi veriler etkilendi?
+- **Önceliklendirme:** İş sürekliliği etkisi, KVKK kapsamı, finansal kayıp riski
+
+### 3. İzolasyon, Temizlik, Kurtarma (Containment, Eradication, Recovery)
+
+Bu üç aşama pratikte iç içe geçer.
+
+**İzolasyon (Containment):** Kan akışını durdur. Ama kanı tamamen kesme — saldırganın ne yaptığını görmek için bazen "honey pot" tarzı izleme yapılır.
+- Hesapları dondur (parola sıfırla, oturumları kapat)
+- Etkilenen cihazları ağdan ayır (ama KAPATMA — RAM'deki kanıt kaybolur)
+- Saldırganın C2 sunucusuna giden trafiği engelle
+
+**Temizlik (Eradication):** Saldırganın geri dönüş yollarını yok et.
+- Kötü amaçlı yazılımı temizle
+- Açıkları yama
+- Saldırganın oluşturduğu hesapları sil
+- Sızdırılan parolaları sıfırla
+
+**Kurtarma (Recovery):** Sistemi güvenli şekilde yeniden aç.
+- Temiz yedekten geri yükle
+- Aşamalı açılış (önce kritik sistemler)
+- Yoğun izleme dönemi (genelde 2-4 hafta)
+- MTTR — Mean Time to Recover takip et
+
+### 4. Derslerin Çıkarılması (Post-Incident)
+
+İhlal sonrası "post-mortem" toplantısı. Suçlama değil, öğrenme odaklı.
+
+- **Zaman çizelgesi:** İlk sızma, tespit, izolasyon, kurtarma tarihleri
+- **Kök neden analizi (Root Cause Analysis):** Neden oldu?
+- **Maliyet analizi:** Doğrudan (müdahale, ceza) + dolaylı (itibar, iş kaybı)
+- **İyileştirme planı:** Hangi kontroller eklenecek, hangi süreç değişecek?
+- **Güncellenmiş IR planı:** Bu olaydan çıkarılan dersler plana işlensin
+
+<Scenario label="Fidye Yazılımı Olayı - 72 Saat">
+**Saat 0 (Pazartesi 03:00):** Saldırgan phishing (oltalama) ile bir muhasebe elemanının bilgisayarına sızmış. **Saat 4 (07:00):** Lateral movement; ağda 50 sisteme yayıldı. **Saat 48 (Çarşamba 03:00):** Şifreleme başlar. Sabah 08:00'de çalışanlar kilitli ekranlarla karşılaşır. **Saat 49:** SOC uyarıyı doğrular, IR ekibi toplanır. **Saat 50:** Etkilenen segment izole edilir, sömürü edilen hesap dondurulur. **Saat 52:** Kriz iletişimi: yönetim, hukuk, KVKK, sigorta. **Saat 60:** Forensik image alınır, temiz yedekten geri yükleme başlar. **Saat 72:** KVKK'ya bildirim (72 saat kuralı). **Gün 7:** Kritik sistemler geri açılır. **Gün 30:** Post-mortem raporu.
+</Scenario>
+
+## <span class="heading-num">47.2</span> Fidye Yazılımı (Ransomware) Playbook'u
+
+Fidye yazılımı, 2020'den beri en yıkıcı siber tehdit. Özel IR playbook'u gerekir.
+
+<DoDont items={[
+  { text: `**Yedekleri izole et:** Çevrimdışı/immutable yedek olduğundan emin ol (saldırgan ulaşamasın)`, type: 'do' },
+  { text: `**Forensik image al:** Fidye öncesi RAM ve disk görüntüsü — adli delil ve kök neden için`, type: 'do' },
+  { text: `**Saldırganla iletişimi kayda al:** Bazı durumlarda müzakere gerekir; uzmanla yap`, type: 'do' },
+  { text: `**Segmentasyonu doğrula:** Saldırganın yayılma yolunu kes (Active Directory, SMB)`, type: 'do' },
+  { text: `**Yasal bildirimleri yap:** KVKK (72 saat), BDDK (bankacılık), Kişisel Veri Sahiplerine`, type: 'do' },
+  { text: `**Fidyeyi hemen ödeme:** Ödeme suç teşvik eder, veri geri gelmeyebilir, ikinci şantaj olabilir`, type: 'dont' },
+  { text: `**Tüm sistemi aynı anda aç:** Saldırgan persistence koyduysa tekrar şifreler`, type: 'dont' },
+  { text: `**Saldırganı kolayca sil pas geç:** Aynı açık hâlâ açıkta, geri döner`, type: 'dont' },
+  { text: `**Kamuya hemen açıkla:** İç değerlendirme yap, kontrollü iletişim`, type: 'dont' },
+  { text: `**Yedekleri aynı ağda tut:** Fidye yazılımı yedekleri de şifreler`, type: 'dont' }
+]} />
+
+## <span class="heading-num">47.3</span> İletişim Planı
+
+Olay anında iletişim, teknik müdahaleden daha zor olabilir.
+
+**İç iletişim:** Yönetim kurulu, çalışanlar, hukuk ekibi, İK (bazı çalışanlar soruşturma kapsamına girebilir).
+
+**Dış iletişim:** 
+- **KVKK Kurulu** (kişisel veri ihlalleri, 72 saat)
+- **Sektörel regülatörler** (BDDK, SPK, EPDK, BTK)
+- **Sigorta şirketi** (siber sigorta varsa)
+- **Kamuoyu** (kontrollü, hukuk onaylı)
+- **Kullanıcılar/müşteriler** (KVKK Madde 12 gereği etkilendilerse)
+
+<Alert level="warning">
+İletişimde "ifade vermek" yerine "bilgilendirmek" dili kullan. "Saldırgan X sistemi ele geçirdi" yerine "bir güvenlik olayı tespit edildi, müdahale ediliyor". Her cümle hukuk tarafından onaylanmalı.
+</Alert>
+
+## <span class="heading-num">47.4</span> Tabletop Egzersizleri
+
+Sporcu gibi, IR ekibi de maça çıkmadan antrenman yapmalı. Tabletop egzersen, ekibin bir senaryo üzerinden ağızdan tartışmasıdır.
+
+**Senaryo örneği:** "Salı sabahı, müşterilerden 'sisteme giremiyoruz' çağrıları geliyor. Ağınızda bilinmeyen cihazlar var. Bir ISGN ekibi 50 milyon TL fidye talep ediyor. Kim ne yapar?"
+
+Her çeyrekte bir senaryo: fidye yazılımı, içeriden sızma, tedarikçi ihlali, veri sızıntısı, DDoS.
+
+## <span class="heading-num">47.5</span> Forensik Zincir ve Delil Yönetimi
+
+Adli dava ihtimali için delil zinciri (chain of custody) sağlam olmalı.
+
+- **Delil toplama:** Disk image (Write Blocker ile), RAM dump, log export
+- **Zincir:** Kim, ne zaman, nerede, neyi topladı, kime devretti (imzalı tutanak)
+- **Saklama:** Şifreli, erişim kontrollü, yazılımdan korunmuş depolama
+- **Raporlama:** Türk mahkemesinde geçerli, bilirkişi tarafından hazırlanabilir rapor
+
+## <span class="heading-num">47.6</span> Otomasyon: SOAR
+
+SOAR (Security Orchestration, Automation and Response), tekrarlayan müdahale adımlarını otomatikleştirir. Örneğin: "Phishing e-postası bildirildi" → otomatik e-posta analizi → URL sandbox'ta patlat → kötü amaçlıysa göndereni engelle → tüm kullanıcılardan sil → case aç. Bu, analist saatler yerine dakikalar alır.
+
+## <span class="heading-num">47.7</span> Metrikler
+
+İyi bir IR programı ölçülmelidir:
+- **MTTD** (Tespit Süresi, İng. Mean Time to Detect): Sızma ile tespit arası süre (hedef: 24 saatten az)
+- **MTTR** (Müdahale Süresi, İng. Mean Time to Respond): Tespit ile izolasyon arası süre (hedef: 1 saatten az)
+- **MTTC** (Mean Time to Contain): İzolasyon ile tam kurtarma (hedef: olay tipine göre)
+- **Kaçırılma oranı** (Dwell time): Saldırgan ağda ne kadar unseen kaldı (endüstri ortalaması ~16 gün)
+
+## <span class="heading-num">47.8</span> Siber Sigorta
+
+[Risk Yanıtları ve İzleme →](/risk-yanitlari-ve-izleme/) bölümünde "risk transferi" altında değinmiştik. IR açısından siber sigorta:
+- İhlal sonrası IR maliyetini (uzman ekip, forensik, hukuk) karşılayabilir
+- Poliçe genelde "first-party" (kendi zararın) + "third-party" (başkasının zararı) bölümlerinden oluşur
+- Underwriting süreci mevcut IR planınızı değerlendirir — zayıfsa poliçe pahalı veya yok
+- İhlal anında sigorta şirketinin onayladığı IR firmasıyla çalışmak zorunda kalabilirsiniz
+
+<Checklist title="IR Hazırlık Kontrol Listesi">
+<li>Yazılı IR planı var (NIST 6 aşamalı)</li>
+<li>IR ekibi tanımlı (teknik, iletişim, hukuk, yönetim)</li>
+<li>İletişim planı yazılı (iç + dış, KVKK 72 saat)</li>
+<li>Yıllık en az 2 tabletop egzersen planlandı</li>
+<li>Çevrimdışı/immutable yedek var (fidye yazılımına karşı)</li>
+<li>SOAR/MDR aracı kurulu veya hizmet alıyor</li>
+<li>Forensik araç ve yetkili personel tanımlı</li>
+<li>Siber sigorta poliçesi mevcut ve kapsam anlaşıldı</li>
+<li>IR planı sadece kağıtta, tatbikat yapılmadı</li>
+<li>Yedekler aynı ağda, fidye yazılımına açık</li>
+<li>Ihlal bildirimi 72 saati aşacak şekilde gecikmeli süreç</li>
+</Checklist>
+
+**Gerçek olay:** 2017'de Equifax, bir Apache Struts açığını (CVE-2017-5638) 2 ay yamamıştı. Saldırganlar bu açık üzerinden 147 milyon Amerikalının kişisel verisini çaldı (SSN, ad, adres, doğum tarihi). İR planı zayıftı: ihlal 76 gün sonra fark edildi, halka duyuru daha da geç. Maliyet: 1.4 milyar dolar + 700 milyon dolar ceza + CEO istifası. Trajedik olan: yama açık yayınlandığında mevcuttu, sadece uygulanmamıştı.
+
+**Benzetme:** Olay müdahale, bir hastanenin acil servisi gibidir. Hazırlık = doktor/hemşire eğitimi, ekipman kontrolü. Tespit = triyaj (hasta içeri girince durum değerlendirme). İzolasyon = karantina (bulaşıcı hastayı ayırma). Temizlik = tedavi. Kurtarma = taburcu. Dersler = mortality toplantısı (gelecek vakalar için öğrenme). Acil servisi olmayan bir hastane, ilk gerçek acıda felç olur.
+
+## İlgili Bölümler
+
+- [Risk Yanıtları ve İzleme →](/risk-yanitlari-ve-izleme/) — Risk transferi ve Siber Sigorta
+- [Risk Kategorileri ve Değerlendirme →](/risk-kategorileri-ve-degerlendirme/) — Risk değerlendirme
+- [Kriptografi ve Secret Yönetimi →](/kriptografi-ve-secret-yonetimi/) — Şifreleme ve anahtar yönetimi
+- [Güvenlik Testi ve DevSecOps →](/guvenlik-testi-ve-devsecops/) — Önleyici güvenlik
+- [Kurumsal Kontrol Kartları →](/kurumsal-kontrol-kartlari/)
+
+<Accordion question="Fidye yazılımına yakalandık, fidyeyi ödemeli miyiz?" id="ir-fidye">
+Ödeme son çaredir, çünkü: (1) Veriyi geri alacağınız garanti değil (ort. %65). (2) İkinci şantaj ("double extortion") gelebilir. (3) Ödeme suçu teşvik eder ve bazı yargılarda yasadışı. (4) OFAC yaptırım listesindeki gruplara ödeme ABD'de suç. Önce: çevrimdışı yedek kontrolü, forensik analiz, özel kurtarma araçları (NoMoreRansom.org), IR firmasıyla görüşme. Şirket iflas riski altındaysa ve son çareyse, uzman müzakereciyle çalış.
+</Accordion>
+
+<Accordion question="KVKK'ya ihlali 72 saat içinde bildirmek tam olarak ne gerektirir?" id="ir-kvkk-72">
+KVKK Madde 12 ve İhlal Bildirimi Tebliği'ne göre: Kişisel veri ihlali sonrası en geç 72 saat içinde KVKK Kurulu'na bildirim. Bildirimde: ihlalin niteliği, etkilenen kişisel veri, izleyen riskler, alınan/alınacak önlemler. Kişisel veri sahipleri de "özel risk taşıyorsa" ayrıca haberdar edilmeli. 72 saat, müdahale devam etse bile saat olarak işlior; ihlali fark ettiğiniz andan itibaren başlar.
+</Accordion>
+
+<Accordion question="Tabletop egzerseni nasıl yapılır?" id="ir-tabletop">
+Bir odada IR ekibi, yönetim, hukuk toplanır. Bir moderatör senaryoyu adım adım okur: "Sağlık Bakanlığı sistemlerinize sızmış, hastaların verilerini istiyor. Ne yapıyorsunuz?" Herkes rolü gereği yanıtlar. Hatalar, eksikler, belirsen yetkiler ortaya çıkar. 2-3 saatlik egzersen, sonunda "lessons learned" raporu. Maliyet düşük, değer yüksek. Dış danışmanla daha gerçekçi olur.
+</Accordion>

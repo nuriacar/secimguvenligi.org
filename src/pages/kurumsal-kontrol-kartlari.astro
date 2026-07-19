@@ -1,0 +1,236 @@
+---
+import Base from '../layouts/Base.astro';
+import { chapters } from '../data/chapters';
+
+const cards = [
+  {
+    slug: '/risk-temelleri',
+    do: [
+      'Risk, olasılık ve etkinin çarpımıdır; her tehdidi bu formülle değerlendir',
+      'Sistematik risk yönetimi sürecini işlet: tanımla, değerlendir, yanıtla, izle',
+      'CIA üçlüsünü (gizlilik, bütünlük, erişilebilirlik) korumayı hedefle',
+      'Risk iştahını net tanımla ve tüm kararları buna göre ver',
+      'Risk yönetimini bir defalık proje değil, sürekli süreç olarak gör',
+    ],
+    dont: [
+      'Riski sadece teknolojik tehdit olarak görme, insan ve süreç faktörünü ihmal etme',
+      '"Başımıza gelmez" diye düşünerek risk değerlendirmesini atla',
+      'Riski tek kişi olarak değerlendirme, ekipçe tartış',
+      'Risk değerlendirmesini bir kere yapıp unutma',
+    ],
+  },
+  {
+    slug: '/risk-kategorileri-ve-degerlendirme',
+    do: [
+      'Riskleri kategorilere ayır: stratejik, finansal, operasyonel, teknik, insan, uyumluluk',
+      'Risk matrisi kullan: olasılık ve etki skorlarını çarp',
+      'Quantitative (sayısal) analiz yap, sezgilerle değil veriyle karar ver',
+      'Varlık, tehdit ve zafiyet ilişkisini net kur',
+      'Risk kategorilerini düzenli gözden geçir ve güncelle',
+    ],
+    dont: [
+      'Tüm riskleri aynı önceliğe sokma, matrisle önceliklendir',
+      'Sadece qualitative (kalitatif) değerlendirme yapıp sayıları kullanma',
+      'İnsan faktörü riskini "çözülemeyen bir şey" diye yok sayma',
+      'Uyumluluk risklerini "yasal bir formalite" olarak görme',
+    ],
+  },
+  {
+    slug: '/risk-yanitlari-ve-izleme',
+    do: [
+      'Her risk için net bir yanıt seç: kabul, azaltma, transfer, kaçınma',
+      'Risk sahibi ve takip tarihi ata; sahipsiz risk yönetilmez',
+      'KPI ve KRI ile riskleri sürekli izle',
+      'Olası risk senaryoları için olay müdahale planı hazırla',
+      'Risk yanıt kararlarını düzenli olarak gözden geçir',
+    ],
+    dont: [
+      'Tüm riskleri kabul etme (yani görmezden gelme)',
+      'Risk yanıtını belirleyip sorumlu atamadan bırak',
+      'Riski bir kez yanıtladıktan sonra izlemeyi kes',
+      'KPI\'ları hiç takip etme, sadece kur',
+    ],
+  },
+  {
+    slug: '/tehdit-modelleme-cerceveleri',
+    do: [
+      'Tehdit modellemeyi tasarım aşamasında başlat, üretime kadar bitir',
+      'Veri akış diyagramı (DFD) çıkar ve güven sınırlarını belirle',
+      'STRIDE veya PASTA ile sistematik analiz yap',
+      'Microsoft SDL gibi bir çerçeve benimse ve sürece entegre et',
+      'Tehdit modelini canlı bir belge olarak güncelle',
+    ],
+    dont: [
+      'Tehdit modellemeyi "sonradan hallederiz" diye ertele',
+      'DFD olmadan tehdit modellemeye başlama',
+      'Sadece bir kişinin görüşüyle tehdit modeli oluştur',
+      'Tehdit modelini bir kere yapıp dosyaya kaldır',
+    ],
+  },
+  {
+    slug: '/stride-ve-pasta',
+    do: [
+      'STRIDE ile tehditleri kategorize et, sonra PASTA ile derinleş',
+      'Tehdit ağacı (stratejik) ve saldırı ağacını (taktiksel) birlikte kullan',
+      'Her STRIDE kategorisini kendi sistemine uyarla',
+      'PASTA\'nın yedi adımını sırayla işle',
+      'Senaryo çalışmalarıyla teoriyi pratiğe dök',
+    ],
+    dont: [
+      'STRIDE ve PASTA\'yı rakip olarak görüp sadece birini seçme',
+      'Tehdit ağacını saldırı ağacıyla karıştırma',
+      'STRIDE kategorilerini tek tek incelemeden geçiştirme',
+      'PASTA adımlarından bazılarını atlayarak hızlanmaya çalışma',
+    ],
+  },
+  {
+    slug: '/tehdit-modelleme-pratigi',
+    do: [
+      '5 kişilik ekiple 2 saatlik oturumlarla başla',
+      'Rolleri net dağıt: moderatör, mimar, geliştirici, iş analisti, testçi',
+      'Oturum sonunda her çözüme sorumlu ve tarih ata',
+      'Eleştiri yok kuralını uygula; tüm fikirleri yaz',
+      'Zaman çizelgesine sadık kal: 15+30+30+30+15 dakika',
+    ],
+    dont: [
+      'Tehdit modellemeyi tek başına yapma',
+      'Oturumda eleştiri kültürü yaratma, fikirleri engelleme',
+      'Çözümlere sorumlu atamadan oturumu bitir',
+      'Teknik jargonla iş analistini ve karar vericileri dışarıda bırak',
+    ],
+  },
+  {
+    slug: '/shadow-it',
+    do: [
+      'Varlık envanterini düzenli güncelle, ne kullanıldığını bil',
+      'Çalışanların ihtiyaçlarına resmi BT çözümleri sun',
+      'Shadow IT risklerini eğitimlerle anlat',
+      'İzleme sistemleriyle izinsiz araç kullanımını tespit et',
+      'BYOD politikası ve MDM çözümü uygula',
+    ],
+    dont: [
+      '"İşi yapsınlar da nasıl yaparlarsa yapsınlar" de',
+      'Shadow IT\'yi tamamen yasakla ama alternatif sunma',
+      'Kişisel cihazları kontrolsüz kurum ağına bağlat',
+      'Shadow IT\'yi görmezden gel, "bizde yok" san',
+    ],
+  },
+  {
+    slug: '/olay-mudahalesi',
+    do: [
+      'Yazılı IR planı var (NIST 6 aşamalı lifecycle)',
+      'IR ekibi tanımlı: teknik, iletişim, hukuk, yönetim',
+      'İletişim planı yazılı: iç + dış, KVKK 72 saat bildirim',
+      'Yıllık en az 2 tabletop egzersiz yap',
+      'Çevrimdışı/immutable yedek var (fidye yazılımına karşı)',
+      'Forensik zincir ve delil yönetimi süreci tanımlı',
+      'IR metrikleri takip ediliyor: MTTD, MTTR, MTTC',
+    ],
+    dont: [
+      'IR planı sadece kağıtta, tatbikat yapılmadı',
+      'Yedekler aynı ağda, fidye yazılımına açık',
+      'İhlal bildirimi 72 saati aşacak şekilde gecikmeli',
+      'Fidye yazılımında hemen fidye öde (son çare olmalı)',
+      'Sistemi kapat — RAM\'deki forensik kanıt kaybolur',
+    ],
+  },
+  {
+    slug: '/zero-trust-mimarisi',
+    do: [
+      'SSO + MFA tüm uygulamalarda zorunlu',
+      'Cihaz health check olmadan erişim yok (MDM/EDR)',
+      'Mikro-segmentasyon ile ağ bölünmüş',
+      'ZTNA ile VPN aşamalı kalkıyor, uygulama bazlı erişim',
+      'Erişim logları SIEM\'de, anomali uyarıları açık',
+      'Policy\'ler rol + cihaz + lokasyon + zaman bazlı',
+    ],
+    dont: [
+      '"İç ağ güvenli" varsayımıyla tek politika',
+      'Tüm çalışanlara VPN ile tam ağ erişimi',
+      'Sadece parolaya güven (MFA yok)',
+      'Policy\'leri yönetilemez karmaşıklıkta biriktir',
+    ],
+  },
+  {
+    slug: '/eposta-alyapi-guvenligi',
+    do: [
+      'SPF kaydı DNS\'te tanımlı',
+      'DKIM imzalama aktif (en az 1024-bit)',
+      'DMARC kaydı var (p=quarantine veya reject)',
+      'DMARC raporları izleniyor (rua mailbox)',
+      'MTA-STS aktif, TLS zorunlu',
+      'BEC simülasyonu çeyreklik yapılıyor',
+      'Çift onaylı para transfer süreci: yeni IBAN = telefon doğrulaması',
+      'Pazarlama mailleri subdomain\'den',
+    ],
+    dont: [
+      'SPF yok veya ~all ile bırakılmış, -all yok',
+      'DMARC p=none\'da takılıp kaldı, enforcement yok',
+      'Çalışanlar "CEO acil" maillerine doğrulamadan uyuyor',
+      'Tüm 3. parti mail sağlayıcılar SPF\'e ekli değil',
+    ],
+  },
+];
+
+const chapterMap = new Map(chapters.map(c => [c.slug, c.title]));
+---
+
+<Base title="Kurumsal Kontrol Kartları" description="İT/BT risk yönetimi, tehdit modelleme ve shadow IT bölümlerinin kritik yap/yapma kuralları - yazdırılabilir şablonlar" image="/img/hero/kontrol-kartlari.webp">
+  <img class="hero-img i-hero-img" src="/img/hero/kontrol-kartlari.webp" alt="Kurumsal Kontrol Kartları" width="2912" height="1440" />
+  <h1 class="i-page-title-alt2">Kurumsal Kontrol Kartları</h1>
+  <p class="i-subtitle-dim">İT/BT risk yönetimi, tehdit modelleme ve shadow IT bölümlerinin en kritik yap / yapma kurallarını tek kart boyutunda özetleyen yazdırılabilir şablonlar.</p>
+
+  <button data-action="print" class="i-print-btn">Yazdır / PDF Kaydet</button>
+
+  <div data-pagefind-body>
+
+    <div class="i-grid-auto">
+      {cards.map((card, i) => (
+        <div class="i-card-flat">
+          <div class="i-card-header">
+            <h2 class="i-card-header-title">Kart {i + 1}: {chapterMap.get(card.slug)}</h2>
+          </div>
+          <div class="i-card-body-grid">
+            <div>
+              <div class="i-do-heading" role="region" aria-label="Bunu Yap">Bunu Yap</div>
+              <ul class="i-checklist">
+                {card.do.map(item => (
+                  <li><span class="i-text-do" aria-hidden="true">&#10003;</span> {item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div class="i-dont-heading" role="region" aria-label="Bunu Yapma">Bunu Yapma</div>
+              <ul class="i-checklist">
+                {card.dont.map(item => (
+                  <li><span class="i-text-dont" aria-hidden="true">&#10007;</span> {item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="i-callout">
+      <h2 class="i-h2-bright">Baskı ve Kullanım</h2>
+      <ul class="i-info-list">
+        <li>Her kart A4 boyutunda (210 x 297 mm) yazdırılabilir</li>
+        <li>Çift yüzlü renkli baskı önerilir (yeşil: yap, kırmızı: yapma)</li>
+        <li>BT ekibi toplantılarında ve güvenlik eğitimlerinde dağıt</li>
+        <li>Laminate ederek dayanıklı hale getirebilirsin</li>
+        <li>Duvar panosunda görünür yerde asılı tut</li>
+      </ul>
+    </div>
+
+    <div class="i-mb-6">
+      <h2 class="i-h2-bright">İlgili Bölümler</h2>
+      <ul class="i-info-list">
+        <li><a href="/kontrol-kartlari/" class="link">Farkındalık Kontrol Kartları</a>: bireysel güvenlik ve KVKK için yap/yapma kuralları</li>
+        <li><a href="/guvenli-kodlama-kontrol-kartlari/" class="link">Güvenli Kodlama Kontrol Kartları</a>: güvenli yazılım geliştirme için yap/yapma kuralları</li>
+        <li><a href="/egitim/" class="link">Eğitimler</a>: kurumsal ve bireysel güvenlik eğitimleri</li>
+      </ul>
+    </div>
+
+  </div>
+</Base>

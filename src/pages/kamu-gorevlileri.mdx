@@ -1,0 +1,214 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Kamu Görevlileri İçin Dijital Güvenlik'
+description: 'Kamu görevlileri, danışmanlar, ekipler ve saha çalışanları için erişim yönetimi, kampanya güvenliği, itibar koruma ve kriz iletişim planı.'
+hero: '/img/hero/kamu-gorevlileri.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Bir kamu görevlisine en yakın kişi sensin. Danışmanı, özel kalemi, sekreteri, saha koordinatörü. Telefonunda görevin programı, özel yazışmaları, strateji belgeleri var. Saldırgan doğrudan kamu görevlisini hedeflemek yerine, senin gibi daha az korunan ekip üyelerini hedefler. Senin telefonun, kamu görevlisinin bilgilerine açılan kapıdır.
+
+**Özlü kural:** Seni hedef almazlar, telefonunu hedeflerler. Ekip üyeleri genellikle en zayıf halkadır.
+
+<Alert level="info">
+Bu sayfa, bir kamu görevlisinin ekibinde çalışan herkes için role özgü güvenlik bilgilerini içerir. Temel bilgiler (parola, cihaz, mesajlaşma, kriz) ana kılavuz bölümlerinde anlatılır: bu sayfada onlara link bulacaksın.
+</Alert>
+
+## Tehdit Profilin
+
+Bir kamu görevlisi veya ekibi olarak dört cepheden hedef alınırsın:
+
+**Devlet destekli saldırılar:** Pegasus, Predator gibi casus yazılımlar kamu görevlilerini birincil hedef alır. Telefonundaki tüm mesajlar, aramalar, konum bilgisi izlenebilir. Detaylı bilgi: [Casus Yazılım Belirtileri →](/casus-yazilim/)
+
+**Hedef sen değilsin, erişimin hedef:** Saldırgan kamu görevlisine ulaşmak için önce sana ulaşır. Senin telefonun, senin e-postan, senin sosyal medya hesabın: bunlar açılan kapılardır.
+
+**İtibar saldırıları:** Deepfake videolar, sahte ekran görüntüleri, uydurma yazışmalar. Özellikle seçim dönemlerinde itibarın hedef alınabilir. Detaylı bilgi: [Deepfake →](/deepfake/)
+
+**Fiziksel tehditler:** Cihaz ele geçirme, ofis baskını, sınırda inceleme. Detaylı bilgi: [Seyahat ve Sınır →](/seyahat-sinir/)
+
+<Alert level="critical">
+Yaygın bir saldırı deseni: saldırgan önce bir ekip üyesinin hesabını çalar. Rehberi tarayarak bağlantı ağını keşfeder. Ardından çaldığı hesap üzerinden diğer ekip üyelerine mesaj atar. Zincirleme sızma böyle başlar.
+</Alert>
+
+### Kimler Bu Kategoride?
+
+<table>
+<caption>Kamu Görevlileri İçin Dijital Güvenlik — Özet Tablo</caption>
+<thead>
+<tr><th scope="col">Seviye</th><th scope="col">Kimdir?</th><th scope="col">Erişim</th><th scope="col">Risk</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Üst düzey</strong></td><td>Seçilmiş veya atanmış kamu görevlisi, milletvekili, bakan</td><td>En yüksek</td><td>En kritik</td></tr>
+<tr><td><strong>Yakın ekip</strong></td><td>Danışman, özel kalem, sekreter, kampanya direktörü</td><td>Yüksek</td><td>Erişim hedefi</td></tr>
+<tr><td><strong>Parti çalışanı</strong></td><td>Genel merkez, il/ilçe ofisleri, gönüllü koordinatörü</td><td>Orta</td><td>Sosyal mühendislik hedefi</td></tr>
+<tr><td><strong>Saha ekibi</strong></td><td>Miting organizatörü, stant görevlisi, seçim günü koordinatörü</td><td>Düşük</td><td>Fiziksel risk yüksek</td></tr>
+</tbody>
+</table>
+
+Hepsinin ortak noktası: hassas veriye dokunuyorsun ama yeterince korunmuyorsun.
+
+## Yetki ve Erişim Yönetimi
+
+### En Az Yetki İlkesi
+
+Her ekip üyesi sadece işini yapabilecek kadar yetkiye sahip olmalıdır. Strateji belgelerine herkesin erişimi olmamalıdır.
+
+<Checklist title="Yetki Denetim Listesi">
+<li>Hangi ekip üyesinin hangi belgelere erişimi olduğunu biliyor muyum?</li>
+<li>Ayrılan veya görevi değişen kişinin yetkilerini geri aldım mı?</li>
+<li>Kampanya içi hesaplar (sosyal medya, e-posta) için rol bazlı yetkilendirme var mı?</li>
+<li>Acil durumda devralma protokolü tanımlı mı?</li>
+</Checklist>
+
+### Parola Devretme Yasağı
+
+- Özel kalem, danışman veya sekreter kamu görevlisinin kişisel hesap parolalarını bilmez.
+- Acil durumda geçici erişim verildiyse iş bitiminde parola anında değiştirilir.
+- Sosyal medya yönetimi yapılacaksa, üçüncü taraf araçlar (Buffer, Hootsuite gibi) kullan. Parola paylaşma.
+
+<DoDont items={[
+  { text: 'Her ekip üyesine sadece işi için gerekli yetkiyi ver', type: 'do' },
+  { text: 'Kamu görevlisinin parolalarını devral veya aynı hesabı kullan', type: 'dont' },
+  { text: 'Ayrılan kişinin tüm yetkilerini derhal geri al', type: 'do' },
+  { text: 'Kampanya hesaplarında iki adımlı doğrulamayı kapat', type: 'dont' },
+  { text: 'Saha ekibine acil durumda kullanacağı yedek iletişim kanalı ver', type: 'do' },
+  { text: 'Kampanya içi haberleşmede SMS veya WhatsApp kullan', type: 'dont' },
+]} />
+
+<Accordion question="Neden parola devretmek tehlikelidir?" id="password-sharing">
+Üç neden:
+
+1. Parolayı bilen kişi sayısı arttıkça sızma riski katlanır.
+2. Bir sızıntı olduğunda kimin sızdırdığını tespit edemezsin.
+3. O parolayı bilen kişinin cihazı ele geçirilirse tüm hesaplar tehlikeye girer.
+</Accordion>
+
+## Kamu Görevlisini Koruma Bilinci
+
+Ekip üyesi olarak görevin sadece kendini değil, kamu görevlisini de korumaktır:
+
+1. **Adına konuşma:** Ses kaydını, fotoğrafını veya yazışmasını kişisel cihazlarında saklama. Bu veriler senin cihazından sızarsa kamu görevlisi zarar görür.
+2. **Kozmik oda kuralına uy:** Hassas toplantıya telefonsuz gir. Senin telefonun dinleniyor olabilir.
+3. **Şüpheli durumu hemen bildir:** Oltalama mesajı aldıysan, telefonunda anormal davranış fark ettiysen, güvenlik danışmanına derhal haber ver.
+4. **Görevin bitince bağlantıyı kes:** İşten ayrıldığında, kampanya bittiğinde veya görevin sona erdiğinde tüm erişimlerini kapat. Hesapların açık kalırsa senden sonra sızdırılabilir.
+
+Detaylı bilgi: [Özel Kalem ve Ekip Güvenliği →](/yakin-calisma-ekibi/)
+
+## Kampanya Operasyonel Güvenliği (OpSec)
+
+### Kozmik Oda Kuralı
+
+En hassas strateji konuşmalarını yaparken tüm elektronik cihazları odadan çıkar. Telefonlar, akıllı saatler, dizüstü bilgisayarlar: hepsi potansiyel bir dinleme cihazıdır. Çift telefon sistemi kullanıyorsan hassas toplantılara iş telefonunu bile sokma. Detaylı bilgi: [Çift Telefon Sistemi →](/cift-telefon/)
+
+<Alert level="tip">
+Kozmik oda kuralını test et: bir toplantı öncesi ekip üyelerinin telefonlarını bir kasaya koydur. "Acil gelebilir" diyen kişiler, kuralın en çok uygulanması gerekenlerdir.
+</Alert>
+
+### Strateji Sırrı Yönetimi
+
+- Kampanya stratejisi, anket sonuçları, bütçe bilgisi gibi hassas belgeleri asla kişisel cihazlarda veya bulut depolamada saklama.
+- Hassas belgeler için şifreli harici disk kullan. Disk şifreleme: [Cihaz Güvenliği →](/cihaz-guvenligi/)
+- Seçmen verilerini içeren dosyaları şifrele ve erişimi rol bazlı sınırla.
+- Kampanya içi iletişimde Signal kullan, kaybolan mesajları aktif et. Detaylı bilgi: [Güvenli Mesajlaşma →](/mesajlasma/)
+
+### Ekip Güvenliği
+
+Ekibin güçlü ama aynı zamanda savunmasız. Bir danışmanın telefonu ele geçirildiğinde stratejinin bir kısmı tehlikeye girer. Detaylı bilgi: [Özel Kalem ve Ekip Güvenliği →](/yakin-calisma-ekibi/)
+
+<DoDont items={[
+  { text: 'Hassas toplantılara telefonsuz gir, kozmik oda kuralını uygula', type: 'do' },
+  { text: 'Kampanya belgelerini şifreli harici diskte sakla', type: 'do' },
+  { text: 'Ekip üyelerine düzenli güvenlik eğitimi ver', type: 'do' },
+  { text: 'Kampanya stratejisini kişisel bulut depolamada (Drive, iCloud) saklama', type: 'dont' },
+  { text: 'Aynı telefonu hem iş hem kişisel işler için kullanma', type: 'dont' },
+  { text: 'Ekipten ayrılanların hesaplarını kapatmadan unutma', type: 'dont' },
+]} />
+
+## Deepfake ve İtibar Saldırılarına Karşı Savunma
+
+Deepfake teknolojisi, bir kamu görevlisinin ağzından hiç söylemediği sözler söyletebilir, hiç bulunmadığı ortamlarda gösterebilir. Savunma stratejisi:
+
+**Önleyici:** Tüm konuşmalarını kaydet. Kameralı ortamlarda bulunduğunda ne giydiğini, hangi arka planda olduğunu not et. Bu, sahte bir görüntüyü çürütmek için delil olur.
+
+**Tepkisel:** Bir deepfake ile karşılaştığında:
+1. Hemen yalanlama: önce orijinal kaynağı bul.
+2. Teknik analiz iste (gölge, göz kırpma, ses frekansı analizi).
+3. Hukuki süreç başlat.
+4. Kendi kayıtlarınla karşılaştırma yap.
+
+Detaylı bilgi: [Derin Sahte (Deepfake) →](/deepfake/) ve [Yalan Haber ve Dezenformasyon →](/dezenformasyon/)
+
+## Kriz İletişim Planı
+
+Bir bilgi sızıntısı, şantaj girişimi veya deepfake saldırısı anında panik yapmamak için önceden bir kriz planın olsun:
+
+1. **Kriz ekibini belirle:** Hukuk danışmanı, dijital güvenlik uzmanı, iletişim danışmanı. Her biri kriz anında ne yapacağını bilmeli.
+2. **İletişim ağacı oluştur:** Kriz anında sırayla kime haber verileceği açık olsun.
+3. **Önceden hazır açıklama metni:** "Hesabımız hedef alınmıştır, gerekli hukuki ve teknik önlemler alınmaktadır" gibi hazır şablonlar.
+4. **Kriz sonrası analiz:** Ne oldu, nasıl oldu, nasıl önlenebilirdi?
+
+Detaylı bilgi: [Kriz Karar Ağacı →](/kriz/), [Hesap Çalındığında →](/hesap-calma/), [Şantaj Durumunda →](/tehdit-santaj/)
+
+## Şantaj ve Kaset Kumpasından Korunma
+
+<Alert level="critical">
+Şantaj, bir kamu görevlisinin başına gelebilecek en yıkıcı saldırılardan biridir. Tek kural: şantaja boyun eğme. Boyun eğdiğin anda saldırganın eline sürekli kullanacağı bir koz vermiş olursun.
+</Alert>
+
+Şantaj anında yapılacaklar:
+1. Kanıtları sakla (mesajlar, kayıtlar).
+2. Hukuki destek al.
+3. Dijital güvenlik uzmanına danış.
+4. Asla para gönderme veya talep edileni yapma.
+
+Detaylı bilgi: [Şantaj ve Kaset Kumpası →](/tehdit-santaj/) ve [Şantaj Alındığında →](/tehdit-santaj/)
+
+## Saha Ekibi İçin Kurallar
+
+Saha ekibi (miting organizatörü, stant görevlisi, seçim günü koordinatörü) için ek kurallar:
+
+**Sahada iletişim:**
+- Saha içi iletişim için Signal kullan, kaybolan mesajları aktif et.
+- Seçim günü saha koordinasyonu için yedek iletişim kanalı belirle (örneğin: Signal çökerse ne kullanılacak?).
+- Hassas anlarda telefonunu uçak moduna al. Baz istasyonlarına bağlanan telefon yaklaşık konum bilgisi verir.
+
+**Fiziksel güvenlik:**
+- Saha ekipmanlarını (tablet, telefon, şarj aleti) gözünden ayırma.
+- Seçim günü sandık sonuçlarını iletirken şifreli kanal kullan. SMS ile sonuç gönderme.
+- Kalabalık ortamlarda telefonunu kilitli tut, biyometrik kilit açık olsun.
+
+Detaylı bilgi: [Seçim Günü Sahra Güvenliği →](/secim-gunu/) ve [Cihaz Güvenliği →](/cihaz-guvenligi/)
+
+## Başlaman Gereken Bölümler
+
+Tüm bölümler tüm roller için geçerlidir. Kamu görevlileri için kritik öncelik sırası:
+
+1. **[Temel Kavramlar →](/temel-kavramlar/)**: Bilgi güvenliği temelleri
+2. **[Tehdit Modelleme →](/tehdit-modelleme/)**: Kendi tehdit profilini oluştur
+3. **[Cihaz Güvenliği →](/cihaz-guvenligi/)**: Telefon ve bilgisayar temel koruması
+4. **[Sosyal Mühendislik →](/sosyal-muhendislik/)**: En yaygın saldırı tekniği, ekibini tanı
+5. **[Çift Telefon Sistemi →](/cift-telefon/)**: İş ve özel telefon ayrımı, kozmik oda
+6. **[Özel Kalem ve Ekip Güvenliği →](/yakin-calisma-ekibi/)**: Parola devretme yasağı, rol bazlı yetki
+7. **[Güvenli Mesajlaşma →](/mesajlasma/)**: Kampanya içi iletişim kuralları
+8. **[Devlet Düzeyinde Casus Yazılımlar →](/casus-yazilim/)**: Pegasus, Predator
+9. **[Casus Yazılım Teşhis ve Temizlik →](/casus-yazilim-teshisi/)**: Gelişmiş kontrol protokolü
+10. **[Deepfake →](/deepfake/)**: İtibar saldırılarına karşı savunma
+11. **[Şantaj ve Kaset Kumpası →](/tehdit-santaj/)**: Korunma ve kriz anı protokolü
+12. **[Şantaj ve Kriz Yönetimi →](/santaj-ve-kriz/)**: Kriz anında yapılacaklar
+13. **[Aile Güvenliği →](/aile-guvenlik/)**: Ailenin de korunması
+14. **[Seçim Günü Sahra →](/secim-gunu/)**: Saha ekibi için kritik
+15. **[Seyahat ve Sınır →](/seyahat-sinir/)**: Sınırda cihaz koruma
+16. **[Haftalık Kontrol →](/haftalik-kontrol/)**: Düzenli güvenlik taraması
+17. **[Hesap Çalındığında →](/hesap-calma/)**: Acil durum protokolü
+
+## İlgili Kaynaklar
+
+- [Kriz Karar Ağacı →](/kriz/): Acil durumda ne yapacağını bilmiyorsan buradan başla
+- [Sözlük →](/sozluk/): Dijital güvenlik terimleri
+- [Güvenlik Eğitimleri →](/egitim/): Bireysel güvenlik için ek kaynaklar

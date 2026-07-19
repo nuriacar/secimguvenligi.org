@@ -1,0 +1,181 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Güvenli Kodlama Temelleri'
+description: 'Güvenli yazılım geliştirme yaşam döngüsü, sola kaydırma felsefesi, güvenli tasarım prensipleri, kod inceleme kültürü ve güvenlik standartları.'
+order: 55
+audience: B
+hero: '/img/hero/lisans.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+2017'de Equifax, dünyanın en büyük kredi derecelendirme şirketlerinden biri, 147 milyon kişinin verisini sızdırdı. Sebep? Apache Struts kütüphanesinde bilinen bir açık (CVE-2017-5638) iki ay önce yaması çıkmıştı ama kimse uygulamamıştı. Kod yazıldı, test edildi, üretildi. Güvenlik hiçbir aşamada sorulmadı. Sonuç: 1.4 milyar dolar ceza, CEO istifası, 147 milyon kişinin T.C. kimlik numarası, adresi ve kredi kartı bilgisi sızdırıldı.
+
+**Özlü kural:** Güvenlik bir özellik değil, bir süreçtir. Kodun sonuna eklenen bir güvenlik modülü değil, her satırın yazılış şeklidir.
+
+**Hızlı ipucu:** Kod deposunda `grep -ri "os.system\|eval(\|innerHTML" .` komutunu çalıştır. Çıkan her satır, potansiyel bir güvenlik açığıdır.
+
+## <span class="heading-num">55.1</span> Güvenli SDLC Nedir?
+
+SDLC (Yazılım Geliştirme Yaşam Döngüsü), yazılımın doğumundan ölümüne kadar geçen sürecidir. Geleneksel SDLC'de güvenlik, test aşamasının sonuna bırakılır. Ekip geliştirir, test eder ve son güne "siber güvenlik ekibi gelip bir şeyler bulur" diye bekler. Bu yaklaşım artık ölüdür.
+
+Güvenli SDLC, güvenliği sürecin her aşamasına gömer:
+
+<table>
+<caption>Güvenli SDLC aşamaları ve güvenlik aktiviteleri</caption>
+<thead>
+<tr><th scope="col">Aşama</th><th scope="col">Güvenlik Aktivitesi</th></tr>
+</thead>
+<tbody>
+<tr><td>Gereksinim</td><td>Güvenlik gereksinimleri topla, tehdit modellemesi planla</td></tr>
+<tr><td>Tasarım</td><td>Tehdit modellemesi yap, mimari risk analizi</td></tr>
+<tr><td>Geliştirme</td><td>Güvenli kodlama standartları, statik analiz (static analysis)</td></tr>
+<tr><td>Test</td><td>SAST, DAST, sızma testi (penetrasyon testi)</td></tr>
+<tr><td>Dağıtım</td><td>Güvenlik yapılandırma kontrolü, gizli anahtar taraması (secret scanning)</td></tr>
+<tr><td>Bakım</td><td>Yama yönetimi, olay müdahale planı</td></tr>
+</tbody>
+</table>
+
+<Alert level="tip">
+Güvenli SDLC'nin en bilinen çerçevesi Microsoft SDL'dir. [Tehdit Modelleme Çerçeveleri](/tehdit-modelleme-cerceveleri/) bölümünde SDL'nin detaylarını bulabilirsin.
+</Alert>
+
+**Maliyet farkı:** Bir güvenlik hatasını gereksinim aşamasında düzeltmenin maliyeti 1 birimse, test aşamasında 30 birim, üretime çıktıktan sonra 300 birim. Tasarım aşamasında yapılan bir hata, üretime kadar fark edilmezse maliyeti 300 katına çıkar.
+
+**Saldırgan gözüyle:** Saldırgan, kodundaki açığı aramaz. Senin "daha sonra düzeltiriz" diye ertelediğin teknik borcu arar. Bir TODO yorumu, bir `// FIXME`, bir kapalı Jira bileti: hepsi saldırgana "burada bir açık var" der.
+
+<Scenario label="Senaryo: Hatalı Hızlı Yayınlama">
+Ekip, yeni bir ödeme sayfasını iki haftada yayınlamak (shipping) zorunda. Tasarım aşamasında tehdit modellemesi atlandı. Kod yazıldı, test edildi, üretime alındı. İki ay sonra bir siber güvenlik araştırmacısı, ödeme sayfasında SQL injection (SQL enjeksiyonu) açığı buldu. Şirketin veri ihlali maliyeti: 500.000 TL. Tehdit modellemesi yapsalardı 2 saat sürecek, maliyet 0 TL olacaktı. Şimdi açığı kapatmak, müşterilere bildirim göndermek, KVKK cezası ödemek ve itibar onarımıyla uğraşmak zorundalar.
+</Scenario>
+
+## <span class="heading-num">55.2</span> Sola Kaydırma (Shift-Left) Felsefesi
+
+Sola kaydırma (shift-left), güvenliği sürecin soluna, yani en başına çekmektir. Geleneksel süreçte güvenlik sağdadır (en sonda). Sola kaydırma felsefesi şunu söyler: hata ne kadar erken yakalanırsa düzeltme o kadar ucuz olur.
+
+<table>
+<caption>Hatanın bulunduğu aşamaya göre düzeltme maliyeti</caption>
+<thead>
+<tr><th scope="col">Ne zaman bulundu?</th><th scope="col">Maliyet</th><th scope="col">Neden</th></tr>
+</thead>
+<tbody>
+<tr><td>Gereksinim/Tasarım</td><td><strong>1x</strong></td><td>Kod yazılmadı, sadece plan değişti</td></tr>
+<tr><td>Geliştirme</td><td><strong>5x</strong></td><td>Kod yeniden yazılacak</td></tr>
+<tr><td>Test</td><td><strong>30x</strong></td><td>Kod yazıldı, test edildi, belgelendi; hepsi değişecek</td></tr>
+<tr><td>Üretim</td><td><strong>300x</strong></td><td>Müşteri etkilenir, veri sızar, ceza gelir, itibar çöker</td></tr>
+</tbody>
+</table>
+
+Geliştiricinin sorumluluğu sadece çalışan kod yazmak değildir. Güvenli kod yazmaktır. Güvenlik ekibi denetleyen değil, danışman rolüne geçmelidir. Geliştirici güvenli kodu yazmayı bilirse, denetim gereksiz hale gelir.
+
+<Alert level="warning">
+Sola kaydırmanın başarısız olduğu en yaygın senaryo: geliştiriciye "güvenli kod yaz" denir ama eğitim verilmez. Geliştirici hangi açıkları nasıl yazdığını bilmiyorsa, farkında olmadan her gün yeni açık üretir. Eğitim şarttır.
+</Alert>
+
+## <span class="heading-num">55.3</span> Güvenli Tasarım Prensipleri
+
+Güvenlik tasarımının sekiz klasik ilkesi (Saltzer-Schroeder, 1975) bugün hâlâ geçerli:
+
+**1. En Az Yetki (Least Privilege):** Bir kullanıcı, işlem veya program, görevini yerine getirmek için yalnızca gereken en düşük yetkiye sahip olmalıdır. Bir raporlama servisinin veritabanına yazma yetkisi olmamalıdır. Sadece okuma yeterlidir.
+
+**2. Derinlemesine Savunma (Defense in Depth):** Tek bir savunma hattına güvenme. Bir saldırgan güvenlik duvarını geçerse, kimlik doğrulama durdurmalı. Kimlik doğrulamayı geçerse, erişim kontrolü durdurmalı. Erişim kontrolünü geçerse, veri şifreli olmalı. Katmanlar çoğaldıkça saldırganın işi zorlaşır.
+
+**3. Güvenli Varsayılanlar (Fail-Safe Defaults):** Bir şeyler ters gittiğinde sistem en güvenli duruma düşmelidir. Erişim kararsız kalırsa, varsayılan "reddet" olmalıdır. Bir hata durumunda "izin ver" değil "izin reddet" davranışı benimsenmelidir.
+
+**4. Tam Arabuluculuk (Complete Mediation):** Her erişim isteği, her seferinde yetki kontrolünden geçmelidir. Kullanıcı bir kez giriş yaptığında, "giriş yaptı" diye bir bayrak saklanıp sonraki tüm isteklerde bu bayrağa güvenilmemelidir. Her istekte yetki yeniden kontrol edilmelidir.
+
+**5. Mekanizma Ekonomisi (Economy of Mechanism):** Tasarım ne kadar basitse, açıklar o kadar az olur. Karmaşık sistemlerde açık bulunmaz, sadece açık patlar. Güvenlik tasarımında basitlik, karmaşıklıktan her zaman üstündür.
+
+**6. Açık Tasarım (Open Design):** Güvenlik, sistemin gizli olmasına değil, doğru tasarlanmasına dayanmalıdır. "Güvenlik belirsizliğe dayanır" (security by obscurity) yaklaşımı çürümüştür. Açık kaynaklı şifreleme algoritmaları (AES, RSA) herkes tarafından bilinir ama yine de kırılamaz.
+
+**7. Görev Ayrımı (Separation of Duties):** Kritik bir işlem tek kişinin onayına bırakılmamalıdır. Para transferi, veri silme, yönetici yetkisi verme gibi işlemlerde iki kişinin onayı istenmelidir. Bu, tek bir içeriden tehdidin sistemi çökertmesini engeller.
+
+**8. Psikolojik Kabul Edilebilirlik (Psychological Acceptability):** Güvenlik önlemleri kullanımı zorlaştırdığında insanlar onları atlatmaya çalışır. Günde 10 kez karmaşık parola isteyen bir sistem, kullanıcının parolayı kağıda yazmasına neden olur. Güvenlik, kullanım kolaylığıyla dengelenmelidir.
+
+<DoDont items={[
+  { text: 'Her servise sadece gereken en düşük yetkiyi ver', type: 'do' },
+  { text: 'Güvenliği tasarım aşamasında planla, sonraya bırakma', type: 'do' },
+  { text: 'Hata durumunda sistemi en güvenli duruma düşür', type: 'do' },
+  { text: 'Savunmayı birden fazla katmana yay', type: 'do' },
+  { text: 'Güvenlik belirsizliğine (obscurity) güven', type: 'dont' },
+  { text: 'Karmaşık mimariyi "daha güvenli" san', type: 'dont' },
+  { text: 'Güvenliği sadece test aşamasına bırak', type: 'dont' },
+  { text: 'Geliştiriciye güvenli kod eğitimi vermeden "güvenli yaz" de', type: 'dont' },
+]} />
+
+## <span class="heading-num">55.4</span> Kod İnceleme (Code Review) Kültürü
+
+Kod inceleme (code review), başka bir geliştiricinin (veya güvenlik uzmanının) yazılan kodu güvenlik açısından denetlemesidir. Otomatik araçlar (SAST) birçok hatayı yakalar ama bazı hatalar sadece insan gözüyle tespit edilir. Örneğin: iş mantığı hatası, yetki kontrolünün yanlış yerde yapılması, yarış durumu (race condition).
+
+**Güvenlik odaklı kod inceleme kontrol listesi:**
+
+1. **Girdi doğrulama (input validation):** Dışarıdan gelen her veri doğrulanıyor mu? Tip, uzunluk, format kontrolü var mı?
+2. **Çıktı kodlama (output encoding):** Veri ekrana basılmadan önce kodlanıyor mu? (XSS savunması)
+3. **Kimlik doğrulama (authentication):** Doğru uygulanmış mı? Parola hash (özet)'leniyor mu?
+4. **Yetkilendirme (authorization):** Her istekte yetki kontrolü yapılıyor mu? IDOR açığı var mı?
+5. **Gizli anahtar yönetimi (secret management):** Kodda, commit mesajında, loglarda gizli anahtar (secret) var mı?
+6. **Hata yönetimi (error handling):** Hata mesajları hassas bilgi sızdırıyor mu? Yığın izi (stack trace) kullanıcıya gösteriliyor mu?
+7. **Bağımlılıklar (dependencies):** Yeni eklenen kütüphane bilinen bir açığa sahip mi?
+8. **Şifreleme (crypto):** Doğru algoritma kullanılıyor mu? Anahtar yönetimi doğru mu?
+
+<Alert level="tip">
+Kod incelemeyi "saldırgan simülasyonu" olarak düşün. Her kod inceleme isteğinde (pull request) soru şu: "Saldırgan bu kodu nasıl sömürür?" Bu düşünce yapısı, en etkin güvenlik inceleme yöntemidir.
+</Alert>
+
+## <span class="heading-num">55.5</span> Güvenlik Standartları ve Sınıflandırmaları
+
+Güvenlik dünyasında ortak bir dil oluşturmak için standartlar geliştirilmiştir:
+
+**CWE (Ortak Zafiyet Sınıflandırması):** Yazılım güvenlik zafiyetlerini sınıflandıran bir katalogdur. Her zafiyet tipine bir CWE-ID verilir. Örneğin CWE-89 SQL Injection, CWE-79 XSS, CWE-78 işletim sistemi komut enjeksiyonudur. MITRE Corporation tarafından yönetilir. CWE, "bu tür hata ne denir?" sorusunu cevaplar.
+
+**CVE (Ortak Güvenlik Açığı Kaydı):** Bilinen, somut güvenlik açıklarının kaydıdır. Her açığa bir CVE-ID verilir (örneğin CVE-2021-44228 Log4Shell). "Hangi kütüphane, hangi sürümde hangi açığa sahip?" sorusunu cevaplar. NVD (Ulusal Güvenlik Açığı Veritabanı) üzerinden erişilir.
+
+**CVSS (Ortak Güvenlik Açığı Puanlama Sistemi):** Bir CVE'nin kritikliğini 0-10 arası puanlar. CVSS 9-10 kritik, 7-8.9 yüksek, 4-6.9 orta, 0-3.9 düşüktür. Önceliklendirme için kullanılır: "Önce hangi açığı kapatmalıyım?" sorusunu cevaplar.
+
+**OWASP (Açık Dünya Geneli Uygulama Güvenliği Projesi):** Web uygulama güvenliği için en bilinen sivil topluluk kuruluşu. OWASP Top 10 (en kritik 10 web uygulama riski), OWASP ASVS (Uygulama Güvenliği Doğrulama Standardı) gibi kaynaklar yayınlar.
+
+**NIST (Ulusal Standartlar ve Teknoloji Enstitüsü):** ABD standart kuruluşu. NIST 800-53 (güvenlik kontrolleri), NIST 800-63B (kimlik doğrulama rehberi) gibi yayınları, kurumsal güvenlik politikalarının temelini oluşturur.
+
+**CERT (Bilgisayar Acil Müdahale Ekibi):** Güvenlik olaylarına müdahale eden ve güvenlik duyuruları yayınlayan ekiplerdir. CERT/CC (Carnegie Mellon), US-CERT, TR-CERT gibi ulusal ve uluslararası CERT'ler vardır. Yeni açıkların duyurusu ve acil müdahale süreçlerini yönetirler.
+
+<Accordion question="CWE, CVE ve CVSS arasındaki ilişki nedir?" id="std-iliski">
+CWE zafiyet türünü tanımlar (örneğin CWE-89 SQL Injection). CVE, o türün somut bir örneğidir (örneğin CVE-2023-1234, Acme CMS 2.1'de SQL injection açığı). CVSS ise o CVE'nin kritikliğini puanlar (örneğin CVSS 9.8 kritik). Yani: CWE "ne tür hata?", CVE "hangi ürün, hangi sürümde?", CVSS "ne kadar acil?" sorularını cevaplar.
+</Accordion>
+
+<Accordion question="SBOM nedir, neden önemli?" id="sbom">
+SBOM (Yazılım Bileşen Listesi), bir yazılımın kullandığı tüm bileşenlerin (kütüphaneler, sürümler, lisanslar) listesidir. Tıpkı bir yemek tarifindeki malzeme listesi gibi. Yeni bir CVE yayınlandığında SBOM'un varsa, "bu kütüphaneyi kullanıyor muyum?" sorusunu saniyeler içinde cevaplarsın. SBOM yoksa, tüm projeyi tarayıp manuel arama yapmak gerekir. 2024'ten beri ABD federal alımlarında SBOM zorunludur. [Güvenlik Testi ve DevSecOps](/guvenlik-testi-ve-devsecops/) bölümünde detaylıca inceleyeceğiz.
+</Accordion>
+
+<Accordion question="STRIDE ile OWASP Top 10 farkı nedir?" id="stride-owasp">
+STRIDE bir tehdit modelleme çerçevesidir: "sisteme kim, nasıl saldırabilir?" sorusuna sistematik cevap arar. OWASP Top 10 ise bir risk listesidir: "web uygulamalarında en kritik 10 sorun nedir?" STRIDE tasarım aşamasında mimariyi analiz etmek için, OWASP ise geliştirme aşamasında kodun kalitesini ölçmek için kullanılır. İkisi birbirini tamamlar.
+</Accordion>
+
+<Scenario label="Senaryo: CVE Önceliklendirme">
+Pazartesi sabahı bir e-posta geldi: "Log4j 2.14.1 sürümünde kritik açık (CVE-2021-44228, CVSS 10.0)." Ekipten biri panikle "tüm sistemleri kapatmalı mıyız?" diyor. Doğru yaklaşım: önce SBOM'a bak, hangi sistemlerin Log4j kullandığını tespit et. Sonra etkilenen sistemleri önceliklendir: İnternete açık olanlar önce. Yama uygula, test et, dağıt. Panik değil, süreç. CVSS 10.0 "kritik" demektir ama panik demek değildir. Sistematik önceliklendirme her zaman panikten hızlıdır.
+</Scenario>
+
+**Gerçek olay:** 2017'de Equifax, 147 milyon kişinin adını, adresini, sosyal güvenlik numarasını ve kredi kartı bilgisini sızdırdı. Sebep: Apache Struts çatısındaki (framework) CVE-2017-5638 açığı. Yama iki ay önce yayınlanmıştı ama uygulanmamıştı. Güvenli SDLC süreci olmayan bir ekip, "yama çıktı, uygulayalım" diye kimse sormadı. Sonuç: 1.4 milyar dolar ceza, CEO istifası, 147 milyon kişinin mahremiyeti çöptü. Tek bir yamanın uygulanmaması, şirketin sonu oldu.
+
+<Checklist title="Güvenli Kodlama Temelleri Kontrol Listesi">
+<li>Güvenlik gereksinimleri proje başında toplandı</li>
+<li>Tasarım aşamasında tehdit modellemesi yapıldı</li>
+<li>Geliştiricilere güvenli kodlama eğitimi verildi</li>
+<li>Her kod inceleme isteğinde (PR) güvenlik odaklı inceleme yapılıyor</li>
+<li>En az yetki prensibi tüm servislere uygulandı</li>
+<li>SBOM oluşturuldu ve güncel tutuluyor</li>
+<li>CVE takip süreci tanımlandı (kim, nasıl, ne zaman)</li>
+<li>Güvenlik standartları (OWASP, NIST) referans alınıyor</li>
+</Checklist>
+
+**Benzetme:** Güvenli kodlama, bir binanın temeline benzer. Temel atılmadan çatı kurulmaz. Çatıdan sızan suyu tamir etmek, temelden başlayan bir çatlağı tamir etmekten her zaman daha kolaydır ama ikisi de temel sağlam değilse anlamsızdır. Güvenliği "sonradan ekleyeceğiz" demek, binayı bitirip sonra temel kazmaya çalışmaktır.
+
+## İlgili Bölümler
+
+- [Tehdit Modelleme Çerçeveleri](/tehdit-modelleme-cerceveleri/)
+- [Shadow IT](/shadow-it/)
+- [Enjeksiyon Saldırıları ve Savunma](/enjeksiyon-saldirilari/)
+- [Güvenlik Testi ve DevSecOps](/guvenlik-testi-ve-devsecops/)

@@ -1,0 +1,191 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Temel Kavramlar'
+description: 'Bilgi güvenliğinin temel çerçevesi: CIA üçgeni, doğru bilinen yanlışlar, temel terimler ve günlük güvenlik alışkanlıkları.'
+order: 1
+audience: V
+hero: '/img/hero/temel-kavramlar.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import Accordion from '../components/Accordion.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+
+
+## <span class="heading-num">1.1</span> Bilgi Güvenliği Nedir?
+
+Bilgi güvenliği, senin olanı korumaktır. Telefonundaki fotoğraflar, mesajlaşmalar, oyun hesapları, e-posta: hepsi senin bilgin. Bu sayfa, bu bilgileri kötü niyetli kişilerden nasıl koruyacağını anlatır.
+
+**Peki hacker (korsan) ne demek?** Bir şeyi yapılma amacı dışında kullanan herkes. Çocukken kapıyı anahtarla değil kafayla açardın ya, işte bu bir hacking. Telefonuna casus yazılım (spyware) yükleyen de bunu yapar. Sadece biri oyun için kullanır, diğeri zarar vermek için. Bu sayfada hacking'in aslında ne kadar basit olduğunu göreceksin. Saldırganlar sihirbaz değil, fırsatçıdır.
+
+## <span class="heading-num">1.2</span> CIA Üçgeni
+
+Bilgi güvenliğinin üç temel sütunu vardır. Bu üç bileşen birlikte düşünüldüğünde "CIA üçgeni" olarak adlandırılır. Her güvenlik önlemi bu sütunlardan en az birini korur.
+
+### Gizlilik (Confidentiality)
+
+Bilgiye yalnızca yetkili kişilerin erişebilmesidir. Parolalar, ekran kilidi, şifreli mesajlaşma ve erişim kontrolleri gizliliği sağlayan yöntemlerdir. Gizlilik bozulduğunda kişisel veriler, ticari bilgiler veya devlet sırları yetkisiz ellere geçebilir.
+
+Örnek: Telefonunda ekran kilidi olmazsa, telefonunu bulan her kişi mesajlarına, fotoğraflarına ve banka uygulamalarına erişebilir.
+
+### Bütünlük (Integrity)
+
+Bilginin değiştirilmediğinden ve orijinal halinde korunduğundan emin olmaktır. Bir belgeyi gönderdiğinde, alıcının o belgenin senin gönderdiğin sürümle aynı olduğunu doğrulayabilmesi bütünlüktür. Bütünlük bozulduğunda biri senin adına mesaj gönderebilir, bir belgeyi sessizce değiştirebilir veya bir işlem kaydını silebilir.
+
+Örnek: Bir e-posta gönderdiğinde, yolda değiştirilmediğinden emin olmak bütünlük gereksinimidir.
+
+### Erişilebilirlik (Availability)
+
+Bilgiye ve sistemlere ihtiyaç duyulduğunda erişilebilmesidir. Sunucuların çalışır durumda kalması, yedeklemelerin düzenli yapılması ve felaket kurtarma planlarının olması erişilebilirliği sağlar. Erişilebilirlik bozulduğunda sistemler kullanılamaz hale gelir, hizmet kesintileri yaşanır.
+
+Örnek: Bir web sitesine erişemediğinde bu, erişilebilirlik sorundur. Hizmet reddi saldırıları (DDoS) erişilebilirliği hedef alır.
+
+<Alert level="tip">
+CIA üçgenini şöyle hatırla: Bilgim gizli kalsın (Gizlilik), bilgim değişmesin (Bütünlük), bilgime her zaman ulaşabileyim (Erişilebilirlik).
+</Alert>
+
+**Saldırgan gözüyle:** Saldırgan olsan ne yapardın? Cevap basit: üçünden en zayıf olanı seçerdin. Kilitli bir kapıyı zorlamazsın, açık pencere ararsın. İnsanların en zayıf olduğu nokta genelde alışkanlıklarıdır (güncelleme erteleme, Bluetooth açık unutma). Güvenlik önlemleri ne kadar sağlamsa, saldırgan o kadar emek harcar. Amacın saldırganın işini zorlaştırmak, imkansız değil.
+
+## <span class="heading-num">1.3</span> Doğru Bilinen Yanlışlar
+
+Bilgi güvenliği hakkında yaygın ama yanlış inanışlar seni tehlikeye atar. İşte en sık rastlanan beş yanlış bilgi.
+
+<Alert level="tip">
+**Yanlış:** "Benim telefonuma kimse sızmaz, önemli biri değilim." **Doğru:** Saldırganlar hedef seçmez. Otomatik tarama araçları milyonlarca cihazı aynı anda tarar. Senin cihazın da listededir.
+</Alert>
+
+<Alert level="tip">
+**Yanlış:** "Ücretsiz Wi-Fi kullanmak güvenlidir." **Doğru:** Açık Wi-Fi ağlarında trafiğin dinlenebilir. Bankacılık veya parola girişi yapma. VPN kullan veya mobil verini tercih et.
+</Alert>
+
+<Alert level="tip">
+**Yanlış:** "Güvenlik yazılımı yükledim, artık güvendeyim." **Doğru:** Hiçbir yazılım tam koruma sağlamaz. Yazılım senin dikkatini yerine koymaz. Güvenlik yazılımı bir katmandır, tek başına yeterli değildir.
+</Alert>
+
+<Alert level="tip">
+**Yanlış:** "Parolam çok uzun, kimse bulamaz." **Doğru:** Saldırganlar parolayı tahmin etmez, çalar. Oltalama, veri sızıntısı ve klavye kaydedici ile parolan ne kadar uzun olursa olsun ele geçirilebilir. İki adımlı doğrulama kullan.
+</Alert>
+
+<Alert level="tip">
+**Yanlış:** "Güncelleme yapmasam da olur, telefon zaten çalışıyor." **Doğru:** Güncellemeler yeni özellik değil, güvenlik açığı kapatır. Güncellemediğin her gün bilinen bir açıkla karşı karşıya kalırsın.
+</Alert>
+
+**Özlü kural:** Güvenlik yazılımı, kask takmak gibidir. Kask kazayı önlemez, hasarı azaltır. Sen dikkat etmezsen kaskın da bir anlamı kalmaz.
+
+## <span class="heading-num">1.4</span> Temel Terimler
+
+Bilgi güvenliğinde sıkça karşılaşacağın temel kavramları tanıman, kendini korumanın ilk adımıdır.
+
+**Hızlı ipucu:** Şu an yapabileceğin en etkili tek şey: telefonunda "Kullanmadığın uygulamaları sil." Fazladan her uygulama, saldırgan için fazladan bir kapıdır.
+
+<Accordion question="Tehdit nedir?" id="tehdit">
+Tehdit, bir sistemi veya bilgiyi tehlikeye atabilecek herhangi bir olay, kişi veya gücün ta kendisidir. Tehditler kasıtlı (hacker saldırısı, casus yazılım) veya kasıtsız (doğal afet, insan hatası) olabilir. Önemli olan, tehdidin gerçekleşme olasılığını ve etkisini değerlendirmektir.
+</Accordion>
+
+<Accordion question="Zafiyet nedir?" id="zafiyet">
+Zafiyet, bir sistemdeki zayıf nokta veya açıktır. Güncellenmemiş bir yazılım, zayıf bir parola, kısıtlamasız Bluetooth veya eksik güvenlik ayarı birer zafiyettir. Saldırganlar bu zayıf noktaları kullanarak sisteme sızar. Zafiyetleri kapatmak, güvenliğin en temel adımıdır.
+</Accordion>
+
+<Accordion question="Risk nedir?" id="risk">
+Risk, bir tehdidin zafiyeti kullanarak yaratacağı olası zararın büyüklüğüdür. Risk = Tehdit x Zafiyet x Etki formülüyle düşünülebilir. Yüksek riskli durumları önce azaltmak gerekir. Örneğin, güçlü bir parola kullanmamak yüksek risk, eski bir fotoğraf uygulamasını güncellememek orta risk taşıyabilir.
+</Accordion>
+
+<Accordion question="Saldırı vektörü nedir?" id="saldiri-vektor">
+Saldırı vektörü, bir saldırganın hedefine ulaşmak için kullandığı yöntem veya yoldur. Oltalama e-postası, sahte web sitesi, kötü amaçlı dosya eki, açık Wi-Fi ağı veya fiziksel erişim birer saldırı vektörüdür. Her vektörün kendine göre savunma yöntemi vardır. Vektörleri tanımak, korunmanın ilk koşuludur.
+</Accordion>
+
+<Accordion question="Oltalama (phishing) nedir?" id="oltalama">
+Oltalama, saldırganın güvenilir bir kaynaktan geliyormuş gibi görünerek seni kandırmaya çalışmasıdır. Sahte banka mesajı, "hesabın kapatılacak" içerikli e-posta veya tanıdığını taklit eden sosyal medya mesajı oltalama örnekleridir. Amacı parolalarını, kişisel bilgilerini veya finansal verilerini ele geçirmektir. Her zaman gönderenin adresini kontrol et ve şüpheli bağlantılara tıklama.
+</Accordion>
+
+<Accordion question="Fidye yazılımı (ransomware) nedir?" id="fidye-yazilim">
+Fidye yazılımı, cihazındaki dosyaları şifreleyip seni kilitleyen ve karşılığında para talep eden kötü amaçlı yazılımdır. Dosyalarını geri almak için genellikle kripto para istenir. Ödeme yapsan bile dosyaların açılacağı garanti değildir. Düzenli yedekleme yapmak fidye yazılımına karşı en etkili savunmadır.
+</Accordion>
+
+<Accordion question="Casus yazılım (spyware) nedir?" id="casus-yazilim">
+Casus yazılım, cihazına sızıp senin haberin olmadan faaliyetlerini izleyen, kaydeden ve saldırgana gönderen yazılımdır. Neler yapabilir:
+
+- Ekran görüntüsü alabilir
+- Tuş vuruşlarını kaydedebilir
+- Konumunu takip edebilir
+- Mikrofonunu veya kameranı aktif edebilir
+
+Genellikle sahte bir uygulama veya kötü amaçlı bağlantı yoluyla bulaşır. Uygulama izinlerini kontrol etmek ve bilinmeyen kaynaklardan uygulama yüklememek korunma yolları arasındadır.
+</Accordion>
+
+<Accordion question="Parola ile parola aynı şey mi?" id="sifre-parola">
+Hayır. Günlük dilde karıştırılsa da bilgi güvenliğinde ikisi farklıdır. **Parola** (password): seni sisteme tanıtan gizli kelime/koddur. E-Devlet'e girerken yazdığın şey paroladır. **Şifreleme** (encryption): veriyi okunamaz hale çevirme işlemidir. Mesajlaşma uygulamasındaki "uçtan uca şifreleme" bu yüzden parola değildir, veriyi koruma yöntemidir. Kısaca: parola **giriş anahtarı**, şifreleme **koruma yöntemidir**. Bu kılavuzda doğru terim kullanılır: parola (giriş için), şifreleme (koruma için).
+</Accordion>
+
+## <span class="heading-num">1.5</span> Pozitif Alışkanlıklar
+
+Güvenlik tek seferlik bir işlem değil, günlük bir alışkanlıktır. Her gün uygulayabileceğin temel güvenlik rutini aşağıdadır.
+
+- **Sabah:** Telefonunu aç, bildirimleri kontrol et. Beklenmedik bir mesaj veya giriş uyarısı varsa hemen incele.
+- **Gün boyu:** Her bağlantıya tıklamadan önce göndereni doğrula. Parolayı kimseyle paylaşma. Herkese açık Wi-Fi ağlarında hassas işlem yapma.
+- **Akşam:** Uygulama güncellemelerini kontrol et. Kullanmadığın Bluetooth ve konum servislerini kapat.
+- **Haftada bir:** Uygulama izinlerini gözden geçir. Yedekleme al. Hesap etkinlik geçmişini kontrol et.
+- **Ayda bir:** Parolalarını gözden geçir, zayıf olanları değiştir. İki adımlı doğrulama açılmamış hesapları tespit et ve aç.
+
+## <span class="heading-num">1.6</span> Tehlikeli Alışkanlıklar
+
+En sık yapılan ve güvenliği ciddi biçimde tehlikeye atan yaygın hatalar:
+
+1. Aynı parolayı birden fazla hesapta kullanmak. Bir hesap sızdırıldığında tüm hesapların risk altına girer.
+2. İki adımlı doğrulama (2FA) kullanmamak. Parolan çalındığında tek engel bu olur.
+3. Herkese açık Wi-Fi ağlarında bankacılık veya alışveriş yapmak. Trafiğin dinlenebilir.
+4. Gelen e-posta ve mesajlardaki bağlantılara göndereni kontrol etmeden tıklamak. Oltalama saldırılarının bir numaralı yolu budur.
+5. Telefonu kilitsiz bırakmak veya tahmin edilmesi kolay parola kullanmak.
+6. Uygulama izinlerini okumadan kabul etmek. Fener uygulaması rehberine erişmek istiyorsa sor var demektir.
+7. İşletim sistemi ve uygulama güncellemelerini ertelemek. Açık olan zafiyetler günlerce bilinen saldırı hedefi olur.
+8. Bilinmeyen kaynaklardan uygulama yüklemek. Resmi mağaza dışından gelen her uygulama risktir.
+9. Bluetooth ve konum hizmetlerini sürekli açık bırakmak. Yakın mesafeli saldırılara zemin hazırlar.
+10. Yedekleme yapmamak. Cihazın kaybedildiğinde veya fidye yazılımı bulaştığında tüm verilerin gider.
+11. Korsan (çakma) yazılım ve içerik siteleri. Korsan Windows, crackli uygulama, bedava film izlenen/indirilen siteler risk taşır. Bu siteler rengarenk reklamlar, bannerlar, bahis butonlarıyla doludur; kötü amaçlı yönlendirme içerebilirler. Sadece dosya indirmek değil, bu sitelere girmek de tehlikelidir: tarayıcıdaki bir açık üzerinden cihazına casus yazılım bulaşabilir, tarayıcına kayıtlı parola ve kredi kartı bilgilerin çalınabilir.
+
+## <span class="heading-num">1.7</span> Güvenlik Alışkanlıklarına Genel Bakış
+
+<DoDont items={[
+  { text: 'Her hesap için benzersiz parola kullan', type: 'do' },
+  { text: 'İki adımlı doğrulama (2FA) aç', type: 'do' },
+  { text: 'Güncellemeleri 24 saat içinde yükle', type: 'do' },
+  { text: 'Herkese açık Wi-Fi ağında VPN kullan veya mobil veriye geç', type: 'do' },
+  { text: 'Düzenli yedekleme al', type: 'do' },
+  { text: 'Uygulama izinlerini gözden geçir', type: 'do' },
+  { text: 'Aynı parolayı birden fazla yerde kullanma', type: 'dont' },
+  { text: 'Gelen bağlantılara göndereni kontrol etmeden tıklama', type: 'dont' },
+  { text: 'Bilinmeyen kaynaklardan uygulama yükleme', type: 'dont' },
+  { text: 'Bluetooth ve konumu sürekli açık bırakma', type: 'dont' },
+  { text: 'Güncellemeleri erteleme', type: 'dont' },
+  { text: 'Ekran kilidi olmadan telefonu bırakma', type: 'dont' },
+]} />
+
+<Checklist title="Günlük Güvenlik Kontrol Listesi">
+<li>Beklenmedik bildirim veya giriş uyarısı kontrol et</li>
+<li>Bağlantılara tıklamadan önce göndereni doğrula</li>
+<li>Parolayı kimseyle paylaşma</li>
+<li>Herkese açık Wi-Fi ağında hassas işlem yapma</li>
+<li>Bluetooth ve konum servislerini kapat (kullanmıyorsan)</li>
+<li>Uygulama güncellemelerini kontrol et</li>
+</Checklist>
+
+**Gerçek olay:** 2017'de dünyayı sarsan WannaCry fidye yazılımı saldırısı, bilgi güvenliğinin üç temel bileşenini (gizlilik, bütünlük, erişilebilirlik) aynı anda ihlal etti. Saldırı, 150'den fazla ülkede 200.000'den fazla bilgisayarı etkiledi. İngiltere'de Ulusal Sağlık Sistemi (NHS) çöktü: hastalar randevu alamadı, ameliyatlar iptal edildi (erişilebilirlik ihlali). Dosyalar şifrelendi ve değiştirildi (bütünlük ihlali). Hastaların tıbbi kayıtları yedekten alınamadı (gizlilik riski). Saldırının kaynağı: bir güvenlik açığı yamasını (patch) 2 ay önce yayınlanmış olmasına rağmen, NHS sistemlerinin güncellenmemesiydi. Yani teknik bir önlem vardı ama insan hatası (güncellemeyi erteleme) yüzünden uygulanmadı. Bu olay, güvenliğin sadece teknoloji değil, alışkanlık ve disiplin olduğunun en büyük kanıtıdır.
+
+**Saldırı zinciri:** WannaCry üç adımda çalıştı. Birinci adımda saldırganlar NSA tarafından geliştirilmiş EternalBlue adlı bir açıktan yararlandı (Windows'un dosya paylaşım protokolündeki açık). İkinci adımda açık sayesinde sisteme sızan fidye yazılımı tüm dosyaları şifreledi ve erişilemez hale getirdi. Üçüncü adımda şifrelenen dosyaları geri almak için 300 dolar Bitcoin istendi, ödeme yapılmazsa dosyalar kalıcı olarak kayboldu (yedeklerin de silinmesi). Bu saldırının en kritik dersi: güncellemeleri ertelemek, tüm sistemi çökertmekle eşdeğerdir.
+
+<Scenario label="Senaryo: Güvenlik alışkanlığı kazanmak">
+Sabah işe gidiyorsun. Telefonunda bir bildirim var: "Google hesabına yeni bir cihazdan giriş yapıldı." Ne yaparsın? Temel kavramları bilen biri şöyle düşünür: "Bu bir tehdit işareti. Zafiyet: parolam sızmış olabilir. Risk: hesabım ele geçirilebilir. Hemen parolamı değiştirir, iki adımlı doğrulamayı açar, son girişleri kontrol ederim." İşte bilgi güvenliğinin temel kavramları bu şekilde günlük hayatta karşına çıkar. Kavramları bilirsen, ne zaman harekete geçmen gerektiğini anlarsın.
+</Scenario>
+
+**Benzetme:** Bilgi güvenliği, evinin kapısını kilitlemek gibidir. Çoğu zaman anahtarını cebinde unutursun ama yine de kapıyı kilitlemeden uyuyamazsın. Çünkü bilirsin: kilit, sadece hırsızı değil, senin içindeki şüpheyi de uzak tutar.
+
+
+## İlgili Bölümler
+
+- [Sosyal Mühendislik](/sosyal-muhendislik/)
+- [Tehdit Modelleme](/tehdit-modelleme/)
+- [Risk Temelleri](/risk-temelleri/)
+- [Sözlük](/sozluk/)
+- [Hesap ve Parola](/hesap-parola/)

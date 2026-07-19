@@ -1,0 +1,173 @@
+---
+import Base from '../layouts/Base.astro';
+import Accordion from '../components/Accordion.astro';
+import { chapters } from '../data/chapters';
+
+const temelTitle = chapters.find(c => c.slug === '/temel-kavramlar')?.title;
+---
+
+<Base title="Sık Sorulan Sorular" description="Dijital güvenlik kılavuzuyla ilgili sık sorulan sorular ve kısa yanıtları." image="/img/hero/sss.webp">
+  <img class="hero-img i-hero-img" src="/img/hero/sss.webp" alt="Sık Sorulan Sorular" width="2912" height="1440" />
+  <h1 class="i-page-title">Sık Sorulan Sorular</h1>
+  <p class="i-subtitle-dim">Kılavuzla ilgili en çok sorulan sorular ve kısa yanıtları.</p>
+
+  <div data-pagefind-body>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Genel Sorular</h2>
+
+      <Accordion question="Bu kılavuz kimin için?" id="genel-1">
+        <p>Herkes için. Özellikle seçim döneminde aktif olan vatandaşlar, müşahitler, siyasetçiler ve onların ekipleri.</p>
+      </Accordion>
+
+      <Accordion question="Teknik bilgim yok, uygulayabilir miyim?" id="genel-2">
+        <p>Evet. Her adım "Bunu yap / Bunu yapma" formatında, adım adım yazılmış. Teknik terimler açıklanıyor.</p>
+      </Accordion>
+
+      <Accordion question="Hangi bölümden başlamalıyım?" id="genel-3">
+        <p><a href="/temel-kavramlar/" class="link">{temelTitle}</a>'dan başla. Temel kavramları ve tehdit modelini anlamadan diğer adımlar anlamsız gelir.</p>
+      </Accordion>
+    </section>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Cihaz Güvenliği</h2>
+
+      <Accordion question="Ekran kilidi için yüz tanıma mı, parola mı daha güvenli?" id="cihaz-1">
+        <p>İkisini birlikte kullan. Yüz tanıma hızlıdır ama uykuda biri açabilir. 6+ haneli parola daha güvenlidir.</p>
+      </Accordion>
+
+      <Accordion question="Halka açık şarj istasyonlarından nasıl şarj olayım?" id="cihaz-2">
+        <p>Kendi şarj adaptörünü ve kablonu kullan. Ya da "USB veri koruyucu" adı verilen ucuz bir adaptör tak.</p>
+      </Accordion>
+
+      <Accordion question="BadUSB nedir, neden tehlikeli?" id="cihaz-3">
+        <p>Normal USB bellek gibi görünen bir cihazın, bilgisayara bağlandığında otomatik olarak zararlı yazılım yüklemesi. Kaynağını bilmediğin USB'yi asla bağlama.</p>
+      </Accordion>
+    </section>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Hesap ve Parola</h2>
+
+      <Accordion question="Tüm hesaplara farklı parola nasıl hatırlanır?" id="parola-1">
+        <p>Ücretsiz bir parola yöneticisi kullan. Tek bir ana parola hatırla, gerisini o tutsun.</p>
+      </Accordion>
+
+      <Accordion question="İki adımlı doğrulama (2FA) nedir?" id="parola-2">
+        <p>Parolandan sonra telefonuna bir kod gelir. O kodu girmeden kimse hesabına giremez. SMS yerine authenticator uygulaması daha güvenli.</p>
+      </Accordion>
+
+      <Accordion question="E-Devlet parolamı sekreterime verebilir miyim?" id="parola-3">
+        <p>Hayır. Vermek zorundaysan, iş bittiği an hemen değiştir.</p>
+      </Accordion>
+    </section>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Mesajlaşma</h2>
+
+      <Accordion question="WhatsApp güvenli mi?" id="mesaj-1">
+        <p>Kısmen. Mesajlar parolalı ama Meta şirketi kiminle ne zaman konuştuğunu kaydediyor. Hassas siyasi içerik için Signal kullan.</p>
+      </Accordion>
+
+      <Accordion question='"Bana kod geldi" diyen biri var, ne yapayım?' id="mesaj-2">
+        <p>Kodu asla söyleme. Arkadaşının hesabı çalınmış olabilir. Kodu veren kendi hesabını teslim eder.</p>
+      </Accordion>
+
+      <Accordion question="Telegram neden güvenli değil?" id="mesaj-3">
+        <p>Normal sohbetler parolasız! Sunucuda herkes okuyabilir. "Gizli Sohbet" modunu manuel açman gerekir.</p>
+      </Accordion>
+    </section>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Seçim Günü</h2>
+
+      <Accordion question="Sandık çevresinde fotoğraf çekebilir miyim?" id="secim-1">
+        <p>Çekebilirsin ama diğer kişilerin yüzleri, oy pusulaları, kimlik bilgileri görünmemeli. Oy pusulasının fotoğrafını sosyal medyaya atma.</p>
+      </Accordion>
+
+      <Accordion question="Seçim ofisindeki Wi-Fi'ye bağlanayım mı?" id="secim-2">
+        <p>Hayır. Parolasız Wi-Fi'de tüm trafiğin görülebilir. Kendi mobil verini kullan.</p>
+      </Accordion>
+    </section>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Casus Yazılım</h2>
+
+      <Accordion question="Pegasus nedir, beni de etkiler mi?" id="casus-1">
+        <p>NSO Group'un ürettiği devlet düzeyinde casus yazılım. Sıradan antivirüs görmez. Siyasetçi, gazeteci, aktivist hedeflenir. Sıradan vatandaş düşük riskli ama önlem almak önemli.</p>
+      </Accordion>
+
+      <Accordion question="Telefondaki tuhaflıkları nasıl anlarım?" id="casus-2">
+        <p>6 belirti:</p>
+        <ul>
+          <li>Aşırı ısınma</li>
+          <li>Batarya hızlı bitme</li>
+          <li>Ekran kendi açılma</li>
+          <li>Kamera/mikrofon ışığı yanıp sönme</li>
+          <li>İnternet kotası hızlı erime</li>
+          <li>Telefon yavaşlama</li>
+        </ul>
+      </Accordion>
+
+      <Accordion question="Casus yazılım bulaştığını düşünüyorum, ne yapayım?" id="casus-3">
+        <ol>
+          <li>Panik yapma.</li>
+          <li>Önemli dosyalarını başka bir cihaza aktar (kişisel fotoğraf, belge).</li>
+          <li>Cihazı kapat.</li>
+          <li>Güvenilir bir uzmana veya siber güvenlik kuruluna başvur.</li>
+        </ol>
+      </Accordion>
+    </section>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Hesap Çalındı</h2>
+
+      <Accordion question="Hesabım çalındı, ilk ne yapayım?" id="calma-1">
+        <ol>
+          <li>Panik yapma.</li>
+          <li>Hâlâ erişebiliyorsan parolayı değiştir.</li>
+          <li>Erişemiyorsan "parolamı unuttum" dene.</li>
+          <li>Tüm cihazlardan çıkış yap.</li>
+        </ol>
+      </Accordion>
+    </section>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Bilgi Savaşı</h2>
+
+      <Accordion question="Deepfake nedir, nasıl anlarım?" id="bilgi-1">
+        <p>Yapay zekâ ile üretilmiş sahte video veya ses. Dudak hareketleri doğal değil, seste metalik ton var, yüzde bulanık alanlar var. Bir haber seni çok öfkelendiriyorsa (bu muhtemelen manipülasyondur).</p>
+      </Accordion>
+
+      <Accordion question="Yalan haber nasıl doğrulanır?" id="bilgi-2">
+        <ol>
+          <li>Ters görsel arama yap.</li>
+          <li>Kaynağı kontrol et.</li>
+          <li>En az 2 bağımsız kaynaktan doğrula.</li>
+          <li>Bağımsız doğrulama platformlarında araştır.</li>
+        </ol>
+      </Accordion>
+
+      <Accordion question="Bot hesapları nasıl anlarım?" id="bilgi-3">
+        <ul>
+          <li>Profil fotoğrafı çok temiz (stok)</li>
+          <li>Hesap yeni açılmış</li>
+          <li>Sadece bir konuda tweet atıyor</li>
+          <li>Aynı metin birden fazla hesaptan aynı saatte atılıyor</li>
+        </ul>
+      </Accordion>
+    </section>
+
+    <section class="i-mb-6">
+      <h2 class="i-h2-section-title">Seçim Yasakları</h2>
+
+      <Accordion question="Seçim yasakları sosyal medyayı da kapsar mı?" id="yasak-1">
+        <p>Evet. Yasak saatlerinde sosyal medyadan paylaşım yapma. Kişisel hesap bile olsa.</p>
+      </Accordion>
+
+      <Accordion question="Sandık sonuçlarını paylaşabilir miyim?" id="yasak-2">
+        <p>Sadece resmi kanallardan (YSK/SCS). Resmi olmayan sonuçları "kesin sonuç" gibi sunma.</p>
+      </Accordion>
+    </section>
+
+  </div>
+</Base>

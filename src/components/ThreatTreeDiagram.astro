@@ -1,0 +1,90 @@
+---
+---
+
+<figure class="tt-figure">
+  <svg viewBox="0 0 820 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tehdit Ağacı: Hesap ele geçirme senaryosu">
+    <defs>
+      <marker id="tt-dot" markerWidth="6" markerHeight="6" refX="3" refY="3">
+        <circle cx="3" cy="3" r="2" fill="var(--c-accent)" />
+      </marker>
+    </defs>
+
+    <!-- Root: Hesap Ele Geçirme -->
+    <rect x="310" y="15" width="200" height="44" rx="6" fill="var(--c-dont-bg)" stroke="var(--c-dont)" stroke-width="2" />
+    <text x="410" y="42" text-anchor="middle" font-size="14" fill="var(--text-bright)" font-weight="700">Hesap Ele Geçirme</text>
+    <text x="530" y="42" font-size="11" fill="var(--c-dont)" font-weight="600">Spoofing</text>
+
+    <!-- Level 1: Oltalama, Brute Force, Sosyal Mühendislik -->
+    <rect x="80" y="120" width="140" height="38" rx="5" fill="var(--bg-dark)" stroke="var(--c-accent)" stroke-width="1.5" />
+    <text x="150" y="144" text-anchor="middle" font-size="13" fill="var(--text-bright)" font-weight="600">Oltalama</text>
+
+    <rect x="340" y="120" width="140" height="38" rx="5" fill="var(--bg-dark)" stroke="var(--c-accent)" stroke-width="1.5" />
+    <text x="410" y="144" text-anchor="middle" font-size="13" fill="var(--text-bright)" font-weight="600">Brute Force</text>
+
+    <rect x="600" y="120" width="160" height="38" rx="5" fill="var(--bg-dark)" stroke="var(--c-accent)" stroke-width="1.5" />
+    <text x="680" y="144" text-anchor="middle" font-size="13" fill="var(--text-bright)" font-weight="600">Sosyal Mühendislik</text>
+
+    <!-- Level 2: Specific vectors -->
+    <rect x="40" y="230" width="100" height="34" rx="4" fill="var(--bg-dark)" stroke="var(--text-dim)" stroke-width="1" />
+    <text x="90" y="252" text-anchor="middle" font-size="11" fill="var(--text-dim)">Sahte e-posta</text>
+
+    <rect x="155" y="230" width="100" height="34" rx="4" fill="var(--bg-dark)" stroke="var(--text-dim)" stroke-width="1" />
+    <text x="205" y="252" text-anchor="middle" font-size="11" fill="var(--text-dim)">Sahte web sitesi</text>
+
+    <rect x="310" y="230" width="100" height="34" rx="4" fill="var(--bg-dark)" stroke="var(--text-dim)" stroke-width="1" />
+    <text x="360" y="252" text-anchor="middle" font-size="11" fill="var(--text-dim)">Zayıf parola</text>
+
+    <rect x="425" y="230" width="100" height="34" rx="4" fill="var(--bg-dark)" stroke="var(--text-dim)" stroke-width="1" />
+    <text x="475" y="252" text-anchor="middle" font-size="11" fill="var(--text-dim)">Sızıntı listesi</text>
+
+    <rect x="575" y="230" width="100" height="34" rx="4" fill="var(--bg-dark)" stroke="var(--text-dim)" stroke-width="1" />
+    <text x="625" y="252" text-anchor="middle" font-size="11" fill="var(--text-dim)">Telefon dolandır.</text>
+
+    <rect x="690" y="230" width="110" height="34" rx="4" fill="var(--bg-dark)" stroke="var(--text-dim)" stroke-width="1" />
+    <text x="745" y="252" text-anchor="middle" font-size="11" fill="var(--text-dim)">Destek taklidi</text>
+
+    <!-- Lines: Root to Level 1 -->
+    <line x1="380" y1="59" x2="200" y2="120" stroke="var(--c-accent)" stroke-width="1.5" />
+    <line x1="410" y1="59" x2="410" y2="120" stroke="var(--c-accent)" stroke-width="1.5" />
+    <line x1="440" y1="59" x2="650" y2="120" stroke="var(--c-accent)" stroke-width="1.5" />
+
+    <!-- Lines: Oltalama to children -->
+    <line x1="130" y1="158" x2="90" y2="230" stroke="var(--text-dim)" stroke-width="1" />
+    <line x1="170" y1="158" x2="205" y2="230" stroke="var(--text-dim)" stroke-width="1" />
+
+    <!-- Lines: Brute Force to children -->
+    <line x1="390" y1="158" x2="360" y2="230" stroke="var(--text-dim)" stroke-width="1" />
+    <line x1="430" y1="158" x2="475" y2="230" stroke="var(--text-dim)" stroke-width="1" />
+
+    <!-- Lines: Sosyal Mühendislik to children -->
+    <line x1="660" y1="158" x2="625" y2="230" stroke="var(--text-dim)" stroke-width="1" />
+    <line x1="700" y1="158" x2="745" y2="230" stroke="var(--text-dim)" stroke-width="1" />
+
+    <!-- Mitigation note -->
+    <rect x="200" y="320" width="420" height="56" rx="6" fill="var(--c-do-bg)" stroke="var(--c-do)" stroke-width="1.5" />
+    <text x="410" y="342" text-anchor="middle" font-size="12" fill="var(--c-do)" font-weight="600">Savunma</text>
+    <text x="410" y="362" text-anchor="middle" font-size="11" fill="var(--text-dim)">MFA + Parola politikası + Oltalama eğitimi + Hesap kilitleme</text>
+  </svg>
+  <figcaption>Şekil 45.1: Tehdit Ağacı örneği. "Ne olabilir?" sorusuna cevap verir. Stratejik düzeyde risk tanımlama için kullanılır.</figcaption>
+</figure>
+
+<style>
+.tt-figure {
+  margin: 2rem 0;
+  padding: 1rem;
+  background: var(--bg-dark);
+  border-radius: 0.5rem;
+  border: 1px solid var(--c-accent-border);
+}
+.tt-figure svg {
+  width: 100%;
+  height: auto;
+}
+.tt-figure figcaption {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+</style>
