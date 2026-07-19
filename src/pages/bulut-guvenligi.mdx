@@ -1,0 +1,256 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Bulut Güvenliği'
+description: 'AWS, GCP, Azure bulut güvenliği, shared responsibility model, IAM policy, S3 bucket güvenliği, cloud misconfiguration ve CSPM.'
+order: 60
+audience: B
+hero: '/img/hero/veri-paylasimi.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+2019'da Capital One, AWS S3 bucket'ını yanlış yapılandırdı. Bir saldırgan, WAF üzerinden SSRF açığı sömürerek EC2 metadata servisine ulaştı, IAM role credentials çaldı ve 100 milyon müşterinin verisini indirdi. Maliyet: 190 milyon dolar ceza + itibar kaybı. Hata kodlama değil, yapılandırmaydı. Bulut, klasık mimariden farklı bir zihniyet gerektirir: "kodu yazdım, güvenli" yetmez; "doğru yapılandırdım, izliyorum" şart.
+
+Bulut güvenliğinin kalbi "shared responsibility" (sorumluluk paylaşımı) prensibi. AWS/GCP/Azure bulutun *alt yapısını* güvenli tutar; sen *üzerinde ne çalıştırdığını, nasıl yapılandırdığını* güvenli tutarsınız. En kritik 3 alan: IAM (kimlik ve erişim), depolama (bucket public mi?), misconfiguration (yönetim paneli, debug, default credentials). CSPM araçları sürekli tarama yapar.
+
+## <span class="heading-num">60.1</span> Shared Responsibility Model
+
+Bulut sağlayıcısı (AWS/GCP/Azure) ve müşteri arasında sorumluluk paylaşılır. Hangi katmanda kimin ne yaptığını bilmek kritik.
+
+**Sağlayıcının sorumluluğu (Security OF the Cloud):**
+- Fiziksel veri merkezi güvenliği
+- Hypervisor (sanallaştırma katmanı)
+- Ağ altyapısı
+- Donanım
+
+**Müşterinin sorumluluğu (Security IN the Cloud):**
+- Veri ve erişim
+- Kimlik yönetimi (IAM)
+- Uygulama kodu
+- İşletim sistemi (IaaS) veya konfigürasyon (PaaS)
+- Ağ trafiği şifreleme
+- Güvenlik grupları / firewall (güvenlik duvarı) kuralları
+
+<Alert level="info">
+Serverless (Lambda, Cloud Functions) veya SaaS (S3, DynamoDB) kullanırsan, OS sorumluluğu sağlayıcıya kayar. Ama "veriye kim erişiyor", "policy nasıl" yine senin sorumluluğun. Sorumluluk kaybolmaz, sadece katman değiştirir.
+</Alert>
+
+## <span class="heading-num">60.2</span> IAM (Kimlik ve Erişim Yönetimi, İng. Identity and Access Management)
+
+Bulut güvenliğinin #1 zayıf noktası IAM. Yanlış yazılmış bir policy, tüm hesabı savunmasız bırakır.
+
+### En Az Ayrıcalık (Least Privilege)
+
+```json
+// KÖTÜ: Tüm yetkiler
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": "*",
+    "Resource": "*"
+  }]
+}
+// Bu policy ile bir lambda, tüm S3'leri silebilir, IAM role oluşturabilir, EC2 açabilir
+```
+
+```json
+// İYİ: Spesifik, kısıtlı
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:PutObject"
+    ],
+    "Resource": "arn:aws:s3:::my-app-uploads/*",
+    "Condition": {
+      "StringEquals": {
+        "aws:RequestedRegion": "eu-central-1"
+      }
+    }
+  }]
+}
+// Sadece tek bucket, sadece 2 aksiyon, sadece belirli region
+```
+
+### IAM Best Practices
+
+- **Service account kullan:** Uygulama, kullanıcı credential'ı değil, IAM role kullanır
+- **Role-based, user-based değil:** "developer-ahmet" değil "dev-role" + "ahmet" ayrı
+- **MFA tüm human user'larda:** AWS root dahil
+- **Policy'leri audit et:** IAM Access Analyzer ile kullanılmayan yetkileri tespit et
+- **Permission boundary:** Kritik role'ler için ikinci sınır
+- **Kısa süreli credential:** IAM user + long-lived access key yerine STS session
+
+<Scenario label="Sızma Testi - IAM Sömürüsü">
+Sızma testçisi bir web açığı (SSRF) buluyor. Sunucudan AWS metadata çekiyor: `http://169.254.169.254/latest/meta-data/iam/security-credentials/web-app-role`. Eğer IMDSv1 kullanıyorsanız, credential doğrudan geliyor. Sızmacı bu credential ile AWS API'ya gidiyor: `aws s3 ls` — tüm bucket'lar. `aws iam list-roles` — tüm role'ler. `aws lambda list-functions` — tüm fonksiyonlar. Eğer `web-app-role` geniş yetkiliyse, sızmacı tüm hesabı ele geçirir. İlk 10 dakikada. İMDSv2 + least privilege bunu engelliyor.
+</Scenario>
+
+## <span class="heading-num">60.3</span> Storage Güvenliği (S3 / Blob / GCS)
+
+Storage bucket'ları, bulutun en fazla ihlal edilen kaynağı. Bir public bucket = tüm veri sızdı.
+
+### S3 Bucket Policy
+
+```json
+// KÖTÜ: Public bucket
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": "*",
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::my-bucket/*"
+  }]
+}
+// Internet'te herkes bucket'ı okur
+```
+
+```json
+// İYİ: Belirli hesaplara ve HTTPS'e zorunlu
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {
+      "AWS": "arn:aws:iam::123456789012:root"
+    },
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::my-bucket/*",
+    "Condition": {
+      "Bool": {
+        "aws:SecureTransport": "true"
+      }
+    }
+  }]
+}
+```
+
+### Block Public Access
+
+AWS S3 için Account-level ve Bucket-level Block Public Access mutlaka açık. Bu, yanlışlıkla public yapma riskini ortadan kaldırır.
+
+### Encryption
+
+- **At-rest:** SSE-S3 (AWS managed), SSE-KMS (customer managed key), SSE-C (customer provided key)
+- **In-transit:** HTTPS zorunlu (PreSignedURL ile distribution)
+- **KMS:** Customer managed key + key rotation policy + key usage audit
+
+## <span class="heading-num">60.4</span> Misconfiguration Tipleri
+
+Bulut güvenlik olaylarının %95'i misconfiguration (yanlış yapılandırma).
+
+### Yaygın misconfiguration örnekleri
+
+1. **Public S3 bucket:** Çoğu büyük veri sızıntısının nedeni. Capital One, Uber, Pentagon, GOP — hepsi bu
+2. **Açık yönetim paneli:** RDP (3389), SSH (22), database portları internete açık
+3. **Default credentials:** Veritabanı "admin/admin", Redis parolasız, Elasticsearch public
+4. **Geniş Security Group:** `0.0.0.0/0` tüm portlar — bir fiillî "welcome" işareti
+5. **Cloud credential sızması:** Geliştiricinin laptopında `~/.aws/credentials` GitHub'a commit
+6. **Logging kapalı:** CloudTrail / Cloud Audit Logs kapalı, ihlal sonrası "ne oldu" bilinemez
+7. **Backup public:** Veritabanı snapshot'ı public olarak paylaşılmiş
+8. **Subdomain takeover:** Kullanılmayan subdomain'in CNAME'i terk edilmiş kaynaklara
+
+<DoDont items={[
+  { text: `**IAM Access Analyzer:** Dışarıdan erişilebilen kaynakları otomatik tespit`, type: 'do' },
+  { text: `**AWS Config / GCP Security Command Center:** Sürekli policy compliance kontrolü`, type: 'do' },
+  { text: `**CSPM aracı:** Prowler, ScoutSuite, Lacework, Wiz — açık kaynak ve ticari`, type: 'do' },
+  { text: `**GuardDuty / Cloud IDS:** Anomali tespiti (saldırı, credential sızıntısı)`, type: 'do' },
+  { text: `**CloudTrail / Cloud Audit Logs:** Tüm API çağrıları loglanır`, type: 'do' },
+  { text: `**MFA tüm IAM user'larda:** AWS root dahil, hardware MFA tercih`, type: 'do' },
+  { text: `**Block Public Access:** Account ve bucket seviyesinde`, type: 'do' },
+  { text: `**Pre-signed URL:** Public bucket yerine, süreli erişim URL'i`, type: 'do' },
+  { text: `**AWS access key'i koda yazma:** Environment variable veya IAM role`, type: 'dont' },
+  { text: `**AWS credentials'ı GitHub'a commit:** git-secrets, git-leaks ile pre-commit hook`, type: 'dont' },
+  { text: `**"0.0.0.0/0" Security Group:** Sadece ihtiyaç duyulan IP'ler`, type: 'dont' },
+  { text: `**S3 bucket'ı public yap:** Static site hosting için CloudFront/CDN kullan`, type: 'dont' },
+  { text: `**Logging'i kapatma:** Maliyet değil, sigorta`, type: 'dont' },
+  { text: `**Root user'ı günlük kullan:** Sadece acil durum`, type: 'dont' },
+  { text: `**Long-lived access key:** STS / session token kullan`, type: 'dont' }
+]} />
+
+## <span class="heading-num">60.5</span> CSPM (Bulut Güvenliği Duruş Yönetimi, İng. Cloud Security Posture Management)
+
+CSPM araçları, bulut hesabınızı sürekli tarar ve misconfiguration'ları raporlar.
+
+**Açık kaynak:**
+- **Prowler** (AWS) — CIS benchmark + 200+ kontrol
+- **ScoutSuite** (multi-cloud) — HTML rapor
+- **CloudSploit** (Azure/AWS/GCP)
+
+**Ticari:**
+- Wiz, Lacework, Palo Alto Prisma Cloud, CheckPoint CloudGuard, Microsoft Defender for Cloud
+
+CSPM'nin tipik bulguları:
+- "S3 bucket X public erişilebilir"
+- "Security Group'da 0.0.0.0/0 SSH açık"
+- "CloudTrail logging kapalı"
+- "IAM user'ın MFA'sı yok"
+- "EBS volume şifrelenmemiş"
+- "RDS snapshot public"
+
+Bu bulgular gitlab/Jira ticket'ına çevrilip düzeltilmeli. CSPM only finds, insan fix.
+
+## <span class="heading-num">60.6</span> Cloud-Native Güvenlik Mimarisi
+
+Bulut için yeni düşünün:
+
+- **Zero Trust (Sıfır Güven):** Bulutda "iç ağ" kavramı silinir. [Zero Trust Mimarisi →](/zero-trust-mimarisi/) bölümüne bak.
+- **Service mesh:** Servisler arası mTLS, observability (Istio, Linkerd, Consul)
+- **Secret manager:** AWS Secrets Manager, GCP Secret Manager, Azure Key Vault — environment variable değil
+- **VPC ve private subnet:** Database'ler private subnet'te, sadece uygulama subnet'i ulaşır
+- **NACL + Security Group:** Savunma derinliği
+- **Cloudflare / CDN:** Uygulama önünde WAF + DDoS koruması
+- **Container registry:** ECR/GCR/ACR private, image scanning (Trivy, Snyk)
+
+<Checklist title="Bulut Güvenliği Kontrol Listesi">
+<li>AWS root / Azure Global Admin MFA zorunlu</li>
+<li>Tüm IAM user</li>
+<li>IAM policy</li>
+<li>S3 / Blob / GCS bucket</li>
+<li>AWS IMDSv2 zorunlu (metadata servisi token</li>
+<li>Security Group</li>
+<li>CloudTrail / Cloud Audit Logging açık</li>
+<li>CSPM aracı (Prowler, ScoutSuite veya ticari) çeyreklik çalışıyor</li>
+<li>Veri at-rest şifreli (S3 SSE-KMS, EBS, RDS)</li>
+<li>Secret</li>
+<li>Container image</li>
+<li>VPC</li>
+<li>S3 bucket public (static hosting değilse)</li>
+<li>IAM policy `Action: *`, `Resource: *`</li>
+<li>Cloud credentials koda/env</li>
+<li>Logging kapalı (maliyet gerekçesiyle)</li>
+</Checklist>
+
+**Gerçek olay:** 2019'da Tesla'nın Kubernetes konsolu (sanal bulut kontrol paneli) parolasız internete açıktı. Saldırgan bu konsola girip AWS credentials çaldı. Bu credentials ile Tesla'nın S3 bucket'larına erişti. Saldırgan ayrıca Tesla'nın EC2 sunucularını crypto-mining için kullandı (Tesla'nın faturasına binlerce dolar mining yükledi). Açık: Kubernetes konsolunda parola yok + AWS IAM çok geniş. Bulut, varsayılanları "açık" gelir; sen "kapatmak" zorundasın.
+
+**Benzetme:** Klasık mimari bir "tek bina" gibidir: güvenlik duvarı bina etrafında, kapıda güvenlikçi, içeride odalar. Siz binayı inşa ettin, güvenliği de sen tasarladınız.
+
+Bulut bir "otel zinciri" gibidir. Otelin fiziksel güvenliğini (bina, kapıcı, alarm) otel zinciri (AWS) sağlar. Ama oda anahtarları, kasadaki para, misafir listesi — bunlar senin sorumluluğun. Eğer odanızın kapısını açık unutursanız (public bucket), otel zinciri sorumlu tutulamaz. CSPM, otele denetçi gönderir; "şu kapı açık, şu kamera çalışmıyor" der. Düzeltmek yine senin işiniz.
+
+## İlgili Bölümler
+
+- [Diğer Kritik Web Zafiyetleri →](/diger-web-zafiyetleri/) — SSRF, misconfig
+- [Erişim Kontrolü ve API Güvenliği →](/erisim-kontrolu-ve-api-guvenligi/) — Yetkilendirme, RBAC
+- [Zero Trust Mimarisi →](/zero-trust-mimarisi/) — Bulutta Zero Trust
+- [Kriptografi ve Secret Yönetimi →](/kriptografi-ve-secret-yonetimi/) — KMS, Secret Manager
+- [Güvenlik Testi ve DevSecOps →](/guvenlik-testi-ve-devsecops/) — IaC scan, container scan
+- [Tedarik Zinciri Güvenliği →](/tedarik-zinciri-guvenligi/) — SBOM, dependency
+
+<Accordion question="AWS root hesabı hiç kullanmayacak mıyım?" id="cloud-root">
+Root sadece 3 acil durum için: (1) Hesap kapanması / iptali. (2) CloudFront root-level key. (3) AWS Organizations kuruluş politikası override. Bunlar dışında root gerekmez. Root'un MFA'sı hardware (Yubikey) olmalı, parolası 64+ karakter random olmalı, password manager'da saklanmalı. Root'a ait access key olmasın (long-lived). Günlük işler için "admin role" + MFA + STS session kullan.
+</Accordion>
+
+<Accordion question="Cloudflare/WAF kullanınca bulut güvenliği tamam mı?" id="cloud-waf">
+Hayır. WAF, ön savunma; arkadaki uygulama hâlâ senin sorumluluğun. WAF bypass edilebilir (origan direct IP), ya da WAF kural seti eski. WAF'ın koruyamadığı: IAM misconfig (geniş policy), public bucket, default DB credentials, iç servisler arası güven. WAF + CSPM + IAM hardening + monitoring = derinlemesine savunma.
+</Accordion>
+
+<Accordion question="Multi-cloud (AWS + GCP + Azure) kullanıyoruz, güvenlik yönetimi nasıl?" id="cloud-multi">
+Multi-cloud güvenlik karmaşıktır, her bulutun farklı SDK'sı, farklı terimleri (IAM vs IAM vs IAM), farklı policy dili. Strateji: (1) Merkezi IAM (Okta/Entra ID → SAML → tüm bulutlar). (2) Multi-cloud CSPM (Wiz, Lacework, Orca). (3) Infrastructure as Code (Terraform) — tek manifestten tüm bulutlar. (4) Tag policy (cost-allocation + security). (5) Audit'de CIS Benchmark'lar her bulut için. Multi-cloud'un avantajı (vendor lock-in yok) maliyetli — ekip yetkinliği, multi-tool, karmaşıklık.
+</Accordion>

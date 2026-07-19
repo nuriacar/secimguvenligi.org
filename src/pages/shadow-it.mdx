@@ -1,0 +1,223 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Shadow IT'
+description: 'Shadow IT nedir, neden ortaya çıkar, hangi güvenlik riskleri taşır ve nasıl yönetilir? BYOD, STRIDE ile shadow IT tehdit modellemesi.'
+order: 51
+audience: B
+hero: '/img/hero/eklenti-ve-uygulama-izinleri.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Checklist from '../components/Checklist.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Çalışanlar, BT departmanından habersiz kendi çözümlerini kullanıyor. Kendi indirdiği uygulama, kendi bulduğu bulut servisi, kendi taktığı USB Wi-Fi kartı. Buna Shadow IT denir. Çoğu kurumda var ve çoğu kurum farkında değil.
+
+İnterpol parmak izi bilgisayarında USB Wi-Fi kartı! Evet, YouTube'dan müzik dinlemek için İnterpol parmak izi bilgisayarına USB Wi-Fi kartı takmış bir memur. Shadow IT budur işte.
+
+**Özlü kural:** Shadow IT'yi tamamen yok edemezsin. Ama görmezden gelmek, Truva atını kapıya davet etmektir.
+
+## <span class="heading-num">51.1</span> Shadow IT Nedir?
+
+Shadow IT, çalışanların BT departmanının bilgisi veya izni olmadan satın aldığı ve kullandığı teknoloji araçları ve hizmetleridir. Resmi politikalara uymayan bu çözümler güvenlik riskleri taşır ve kurumun BT stratejisiyle çatışır.
+
+<Scenario label="Senaryo: Şirket Telefonu">
+Şirket hattı verdiğin personele bir de cep telefonu verdin. Akşam çocuklarını eğlendirmek için telefonuna dandik bir oyun indirdi. Oyun, Rusya'daki bir sunucuyla iletişim kuran bir veri sızdırma aracı çıktı. Personel sabah ofise gelip kurum ağına bağlandığında, truva atı içeri girdi.
+</Scenario>
+
+Shadow IT sandığından daha yaygındır. İşte gerçek hayattan birkaç örnek:
+
+<Checklist title="Shadow IT Gerçek Örnekleri">
+<li>Patronun çocuğu ofise gelir, canı sıkılmasın diye tableti şirket ağına bağlanır</li>
+<li>Siber güvenlik şirketi sahibi patron, World of Tanks için Rus forumlarında aimbot satın alıp iş bilgisayarına kurar ve akşama kadar oynar</li>
+<li>Evden çalışan personel, ekran takip yazılımını atlatmak için tarayıcıya otomatik tıklama eklentisi kurar</li>
+<li>BT departmanının kendine kıyak geçmek için kurduğu kuralsız, limitsiz gizli ağ (IT Darknet'i)</li>
+<li>Finans analisti mali tabloları bir AI sohbet botuna yapıştırıp "bunu yönetim kurulu için özetle" der</li>
+<li>İK uzmanı 50 personelin performans formlarını (isim, maaş, not) AI'ye verip özet çıkartır</li>
+<li>Yazılımcı tescilli kaynak kodu yapıştırıp hata aratır; kod eğitim verisine karışır</li>
+<li>Çalışan tarayıcı eklentisi AI agent'ına şirket e-postalarını okuma izni verir</li>
+</Checklist>
+
+## <span class="heading-num">51.2</span> Neden Ortaya Çıkar?
+
+- Resmi süreçler yetersiz veya karmaşık
+- Çalışanlar işlerini daha hızlı yapmaya çalışıyor
+- BT'nin sunduğu araçlar ihtiyacı karşılamıyor
+- "İşi yapsınlar da nasıl yaparlarsa yapsınlar" zihniyeti
+
+Güzel bir yanı da var: Çalışanlar kendi çözümlerini bularak daha verimli çalışabilir. Ama bu çözümlerin güvenlik standartlarıyla uyumlu olması gerekir.
+
+## <span class="heading-num">51.3</span> Güvenlik Riskleri
+
+- **Veri ihlali:** Resmi politikalara uymayan uygulamalar hassas verilere kötü niyetli erişim sağlayabilir.
+- **Kötü amaçlı yazılım:** Çalışanın indirdiği crack'li yazılım veya ücretsiz uygulama, kurum ağına kötü amaçlı yazılım bulaştırabilir.
+- **Görünürlük kaybı:** BT, hangi verinin nerede olduğunu bilmiyor. Veri nereye gidiyor, kim erişiyor, hangi bulutta duruyor; hiçbiri kontrol altında değil.
+- **Uyumluluk ihlali:** KVKK veya GDPR kapsamındaki veriler, onaylanmamış sistemlerde işleniyor.
+
+## <span class="heading-num">51.4</span> BYOD İlişkisi
+
+BYOD (Bring Your Own Device), Shadow IT'nin yakın akrabasıdır. Çalışanların kişisel cihazlarını iş amaçlı kullanması, resmi BT politikalarını atlatabilir.
+
+<Alert level="warning">
+Kişisel cihaz iş ağına bağlandığında, kişisel cihazdaki tüm riskler kurum ağına taşınır. Çocuğun tabletini şirket ağına bağlamak, evde indirilen oyunların içindeki kötü amaçlı yazılımı kurum ağına davet etmektir.
+</Alert>
+
+## <span class="heading-num">51.5</span> Yapay Zeka ve Web AI Araçları
+
+Yapay zeka araçları iş akışına sessizce girdi. Rapor özetletiliyor, Excel analiz ettiriliyor, sözleşme yorumlanıyor, kod debug ediliyor, hasta dosyası formatlanıyor. Verimlilik artıyor; güzel. Ama her seferinde şirket verisi bir yabancı sunucuya kopyalanıyor. Habersiz. İzinsiz. Maskelemeden.
+
+<Scenario label="Senaryo: Finans - Çeyreklik Rapor">
+Finans analistin, çeyreklik mali tabloları bir AI sohbet botuna yapıştırıp "bunu yönetim kurulu için özetle" yazıyor. Gelir rakamları, gider kalemleri, personel maaşları, müşteri sözleşmeleri. Tek bir prompt. Veri sağlayıcının sunucusunda depolanıyor; belki bir sonraki modelin eğitim verisi olacak. KVKK ihlali mi? Evet. Kimin haberi var? Kimsenin. Analist "işimi hızlı bitirdim" diye seviniyor.
+</Scenario>
+
+<Scenario label="Senaryo: Sağlık - Hasta Dosyaları">
+Bir özel hastane çalışanı, gün içinde biriken 40 hasta dosyasını (T.C. kimlik no, teşhis, reçete, doktor notları) bir AI aracına yapıştırıp rapor formatlıyor. "Elle yazsam iki saat, AI ile beş dakika" diyor. 40 kişinin sağlık verisi bir sunucuda duruyor. Silinmez, geri çekilmez. Hastane yönetiminin haberi yok. Hastaların haberi hiç yok.
+</Scenario>
+
+Günlük hayatta yaşananlardan bir seçki:
+
+<Checklist title="Olmaması Gereken AI Kullanım Desenleri">
+<li>Finans analisti mali tabloları yapıştırıp yönetim özeti istiyor</li>
+<li>İK uzmanı performans formlarını (isim, maaş, disiplin kaydı) AI'ye verip özet çıkartıyor</li>
+<li>Avukat müvekkil gizliliğindeki sözleşmeyi yapıştırıp madde analizi yaptırıyor</li>
+<li>Sağlık çalışanı hasta dosyalarını (kimlik, teşhis, ilaç) AI'ye verip rapor formatlıyor</li>
+<li>Yazılımcı tescilli kaynak kodu yapıştırıp hata aratıyor</li>
+<li>Satış temsilcisi müşteri listesini (telefon, e-posta, satın alma geçmişi) yapıştırıp e-posta şablonu yazdırıyor</li>
+<li>Proje yöneticisi henüz duyurulmamış ürün planını AI'ye verip roadmap çıkartıyor</li>
+<li>Muhasebeci vergi beyannamesini ve şirket kredi bilgilerini AI'ye kontrol ettiriyor</li>
+<li>Çalışan hata log'unu yapıştırıyor; log'un içinde API anahtarı ve token duruyor</li>
+<li>Çevirmen gizli dahili belgeyi "çevir" diye yapıştırıyor, belgede ne var okumadan</li>
+<li>Müdür ayrılmak isteyen kritik personelin dosyasını AI'ye verip "nasıl ikna ederim" diye soruyor</li>
+<li>Stajyer şirket wiki'sinden kopyaladığı sayfayı yapıştırıyor; sayfada gizli proje detayları var</li>
+<li>Pazarlama uzmanı müşteri anket sonuçlarını yapıştırıp trend analizi yaptırıyor</li>
+<li>BT personeli sunucu yapılandırma dosyasını yapıştırıyor; dosyada parola hash (özet)'leri var</li>
+<li>Çalışan ekran görüntüsü alıp vision AI'ye veriyor; görüntüde müşteri bilgileri var</li>
+<li>Çalışan AI agent'ına şirket hesaplarına erişim veriyor; agent ne çekiyor, kime gönderiyor, belli değil</li>
+<li>Şirket bilgisayarında AI araçları yasak; çalışan şahsi telefonuyla ekrandan fotoğraf çekip AI'ye gönderiyor</li>
+<li>Toplantıda biri tarayıcı eklentisi AI'yı sessize açıyor; toplantıyı dinleyip özetliyor. Katılımcılardan izin alınmadı</li>
+<li>Savunma sanayi çalışanının gizli tasarım çizimlerini AI'ye verip optimizasyon istemesi</li>
+</Checklist>
+
+<Scenario label="Senaryo: Çok Gizli Toplantı">
+Kısıtlı seviye toplantı. Katılımcılardan biri "daha iyi not tutayım" diye tarayıcı eklentisi AI'yı açıyor. Eklenti tüm konuşmaları metne döküp özetliyor ve bir sunucuya gönderiyor. Toplantıda ne vardı? NATO seviyesinde istihbarat paylaşımı, stratejik kararlar, gizli müzakereler, devlet sırrı seviyesinde bilgiler. Katılımcılardan hiçbirinden izin alınmadı; kimse eklentiyi fark etmedi bile. Veri şimdi bir AI sağlayıcının sunucusunda. Hangi ülkede? Kim erişebilir? Bilinmiyor.
+</Scenario>
+
+<Alert level="critical">
+Bu sadece KVKK değil. Bir tarayıcı eklentisi, saniyeler içinde sınıflandırılmış bir toplantının tüm içeriğini yabancı bir sunucuya taşıyabilir. Devlet sırrı seviyesinde bilgiler, uluslararası anlaşmalar, stratejik kararlar; hepsi bir prompt içinde. Geri alınamaz.
+</Alert>
+
+Bunları neden yapıyorlar? Niyetleri kötü olduğu için değil:
+
+- "AI akıllıysa verimi de korur" (yanılgı)
+- "Bedava araç, ne zararı olur?"
+- "Kimse benim prompt'umu okumaz"
+- "Beni takip edip ne yapsınlar? Saklayacak şeyim yok!"
+- "Ben sadece bir kez yapıştırdım"
+- "API anahtarını verdim, çalışıyor işte"
+- Veriyi yapıştırmadan önce hiç okumamak
+- AI agent'ına şirket sistemlerine erişim vermek "sadece denemek için"
+
+<Alert level="warning">
+"Beni takip edip ne yapsınlar? Saklayacak şeyim yok!" diyen kişi, konuyu kendinden ibaret sanıyor. Senin eğrelti otundan hallice hayatına dair saklayacak şeylerin olmayabilir; ama yönlendirdiğin veri başka. Müşteri kimlikleri, hasta dosyaları, mali tablolar, sözleşmeler. Sorun sen değilsin; şirketin, müşterilerin, hastaların var.
+</Alert>
+
+**PII (Personally Identifiable Information):** Kişiyi doğrudan tanımlayan bilgiler. İsim, T.C. kimlik no, telefon, adres, e-posta, sağlık kaydı, mali durum, parmak izi. Çalışan bunların ne olduğunu bilemeyebilir; ama veriyi yapıştırdığı an hepsi gider.
+
+<Alert level="critical">
+Çalışan "burada PII yok" diye düşünüp belgeyi yapıştırıyor. Ama belgede isim var, maaş var, not var, hastalık kaydı var. Okumadan yapıştırıyor. Veri bir kez girdi; silinmez, geri çekilmez, kontrolden çıktı.
+</Alert>
+
+**Riskler:**
+
+- **Veri sızıntısı:** Yapıştırılan veri AI sağlayıcının sunucularında kalıcı olarak saklanır. Silinmez.
+- **PII ifşası:** Müşteri, hasta, çalışan bilgileri korumasız gönderilir. KVKK ihlali.
+- **Eğitim verisi:** Birçok AI aracı girdileri eğitim verisi olarak kullanır. Verin, bir başkasının sorgusunun cevabı olarak geri dönebilir.
+- **IP sızıntısı:** Kaynak kodu, tasarım dosyası, tescilli algoritma yapıştırıldığı an sızar.
+- **Geri alınamaz:** Veri bir kez girdikten sonra geri çekilemez. Yapıştırdın, bitti.
+- **Sınır ötesi veri transferi:** KVKK kapsamındaki veriler yurt dışındaki sunuculara izinsiz gönderilir. Yasa gereği açık rıza şart; ama kimsenin haberi yok.
+- **AI ajanları:** Otonom AI agent'ları şirket sistemlerine bağlanır. Hangi veriyi çekiyor, kime gönderiyor, ne yetkiyle ne yapıyor? Kimse bilmiyor. Çalışan "bir deneyeyim" demiş; agent, okumadığı belgeleri okumaya, erişmediği sistemlere erişmeye başlamış.
+
+<Alert level="warning">
+Bir çalışan tarayıcı eklentisi şeklindeki AI aracına "şirket e-postalarımı oku ve özetle" iznini veriyor. Eklenti tüm e-postaları bir sunucuya gönderiyor. Hangi sunucu? Hangi ülke? Hangi saklama politikası? Çalışan hiç düşünmüyor; "çalışıyor işte" diyor.
+</Alert>
+
+AI'ye veri göndermeden önce yapılması gerekenler:
+
+- **Veri maskeleme:** PII'yi sahte veriyle değiştir. Gerçek isim yerine "Ahmet Y.", gerçek kimlik no yerine "XXX". AI yine işini yapar; veri korunur.
+- **Veri anonimleştirme:** Kişiyi tanımlayan tüm bilgileri çıkar. İsim, kimlik no, telefon, adres. Geriye sadece içerik kalsın.
+- **Redaksiyon:** Belgedeki hassas kısımları karala, gizle. AI sadece kalan kısmı görsün.
+- **Sanitizasyon:** Veriyi arındır. PII, IP adresi, parola, API anahtarı, token. Hiçbiri kalmasın.
+
+<Alert level="tip">
+AI'ye göndermeden önce belgeyi bir kez oku. İsim var mı? Kimlik no var mı? Müşteri bilgisi var mı? Varsa maskele, anonimleştir veya redakte et. Yapamıyorsan, gönderme.
+</Alert>
+
+## <span class="heading-num">51.6</span> STRIDE ile Shadow IT Tehdit Modellemesi
+
+STRIDE çerçevesini Shadow IT'ye uygulayalım:
+
+- **Spoofing (kimlik taklidi):** Çalışanın kurduğu resmi olmayan e-posta sunucusuyla, şirket içine güvenilir görünen sahte e-postalar gönderilir.
+- **Tampering:** Lisansı olmayan personel, crack'li yazılım kurarak farkında olmadan sistemi değiştirir.
+- **Repudiation:** Resmi olmayan mesajlaşma uygulamasında yapılan işlemler, resmi kayıt olmadığı için inkar edilebilir.
+- **Information Disclosure:** Resmi olmayan ekran görüntüsü paylaşım aracıyla hassas bilgiler sızdırılır.
+- **Denial of Service:** Resmi olmayan bir ağ yapılandırması, kurum ağını kilitleyebilir.
+- **Elevation of Privilege:** Resmi olmayan bir araç üzerinden yetki yükseltme yapılabilir.
+
+## <span class="heading-num">51.7</span> PASTA ile Shadow IT
+
+PASTA'nın adımlarını Shadow IT'ye uygulayalım. Senaryo: Şirkette yöneticilere yönelik bir oltalama (Whaling) saldırısı.
+
+- **Saldırı senaryosu:** Çalışanın kurduğu resmi olmayan e-posta sunucusu üzerinden şirkete sahte e-postalar gönderilir.
+- **Tehdit ağacı:** Oltalama öncelikle yöneticilere (Whaling) yönelir. Yönetici üzerinden bankaya sahte ödeme talebi gönderilir.
+- **Saldırı sıralaması:** Whaling en yıkıcı senaryodur. Yönetici talimatı verirse, alt kademe sorgusuz uygular.
+- **Zayıflık:** Yöneticiler "bana saldıramazlar" düşüncesiyle daha çabuk oltaya gelir.
+- **Risk değerlendirmesi:** Sahte ödeme talebi → finansal kayıp + operasyonel aksama + yasal ceza.
+- **Karşı tedbir:** Tüm kademelere düzenli bilgi güvenliği farkındalığı eğitimi. Özellikle yöneticiler için.
+
+<Alert level="tip">
+STRIDE tehditleri bulur, PASTA saldırı senaryosunu baştan sona işler. İkisini birlikte kullanmak, Shadow IT'nin gerçek riskini ortaya çıkarır.
+</Alert>
+
+## <span class="heading-num">51.8</span> Yönetim Stratejileri
+
+Shadow IT'yi yok edemezsin ama yönetebilirsin:
+
+- **Tanımla ve izle:** Kurumdaki tüm BT varlıklarının envanterini çıkar. İzleme sistemleri kurarak Shadow IT kullanımını tespit et.
+- **Politika ve eğitim:** Açık BT politikaları belirle. Çalışanlara Shadow IT risklerini anlat. Çözümleri BT'ye bildirmeyi kolaylaştır.
+- **Tespit ve engelle:** İzinsiz uygulamalara erişimi engelleyen teknolojik çözümler kullan.
+- **Güvenlik değerlendirmesi:** Shadow IT çözümlerini periyodik olarak güvenlik açısından değerlendir.
+- **Alternatif sun:** Çalışanların ihtiyaçlarına cevap verecek resmi BT çözümleri sağla. İhtiyaç yoksa Shadow IT de yoktur.
+- **İşbirliği:** BT ile diğer departmanlar arasında açık iletişim kültürü oluştur.
+
+<DoDont items={[
+  { text: 'Varlık envanterini düzenli güncelle, ne kullanıldığını bil', type: 'do' },
+  { text: 'Çalışanların ihtiyaçlarına resmi çözümler sun', type: 'do' },
+  { text: 'Shadow IT risklerini eğitimlerle anlat', type: 'do' },
+  { text: '"İşi yapsınlar da nasıl yaparlarsa yapsınlar" de', type: 'dont' },
+  { text: 'Shadow IT\'yi tamamen yasakla ama alternatif sunma', type: 'dont' },
+  { text: 'Kişisel cihazları kontrolsüz kurum ağına bağlat', type: 'dont' },
+]} />
+
+## <span class="heading-num">51.9</span> Bilgi Kontrolü
+
+<Accordion question="S13. Aşağıdakilerden hangisi Shadow IT kapsamına girer?" id="test-49-s13">
+
+a. Bir sebepten dolayı ofise gelen patron ya da yönetici çocuğunun canı sıkılmasın diye, tabletinin şirket ağına bağlanması.  
+b. World of Tanks ya da CS:GO meraklısı patronun Rus sitelerinden otomatik nişan alma hilesi satın alıp şirket laptopuna kurması.  
+c. Evden çalışan personelin bilgisayarına kurulu takip programını atlatıp çalışıyor gözükmek için tarayıcıya otomatik tıklama/doldurma eklentisi kurması.  
+d. IT / BT Darknet'i. IT / BT departmanının şirketin resmi ağı ve araçları haricinde kendine kıyak geçmek için kurduğu ve kullandığı kuralsız, limitsiz IT / BT özel ağı ve araçları.  
+e. **Hepsi ✓**
+
+</Accordion>
+
+## İlgili Bölümler
+
+- [Risk Temelleri](/risk-temelleri/)
+- [STRIDE ve PASTA](/stride-ve-pasta/)
+- [KVKK: Teknik Tedbirler](/kvkk-teknik-tedbirler/)
+- [KVKK: İdari Tedbirler](/kvkk-idari-tedbirler/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Güvenli Kodlama Temelleri](/guvenli-kodlama-temelleri/)

@@ -1,0 +1,126 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Yapay Zeka Tehditleri'
+description: 'AI destekli phishing, ses klonlama dolandırıcılığı, ChatGPT veri sızıntısı, yapay zeka ile güçlendirilmiş sosyal mühendislik ve savunma stratejileri.'
+order: 15
+audience: V
+hero: '/img/hero/deepfake.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+Telefonun çalıyor. Arayan numara oğlunun numarası. "Baba, başım dertte, birinin bana borcu var, hemen para göndermezsem başımı belaya sokacak." Ses birebir oğlunun sesi — aynı tonlama, aynı şive. Panikle parayı gönderirsin. Sonra oğlunu ararsın, her şey yolundadır. O ses oğlunun değildi; yapay zeka ile 3 saniyelik bir ses kaydından kopyalanmıştı.
+
+2024'ten itibaren bu senaryo Türkiye'de de artık gerçek. Yapay zeka (AI), hayatımızı kolaylaştırırken saldırganların eline de benzeri görülmemiş bir güç veriyor. deepfake videoları, klonlanmış sesler, otomatik oltalama mesajları — hepsi birkaç dakika içinde üretilebiliyor.
+
+Yapay zeka tehditleri iki kategoride toplanır: (1) AI ile güçlendirilmiş saldırılar (kişiselleştirilmiş phishing (oltalama), ses/video klonlama, otomatik sosyal mühendislik), (2) AI araçlarını kullanırken veri sızıntısı (ChatGPT'ye gizli kod/parola yazma). Her ikisi için de temel savunma: şüpheci ol, doğrulama yap, gizli veriyi AI'a verme.
+
+## <span class="heading-num">15.1</span> AI ile Güçlendirilmiş Saldırılar
+
+### Ses Klonlama Dolandırıcılığı
+
+3 saniyelik bir ses kaydı, bir kişinin sesini birebir kopyalamak için yeterli. Sosyal medyadaki videolar, podcast'ler, konuşmalar — hepsi kaynak. Saldırgan bu sesi kullanarak aileni, arkadaşını veya iş yerini arayıp senden para, bilgi veya yetki istiyor.
+
+**Gerçek olay:** 2024'te Türkiye'de bir vatandaş, "avukatım" diyen aramaya inanıp dolandırıldı. Aramadaki ses, tanıdığı birinin sesinden klonlanmıştı. Aynı yıl ABD'de bir finans çalışanı, şirket CFO'sunun klonlanmış sesiyle görüntülü arama alıp 25 milyon dolar dolandırıldı. Saldırganlar deepfake video + ses klonlama kullanarak sahte bir toplantı kurmuştu.
+
+<Alert level="warning">
+Ses klonlama artık yüksek teknoloji değil. Ücretsen araçlarla 5 dakikada yapılabilir. Telefonda tanıdık bir ses duymak doğrulama için yeterli değildir.
+</Alert>
+
+### AI ile Kişiselleştirilmiş Phishing
+
+Eskiden dolandırıcılar binlerce kişiye aynı kötü yazılmış e-posta atardı. Artık saldırgan, senin sosyal medyanı tarıyor, LinkedIn'deki pozisyonunu, Twitter'daki son paylaşımını, GitHub'daki projeni analiz ediyor ve sana özel, kusursuz Türkçe ile yazılmış bir oltalama e-postası üretiyor.
+
+Eski phishing: "Sevgili müşterimiz, hesap bilgilerinizi güncelleyin..."
+
+Yeni AI phishing: "Merhaba Ahmet Bey, dün görüşmüş olduğumuz KVKK projesi için senin de bahsettiğiniz yedekleme politikası taslağını ekte bulacaksınız. Acil değerlendirmenizi rica ederim. Saygılarımla, [yöneticinizin adı]"
+
+İkincisine tıklamak çok daha olası.
+
+### Otomatik Sosyal Mühendislik Botları
+
+AI chatbot'lar (LLM'ler) saatlerce seninle yazışabilir. Bir romantik dolandırıcılık senaryosunda, bot aylarca seninle mesajlaşıp güven kazanır. Bir "investment advisor" bot'u, yüksek getiri vaadiyle kripto dolandırıcılığı yapar. Bunlar artık binlerce kurbanla eş zamanlı çalışabilir; insan saldırganın aynı anda 5-10 kurbanı olurdu, AI'ın sınırsız.
+
+## <span class="heading-num">15.2</span> AI Araçlarını Kullanırken Veri Sızıntısı
+
+İkinci tehdit daha sinsi: sen AI araçlarını kullanırken gizli veriyi sızdırıyorsun.
+
+<Scenario label="ChatGPT'ye Kod Yapıştırdın">
+Şirketin iç kredi sistemini geliştiriyorsun. Bir hatayı ayıklamak için, içeren 200 satırlık Python kodunu (içinde veritabanı bağlantı string'i, API anahtarları, müşteri şema bilgisi) kopyaladın ve ChatGPT'ye "bu kod neden çalışmıyor?" diye yapıştırdın. Kod artık OpenAI'ın sunucularında. Şirket verisi üçüncü taraf bir kuruluşa sızmış oldu. 2023'te Samsung mühendisleri aynı şeyi yaptı; şirket ChatGPT'yi yasakladı.
+</Scenario>
+
+Bu sadece kod değil:
+- Müşteri listesini "analiz et" diye Claude'a yapıştırmak
+- KVKK kapsamındaki kişisel veriyi "temizle" diye Gemini'a vermek
+- Stratejik belgeleri "özet çıkar" diye AI'a göndermek
+- Hastane kayıtlarını teşhis amaçlı AI'a yüklemek
+
+Hepsi veri sızıntısıdır. AI araçlarının gizlilik politikalarını okumadan gizli veriyi oraya gönderme.
+
+## <span class="heading-num">15.3</span> Deepfake ve İçerik Üretimi
+
+[Derin Sahte (Deepfake) →](/deepfake/) bölümünde video deepfake'leri detaylı işledik. Burada AI ile üretilmiş diğer içeriklere odaklanıyoruz:
+
+- **AI üretilmiş fotoğraf:** Profil fotoğrafı olarak kullanılan sahte yüzler, sahte kimlik belgeleri
+- **AI üretilmiş makale:** SEO amaçlı sahte içerik çiftlikleri, dezenformasyon
+- **AI üretilmiş ses kaydı:** "Kanıt" olarak sunulan sahte telefon görüşmesi kayıtları
+- **AI üretilmiş yorum:** Ürün/hizmet değerlendirmelerini manipüle eden binlerce sahte yorum
+
+[Dezenformasyon →](/dezenformasyon/) ve [Bilgi Savaşı →](/bilgi-savasi/) bölümlerinde bu içeriklerin toplumsal etkisi var.
+
+## <span class="heading-num">15.4</span> Savunma Stratejileri
+
+<DoDont items={[
+  { text: `**Sesli aramada doğrulama:** Tanıdık birisinden para/bilgi istendiğinde, o kişiyi farklı bir numaradan geri ara`, type: 'do' },
+  { text: `**Güvenli kelime (safe word):** Ailenle acil durumlar için özel bir kelime belirleyin; kriz anında bu kelime sorulmadan para göndermeyin`, type: 'do' },
+  { text: `**AI araçlarına gizli veri gönderme:** Şirket kodu, müşteri verisi, parola, API anahtarı — hiçbirini ChatGPT/Claude/Gemini'a yapıştırma`, type: 'do' },
+  { text: `**Şüpheci ol:** Harika yazılmış, kişiselleştirilmiş bir e-posta, AI ile yazılmış olabilir; göndereni farklı kanaldan doğrula`, type: 'do' },
+  { text: `**İçerik watermarking'i kontrol et:** Bazı AI araçları üretilen içeriğe görünmez imza koyuyor (C2PA standardı)`, type: 'do' },
+  { text: `**Kurumsal AI politikası:** Şirketin hangi verilerin AI'a verilebileceğini yazılı poliçe ile belirlesin`, type: 'do' },
+  { text: `Sesinden tanıdığını düşünerek telefonla gelen para talebine hemen uy`, type: 'dont' },
+  { text: `Şirket kodunu, müşteri verisini, gizli belgeyi ChatGPT'ye "hızlı çözüm" için yapıştırma`, type: 'dont' },
+  { text: `LinkedIn'den gelen, sana çok özel görünen iş tekliflerini doğrulamadan yanıtlama`, type: 'dont' },
+  { text: `AI ile üretilmiş ses/video "kanıtlarını" yüzeye aldatıcı olarak gerçek kabul etme`, type: 'dont' },
+  { text: `"Bu çok iyi yazılmış, gerçek olmalı" diye düşünme — AI mükemmel yazıyor`, type: 'dont' }
+]} />
+
+<Checklist title="AI Tehditlerine Karşı Kontrol Listesi">
+<li>Ailenle bir </li>
+<li>Telefonla para/bilgi talebinde farklı numaradan geri arıyorsun</li>
+<li>ChatGPT/Claude/Gemini gibi araçlara şirket kodu, parola, müşteri verisi göndermiyorsun</li>
+<li>Kişiselleştirilmiş e-postalarda göndereni doğruluyorsun</li>
+<li>Kurumda AI kullanım politikası var (kurumsal)</li>
+<li>AI ile üretilen içeriklerin kaynağını sorguluyorsun</li>
+<li>Tanıdığın birinin sesini </li>
+<li>Şirket gizli belgesini AI özet araçlarına yükledin</li>
+<li>Sana özel yazılmış gibi görünen e-postaya hemen tıklıyorsun</li>
+</Checklist>
+
+**Benzetme:** AI tehditlerini bir "saldırgan fabrikası" olarak düşün. Eskiden bir dolandırıcı günde 10 kişiyi arayabiliyordu, kötü Türkçeyle. Şimdi o dolandırıcının fabrikasında 10.000 AI çalışanı var; her biri mükemmel Türkçe konuşuyor, her kurbanın sosyal medyasını önceden okumuş, sesini kopyalayabiliyor, saatlerce yazışabiliyor. Sen o fabrikanın hedeflerinden birisin.
+
+Ama fabrikanın bir zafiyeti var: AI gerçek doğrulamayı yapamaz. Sana "avukatın" diyen bir aramaya, avukatın ofisini fiziksel olarak arayarak cevap verirsen, AI'ın oyunu bozulur. Doğrulama, AI'ın kopyalayamadığı tek şey.
+
+## İlgili Bölümler
+
+- [Derin Sahte (Deepfake) →](/deepfake/) — AI ile üretilen videolar
+- [Sosyal Mühendislik →](/sosyal-muhendislik/) — İnsan psikolojisi sömürüsü
+- [Çevrimiçi Dolandırıcılık →](/cevrimici-dolandiricilik/) — Dolandırıcılık senaryoları
+- [Bilgi Savaşı →](/bilgi-savasi/) — AI ile üretilmiş dezenformasyon
+- [Dezenformasyon →](/dezenformasyon/) — Sahte içerik tespiti
+- [LLM ve AI Güvenliği →](/llm-ve-ai-guvenligi/) — Geliştiriciler için prompt injection
+
+<Accordion question="AI ile klonlanan sesi nasıl ayırt ederim?" id="ai-ses-ayirt">
+Gerçek insan sesinde nefes alma, mikro-hareketler, anlık tereddütler vardır. Klonlanmış ses bu detaylardan yoksundur; çok "temiz" ve mükemmel duyulur. Şüphelenince: (1) Kişiyi farklı bir kanaldan (görüme, fiziksel) doğrula. (2) Sadece ikinizin bildiği bir detayı sor ("geçen hafta ne yemiştik?"). (3) Ailenle önceden bir "güvenli kelime" belirleyin ve acil para taleplerinde bu kelimeyi sorun.
+</Accordion>
+
+<Accordion question="Hangi verileri ChatGPT'ye güvenle verebilirim?" id="ai-veri-guvenli">
+Genel kural: yayınlayamayacağın bir şeyi AI'a da verme. Kişisel notların, açık kaynak projeler, genel bilgi soruları güvenli. Şirket kodu, müşteri verisi, parola, API anahtarı, stratejik belge, KVKK kapsamındaki veri — hepsi güvensen. Kurumsal kullanım için şirketin AI politikanı kontrol edin; bazıları "Enterprise" planlarda veri eğitimde kullanılmıyor garanti ediyor ama yine de gizli veriyi göndermeden önce politikanı okuyun.
+</Accordion>
+
+<Accordion question="AI dolandırıcılığına kurban gittim, ne yapmalıyım?" id="ai-dolandiricilik">
+1) Parayı gönderdiğin bankayı hemen ara ve "dolandırıcılık" diyerek işlemi geri almaya çalış (ilk 24 saat kritik). 2) [Hesap Çalındığında Acil Protokol →](/hesap-calma/) bölümündeki adımları izle. 3) Karşı tarafın "kanıt" olarak sunduğu ses/video dosyasını sakla (adli delil). 4) Siber suç şikayetini [USOM](https://www.usom.gov.tr) üzerinden yap. 5) KVKK kapsamında veri sızıntısı olduysa [Kişisel Verileri Koruma Kurulu'na](https://www.kvkk.gov.tr) başvur.
+</Accordion>

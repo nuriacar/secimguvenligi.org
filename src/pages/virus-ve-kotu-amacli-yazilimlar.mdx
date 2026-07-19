@@ -1,0 +1,141 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Virüs ve Kötü Amaçlı Yazılımlar'
+description: 'Virüs, trojan, fidye yazılımı, rootkit, malware bulaşma yolları, korunma ve temizlik yöntemleri.'
+order: 25
+audience: V
+hero: '/img/hero/virus-ve-kotu-amacli-yazilimlar.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Bir gün bilgisayarını açtın, ekranda bir uyarı var: "Dosyaların şifrelendi. 500 dolar Bitcoin gönder." Bütün fotoğrafların, belgelerin, her şey kilitli. Ya da telefonunda pil normalden hızlı bitiyor, sürekli ısınıyor, bir şeyler indiriyor ama sen hiçbir şey yapmıyorsun. Bunlar kötü amaçlı yazılımların eseridir.
+
+Kötü amaçlı yazılım (malware), bilgisayarına veya telefonuna zarar vermek, verini çalmak veya seni gözetlemek için yazılmış yazılımlardır. Her şekli ve boyutu vardır. Kimisi saklanır, kimisi kendini gösterir. Ama hepsi aynı amaca hizmet eder: sana zarar vermek.
+
+**Özlü kural:** Telefonunda veya bilgisayarında bir şeyler ters gidiyorsa, dinle. Genelde bir şeyler söylemeye çalışıyordur.
+
+## <span class="heading-num">25.1</span> Kötü Amaçlı Yazılım Türleri
+
+### Virüs
+Bilgisayardaki dosyalara bulaşır, onları değiştirir ve kendini kopyalar. Genelde bir dosyayı açınca etkinleşir. Günümüzde eski tip virüsler azaldı ama hâlâ var.
+
+### Fidye Yazılımı (Ransomware)
+- **Ne yapar:** Dosyalarını parolalar ve "para verirsem açarım" der. Ödeme yapsan bile açılacağı garanti değil.
+- **En iyi korunma:** Düzenli yedekleme. Yedeğin varsa fidye yazılımı sadece sinir bozucu bir duruma dönüşür.
+- **Yapma:** Ödeme yapma. Ödeme yapmak saldırganı cesaretlendirir ve dosyalarının açılacağı garanti değildir.
+
+**Gerçek olay:** 2017'de WannaCry adlı fidye yazılımı, 150 ülkede 200.000'den fazla bilgisayarı etkiledi. İngiltere Ulusal Sağlık Sistemi (NHS) çöktü, hastaneler randevu veremedi, ameliyatlar ertelendi. Saldırının sebebi: 2 ay önce yayınlanan bir güvenlik yamasının yüklenmemesiydi. Yani çözüm vardı ama uygulanmamıştı. İngiltere'deki hastanelerin çoğu yedekleme yapmadığı için verilerini kurtaramadı.
+
+### Trojan (Truva Atı)
+Kendini faydalı bir uygulama gibi gösterir ama içinde zehir taşır. "Ücretsiz oyun", "Hızlı indir", "Video player" gibi şeylere dikkat et.
+
+### Rootkit
+İşletim sisteminin en derin seviyesine yerleşir. Antivirüs programları tarafından bile tespit edilmesi çok zordur. Genelde devlet düzeyinde casus yazılımlarla birlikte kullanılır.
+
+### Reklam Yazılımı (Adware)
+Çok sık rastlanır. Sürekli reklam açar, tarayıcını yönlendirir, bilgisayarını yavaşlatır. Can sıkıcıdır ama genelde veri toplamak içindir.
+
+## <span class="heading-num">25.2</span> Nasıl Bulaşır?
+
+- **E-posta ekleri:** Tanımadığın birinden gelen .exe, .zip, .docm dosyaları
+- **Sahte bağlantılar:** "Bedava", "İndirim", "Şok haber" vaadiyle gönderilen linkler
+- **USB bellek:** Masada bulduğun, tanımadığın bir USB belleği bilgisayarına takma
+- **Resmi olmayan uygulamalar:** Ücretsiz oyun, crack, keygen gibi yazılımlar
+- **Sahte reklamlar:** Güvendiğin bir sitede bile kötü amaçlı reklam olabilir
+- **Güncellenmemiş yazılımlar:** Açığı bilinen bir programı güncellemezsen, saldırgan o açıktan içeri girer
+
+<Alert level="critical">
+Bilinmeyen bir kaynaktan gelen dosyayı asla indirme ve açma. "Ücretsiz", "Bedava", "Hemen indir" vaatleri genelde tuzaktır. Tek bir tık, telefonunun veya bilgisayarının ele geçirilmesi için yeterlidir.
+</Alert>
+
+## <span class="heading-num">25.3</span> Belirtiler: Telefonunda/Bilgisayarında Bir Şeyler Ters mi?
+
+- Telefonun/pilin normalden hızlı bitiyor
+- Telefonun ısınıyor, sebepsiz yere
+- İnternet kotan hızlı eriyor (arka planda veri gönderiyor olabilir)
+- Birden fazla reklam çıkıyor, tarayıcı yönlendiriliyor
+- Bilgisayarın yavaştı, programlar geç açılıyor
+- Dosyalarına erişemiyorsun, "şifreli" uyarısı alıyorsun
+- Bilmediğin uygulamalar yüklenmiş veya tarayıcı eklentileri eklenmiş
+
+## <span class="heading-num">25.4</span> Korunma Yöntemleri
+
+- **Güncelle:** İşletim sistemini ve tüm uygulamaları güncel tut. Çoğu saldırı bilinen açıklardan girer.
+- **Antivirüs kullan:** Windows'un kendi antivirüsü (Windows Defender) yeterlidir. Ek antivirüs gerekmez.
+- **Dikkatli ol:** En iyi antivirüs, senin dikkatindir. Şüpheli bir şeye tıklamamak en güçlü korumadır.
+- **İndirme:** Uygulamaları sadece resmi mağazalardan (App Store, Google Play) indir.
+- **Yedekle:** Düzenli yedek al. Fidye yazılımına karşı tek gerçek çözüm yedektir. Yedekleme yazılımının lisanslı ve güvenilir olduğundan emin ol; korsan yedekleme yazılımı, yedeğin içinde zararlıyı gizleyebilir.
+
+<DoDont items={[
+  { text: 'İşletim sistemini ve uygulamaları güncel tut', type: 'do', level: 'minimum' },
+  { text: 'Windows Defender kullan, yeterlidir', type: 'do' },
+  { text: 'Düzenli yedekleme al (fidye yazılımına karşı)', type: 'do', level: 'best' },
+  { text: 'Şüpheli bağlantılara tıklamadan önce düşün', type: 'do' },
+  { text: 'Ücretsiz antivirüs programları yükleme (şişmeye gerek yok)', type: 'dont' },
+  { text: 'Bilinmeyen kaynaktan uygulama indirme', type: 'dont' },
+  { text: 'Masada bulduğun USB belleği bilgisayarına takma', type: 'dont' },
+  { text: 'Fidye yazılımında ödeme yapma', type: 'dont' },
+]} />
+
+## <span class="heading-num">25.5</span> Temizlik: Kötü Amaçlı Yazılımdan Kurtulma
+
+- **Adım 1 - İnterneti kes:** Telefonunun veya bilgisayarının İnternet bağlantısını kes. Böylece veri sızıntısı durur.
+- **Adım 2 - Güvenli mod:** Bilgisayarı güvenli modda aç (Windows: F8, Mac: shift tuşuyla aç). Böylece kötü amaçlı yazılım çalışamaz.
+- **Adım 3 - Antivirüs tarat:** Windows Defender ile tam tarama yap.
+- **Adım 4 - Şüpheli uygulamaları kaldır:** Bilmediğin, son zamanlarda yüklediğin uygulamaları sil.
+- **Adım 5 - Parolaları değiştir:** Temizlik sonrası tüm parolalarıni değiştir.
+- **Adım 6 - Yedekten geri yükle (son çare):** Temizlik imkansızsa, fabrika ayarlarına dön ve yedekten geri yükle. Ama yedeğin de bulaşık olabileceğini unutma.
+
+<Alert level="warning">
+Fidye yazılımına yakalandıysan ödeme yapma. Ödeme yapmak dosyalarını geri getireceğinin garantisi değildir. Önce bir siber güvenlik uzmanına danış. Düzenli yedekleme yapıyorsan yedekten geri yükle.
+</Alert>
+
+## <span class="heading-num">25.6</span> Antivirüs Programı Gerekli mi?
+
+- **Windows:** Windows Defender varsayılan olarak yeterlidir. Aktif olduğundan emin ol. Ayrıca antivirüs gerekmez. Ücretsiz antivirüsler (Avast, AVG) gereksiz yere kaynak tüketir.
+- **Mac:** macOS entegre koruması (XProtect) yeterlidir. Ek antivirüs gerekmez.
+- **Telefon:** Android'de Google Play Koruması (Play Protect) açık olmalı. iPhone'da ek antivirüs gerekmez.
+- **Kural:** Hiçbir antivirüs senin dikkatinin yerini tutamaz. Şüpheli bağlantıya tıklamamak en iyi antivirüstür.
+
+**Benzetme:** Kötü amaçlı yazılım, evine gizlice giren bir hırsıza benzer. Kimisi kapının kilidini açar (trojan), kimisi duvarı deler (exploit), kimisi içeri girdikten sonra dolabı kilitler ve senden para ister (ransomware). Ama hepsi için aynı kural geçerlidir: kapını kilitle (güncelle), tanımadığına kapını açma (dikkatli ol), değerli eşyalarının fotokopisini çek (yedekle).
+
+<Scenario label="Senaryo: Fidye Yazılımı">
+Salı sabahı ofise geldin. Tüm bilgisayarlar açık ama hiçbiri çalışmıyor. Ekranda kırmızı bir uyarı: "Tüm dosyalarınız şifrelendi. 48 saat içinde 500 dolar Bitcoin göndermezseniz tüm veriler silinecek." Panik. Yılların projesi, müşteri dosyaları, sözleşmeler hepsi kilitli. BT ekibi çağrılıyor. Çözüm: düzenli yedekleme. Eğer yedekler güncelse, fidye yazılımı bir sinir bozucusundan ibaret kalır. Bilgisayarları sıfırlarsın, yedekten geri yüklersin, işine devam edersin. Yedek yoksa, ödesen bile dosyaların açılacağı garanti değil.
+</Scenario>
+
+<Accordion question="Telefonuma virüs bulaştı, ne yapayım?" id="phone-virus">
+Önce panik yapma. Telefonda gerçek virüs nadirdir (iPhone'da neredeyse yoktur, Android'de Google Play dışından uygulama yüklediysen olası). Adımlar: 1) Şüpheli uygulamayı sil. 2) Google Play Koruması veya App Store güven taraması çalıştır. 3) Tüm parolaları başka bir cihazdan değiştir. 4) Sorun devam ederse fabrika ayarlarına dön (şüpheleniyorsan yedeksiz sıfırla).
+</Accordion>
+
+<Accordion question="Antivirüs programları virüs buldu diyor, inanalım mı?" id="fake-antivirus">
+Hayır. Çoğu ücretsiz antivirüs aslında bir reklam yazılımıdır. Bilgisayarında virüs bulduk, satın al uyarıları çıkıyorsa, bu uyarıyı çıkaran şeyin kendisi bir zararlıdır. Windows Defender kullanıyorsan ekstra antivirüse ihtiyacın yok. İndirdiğin antivirüs programını kaldır, Windows Defender'ı aç.
+</Accordion>
+
+<Accordion question="Fidye yazılımına ödeme yapmalı mıyım?" id="ransom-pay">
+Hayır. Ödeme yapman dosyalarının açılacağını garanti etmez. Saldırgan parayı alır ve kaybolur. Ayrıca ödeme yaparak saldırgana "bu yöntem işe yarıyor" mesajı verirsin, diğer kurbanları hedef almaya devam eder. Yedeğin varsa yedekten geri yükle. Yedeğin yoksa bir siber güvenlik uzmanına danış. Bazı fidye yazılımlarının ücretsiz çözüm araçları vardır (nomoreransom.org gibi).
+</Accordion>
+
+<Checklist title="Kötü Amaçlı Yazılımdan Korunma Kontrol Listesi">
+<li>İşletim sistemi güncellemeleri otomatik</li>
+<li>Windows Defender / Play Protect aktif</li>
+<li>Uygulamalar sadece resmi mağazalardan indiriliyor</li>
+<li>Düzenli yedekleme yapılıyor (fidye yazılımına karşı)</li>
+<li>Tanımadığın e-posta ekleri açılmıyor</li>
+<li>Tanımadığın USB bellek bilgisayara takılmıyor</li>
+<li>Tarayıcıda pop-up engelleyici aktif</li>
+</Checklist>
+
+## İlgili Bölümler
+
+- [Casus Yazılım](/casus-yazilim/)
+- [Casus Yazılım Teşhis ve Temizlik](/casus-yazilim-teshisi/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Hesap Çalındığında Acil Protokol](/hesap-calma/)
+- [Haftalık Kontrol Listesi](/haftalik-kontrol/)
+- [Yedekleme ve Veri Kurtarma](/yedekleme-ve-veri-kurtarma/)

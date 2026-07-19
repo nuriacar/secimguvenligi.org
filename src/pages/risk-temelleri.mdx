@@ -1,0 +1,173 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Risk Temelleri'
+description: 'BT risk yönetiminin temelleri: risk, tehdit ve zafiyet kavramları, risk formülü, tehdit kategorileri ve güvenlik açıkları.'
+order: 44
+audience: B
+hero: '/img/hero/home.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+import Checklist from '../components/Checklist.astro';
+
+
+Bir kurumun en kritik sorusu: "Bize nasıl zarar verebilirler?" Cevabı bilen, sorunu yaşamadan önlem alır. Bilmeyen, olay olduktan sonra kriz yönetmek zorunda kalır. Aradaki fark: zaman, para ve itibardır.
+
+**Özlü kural:** Riski tanımlamayan sorunu yaşar. Sorunu yaşayan kriz yönetir. Kriz yönetimi ise pahalı, yıpratıcı ve utanç vericidir.
+
+## <span class="heading-num">44.1</span> Risk ve Sorun
+
+**Risk**, gelecekte gerçekleşme ihtimali olan belirsiz bir durumdur. Olabilir de olmayabilir de. Her risk kötü değildir; organizasyonlar kendilerini geliştirmek için bilinçli risk alabilir. Yeni bir teknolojiye geçmek, yeni bir pazar hedeflemek birer pozitif risk örneğidir. Bunlar birer fırsattır.
+
+**Sorun**, gerçekleşmiş veya şu anda gerçekleşen risktir. Artık belirsizlik yok; durum oldu.
+
+<Scenario label="Senaryo: Domain Düştü">
+Kurumsal domainin yenileme süresi dolmak üzere. Bu bir risktir. Yenilersen risk ortadan kalkar. Ama envanterin yok, domain takibi yapmıyorsun. Süre doldu, fark etmedin. Domain düştü, bir başkası tarafından kaydedildi. Şimdi tüm itibarın o kişinin elinde! Risk, sorun oldu. Şimdi kriz yönetiyorsun.
+</Scenario>
+
+## <span class="heading-num">44.2</span> Risk Yönetimi Nedir?
+
+Riski tanımlama, değerlendirme, izleme ve kabul edilebilir düzeye çekme sürecine risk yönetimi denir. Bu, dört adımlı bir döngüdür:
+
+1. **Tanımlama:** Riskleri bul ve kaydet
+2. **Değerlendirme ve Değerleme:** Olasılık ve etki puanla, önceliklendir
+3. **Risk Savunması Planlama:** Her riske bir yanıt seç (kabul, azaltma, transfer, kaçınma)
+4. **İzleme ve Kontrol:** Yanıtları uygula, riskleri düzenli takip et
+
+<Alert level="info">
+Sınırsız bütçe yok. Risk yönetimi, korunacak çok şey varken sınırlı kaynakları en kritik yerlere harcamayı sağlar.
+</Alert>
+
+## <span class="heading-num">44.3</span> Riskin Formülü
+
+Riski anlamak için dört kavram gerekir:
+
+- **Varlık:** Değeri olan her şey. Personel, donanım, yazılım, veri, itibar, fikri mülkiyet.
+- **Tehdit:** Bir varlığa zarar verebilecek şey. Saldırgan, kötü amaçlı yazılım, doğal afet, insan hatası.
+- **Zafiyet:** Bir varlığın sömürülmeye açık yanı. Güncellenmemiş yazılım, zayıf parola, eğitimsiz personel.
+- **Sömürü:** Zafiyetten faydalanma eylemi. Tehdit, zafiyeti kullanır.
+
+Bir tehditin bir zafiyeti sömürmesi durumunda oluşabilecek potansiyel kayba risk denir:
+
+**Risk = Tehdit × Zafiyet**
+
+Bir hırsız (tehdit), açık kapıyı (zafiyet) sömürür ve evdeki değerli eşyaları (varlık) çalar. Ancak her tehdit zafiyet gerektirmez; deprem veya sel gibi doğal tehditler varlığı doğrudan etkiler.
+
+Riskin büyüklüğünü ölçmek için olasılık ve etki devreye girer:
+
+**Risk Skoru = Tehdit × Zafiyet × Olasılık × Etki**
+
+## <span class="heading-num">44.4</span> Risk İştahı ve Toleransı
+
+ISO 31000 Risk Yönetimi Standardı temelinde riskleri üç seviyede değerlendirebilirsin. İçten dışa doğru halkalar hayal et:
+
+- **Risk İştahı:** Organizasyon için optimum, kabul edilebilir risk seviyesi. "Ne kadar risk göze alabiliriz?" sorusunun cevabıdır.
+- **Risk Toleransı:** İştahı aşan ama organizasyon kaynaklarıyla tolere edilebilen riskler. "Kabul edilemez ama yönetebiliriz."
+- **Kritik Riskler:** Toleransı da aşan, derhal müdahale gerektiren riskler.
+
+<Alert level="info">
+Sınırsız bütçe ve kaynak yok. Korunacak çok şey var ama her şeyi aynı öncelikle koruyamazsın. Risk iştahını net tanımlamak, kaynakları doğru yerlere harcamayı sağlar.
+</Alert>
+
+## <span class="heading-num">44.5</span> Varlık Türleri
+
+Varlıklar ikiye ayrılır:
+
+- **Fiziki varlıklar:** Nakit, bina, personel, bilgisayar, sunucu, ağ cihazları.
+- **Fiziki olmayan varlıklar:** Patent, marka, ticari sır, yazılım kodu, müşteri veritabanı, itibar.
+
+<Alert level="tip">
+Çoğu kurum fiziki varlıkları korur ama fiziki olmayan varlıkları unutur. Oysa bir müşteri veritabanının veya ticari sırrın değeri, binadaki bilgisayarlardan çok daha yüksektir.
+</Alert>
+
+## <span class="heading-num">44.6</span> Tehdit Kategorileri
+
+Tehditler üç ana kategoriye ayrılır:
+
+**Doğal Tehditler**
+- Deprem, orman yangını, sel, fırtına
+
+**Kasıtsız Tehditler**
+- İnsan hatası, kazalar
+- Elektrik kesintisi, elektrik yangını, çevresel sorunlar
+- Sistem veya yazılım hataları
+
+**Kasıtlı Tehditler**
+- İç tehdit (mutsuz çalışan, sızdırma)
+- Kötü amaçlı yazılım
+- Sosyal mühendislik
+- Kurumsal casusluk
+- Dış saldırganlar
+
+<Alert level="warning">İç tehdit, en tehlikelilerden biridir. Güvenlik duvarı iç tehdidi durduramaz; çünkü saldırgan zaten içeridedir ve erişimi vardır.</Alert>
+
+## <span class="heading-num">44.7</span> BT Güvenlik Açıkları
+
+Genel BT zafiyetleri altı kategoriye ayrılır:
+
+- **Ağ zafiyetleri:** Yanlış yapılandırılmış güvenlik duvarı, açık portlar, parolasız protokoller.
+- **İşletim sistemi zafiyetleri:** Güncellenmemiş sistemler, varsayılan ayarlar, gereksiz hizmetler.
+- **Protokol zafiyetleri:** Güvenlik tasarımında eksiklikler (eski protokoller, parolasız iletişim).
+- **Uygulama zafiyetleri:** Kod hataları, enjeksiyon açıkları, zayıf kimlik doğrulama.
+- **Şifreleme zafiyetleri:** Zayıf algoritmalar, kısa anahtarlar, hatalı uygulama.
+- **Süreç zafiyetleri:** Erişim politikası eksikliği, denetim kayıtlarının tutulmaması, personel eğitimsizliği.
+
+<DoDont items={[
+  { text: 'Varlık envanterini çıkar: neyin değerli, nerede, kimin sorumluluğunda', type: 'do' },
+  { text: 'Her varlık için olası tehdit ve zafiyetleri düşün', type: 'do' },
+  { text: 'İç tehdidi dış tehditle aynı ciddiyetle ele al', type: 'do' },
+  { text: 'Teknik araçların yeterli olduğunu düşün, insan faktörünü atla', type: 'dont' },
+  { text: 'Fiziki olmayan varlıkları envanter dışı bırak', type: 'dont' },
+  { text: 'Riski yalnızca BT departmanının sorunu olarak gör', type: 'dont' },
+]} />
+
+<Checklist title="Risk Yönetimi Temel Kontrol Listesi">
+<li>Varlık envanterini çıkar: fiziki ve fiziki olmayan tüm varlıkları listele</li>
+<li>Her varlık için olası tehditleri ve zafiyetleri belirle</li>
+<li>Risk iştahını ve toleransını net tanımla, yönetimle paylaş</li>
+<li>Risk skorunu (tehdit × zafiyet × olasılık × etki) hesapla</li>
+<li>İç tehditleri dış tehditlerle aynı ciddiyetle değerlendir</li>
+<li>Fiziki olmayan varlıkları (veri, itibar, ticari sır) envantere dahil et</li>
+<li>Riskleri tek bir kütükte topla, sorumluları ata</li>
+</Checklist>
+
+## <span class="heading-num">44.8</span> Bilgi Kontrolü
+
+<Accordion question="S1. Risk ve sorunu birbirinden ayıran nedir?" id="test-43-s1">
+
+a. Kader  
+b. **Gerçekleşme ✓**  
+c. Zaman  
+d. Meseleleri mesele etmemek
+
+</Accordion>
+
+<Accordion question="S2. Bir tehditin bir zafiyeti sömürmesi durumunda oluşabilecek potansiyel kayıp, zarar veya yıkıma ne denir?" id="test-43-s2">
+
+a. Geçmiş olsun  
+b. Allah korusun  
+c. **Risk ✓**  
+d. Sorun
+
+</Accordion>
+
+<Checklist title="Risk Yönetimi Öz Değerlendirme Listesi">
+<li>Varlık envanteri çıkardım (ne koruyorum?)</li>
+<li>Her varlık için değer ve kritiklik seviyesi belirledim</li>
+<li>Tehdit kategorilerini değerlendirdim</li>
+<li>Zafiyet taraması yaptırdım</li>
+<li>Risk iştahı ve tolerans seviyelerini tanımladım</li>
+<li>Risk önceliklendirme yaptım (olasılık x etki)</li>
+<li>Sonuçları yönetime sundum</li>
+</Checklist>
+
+## İlgili Bölümler
+
+- [Risk Kategorileri ve Değerlendirme](/risk-kategorileri-ve-degerlendirme/)
+- [Risk Yanıtları ve İzleme](/risk-yanitlari-ve-izleme/)
+- [Tehdit Modelleme](/tehdit-modelleme/)
+- [Temel Kavramlar](/temel-kavramlar/)
+- [KVKK: İdari Tedbirler](/kvkk-idari-tedbirler/)

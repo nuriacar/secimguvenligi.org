@@ -1,0 +1,151 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'KVKK: Teknik Tedbirler'
+description: '6698 sayılı KVKK kapsamında alınması gereken teknik tedbirler. Güvenlik duvarı, şifreleme, erişim kontrolü, log izleme, zafiyet testleri, yedekleme ve bulut güvenliği.'
+order: 42
+audience: V
+hero: '/img/hero/yasal-haklar.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+KVKK'nın 12. maddesi teknik tedbirleri de zorunlu kılar. İdari tedbirler insan ve süreç odaklıdır; teknik tedbirler ise sistem ve teknoloji odaklıdır. İkisi birlikte çalışır. En güçlü güvenlik duvarı bile eğitimsiz bir çalışanla aşılır; en bilinçli çalışan bile parolasız bir veritabanıyla savunmasızdır.
+
+**Özlü kural:** Teknik tedbirler bir kerelik kurulum değil, sürekli güncellenen canlı bir savunma hattıdır.
+
+<a href="https://www.mevzuat.gov.tr/mevzuat?MevzuatNo=6698&MevzuatTur=1&MevzuatTertip=5" target="_blank" rel="noopener noreferrer" class="i-btn-link">6698 sayılı KVKK Tam Metni (Mevzuat Bilgi Sistemi) &#8599;</a>
+
+## <span class="heading-num">42.1</span> Siber Güvenlik Temelleri
+
+<Checklist title="Zorunlu Teknik Tedbirler">
+<li>Güvenlik duvarı (firewall) ile ağ trafiğini kontrol et</li>
+<li>İşletim sistemi ve uygulamaları güncel tut</li>
+<li>Erişim yetkilerini rol bazında tanımla (RBAC)</li>
+<li>Kötü amaçlı yazılım koruması (antivirüs/EDR) kur</li>
+<li>Güçlü parola politikası ve çok faktörlü doğrulama (MFA) uygula</li>
+<li>Kişisel verileri şifrele (bekleyen ve hareket halindeki veri)</li>
+<li>Saldırı tespit ve önleme sistemi (IDS/IPS) ile ağ trafiğini izle</li>
+<li>Veri kaybı önleme (DLP) çözümü ile yetkisiz veri aktarımını engelle</li>
+<li>Şifreleme anahtarlarını güvenli şekilde yönet (anahtar yönetimi)</li>
+</Checklist>
+
+Kullanılmayan yazılım ve servisleri güncellemek yerine silmek tercih edilmeli. Her yüklü uygulama, saldırgan için bir hedeftir.
+
+### Şifreleme
+
+Şifreleme, kişisel verilerin yetkisiz erişime karşı korunmasında en kritik tekniktir. İki durumda şifreleme şarttır:
+
+- **Bekleyen veri (data at rest):** Veritabanında, dosya sunucusunda, yedeklerde duran veri
+- **Hareket halindeki veri (data in transit):** Ağ üzerinden iletilen veri (TLS/SSL)
+
+<Alert level="warning">
+Özel nitelikli kişisel veriler (sağlık, biyometrik vb.) şifrelenmeden saklanamaz. Bu bir tercih değil, yasal zorunluluktur.
+</Alert>
+
+## <span class="heading-num">42.2</span> Erişim Kontrolü
+
+Erişim kontrolü, kişisel veriye kimin, ne zaman, hangi yetkiyle eriştiğini yönetir.
+
+- **Rol bazlı erişim (RBAC):** Her rol sadece ihtiyaç duyduğu veriyi görür
+- **En az yetki prensibi (Least Privilege):** Kimse ihtiyacından fazla yetkiye sahip olmamalı
+- **Veri maskeleme:** Hassas alanlar (TCKN, kart no) test ve geliştirme ortamlarında maskelenmeli
+- **Erişim logları:** Kim, ne zaman, hangi veriye erişti; hepsi kayıt altında
+- **Düzenli yetki gözden geçirmesi:** İşten ayrılan, rol değiştiren personelin yetkileri derhal güncellenmeli
+
+## <span class="heading-num">42.3</span> İzleme ve Loglama
+
+Kişisel veri güvenliğinin takibi, ihlallerin tespit edilmesi için zorunludur.
+
+- Sistem loglarını merkezi olarak topla (SIEM)
+- Şüpheli erişim girişimlerini izle ve uyarı ver
+- Log kayıtlarını değiştirilemez şekilde sakla
+- Zafiyet taramaları ve sızma testleri yap
+
+<Scenario label="Senaryo: Log Sayesinde">
+Kurum veritabanına yapılan şüpheli bir sorgu log sistemi tarafından tespit edildi. Erişim, hafta sonu normal olmayan saatlerde, farklı bir lokasyondan yapılmıştı. İhlal, veri sızmadan önce engellendi. Log olmasaydı, ihlal aylar sonra fark edilebilirdi.
+</Scenario>
+
+## <span class="heading-num">42.4</span> Bulut Güvenliği
+
+Kişisel verilerin bulutta depolanması, KVKK kapsamında özel dikkat gerektirir.
+
+- Bulut hizmet sağlayıcısı ile **işleme sözleşmesi** imzala
+- Verinin bulutta **nerede** saklandığını (data residency) bil
+- Bulut sağlayıcısının **sertifikalarını** (ISO 27001, SOC 2) doğrula
+- Bulut ortamında da **şifreleme** ve **erişim kontrolü** uygula
+- **Yedekleme stratejisini** bulut sağlayıcısına bırakma
+
+## <span class="heading-num">42.5</span> Fiziksel Güvenlik ve Cihaz Yönetimi
+
+Kişisel veri sadece siber saldırılarla değil, fiziksel erişimle de tehlikeye girer. Sunucunun çalınması, su basması, yangın veya yetkisiz birinin sunucu odasına girmesi de bir güvenlik ihlalidir.
+
+- Kişisel veri içeren fiziksel arşivleri kilitli dolaplarda sakla
+- Sunucu odalarına erişimi sınırlandır ve giriş-çıkışları logla
+- Şahsi cihazların kurum ağına bağlanmasını engelle, gerekirse izole alan oluştur
+- Kişisel veri içeren sistemlerde rol bazlı kısıtlama ve çoklu erişim kontrolü uygula
+
+### Cihaz Bakım ve Onarımı
+
+Arızalanan veya bakımı gelen cihazlar, kişisel veri içeriyorsa, üreticiye veya servis firmasına gönderilmeden önce **veri saklama ortamı (disk/SSD) sökülerek kurumda tutulmalıdır**. Sadece arızalı parça gönderilmelidir.
+
+<Scenario label="Senaryo: Servise Giden Disk">
+Bir hastanenin BT departmanı, bozulan bir MRI cihazının kontrol birimini tamir için yurt dışındaki üretici firmaya gönderdi. Cihazın sabit diskinde binlerce hastaya ait görüntüler vardı. Disk sökülmedi. Aylar sonra üretici firma, diski "veri kurtarma" adı altında üçüncü bir firmaya verdi. Hastane, KVKK ihlali nedeniyle Kurul'a bildirimde bulunmak zorunda kaldı ve idari para cezası ile karşılaştı. Disk sökülseydi, hiçbir veri kurumdan çıkmamış olacaktı.
+</Scenario>
+
+Bakım ve onarım amacıyla dışarıdan personel geliyorsa, kişisel verileri kopyalayıp kurum dışına çıkarmasını engellemek için gerekli önlemler alınmalı.
+
+## <span class="heading-num">42.6</span> BT Sistemleri Yaşam Döngüsü
+
+Kişisel veri güvenliği, sistemlerin tedarikinden kaldırılmasına kadar tüm yaşam döngüsünü kapsar.
+
+- **Tedarik:** Güvenlik gereksinimleri sözleşmede tanımlı olmalı
+- **Geliştirme:** Güvenli kodlama standartları (OWASP), kod incelemesi
+- **Test:** Güvenlik testleri, sızma testleri
+- **Bakım:** Güvenlik yamaları zamanında uygulanmalı
+- **Kaldırma:** Eski sistemlerden kişisel veriler güvenli şekilde imha edilmeli
+
+## <span class="heading-num">42.7</span> Yedekleme ve Olay Yönetimi
+
+Yedekleme, veri kaybına karşı son savunma hattıdır.
+
+- **3-2-1 kuralı:** 3 kopya, 2 farklı ortam, 1 off-site
+- Yedekleri **düzenli test et** (geri yükleme denemesi yap)
+- Yedekleri de **şifrele**
+- Yedekleri **ağ dışında tut** (sadece sistem yöneticisi erişebilmeli)
+- **Fidye yazılımına karşı:** Ransomware (fidye yazılımı) hem canlı veriyi hem ağda duran yedekleri şifreleyebilir. Yedeklerin ağ dışında (offline) olması, son savunma hattıdır
+- **Olay müdahale planı:** İhlal durumunda kim, ne yapacak? Zaman çizelgesi net olmalı
+- **İhlal bildirimi:** KVKK gereği ihlali en kısa sürede ilgilisine ve Kurula bildir
+
+<DoDont items={[
+  { text: 'Kişisel verileri hem bekleyen hem hareket halinde şifrele', type: 'do' },
+  { text: 'Erişim loglarını merkezi topla ve düzenli incele', type: 'do' },
+  { text: 'Yedekleri düzenli test et, sadece alma', type: 'do' },
+  { text: 'Servise gönderilen cihazdan diski sök ve kurumda tut', type: 'do' },
+  { text: 'Kullanılmayan yazılımı sil, sadece güncelleme yapma', type: 'do' },
+  { text: 'Antivirüs kurduysan güncellemeyi unut', type: 'dont' },
+  { text: 'Tüm personelle aynı admin parolasını paylaş', type: 'dont' },
+  { text: 'İhlal durumunda "belki geçer" diye bekleyip bildir', type: 'dont' },
+  { text: 'Yedekleri canlı ağda bırak, fidye yazılımı gelince yedeğin de gider', type: 'dont' },
+]} />
+
+<Accordion question="DLP (Veri Kaybı Önleme) çözümü neden yeterli olmaz?" id="dlp-tek-basina">
+DLP, kişisel verinin kurum dışına izinsiz çıkmasını engellemeye yarar ama tek başına koruma sağlamaz. Yanlış kural tanımlandıysa, çok geniş istisnalar yapıldıysa veya personel yetkili görünüp veriyi USB'ye atıyorsa DLP bypass edilir. DLP; erişim kontrolü, loglama, şifreleme ve eğitim ile birlikte çalıştığında anlamlıdır. Araç kurduk diye güvende değiliz; kural setini canlı tutmak ve uyarıları ciddiye almak şarttır.
+</Accordion>
+
+<Accordion question="Yama yönetimi (patch management) KVKK açısından neden kritik?" id="yama-yonetimi">
+Bilinen bir zafiyetin yaması çıktıktan sonra kapatılmaması, Kurul gözünde "gerekli teknik tedbirin alınmaması" sayılır. Equifax tarzı büyük ihlallerin çoğu aylar önce yaması çıkmış zafiyetlerin kapatılmamasından kaynaklandı. Kritiklik sırasına göre yama SLA'sı tanımla, uygulanmayı test et, doğrula. Yama yapılmadığı belgelendirilemezse, ihlal anında "elimizden gelmiyordu" savunması geçersizdir.
+</Accordion>
+
+## İlgili Bölümler
+
+- [KVKK: İdari Tedbirler](/kvkk-idari-tedbirler/)
+- [Risk Yanıtları ve İzleme](/risk-yanitlari-ve-izleme/)
+- [Shadow IT](/shadow-it/)
+- [Hesap ve Parola Güvenliği](/hesap-parola/)
+- [Ağ ve Wi-Fi Güvenliği](/ag-ve-wifi-guvenligi/)
+- [Kriptografi ve Secret Yönetimi](/kriptografi-ve-secret-yonetimi/)

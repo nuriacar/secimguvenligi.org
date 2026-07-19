@@ -1,0 +1,207 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'E-posta Altyapı Güvenliği'
+description: 'SPF, DKIM, DMARC, BIMI, BEC savunması, e-posta altyapı sertleştirme, MTA-STS, TLS-RPT ve kurumsal e-posta güvenliği en iyi pratikleri.'
+order: 53
+audience: B
+hero: '/img/hero/mesajlasma.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+İş dünyasının #1 iletişim aracı hâlâ e-posta. Ve #1 saldırı vektörü de. 2024 Verizon Data Breach Investigations Report'a göre ihlallerin %36'sı e-posta ile başlıyor. Bir çalışan hata yapar, saldırgan şirket domaininden çıktı gibi görünen bir e-posta gönderir, muhasebe "CEO'dan" gelen talimatla parayı yurt dışına gönderir. Bu senaryonun adı: BEC (Business Email Compromise). 2023'te dünya çapında 2.9 milyar dolar kayıp.
+
+E-posta altyapı güvenliği, "kimin kim olduğu" belirsizliğini ortadan kaldırır. SPF (hangi IP'ler bizim adımıza mail atabilir), DKIM (imzalı mail), DMARC (politiika enforcement), MTA-STS (TLS zorunluluğu) gibi standartlar, kurumunun mail adresinden başkasının mail atmasını engeller. Teknik kurulumdan önce farkındalık eğitimi; sonra sürekli izleme.
+
+## <span class="heading-num">53.1</span> BEC (Business Email Compromise)
+
+E-posta altyapı güvenliğinin neden kritik olduğunu BEC (İş e-postası dolandırıcılığı, İng. Business Email Compromise) senaryoları gösterir.
+
+**Senaryo 1 — CEO Dolandırıcılığı:** Muhasebe ekibine "CEO"dan acil mail: "Büyük bir anlaşma var, 450.000 EUR'yu şu IBAN'a hemen gönderin, detayları sonra konuşuruz." İmza, üslup, konu satırı birebir doğru. Aciliyet baskısı. Para gider.
+
+**Senaryo 2 — Tedarikçi Dolandırıcılığı:** "Tedarikçimiz"den mail: "Banka hesabımızı değiştirdik, eski IBAN'a göndermeyin." Yeni IBAN saldırgana ait. Şirket bir sonraki ödemeyi oraya yapar.
+
+**Senaryo 3 — Veri İfşası:** İK personeline "aday CV'si" diye mail. Ekte virüslü dosya. Bir tık — tüm şirket ağı sızmaya açılır.
+
+<Alert level="warning">
+BEC saldırılarında teknik zafiyet yok. Saldırgan, oltalama ile gelen kutusunu çaldığı kurumsal hesabı kullanır veya domaininizi taklit eden bir domain ile gönderir. E-posta altyapı standartları (SPF/DKIM/DMARC) BEC'nin önündeki en güçlü teknik engeldir.
+</Alert>
+
+## <span class="heading-num">53.2</span> E-posta Kimlik Doğrulama Standartları
+
+### SPF (Sender Policy Framework)
+
+"Benim domainimden sadece şu IP'ler mail atabilir" listesi. DNS'te TXT kaydı olarak yayınlanır. Gelen mail, gönderen IP'nin bu listede olup olmadığını kontrol eder.
+
+**Örnek SPF kaydı:**
+```
+example.com. IN TXT "v=spf1 include:_spf.google.com include:mailgun.org include:sendgrid.net ~all"
+```
+
+- `v=spf1` — sürüm
+- `include:` — bu sağlayıcıların IP'leri de senin adına mail atabilir
+- `~all` — listede olmayan IP'ler "soft fail" (işaretle, engelleme)
+- `-all` — listede olmayan IP'ler "hard fail" (engelle)
+
+<Alert level="info">
+Çoğu şirket `~all` kullanır. `-all` (hard fail) bazı legit servisleri keser (pazarlama, bülten). Ama `-all` daha güçlü koruma. Aşamalı geçiş: `?all` (test) → `~all` (soft) → `-all` (hard).
+</Alert>
+
+### DKIM (DomainKeys Identified Mail)
+
+Mail, kriptografik imza ile gönderilir. Alıcı taraf, senin DNS'te yayınlanan public key ile imzayı doğrular. Mail yolda değiştirilmişse imza geçersen olur.
+
+**DKIM nasıl çalışır:**
+1. Mail sunucunuz her maile özel bir imza ekler (private key ile)
+2. Public key DNS'te yayınlanır: `selector._domainkey.example.com TXT "v=DKIM1; k=rsa; p=MIGfMA0GCSq..."
+3. Alıcı sunucu, imzayı public key ile doğrular
+4. Geçerli ise mail "DKIM pass" olarak işaretlenir
+
+### DMARC (Domain-based Message Authentication, Reporting & Conformance)
+
+SPF ve DKIM'in "ne yapalım?" sorusuna cevap veren politika katmanı.
+
+**Örnek DMARC kaydı:**
+```
+_dmarc.example.com. IN TXT "v=DMARC1; p=quarantine; pct=50; rua=mailto:dmarc@example.com; ruf=mailto:forensics@example.com"
+```
+
+- `p=none` — izle, engelleme (başlangıç)
+- `p=quarantine` — geçersen mailleri spam'a at
+- `p=reject` — geçersen mailleri tamamen engelle (en güçlü)
+- `pct=50` — politikanın %50'si uygulanır (aşamalı geçiş)
+- `rua` — toplu raporlar
+- `ruf` — adli raporlar (her ihlalde)
+
+<Scenario label="DMARC Rollout - 3 Aşamalı Geçiş">
+**Aşama 1 (p=none, 1 ay):** Raporları topla. Hangi legit gönderenler var? (Mailchimp, Salesforce, HR sistemi, vb.) Hepsini SPF/DKIM'e ekle. **Aşama 2 (p=quarantine, pct=10→50):** Az bir kısmını spam'a at. Yanlış pozitif var mı? Çalışanlar/müşteriler şikayet ediyor mu? **Aşama 3 (p=reject, pct=100):** Tüm geçersen mailleri engelle. Artık domaininizi taklit eden saldırganlar inbox'a ulaşamaz. Bu aşamada atak yüzdesi dramatik düşer.
+</Scenario>
+
+### MTA-STS ve TLS-RPT
+
+Mail transfer sırasında TLS zorunluluğu:
+
+- **MTA-STS (MTA Strict Transport Security):** "Bize mail gönderenler TLS kullanmak zorunda" — downgrade saldırılarına karşı
+- **TLS-RPT (TLS Reporting):** TLS hatalarını raporlayan mekanizma
+
+### BIMI (Brand Indicators for Message Identification)
+
+DMARC pass olan maillerde şirketinin logosu görünür. Marka güveni + inbox'ta öne çıkarma. Gmail, Yahoo, Apple Mail destekliyor. BIMI için DMARC `p=quarantine` veya `p=reject` zorunlu — yani BIMI ancak güçlü DMARC politikasıyla kullanılır.
+
+## <span class="heading-num">53.3</span> E-posta Altyapısının Diğer Boyutları
+
+### Gönderen İtibarı (Sender Reputation)
+
+Her IP ve domain için bir "itibar skoru" var. ISP'ler (Gmail, Outlook, Yandex) bu skora göre maileri inbox'a mı, spam'a mı atacağına karar verir. Düşük skor = mail spam'a düşer.
+
+İtibarı etkileyen:
+- Spam şikayetleri
+- Bounce oranı (geçersen adres)
+- Engelleme oranları
+- Volume ani artışı
+- Blacklist'lerde olma (Spamhaus, Barracuda)
+
+### İçerik Filtreleme
+
+Spam filtreleri (Proofpoint, Mimecast, Google AT&T, Microsoft EOP) içeriğe bakar:
+- Phishing (oltalama) link'leri (gerçek zamanlı URL tarayıcı)
+- Kötü amaçlı ekler (sandbox patlatma)
+- Dil analizi (aciliyet baskısı, para talebi)
+- Gönderen-recipient mismatch
+
+### E-posta Şifreleme (İçerik)
+
+Mail içeriğini uçtan uca şifrelemek için:
+- **PGP/GPG:** Klasik ama kullanıcı dostu değil
+- **S/MIME:** Sertifikaya dayalı, kurumsal
+- **Üçüncü taraf gateway:** Proofpoint, Virtru, Zix — şifreli portal
+
+Özellikle KVKK kapsamında kişisel veri, finansal bilgi, sağlık verisi gönderiliyorsa içerik şifreleme zorunlu hale geliyor.
+
+## <span class="heading-num">53.4</span> BEC Savunması: Teknik + İnsan
+
+E-posta standartları (SPF/DKIM/DMARC) sadece domaininizi taklit edenleri engeller. Ama saldırgan kurumsal hesabı çalarsa (oltalama ile) veya "lookalike domain" kullanırsa (örn. `şirket.com` yerine `sirket.com`), bu standartlar işe yaramaz. İnsan katmanı şart.
+
+<DoDont items={[
+  { text: `**Çift onay (Dual authorization):** Belirli tutar üstü para transferlerinde 2 imza`, type: 'do' },
+  { text: `**Sesli doğrulama:** Yeni IBAN, acil transfer talebi → arayıp doğrula`, type: 'do' },
+  { text: `**"Yeni hesap" uyarısı:** İlk kez görülen IBAN'a transferde manuel onay adımı`, type: 'do' },
+  { text: `**Eğitim:** Çeyrekte 1 BEC simülasyonu (kim tıklar?)`, type: 'do' },
+  { text: `**DMARC monitor:** Anomaliye bak — biri senin adına mail deniyor mu?`, type: 'do' },
+  { text: `**Lookalike domain monitoring:** Sizin domainine benzer kayıtları izle`, type: 'do' },
+  { text: `**Sadece SPF ile yetin:** DKIM + DMARC olmadan eksik`, type: 'dont' },
+  { text: `**DMARC p=reject'e hemen geç:** Yanlış pozitifleri önce gör`, type: 'dont' },
+  { text: `**"IT bunu halleder" deyip insan eğitimini atla:** BEC'nin %90'ı insan hatası`, type: 'dont' },
+  { text: `**İlk sefer görünen IBAN'a doğrulamasız transfer:** Kural: yeni IBAN = telefon doğrulaması`, type: 'dont' },
+  { text: `**CEO'dan "acil" gelince panikle:** Aciliyet = kırmızı bayrak`, type: 'dont' }
+]} />
+
+## <span class="heading-num">53.5</span> E-posta Gönderen Sağlayıcıları ve Sertleştirme
+
+SaaS sağlayıcılar (Mailchimp, Sendgrid, AWS SES, Microsoft 365) senin adına mail atabilir. Her birini SPF/DKIM/DMARC kapsamına alın:
+
+**Microsoft 365:**
+```
+v=spf1 include:spf.protection.outlook.com -all
+```
+
+**Google Workspace:**
+```
+v=spf1 include:_spf.google.com -all
+```
+
+**AWS SES:**
+```
+v=spf1 include:amazonses.com -all
+```
+
+**Mailchimp/Sendgrid ile pazarlama mailleri:**
+Ayrıca `mail.sirketiniz.com` gibi subdomain kullanın. Ana domain itibarı korunur.
+
+<Checklist title="E-posta Altyapı Güvenliği Kontrol Listesi">
+<li>SPF kaydı DNS</li>
+<li>DKIM imzalama aktif (en az 1024-bit, öner 2048)</li>
+<li>DMARC kaydı var (p=quarantine veya reject)</li>
+<li>DMARC raporları izleniyor (rua mailbox)</li>
+<li>MTA-STS aktif</li>
+<li>Tüm 3. parti mail sağlayıcılar SPF</li>
+<li>BEC simülasyonu çeyreklik yapılıyor</li>
+<li>Çift onaylı para transfer süreci var</li>
+<li>Yeni IBAN</li>
+<li>Pazarlama mailleri subdomain</li>
+<li>BIMI logonuz tanımlı (DMARC reject sonrası)</li>
+<li>SPF yok veya ~all ile bırakılmış, -all yok</li>
+<li>DMARC p=none</li>
+<li>Çalışanlar </li>
+</Checklist>
+
+**Gerçek olay:** 2019'da Toyota Boshoku (otomotiv parça üreticisi), BEC saldırısında 37 milyon dolar kaybetti. Saldırgan, şirketin finansal yöneticisini "tedarikçimiz" taklidiyle kandırdı; aciliyet ve "yeni IBAN" hikayesi ile parayı yurt dışına göndertti. Para saatler içinde Çin/Hong Kong bankalarından çekildi, geri alınamadı. Dünya genelinde 2023'te benzer BEC kaybı 2.9 milyar dolar — sadece ABD'de 22.000'den fazla şirket etkilendi.
+
+**Benzetme:** E-posta, fiziksel posta gibidir. SPF, "bizim postanenin bu arabayı kullandığını" beyan eder. DKIM, her zarfın mühürlenmiş damgasıdır. DMARC, postaneye "damgasız ya da yanlış arabayla geleni kabul etme" emridir. MTA-STS, "kuryeyi, takip edilebilir güvenli yoldan gönder" zorunluluğudur.
+
+Ama BEC, içeriden biri — postanenin kendi çalışanı veya üniforma giymiş sahte kurye — sistemi sömürür. Teknik kapı ne kadar sağlam olursa olsun, içeriden bir sahtekara karşı "görevlini arayıp doğrula" refleksi gerekir. Eğitim, son savunma hattıdır.
+
+## İlgili Bölümler
+
+- [Sosyal Mühendislik →](/sosyal-muhendislik/) — Phishing, oltalama psikolojisi
+- [Çevrimiçi Dolandırıcılık →](/cevrimici-dolandiricilik/) — Dolandırıcılık senaryoları, BEC
+- [Risk Yanıtları ve İzleme →](/risk-yanitlari-ve-izleme/) — Siber sigorta
+- [Olay Müdahalesi →](/olay-mudahalesi/) — İhlalde ne yapılır
+- [Zero Trust Mimarisi (Sıfır Güven Mimarisi) →](/zero-trust-mimarisi/) — Sürekli doğrulama felsefesi
+- [KVKK: Teknik Tedbirler →](/kvkk-teknik-tedbirler/) — KVKK zorunlulukları
+
+<Accordion question="SPF kaydımız var ama DMARC yok, sorun mu?" id="email-spf-dmarc">
+Evet, eksik koruma. SPF sadece "hangi IP'ler bizim adımıza mail atabilir" tanımlar ama "geçersizse ne yapalım" demez. Alıcı sunucu (Gmail, Outlook) "geçersiz" maile yine inbox'a atabilir. DMARC, "geçersizse şu aksiyonu al" politika katmanıdır. DMARC olmadan, saldırganlar domaininizi taklit eder, SPF geçemese bile bazı alıcılar maili yine de gösterir. SPF + DKIM + DMARC üçlüsü bir arada çalışır.
+</Accordion>
+
+<Accordion question="DMARC p=reject yaptık, müşteri maillerimiz düşmeye başladı." id="email-reject">
+Muhtemelen bir legit göndereni SPF/DKIM'e eklemediniz. Önce p=none'a geri dönün. DMARC raporlarını (rua) analiz edin — hangi gönderenler geçersiz? Onları SPF/DKIM'e ekleyin. Sonra pct=10 ile reject'i az oranda test edin. Yanlış pozitif yoksa pct'i kademeli artırın: 25 → 50 → 100. Bu süreç 2-3 ay alır. Acele = müşteri maileri kaybı.
+</Accordion>
+
+<Accordion question="Microsoft 365 kullanıyoruz, ek olarak ne yapmalıyız?" id="email-m365">
+Microsoft 365 varsayılan koruma yeterli değildir. Ek olarak: (1) SafeLinks ve SafeAttachments açık (ATP/E5 planı). (2) Mail flow rule: external + "transfer/IBAN/para" anahtar kelimeleri için uyarı banner'ı. (3) Conditional Access: IMAP/SMTP kapalı, modern auth zorunlu. (4) External sender warning banner'ı. (5) DMARC monitor (3. parti: Valimail, EasyDMARC). (6) Anti-phishing policy: impersonation protection açık (CEO/CFO isimleri ekleyin).
+</Accordion>

@@ -1,0 +1,225 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Mesajlaşma Güvenliği'
+description: 'Güvenli mesajlaşma uygulamaları, uçtan uca şifreleme ve karşılıklı doğrulama yöntemleri.'
+order: 9
+audience: V
+hero: '/img/hero/mesajlasma.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import Accordion from '../components/Accordion.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+
+
+
+Kahvaltı masasında çayını yudumlarken telefonuna bir mesaj düşüyor. "PTT Kargo: Paketin teslim edilemedi." Sen bir kargo beklemiyordun ama belki eşin sipariş etmiştir, belki çocuğun... İmleç linkin üzerinde. Tıklamakla tıklamamak arasında bir saniye var. O saniye, her şeyi değiştirir. O mesaj bir tuzak olabilir. Adına açılmış sahte bir siteye yönlendirilir, kart bilgilerini girersin ve paranı kaybedersin. Ya da daha kötüsü: telefonun ele geçirilir.
+
+Bu kadar mı kolay? Evet. Her gün binlerce kişi bu bir saniyelik tereddütü atlayıp tıklıyor. Çünkü mesaj tanıdık bir markanın adını taşıyor, telaş yaratıyor ve düşünmeye zaman bırakmıyor.
+
+**Saldırı zinciri:** Mesajlaşma uygulamaları, saldırganların en sevdiği hedeftir. Bir mesajla "Bunu gördün mü?" linki gönderilir. Link tıklanınca sahte bir giriş sayfası açılır. Parolanı girersin. Saldırgan elindeki parolayla gerçek hesabına girer. Artık tüm mesaj geçmişin, rehberin ve medyan saldırganın elindedir. Bu üç adımlık zincir mesajlaşma güvenliğinin en yaygın ihlalidir. Koruması basit: linklere tıklamadan önce kaynağı doğrula, iki adımlı doğrulama kullan.
+
+**Hızlı ipucu:** 5 saniyede yap: WhatsApp Ayarları > Gizlilik > "Profil fotoğrafım" ve "Hakkımda" sadece rehberindekilere görünsün.
+
+## <span class="heading-num">9.1</span> WhatsApp Web / Masaüstü
+
+- **Kural:** Bilgisayardan WhatsApp açtıysan, kalkarken ekranı kilitle veya WhatsApp'ı tamamen kapat.
+- **Yapma:** WhatsApp Web'i açık bırakıp masadan kalkma. Arkandan tüm yazışmaların okunur.
+- **Kontrol:** WhatsApp > Ayarlar > Bağlı Cihazlar. Tanımadığın bir cihaz varsa hemen "Tüm cihazlardan çıkış yap."
+
+## <span class="heading-num">9.2</span> Grup Davetleri
+
+- **Yap:** WhatsApp Ayarları > Gizlilik > Gruplar > "Yalnızca rehberimdekiler" seç.
+- **Sonuç:** Tanımadığın kişiler seni izinsiz gruplara ekleyemez.
+
+<DoDont items={[
+  { text: 'Grup davetlerini "Yalnızca rehberimdekiler" olarak ayarla', type: 'do' },
+  { text: 'Bilinmeyen gruplardan şüpheli linklere tıklamama', type: 'do' },
+  { text: 'Güvenmediğin gruplardan çık', type: 'do' },
+  { text: 'Herkesin seni gruplara eklemesine izin verme', type: 'dont' },
+  { text: 'Gruptaki bilinmeyen linklere tıklama', type: 'dont' },
+  { text: 'Grup davet kuralını "Herkes" olarak bırakma', type: 'dont' },
+]} />
+
+## <span class="heading-num">9.3</span> "Bana Kod Geldi" Dolandırıcılığı
+
+- **Senaryo:** "Telefonuma SMS geldi, kod şu, söyler misin?" veya "Hesabım doğrulanıyor, kodu bana gönder."
+- **Kural:** SMS ile gelen hiçbir onay kodunu kimseye söyleme. Tanıdığın biri de dese, arkadaşının hesabı çalınmış olabilir. Kodu veren kendi hesabını teslim eder.
+
+<Alert level="warning">
+"Bana kod geldi, söyler misin?" diyen biri varsa dur ve düşün. Bu kod senin hesabını ele geçirmek için gönderilmiş olabilir. SMS kodunu asla kimseyle paylaşma.
+</Alert>
+
+## <span class="heading-num">9.4</span> Bilinmeyen Bağlantılar
+
+- **Kural:** WhatsApp, SMS veya e-posta ile gelen "Şok haber", "Seni böyle görüntülediler", "Hakkında çıkan haber" gibi linklere tıklama.
+- **Sonuç:** Bu linkler hesabını çalmak veya telefonuna casus yazılım bulaştırmak için kurulmuş tuzaktır.
+
+## <span class="heading-num">9.5</span> Sosyal Mühendislik ve Telefonla Dolandırıcılık
+
+Bu bölümdeki saldırı türlerinin detaylı analizi ve korunma yöntemleri için [Sosyal Mühendislik](/sosyal-muhendislik/) sayfasına bak.
+
+- **Senaryo 1:** Arayan kişi kendini "Bankadan arıyorum", "E-Devlet'ten arıyorum", "Savcılıktan arıyorum" veya "Polisten arıyorum" diye tanıtır. Parolanı, kodunu veya kişisel bilgini ister.
+- **Senaryo 2:** "Oğlun/kızın hastanede, hemen para gönder" veya "Mahkemen var, ödeme yapmazsan..." şeklinde panik yaratan aramalar.
+- **Senaryo 3 (Türkiye'den):** "Merhaba ben kuryeyim, paketin için adres onayı gerekiyor, şu linkten onaylayın" veya "PTT'den kargon var, teslimat ücreti ödemen lazım" şeklinde SMS'ler. Kargo veya PTT kılığına girerek link tıklattırıp banka bilgilerini çalarlar.
+- **Senaryo 4 (Türkiye'den):** "İBB/Ankara Büyükşehir Belediyesi olarak su faturana ilişkin borcun var, ödeme yapmazsan kesinti yapılacak" şeklinde sahte SMS. Kişi panikle linke tıklar, banka parolasını girer.
+- **Kural:** Hiçbir resmi kurum, banka veya devlet kuruluşu telefon ile parola, PIN, SMS kodu veya kişisel bilgi istemez.
+- **Yap:** Telefonu kapat. İlgili kurumu kendin resmi numaradan ara ve durumu teyit et.
+- **Yapma:** Panik halinde telefonu açan kişiye hiçbir bilgi verme. Zaten gerçek bir durum olsa bile resmi kanaldan geri dönerler.
+
+**Gerçek olay:** Türkiye'de her yıl binlerce insan PTT kargo SMS'i, e-Devlet giriş sayfası klonları ve sosyal yardım başvurusu dolandırıcılığı gibi oltalama saldırılarına maruz kalır. Kötü niyetli kişiler, devlet kurumlarının veya bilinen markaların adını kullanarak sahte SMS'ler ve sahte web siteleri hazırlar. Kişi linke tıklayıp banka kartı veya parola bilgilerini girdiğinde parası çalınır. Resmi kurumlar asla SMS ile ödeme linki veya parola istemez.
+
+<Scenario label="Senaryo: PTT Kargo SMS Dolandırıcılığı">
+Telefonuna bir SMS gelir: "PTT Kargo: Paketin teslim edilemedi, teslimat ücreti ödemen gerekiyor. Ödeme için tıkla: ptt-kargo-odeme.com" Link gerçek bir PTT sayfası gibi görünür ama sahte. Tıkladığında banka kart bilgilerini isterler. PTT veya kargo şirketleri SMS ile ödeme linki göndermez. Şüphelendiğinde kargo takip numarasını resmi siteden kontrol et.
+</Scenario>
+
+## <span class="heading-num">9.6</span> Yüz Yüze "Omuz Sörfü"
+
+- **Kural:** Toplu taşıma, kafe, toplantı, sandık çevresi gibi kalabalık yerlerde telefonunu açarken veya parola girerken etrafına bak.
+- **Yap:** Ekran gizlilik filmi tak. Yan açıdan ekranı kimse göremez.
+- **Yapma:** Sıra beklerken, otobüste, toplantıda açık telefonunla parola girme, mesaj okuma. Ekranı doğrudan arkandaki kişi görebilir.
+
+## <span class="heading-num">9.7</span> Pano (Clipboard) Güvenliği
+
+- **Kural:** Kopyaladığın parola, kod veya kişisel bilgi telefonun panosunda (clipboard) kalır. Başka bir uygulama bunu okuyabilir.
+- **Yap:** Parola kopyaladıktan sonra başka bir şey kopyalayarak panoyu temizle. Bazı parola yöneticileri bunu otomatik yapar.
+
+<Checklist title="WhatsApp Güvenlik Kontrol Listesi">
+<li>İki adımlı doğrulama (6 haneli PIN) aktif</li>
+<li>Grup davet ayarı "Yalnızca rehberimdekiler"</li>
+<li>Bağlı cihazlar kontrol edildi, tanınmayan yok</li>
+<li>Kilit ekranında mesaj içeriği gizli</li>
+<li>WhatsApp Web kullanılmıyorsa kapatıldı</li>
+<li>Güvenlik bildirimi (uyarı) açık</li>
+</Checklist>
+
+## <span class="heading-num">9.8</span> Güvenli İletişim Uygulamaları Karşılaştırması
+
+Telefonda mesajlaşırken kullandığın uygulama çok önemli. Bazıları mesajlarını herkesin okuyabileceği şekilde gönderir, bazıları ise kilitli bir zarf gibi sadece sen ve karşındaki açabilir.
+
+<table>
+<caption>Güvenli iletişim uygulamaları karşılaştırması</caption>
+<thead>
+<tr>
+  <th scope="col">Özellik</th>
+  <th scope="col">Signal</th>
+  <th scope="col">WhatsApp</th>
+  <th scope="col">Telegram</th>
+  <th scope="col">Session</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Mesajlar şifreli mi?</strong></td>
+  <td>Evet, hepsi otomatik</td>
+  <td>Evet, bireysel ve grup</td>
+  <td>Hayır. Sadece "Gizli Sohbet" modunda</td>
+  <td>Evet, hepsi otomatik</td>
+</tr>
+<tr>
+  <td><strong>Şirket mesajları okuyabilir mi?</strong></td>
+  <td>Hayır</td>
+  <td>Hayır (ama kiminle ne zaman konuştuğunu bilir)</td>
+  <td>Evet (normal sohbetlerde)</td>
+  <td>Hayır</td>
+</tr>
+<tr>
+  <td><strong>Telefon numarası gerekli mi?</strong></td>
+  <td>Evet</td>
+  <td>Evet</td>
+  <td>Evet</td>
+  <td>Hayır (anonim)</td>
+</tr>
+<tr>
+  <td><strong>Açık kaynak mı?</strong></td>
+  <td>Evet</td>
+  <td>Hayır</td>
+  <td>Kısmen</td>
+  <td>Evet</td>
+</tr>
+<tr>
+  <td><strong>Sahibi</strong></td>
+  <td>Bağımsız vakıf</td>
+  <td>Meta (Facebook)</td>
+  <td>BAE merkezli şirket</td>
+  <td>Merkezi yok</td>
+</tr>
+</tbody>
+</table>
+
+**Hangisini kullanmalısın?**
+
+- **Signal (en güvenli):** Mesajlar uçtan uca şifreli. Bağımsız bir vakıf tarafından işletilir, bağışlarla ayakta durur. Reklamı yok, veri satmaz, kâr amacı gütmez. Siyasi içerik ve hassas konuşmalar için birinci tercih. Zayıf yönü: hizmet sürekliliği bağışlara bağlı olduğu için bir vakıf olarak kapanabilir.
+- **Session (yüksek gizlilik):** Telefon numarası gerektirmez. Kim olduğunu bilen yok. Kaynakların kimliği bilmemesi gereken durumlar için.
+- **WhatsApp (pratik ama riskli):** Herkes kullanıyor diye pratik. Ama Meta şirketine ait: kâr amacı güden bir şirket. Kiminle ne zaman konuştuğunu kaydeder, bu verileri Meta ekosisteminde kullanır. Uzun vadede hizmetin devam edeceği garanti (arkasında büyük bir şirket var) ama gizlilik açısından riskli. Hassas siyasi içerik için uygun değil.
+- **Telegram (tavsiye edilmez):** Normal sohbetler parolasız. BAE merkezli bir şirkete ait, kâr amacı güder. Varsayılan sohbetler uçtan uca şifreli değil: şirket sunucularındaki mesajları okuyabilir. "Gizli Sohbet" modunu manuel açman gerekir. Hassas siyasi iletişim için kesinlikle uygun değil.
+
+> **Önemli:** Hiçbir uygulama telefonunun ele geçirilmesi durumunda güvenlik sağlayamaz. Cihaz Güvenliği her şeyin temelidir.
+
+**Benzetme:** Mesajlaşma uygulamaları, içinde konuştuğun odalara benzer. Kimi odanın kapısı açıktır, içeri her giren duyduklarını kaydedebilir. Kimi odanın kapısı kilitlidir, anahtar sadece sende ve karşındakindedir. Kapıyı hangi odaya oturacağına sen karar verirsin.
+
+### Nasıl Yapılır: Signal Kurulumu
+
+1. **İndir:** Uygulama mağazandan (Google Play veya App Store) Signal'ı indir.
+2. **Kaydol:** Telefon numaranla kaydol. SMS ile doğrulama kodu gelir.
+3. **Profil oluştur:** Ad ve fotoğraf ekle (opsiyonel, gizlilik için takma ad kullanabilirsin).
+4. **Kaybolan mesajlar aç:** Herhangi bir sohbet > Sohbet adına dokun > "Kaybolan mesajlar" > 1 gün (veya daha kısa) seç.
+5. **Ekran güvenliği:** Ayarlar > Gizlilik > "Ekran güvenliği" aç (ekran görüntüsü alınmasını engeller).
+6. **Kilit ekranı bildirimlerini kapat:** Ayarlar > Bildirimler > "İçeriği göster" kapalı. Mesajlar kilit ekranında görünmez.
+
+<Accordion question="Signal kurulumu adım adım" id="signal-setup">
+1. Uygulama mağazasından Signal'ı indir
+2. Telefon numaranla kaydol, SMS doğrulama kodu gelir
+3. Profil oluştur (takma ad kullanabilirsin)
+4. Her sohbette "Kaybolan mesajlar" > 1 gün (veya daha kısa) seç
+5. Ayarlar > Gizlilik > "Ekran güvenliği" aç
+6. Ayarlar > Bildirimler > "İçeriği göster" kapalı
+7. Sohbet yedeklemesini aktif et, parola korumalı olsun
+</Accordion>
+
+
+
+## <span class="heading-num">9.9</span> Tor Browser, Tails ve ProtonMail
+
+Bazı durumlarda normal mesajlaşma uygulamaları yeterli olmaz. Özellikle kaynak koruması yapan gazeteciler veya yüksek risk altındaki aktivistler için daha ileri düzey araçlar gerekir.
+
+### Tor Browser
+
+Tor Browser, İnternette kimliğini gizleyerek gezmene yarayan bir tarayıcıdır. Normal tarayıcılar (Chrome, Safari) sana hangi sitelere girdiğini kaydeder ve İnternet servis sağlayıcın da bunu görür. Tor ise İnternet trafiğini dünyanın farklı yerlerindeki bilgisayarlar üzerinden geçirerek seni gizler.
+
+- **Ne işe yarar:** Bir siteyi ziyaret ettiğinde o site senin IP adresini (nereden bağlandığını) görmez. Kim olduğunu ve nerede olduğunu gizler.
+- **Nasıl kullanılır:** torproject.org adresinden Tor Browser'ı indir. Normal bir tarayıcı gibi kullan. İlk açılışta "Bağlan" butonuna basman yeterli.
+- **Önemli:** Tor sadece tarayıcı içinde korur. Tor'u açıp Chrome kullanırsan korunmazsın. Tor'dayken dosya indirme, eklenti kurma veya kişisel hesaplarına giriş yapma.
+- **.onion adresleri:** Tor üzerinden erişilebilen özel sitelerdir. Normal siteler ".com" biter, .onion siteleri ise sadece Tor Browser'da açılır. SecureDrop gibi güvenli sızıntı platformları .onion adresleri kullanır.
+
+> **Kural:** Tor Browser yavaştır, bu normaldir. Hız yerine gizlilik verirsin. Günlük kullanım için değil, özel durumlar içindir.
+
+### Tails (Amnesic Incognito Live System)
+
+Tails, bir USB belleğe kurulan ve bilgisayarında hiçbir iz bırakmayan bir işletim sistemidir.
+
+- **Ne işe yarar:** Bilgisayarını USB'den Tails ile başlatırsın. Kullandıktan sonra USB'yi çıkarırsın. Bilgisayarda kullandığına dair hiçbir iz kalmaz. Hiçbir şey kaydedilmez.
+- **Kimler kullanır:** Gazeteciler, aktivistler, yüksek risk altındaki kişiler.
+- **İçinde ne var:** Tor Browser, şifreli mesajlaşma araçları, ofis programları. Tüm İnternet trafiği Tor üzerinden gider.
+- **Nasıl kurulur:** tails.net adresinden indir, bir USB belleğe yaz ve bilgisayarı bu USB'den başlat.
+
+### ProtonMail
+
+ProtonMail, uçtan uca şifreli e-posta hizmetidir. Normal e-posta (Gmail, Yahoo, Hotmail) sağlayıcıları e-postalarını okuyabilir. ProtonMail ise mesajlarını parolalar, sadece sen ve alıcı okuyabilir.
+
+- **Ne işe yarar:** E-postalarının içeriğini hizmet sağlayıcı bile göremez. İsviçre merkezlidir, sıkı gizlilik yasalarıyla korunur.
+- **Nasıl kullanılır:** proton.me adresinden ücretsiz hesap aç. Normal e-posta gibi kullan. İki ProtonMail kullanıcısı arasında mesajlar otomatik şifrelenir.
+- **Önemli:** ProtonMail ücretsizdir ama sınırlı depolama sunar. Gelişmiş özellikler için ücretli plan gerekir.
+
+<Alert level="tip">
+Tor, Tails ve ProtonMail gibi araçlar günlük kullanım için değil, özel durumlar içindir. Çoğu kullanıcı için Signal yeterlidir. Bu araçları "ihtiyacın olduğunda kullan" diye bilmek yeterli.
+</Alert>
+
+## İlgili Bölümler
+
+- [Güvenli Veri ve Dosya Paylaşımı](/veri-paylasimi/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Hesap ve Parola Güvenliği](/hesap-parola/)
+- [Çift Telefon Sistemi](/cift-telefon/)

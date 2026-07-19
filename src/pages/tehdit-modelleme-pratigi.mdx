@@ -1,0 +1,104 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Tehdit Modelleme Pratiği'
+description: 'Ücretsiz tehdit modelleme araçları, 5 kişilik ekiple 2 saatlik beyin fırtınası oturumu ve başarı kuralları.'
+order: 50
+audience: B
+hero: '/img/hero/kontrol-kartlari.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import Checklist from '../components/Checklist.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Teoriyi öğrendin: STRIDE, PASTA, SDL. Peki bunu yarın nasıl uygulayacaksın? Tehdit modelleme yapmak için pahalı araçlar veya aylar sürecek projeler gerekmez. Beş kişi, iki saat, bir oda ve kağıt kalem. Bu kadar.
+
+**Özlü kural:** Hiç yapmamaktansa kağıt-kalemle sade bir başlangıç bile muhteşemdir. Önemli olan başlamak.
+
+## <span class="heading-num">50.1</span> Ücretsiz Araçlar
+
+Tehdit modellemek için özel yazılım şart değildir. Ama dijital araçlar kalıcı sonuç için faydalıdır.
+
+<Checklist title="Başlangıç Seviyesi">
+<li>Microsoft Threat Modeling Tool - Otomatik STRIDE analizi, yalnızca Windows</li>
+<li>IriusRisk Community Edition - Otomatik, kolay, web tabanlı</li>
+<li>Draw.io / Lucidchart - Hızlı veri akış diyagramı çizimi</li>
+</Checklist>
+
+<Checklist title="Profesyonel Seviye">
+<li>OWASP Threat Dragon - Görsel, ekipçe işbirliği, STRIDE ve PASTA uygun</li>
+<li>Cairis - Akademik düzeyde risk analizi, %100 PASTA uyumu</li>
+<li>PyTM - Threat-Model-as-Code, CI/CD pipeline entegrasyonu</li>
+</Checklist>
+
+<Alert level="tip">
+Öneri: Başlangıç için IriusRisk (otomatik, kolay). Profesyonel kullanım için OWASP Threat Dragon (esnek, ekip işbirliği destekli).
+</Alert>
+
+## <span class="heading-num">50.2</span> 2 Saatlik Pratik Oturum
+
+Beş kişilik bir ekiple iki saatte somut, ölçülebilir bir tehdit modeli üretebilirsin.
+
+**Kimler olmalı?**
+
+- **Moderatör:** Güvenlik uzmanı, oturumu yönetir
+- **Sistem mimarı:** Sistem iskeletini çizer
+- **Yazılım mimarı:** Kodun derinliklerini bilir
+- **İş analisti:** Parayı ve müşteriyi düşünür
+- **Test uzmanı:** Sorun çıkarabilecek yerleri arar
+
+**Zaman çizelgesi:**
+
+| Dakika | Aktivite | Ne yapılır? |
+|--------|----------|-------------|
+| 0-15 | Hedef belirleme | "Bizi en çok ne korkutuyor?" Örn: kimlik hırsızlığı |
+| 15-45 | Sistem diyagramı | Sistem mimarı akışı çizer. Hassas veriler nerede? |
+| 45-75 | STRIDE analizi | Altı kategoriye göre tehditler sıralanır |
+| 75-105 | Risk sıralama | PASTA ile önceliklendirme. En kritik tehditler seçilir |
+| 105-120 | Çözüm üretimi | Her kritik tehdit için çözüm, sorumlu ve tarih atanır |
+
+<Alert level="warning">
+Oturum sonunda her çözüm için bir sorumlu ve tamamlanma tarihi atamak şarttır. Takip olmayan eylem, eylem değildir. Ölçemiyorsan yoktur.
+</Alert>
+
+## <span class="heading-num">50.3</span> Başarı Kuralları
+
+Dört kural, oturumun başarısını belirler:
+
+- **Eleştiri yok, fikir var:** Beyin fırtınası eleştiri meydanı değildir. Aptalca görünen sorular, ciddi sorunları ortaya çıkarabilir. Hiç kimse öyle düşünmemiş olabilir.
+- **Teknik değil, insan dili:** "SQL injection" yerine "kötü niyetli kodla veritabanı çalınabilir" de. Herkes anlasın.
+- **Stressiz ortam:** Her aşamayı 5 dakika erken bitir. Kalan vakitte çay iç. Beyin fırtınası stresle olmaz.
+- **Araçları aktif kullan:** Threat Dragon'da canlı işbirliği yap. Herkes aynı ekranda yazsın.
+
+<DoDont items={[
+  { text: '5 kişilik ekiple 2 saatlik oturumlarla başla', type: 'do' },
+  { text: 'Rolleri net dağıt: moderatör, mimar, geliştirici, iş analisti, testçi', type: 'do' },
+  { text: 'Oturum sonunda her çözüme sorumlu ve tarih ata', type: 'do' },
+  { text: 'Eleştiri yok kuralını uygula; tüm fikirleri yaz', type: 'do' },
+  { text: 'Tehdit modellemeyi tek başına yapma', type: 'dont' },
+  { text: 'Oturumda eleştiri kültürü yaratma, fikirleri engelleme', type: 'dont' },
+  { text: 'Çözümlere sorumlu atamadan oturumu bitir', type: 'dont' },
+  { text: 'Teknik jargonla iş analistini ve karar vericileri dışarıda bırak', type: 'dont' },
+]} />
+
+<Scenario label="Senaryo: İlk Oturum">
+Beş kişilik ekip toplantı odasında toplandı. Hedef: müşteri kimlik doğrulama sisteminin tehdit modelini çıkarmak. İlk 15 dakikada herkes "bizi en çok ne korkutuyor" sorusuna cevap aradı. Sistem mimarı tahtaya veri akışını çizdi; yazılımcı hangi noktalarda dışarıdan girdi alındığını işaretledi. STRIDE analizinde, kimlik doğrulama uç noktasına yönelik sahtekarlık (spoofing) ve hizmet dışı bırakma riski ortaya çıktı. Oturum sonunda iki kritik tehdit için sorumlu ve iki haftalık teslim tarihi atandı. İlk oturum mükemmel değildi ama artık bir başlangıç noktası, çizilmiş bir diyagram ve sahiplenilmiş eylemler vardı.
+</Scenario>
+
+<Accordion question="Tehdit modellemesini ne sıklıkla tekrarlamalıyım?" id="tm-siklik">
+Önemli bir sistem değişikliği olduğunda mutlaka. Yeni bir özellik eklendiğinde, dış dünya bağımlılığı (üçüncü parti API, kütüphane) devreye girdiğinde, mimari değiştiğinde veya büyük bir güvenlik olayı yaşandığında. Statik bir doküman olarak bir kenarda durmasın. Çeyreklikte gözden geçirme rutini oluşturman iyi bir başlangıçtır.
+</Accordion>
+
+<Accordion question="Tehdit modelleme oturumunda kimlerin olması şart?" id="tm-katilimci">
+En azından sistemi bilen biri (mimarı), kodu yazan biri (geliştirici), sistemi kullananı temsil eden biri (iş analisti) ve oturumu yönetecek bir moderatör. Tek başına bir güvenlik uzmanı kapalı bir odada tehdit modeli üretemez; çünkü sistemin iş mantığını ve gerçek kullanım senaryolarını tam bilemez. Farklı bakış açıları oturumun temelidir.
+</Accordion>
+
+## İlgili Bölümler
+
+- [STRIDE ve PASTA](/stride-ve-pasta/)
+- [Tehdit Modelleme Çerçeveleri](/tehdit-modelleme-cerceveleri/)
+- [Haftalık Kontrol Listesi](/haftalik-kontrol/)
+- [Kurumsal Kontrol Kartları](/kurumsal-kontrol-kartlari/)

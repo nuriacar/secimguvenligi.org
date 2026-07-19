@@ -1,0 +1,160 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'STRIDE ve PASTA'
+description: 'STRIDE metodolojisinin altı tehdit kategorisi, PASTA yedi adımlık risk odaklı süreci, tehdit ağacı ve saldırı ağacı farkı.'
+order: 49
+audience: B
+hero: '/img/hero/tehdit-santaj.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+import ThreatTreeDiagram from '../components/ThreatTreeDiagram.astro';
+import Checklist from '../components/Checklist.astro';
+
+
+STRIDE ve PASTA, tehdit modellemenin iki ana çerçevesidir. STRIDE model odaklıdır; "neyi koruyorum ve ne yanlış gidebilir?" sorusuna cevap arar. PASTA risk odaklıdır; "saldırgan nasıl saldırır ve işimi nasıl etkiler?" sorusuna. İkisini birlikte kullanmak en kapsamlı sonucu verir.
+
+**Özlü kural:** STRIDE ile tehditleri bul, PASTA ile önceliklendir ve savun.
+
+## <span class="heading-num">49.1</span> STRIDE
+
+STRIDE, her harfi bir tehdit kategorisini temsil eder. Temelinde CIA üçlüsü (Gizlilik, Bütünlük, Erişilebilirlik) vardır. OWASP gibi güvenlik standartları STRIDE'ı referans gösterir.
+
+| Harf | Kategori | Neyi İhlal Eder |
+|------|----------|-----------------|
+| **S** | Spoofing (Kimlik Sahtekarlığı) | Kimlik doğrulama |
+| **T** | Tampering (Veri Bozma) | Bütünlük |
+| **R** | Repudiation (İnkar) | Reddedilemezlik |
+| **I** | Information Disclosure (Bilgi Sızdırma) | Gizlilik |
+| **D** | Denial of Service (Hizmet Engelleme) | Erişilebilirlik |
+| **E** | Elevation of Privilege (Yetki Yükseltme) | Yetkilendirme |
+
+**Spoofing:** Bir saldırganın meşru bir kullanıcının kimliğine bürünmesi. Sahte e-posta gönderme, sahte web sitesi kurma.
+
+**Tampering:** Verinin yetkisiz bir kişi tarafından değiştirilmesi. API manipülasyonu, veritabanına müdahale.
+
+**Repudiation:** Eylemin izlerinin temizlenmesi, sonradan inkar edilebilmesi. Log kayıtlarının silinmesi, shared account kullanımı.
+
+**Information Disclosure:** Bilginin yetkisiz kişilere sızdırılması. API yanıtında fazla veri dönme, loglarda parolasız kart bilgisi.
+
+**Denial of Service:** Bir kaynağın tükenmesi sonucu hizmete erişilememesi. DDoS saldırıları, kaynak tüketimi.
+
+**Elevation of Privilege:** Sıradan bir kullanıcının daha yüksek yetkiler elde etmesi. Yönetici hesabını ele geçirme, SUID suistimali.
+
+## <span class="heading-num">49.2</span> PASTA
+
+PASTA (Process for Attack Simulation and Threat Analysis), risk odaklı yedi adımlı bir çerçevedir. İş hedefleriyle güvenlik arasında köprü kurar.
+
+1. **Hedeflerin tanımlanması:** İş hedefleri ve uyumluluk gereksinimleri belirlenir.
+2. **Teknik kapsamın tanımlanması:** Yazılım, donanım ve bağımlılıklar haritalanır.
+3. **Ayrıştırma ve analiz:** Kullanım senaryoları, aktörler, veri akışları ve güven sınırları belirlenir.
+4. **Tehdit analizi:** Tehdit istihbaratına dayanarak duyarlı noktalar tespit edilir.
+5. **Zafiyet analizi:** Tehditler güvenlik açıklarıyla eşleştirilir ve puanlanır.
+6. **Saldırı modelleme:** Tehdit ve saldırı ağaçları oluşturulur, savunma mekanizmaları tasarlanır.
+7. **Risk ve etki analizi:** Tüm veriler toplanır, varlıkların ve işin ne ölçüde etkileneceği hesaplanır.
+
+## <span class="heading-num">49.3</span> Tehdit Ağacı ve Saldırı Ağacı
+
+Bu iki kavram sık karıştırılır. PASTA'nın altıncı adımında birlikte kullanılırlar.
+
+**Tehdit Ağacı (Threat Tree):** "Ne olabilir?" sorusuna odaklanır. Stratejik düzeyde risk tanımlama için kullanılır. Yöneticiler tehdit ağacıyla riskleri önceliklendirir.
+
+**Saldırı Ağacı (Attack Tree):** "Nasıl yapılır?" sorusuna odaklanır. Saldırganın hedefine ulaşmak için izleyeceği somut teknik adımları detaylandırır. Teknik ekipler saldırı ağacıyla zafiyetleri kapatır.
+
+<Alert level="warning">
+Tehdit ağacı ile saldırı ağacı farklı şeylerdir. Tehdit ağacı stratejik çerçevedir; saldırı ağacı taktiksel savunma planıdır. Güçlü bir güvenlik analizi için ikisi birden gerekir.
+</Alert>
+
+<ThreatTreeDiagram />
+
+<Scenario label="Senaryo: Bankacılık - STRIDE">
+
+**Spoofing:** Sahte banka web siteleriyle müşteri hesap bilgileri çalınıyor.
+
+**Tampering:** API manipülasyonuyla transfer miktarları değiştiriliyor.
+
+**Repudiation:** Ortak hesap kullanımıyla işlemler sonradan inkar edilebiliyor; "ben yapmadım" savunması güçleniyor.
+
+**Info Disclosure:** Geliştiriciye e-posta ile hesap numaraları ve bakiyeler gönderiliyor.
+
+**Denial of Service:** Bayram kampanyasında anlık trafik artışı sistemi çökertiyor; müşteriler işlem yapamıyor.
+
+**Elevation of Privilege:** Oltalama ile başlayan saldırı, domain admin haklarına ulaşıyor.
+
+</Scenario>
+
+<Scenario label="Senaryo: Bankacılık - PASTA (Kısa Örnek)">
+
+**Adım 1-2:** İş hedefi = kesintisiz müşteri deneyimi. Kapsam = mobil bankacılık uygulaması + API + veritabanı.
+
+**Adım 3-4:** Müşteri girişi sırasında kimlik doğrulama zayıf; oltalama ve brute-force tehditleri tespit edildi.
+
+**Adım 5-7:** MFA eksikliği bir zafiyet olarak puanlandı. Risk = yüksek (mali kayıp + itibar). Çözüm = MFA zorunlu hale getirildi, anormal giriş denemelerinde hesap kilitlenmesi eklendi.
+
+</Scenario>
+
+<DoDont items={[
+  { text: 'STRIDE ile tehditleri kategorize et, sonra PASTA ile derinleş', type: 'do' },
+  { text: 'Tehdit ağacı ve saldırı ağacını birlikte kullan', type: 'do' },
+  { text: 'Her STRIDE kategorisini senin sistemine uyarla', type: 'do' },
+  { text: 'STRIDE ve PASTA\'yı rakip olarak gör, sadece birini seç', type: 'dont' },
+  { text: 'Tehdit ağacını saldırı ağacıyla karıştır', type: 'dont' },
+]} />
+
+<Checklist title="STRIDE ve PASTA Uygulama Listesi">
+<li>Her bileşen için STRIDE'ın altı kategorisini tek tek sor: "Burada kimlik sahtekarlığı olur mu?"</li>
+<li>Tehditleri bulduktan sonra PASTA ile önceliklendir, iş etkisini hesapla</li>
+<li>Tehdit ağacı ile "ne olabilir?", saldırı ağacı ile "nasıl yapılır?" sorularını ayır</li>
+<li>Her STRIDE kategorisini sistemine özel uyarla, genel kalıp olarak bırakma</li>
+<li>PASTA'nın yedi adımını sırayla uygula, adım atlama</li>
+<li>Sonuçları dokümante et ve geliştirme ekibiyle paylaş</li>
+</Checklist>
+
+<Checklist title="STRIDE/PASTA Tehdit Modelleme Kontrol Listesi">
+<li>Sistemin veri akış diyagramını çıkardım</li>
+<li>STRIDE'in 6 kategorisinde tehditleri listeledim</li>
+<li>PASTA'nın 7 aşamasını sisteme uyguladım</li>
+<li>Tehdit ağacı/ saldırı ağacı oluşturdum</li>
+<li>Her tehdit için azaltma tedbiri belirledim</li>
+<li>Tehditleri önceliklendirdim (olasılık ve etki)</li>
+<li>Sonuçları geliştirme/operasyon ekibiyle paylaştım</li>
+</Checklist>
+
+## <span class="heading-num">49.4</span> Bilgi Kontrolü
+
+<Accordion question="S9. Tehdit Ağacı hangi metodolojide bulunur?" id="test-47-s9">
+
+a. SDL  
+b. DREAD  
+c. STRIDE  
+d. **PASTA ✓**
+
+</Accordion>
+
+<Accordion question="S10. CIA Triad (Confidentiality, Integrity & Availability / Gizlilik, Bütünlük & Erişilebilirlik) temelli model hangisidir?" id="test-47-s10">
+
+a. SDL  
+b. DREAD  
+c. **STRIDE ✓**  
+d. PASTA
+
+</Accordion>
+
+<Accordion question="S11. Uygulamadaki veya altyapıdaki tehditleri saldırgan bakış açısıyla modellemeyi tercih ettiğimizde aşağıdakilerden hangisini kullanırız?" id="test-47-s11">
+
+a. SQL  
+b. DROID  
+c. SPRITE  
+d. **PASTA ✓**
+
+</Accordion>
+
+## İlgili Bölümler
+
+- [Tehdit Modelleme Çerçeveleri](/tehdit-modelleme-cerceveleri/)
+- [Tehdit Modelleme Pratiği](/tehdit-modelleme-pratigi/)
+- [Tehdit Modelleme](/tehdit-modelleme/)
+- [Shadow IT](/shadow-it/)

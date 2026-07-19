@@ -1,0 +1,268 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Tedarik Zinciri Güvenliği'
+description: 'Yazılım tedarik zinciri saldırıları, SolarWinds, dependency confusion, typosquatting, SLSA framework, Sigstore, SBOM ve package manager güvenliği.'
+order: 64
+audience: B
+hero: '/img/hero/eklenti-ve-uygulama-izinleri.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+2020'de SolarWinds'a sızmış saldırganlar, Orion yazılımının build sürecine kod enjekte etti. Bu kod, güncelleme ile 18.000 müşteriye gitti — ABD Ticaret Bakanlığı, Treasury, Homeland Security, Microsoft, FireEye dahil. Saldırgan, müşterilerin network'üne "legal" bir güncelleme aracılığıyla girdi. Bu, klasık "koda enjekte et" değil; "build pipeline'ı sömür" taktiği. Bu olay, "tedarik zinciri saldırısı" terimini herkesin diline soktu. Yazılımınız, binlerce third-party bileşenden oluşur. Hepsi güvenli mi? Build süreciniz güvenli mi? Bu bölüm bu sorulara cevap arıyor.
+
+Tedarik zinciri güvenliği, "yazılımınızın lifecycle" boyunca bütünlüğünü sağlamadır — kaynak kodundan build'e, dağıtımdan son kullanıcıya. SLSA (Supply-chain Levels for Software Artifacts), Sigstore ve SBOM endüstri standardı haline gelmiştir.
+
+## <span class="heading-num">64.1</span> Tedarik Zinciri Saldırı Tipleri
+
+### 1. Dependency Saldırısı (Third-Party Library)
+
+En yaygın tedarik zinciri saldırısı. Bağımlı olduğunuz kütüphane tehlikeye girer.
+
+**event-stream olayı (2018):** Popüler npm kütüphanesi `event-stream`, bakımcısı tarafından tanıdığı bir geliştiriciye devredildi. Yeni bakımcı, `flatmap-stream` adlı dependency ekledi. Bu dependency, BTC cüzdanı Copay'i hedefleyen kötü amaçlı kod içeriyordu. Haftalarca kimse fark etmedi. Milyonlarca indirme.
+
+**Typescript'in içinde değil, bağımlılığın bağımlılığında (transitive dependency):**
+
+```
+your-app
+  └── express
+        └── body-parser
+              └── raw-body
+                    └── bytes  ← saldırgan bunu ele geçirdi
+```
+
+`bytes` kütüphanesini ele geçiren saldırgan, milyonlarca app'e ulaşır. Bu, "transitive dependency riski" olarak bilinir.
+
+### 2. Dependency Confusion
+
+2021'de Alexis Rao, bu açığı keşfetti. Açık kaynak (public) ve özel (private) package'ların isim çakışması sömürüsü.
+
+**Senaryo:** Şirketiniz `@sirketim/auth-utils` adında private bir npm package'ı yayınlamış (sadece senin eriştiğiniz registry'de). Saldırgan, public npm'de aynı isimle bir package yayınlar (`@sirketim/auth-utils`) ve sürümü yüksek tutar (örn. `99.0.0`). Sizin build'iniz, sürüm karşılaştırması yapar; public'deki yüksek sürümü çeker ve kötü amaçlı kodu çalıştırır.
+
+<Alert level="critical">
+Eğer private package'larınız varsa, package manager'ınızın hangi registry'den çektiğini kontrol etmiyorsanız, dependency confusion riski altındasınız. npm'de `.npmrc`, pip'te `--index-url`, Maven'de `<repositories>` ile scope'u kısıtlayın.
+</Alert>
+
+### 3. Typosquatting
+
+Yaygın kütüphane adlarına benzer sahte paketler. `requests` yerine `request` (eksik s), `python-dateutil` yerine `python-dateutils` (fazla s), `lodash` yerine `lodahs`. Yorgun bir geliştirici yanlış yazınca, kötü amaçlı kod yüklenir.
+
+### 4. Build Pipeline Saldırısı
+
+SolarWinds'in başına gelen. Saldırgan, build sunucusuna sızmış ve build çıktısına (legitim kaynak kodundan üretilen artifact'a) kötü amaçlı kod enjekte etmiş. Kaynak kod temiz, ama dağıtılan binary kirli.
+
+Bu saldırı tipi, "koda güveniyorum" varsayımını kırar — çünkü source'a baksanız bile tehlikeyi göremezsiniz. Bu yüzden **SLSA** (Supply-chain Levels for Software Artifacts) framework'ü ortaya çıktı.
+
+### 5. Compromised Maintainer (İçeriden Sızma)
+
+Kütüphane bakımcısının hesabının ele geçirilmesi. 2024'de `ultr` npm kütüphanesinin bakımcısının hesabı sızdırıldı; saldırgan crypto çalan kodu yayınladı. 2022'de `node-ipc` yazarı, protesto amacıyla Rus IP'lerini silen kod ekledi. Bakımcının iyi niyetine güvenmek, tek noktada başarısızlık (single point of failure).
+
+### 6. Malicious PR / Commit
+
+Açık kaynak projelere gönderilen pull request'ler, kod incelemesinden geçse bile kötü amaçlı olabilir. 2024'de XZ Utils backdoor (arka kapı)'u, 3 yıllık sosyal mühendislik ile Jia Tan adıyla projeye katkıda bulunan saldırgan tarafından build sürecine eklenmeye çalışıldı.
+
+## <span class="heading-num">64.2</span> SLSA (Yazılım Tedarik Zinciri Seviyeleri, İng. Supply-chain Levels for Software Artifacts)
+
+Google'ın önderlik ettiği, Linux Foundation'ın sahiplendiği framework. Build sürecinin güvenliğini seviyelendirir.
+
+| Seviye | Gereklilik | Örnek |
+|--------|-----------|-------|
+| **SLSA 1** | Build documentation (provenance) | Build nasıl yapıldığının kaydı |
+| **SLSA 2** | Hosted build service, signed provenance | GitHub Actions + OIDC signing |
+| **SLSA 3** | Build service izole, provenance hardened | Build'e dışarıdan erişim yok |
+| **SLSA 4** | Two-party review, reproducible builds | İki kişilik onay, herkes aynı binary'i üretebilir |
+
+Çoğu kurum SLSA 2-3 hedefliyor. SLSA 4'e ulaşmak zor; bankacılık, savunma sanayii gibi kritik alanlar için.
+
+## <span class="heading-num">64.3</span> Sigstore ve Code Signing
+
+Artifact'lerin kriptografik imzası. "Bu binary'i biz ürettik, değiştirilmedi" kanıtı.
+
+**Sigstore,'un 3 bileşeni:**
+1. **Cosign:** Container/image/JS package'ı imzalama aracı
+2. **Rekor:** Transparency log (herkes tarafından doğrulanabilir)
+3. **Fulcio:** Kısa süreli certificate authority (OIDC tabanlı)
+
+```bash
+# Container image'ı imzala
+cosign sign --key cosign.key myregistry.com/app:v1.2.3
+
+# İmzayı doğrula
+cosign verify --key cosign.pub myregistry.com/app:v1.2.3
+```
+
+Sigstore'un avantajı: her build benzersen short-lived certificate kullanır. Anahtar yönetimi karmaşası yok. Kubernetes, Sigstore'u resmi olarak entegre ediyor.
+
+## <span class="heading-num">64.4</span> SBOM (Yazılım Bileşen Listesi, İng. Software Bill of Materials)
+
+Bir yazılımın "içindekiler etiketi." Hangi dependency, hangi sürüm, hangi license.
+
+**Formatlar:**
+- **SPDX** — Linux Foundation
+- **CycloneDX** — OWASP
+
+```bash
+# SBOM üretimi (Syft ile)
+syft myrepo:/ -o cyclonedx-json > sbom.json
+
+# Vulnerability taraması (Grype ile)
+grype sbom:cyclonedx-json=sbom.json
+```
+
+**SBOM neden kritik?** 2024'te Log4Shell benzeri kritik bir zafiyet açıklandığında, SBOM'u olmayan şirketler "hangi sistemlerimizde bu kütüphane var?" sorusuna haftalarca cevap aradı. SBOM'u olanlar saatler içinde buldu. ABD Ulusal Siber Direktif (EO 14028) federal alımlarda SBOM'u zorunlu kılıyor.
+
+## <span class="heading-num">64.5</span> Package Manager Güvenliği
+
+Her dilin farklı package manager'ı ve farklı tehdit modeli.
+
+| Dil | Package Manager | Lock File | Checksum | Sigstore |
+|-----|-----------------|-----------|----------|----------|
+| Python | pip, Poetry | requirements.txt, poetry.lock | hash (özet) check | var |
+| Node.js | npm, yarn, pnpm | package-lock.json, yarn.lock | integrity hash | var |
+| Java | Maven, Gradle | pom.xml, build.gradle | GPG signature (opsiyonel) | var |
+| Go | mod | go.sum | hash | var |
+| Rust | cargo | Cargo.lock | hash | YAKINDA |
+| Ruby | bundler | Gemfile.lock | checksum | yok |
+
+**En iyi pratikler:**
+- Lock file'ı commit et (`package-lock.json`, `poetry.lock`)
+- `npm ci` / `pip install -r requirements.txt --require-hashes` — lock'a sadık kal
+- Private registry kullan (Artifactory, Nexus, GitHub Packages)
+- Proxy ile public internet'i kapat
+- Yıllık dependency audit
+
+## <span class="heading-num">64.6</span> Lockfile ve Reproducible Builds
+
+```json
+// package-lock.json — sürüm + hash
+{
+  "name": "myapp",
+  "dependencies": {
+    "express": {
+      "version": "4.18.2",
+      "resolved": "https://registry.npmjs.org/express/-/express-4.18.2.tgz",
+      "integrity": "sha512-..."
+    }
+  }
+}
+```
+
+`npm install` yerine `npm ci` kullanın. `ci`, lockfile'a birebir sadık kalır; yeni sürüm çekmez. Reproducibility'nin temeli.
+
+## <span class="heading-num">64.7</span> CI/CD Pipeline Sertleştirme
+
+SolarWinds'in başına gelen olmaması için:
+
+```yaml
+# GitHub Actions örneği - hardened build
+name: Build and Sign
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04  # pinned runner
+    permissions:
+      contents: read
+      id-token: write  # OIDC için
+    steps:
+      # 1. Kodu checkout et (commit SHA ile)
+      - uses: actions/checkout@8e5e7e5cb8c3156cbe153f418133c86c4d4c7a5d  # v4, pinned SHA
+
+      # 2. Toolchain'i pin'le
+      - uses: actions/setup-python@b64ffcaf5b410884ad320a9cfac8866006a21aa6  # v5, pinned
+        with:
+          python-version: "3.12.1"  # spesifik sürüm
+
+      # 3. Dependency'leri lock ile yükle
+      - run: pip install --require-hashes -r requirements.txt
+
+      # 4. Build
+      - run: python -m build
+
+      # 5. Provenance üret (SLSA)
+      - uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
+
+      # 6. İmzala (Sigstore)
+      - run: cosign sign-blob --yes dist/app.tar.gz
+
+      # 7. SBOM üret
+      - run: syft dir:. -o cyclonedx-json > sbom.json
+```
+
+<Alert level="info">
+GitHub Actions'da `@v4` yerine commit SHA kullanın. `@v4` tag'i yeniden etiketlenebilir; saldırgan `v4` tag'ini kötü kodla işaretlerse pipeline'ınız sömürülür. SHA sabit. 3. parti action'lar için Dependabot kullanın — güncel sürümü önerir.
+</Alert>
+
+<DoDont items={[
+  { text: `**Lock file commit et:** package-lock.json, poetry.lock, go.sum repoda`, type: 'do' },
+  { text: `**npm ci / pip install --require-hashes:** Reproducible install`, type: 'do' },
+  { text: `**SBOM üret:** CycloneDX veya SPDX formatında`, type: 'do' },
+  { text: `**Vulnerability taraması:** Trivy, Grype, Snyk — CI'da`, type: 'do' },
+  { text: `**Action'ları commit SHA ile pin'le:** Tag değil, SHA`, type: 'do' },
+  { text: `**Private registry / proxy:** Public internet'i kapat`, type: 'do' },
+  { text: `**Cosign ile imzala:** Container, binary, package`, type: 'do' },
+  { text: `**SLSA provenance üret:** Build sürecini kanıtla`, type: 'do' },
+  { text: `**Automated dependency update:** Dependabot, Renovate`, type: 'do' },
+  { text: `**npm install:** Lock'u esnetebilir; npm ci kullan`, type: 'dont' },
+  { text: `**"latest" tag:** Sürüm belirsen, bir gün saldırgan tarafından güncellenmiş olabilir`, type: 'dont' },
+  { text: `**3. parti action'ları tag'le çek:** SHA kullan`, type: 'dont' },
+  { text: `**Tüm npm'ye güven:** Private package'ı public'le karıştırma`, type: 'dont' },
+  { text: `**Milyonlarca transitive dependency'yi görmezden gel:** SBOM ile gör`, type: 'dont' },
+  { text: `**Bakımcıya körü körüne güven:** Her open source paketi denetle`, type: 'dont' },
+  { text: `**Build log'larda secret sızdır:**masked log'lar zorunlu`, type: 'dont' }
+]} />
+
+<Checklist title="Tedarik Zinciri Güvenliği Kontrol Listesi">
+<li>Lock file commit ediliyor (package-lock, poetry.lock, go.sum)</li>
+<li>`npm ci` / `--require-hashes` ile reproducible install</li>
+<li>SBOM üretiliyor (CycloneDX/SPDX)</li>
+<li>Dependency vulnerability taraması CI</li>
+<li>GitHub Actions action</li>
+<li>Cosign ile container/binary imzalanıyor</li>
+<li>SLSA Level 2-3 provenance üretiliyor</li>
+<li>Private registry veya proxy kullanılıyor</li>
+<li>Dependabot/Renovate ile otomatik güncelleme</li>
+<li>Yıllık dependency audit + bakımcı doğrulama</li>
+<li>`npm install` (lock</li>
+<li>Action</li>
+<li>Transitive dependency</li>
+<li>Bildiğiniz popüler paketlerin bakımcılarını hiç doğrulamadınız</li>
+</Checklist>
+
+**Gerçek olay:** 2020'de SolarWinds saldırısı keşfedildi. Saldırgan (devlet destekli), SolarWinds'in build sürecine 14 ay önce sızıp Orion yazılımına arka kapı eklemişti. Bu güncelleme 18.000 müşteriye gitti: ABD Ticaret/Treasury/DHS, Microsoft, FireEye, Cisco dahil. Saldırgan müşteri networklerinde aylarca gizli kaldı. Maliyet: SolarWinds hissesi %40 düştü, ABD hükümet kurumları aylarca downstream temizledi. Build süreci güvenliği olmayan bir vendor'a güvenmek = vendor'u savunmasız bulan saldırgana da güvenmek.
+
+**Benzetme:** Yazılım geliştirmek bir yemek pişirmek gibidir. Tarif (kaynak kod) senin; malzemeler (dependency'ler) dış kaynaklı. Malzemeleri marketten alıyorsunuz.
+
+- **Lock file:** Malzeme listesini kesinleştirir — "bu marka, bu miktar"
+- **SBOM:** Yemeğin "içindekiler etiketi" — alerjisi olan (sömürülebilir sistemi olan) görebilir
+- **Sigstore:** Malzemenin güvenilir üreticiden geldiğinin mührü
+- **SLSA:** Mutfak hijyen sertifikası — yemeğin hazırlık sürecini denetler
+- **Private registry:** Markette sadece senin bildiğiniz reyon
+- **Dependency confusion:** Marketteki sahte ürün senin markanızla raflarda
+- **Typosquatting:** "Coca-Cola" yerine "Coca-Colo" alan marka taklidi
+
+SolarWinds olayı, restoran'ın mutfak temizliğine güvenerek yiyen müşterilerin zehirlenmesine benzer. Tarif iyi, malzemeler iyi — ama mutfak sömürülmüş.
+
+## İlgili Bölümler
+
+- [Güvenlik Testi ve DevSecOps →](/guvenlik-testi-ve-devsecops/) — CI/CD pipeline, SAST/DAST
+- [Güvenli Kodlama Temelleri →](/guvenli-kodlama-temelleri/) — Kod inceleme, sola kaydırma
+- [Kriptografi ve Secret Yönetimi →](/kriptografi-ve-secret-yonetimi/) — İmzalama, hash
+- [Bulut Güvenliği →](/bulut-guvenligi/) — Container registry, image scan
+- [Olay Müdahalesi →](/olay-mudahalesi/) — Tedarik zinciri ihlali sonrası
+
+<Accordion question="Yüzlerce dependency'miz var, hepsini nasıl denetleyelim?" id="supply-audit">
+Pratik yaklaşım: (1) **SBOM üret** (Syft ile). (2) **Vulnerability tara** (Grype, Trivy, Snyk). (3) **Popülerlik/bakım kontrolü:** 10+ yıldır güncellenmeyen veya 100 indirme/hafta'nın altındaki paketler riskli. (4) **Critical path analizi:** Ana fonksiyonu etkileyen dependency'leri derin denetle. (5) **License kontrolü:** GPL'li bir dependency, ticari ürününüzü riske atar. (6) **Renovate/Dependabot:** Otomatik PR'lar ile güncel tut. (7) **Yıllık dış denetim:** Tüm dependency'lerin statik analizi. Hepsini manuel denetlemek imkansız — araçlar + önceliklendirme.
+</Accordion>
+
+<Accordion question="Log4Shell sonrası tüm sistemlerimizi taramamız gerekti, günlerce sürdü. SBOM bu'nu nasıl hızlandırır?" id="supply-sbom-cve">
+SBOM varsa, tek komut: `grep -r "log4j" sbom/`. Birkaç saniye. Hangi uygulamada, hangi sürüm, hangi transitive path ile — hepsi SBOM'da. SBOM'u olmayan şirket, her ekibe "log4j kullanıyor musunuz?" diye sorar, insanlar hatırlamaya çalışır, haftalarca sürer. 2024'teCVE-2024-3094 (XZ Utils backdoor) açıklığında SBOM'u olan şirketler saatler içinde risk tespit etti; olmayanlar günlerce manuel arama yaptı. SBOM, sadece uyumluluk değil, operasyonel zorunluluk.
+</Accordion>
+
+<Accordion question="Açık source kütüphane kullanmaktan korkmalı mıyım?" id="supply-open-source">
+Hayır, ama dikkatli olun. Açık source'un güvenlik açısından avantajları: şeffaflık (kod okunabilir), topluluk incelemesi, hızlı yama. Dezavantajları: bakımcı "free labor" olabilir, kimse uzun vadeli sahiplenmez. Strateji: (1) Kritik kütüphanelere destek olun (sponsorluk, katkı). (2) İş kritik dependency'leri fork'layın. (3) KendiSBOM'unuzu tutun. (4) Health metrics: son commit, issue kapanma oranı, contributor sayısı. Açık source'tan kaçınmak çözüm değil; yönetmek çözüm.
+</Accordion>

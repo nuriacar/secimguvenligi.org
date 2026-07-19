@@ -1,0 +1,96 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Güvenli Ödeme ve Alışveriş'
+description: 'Online alışveriş, kredi kartı kullanımı ve dijital ödemelerde güvenlik. Sahte siteler, ödeme dolandırıcılıkları ve korunma yöntemleri.'
+order: 13
+audience: V
+hero: '/img/hero/guvenli-odeme.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Scenario from '../components/Scenario.astro';
+import Checklist from '../components/Checklist.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Hızlı bir online alışverişte kredi kartı bilgilerini giriyorsun. Birkaç saniye içinde paran çalınabilir.
+
+**Hızlı ipucu:** Online ödemelerde sanal kart kullan. Bankanın uygulamasından tek kullanımlık kart numarası oluştur. Gerçek kart bilgilerin hiçbir yerde kaydedilmez.
+
+## <span class="heading-num">13.1</span> Kredi Kartı Güvenliği
+
+- **Sanal kart kullan:** Bankanın uygulamasında anlık sanal kart oluştur. Limitini alışveriş tutarı kadar belirle. İşlem bitince kart kaybolur.
+- **3D Secure açık olsun:** Her alışverişte SMS veya uygulama onayı gelsin. Kapalıysa bankanı ara, açtır.
+- **Kart limitini düşük tut:** Günlük kullanım için düşük limit belirle. Yüksek limit yalnızca büyük alışveriş öncesi aç.
+- **Bildirimleri aç:** Her harcamada anlık SMS veya uygulama bildirimi gelsin. Tanımadığın bir işlem görürsen hemen bankanı ara.
+
+<Alert level="warning">Kredi kartı bilgilerini telefonla, e-postayla veya mesajla asla paylaşma. Bankan asla kart numaranı, CVV'ni veya parolanı istemez.</Alert>
+
+## <span class="heading-num">13.2</span> Online Alışveriş Güvenliği
+
+- **Siteyi doğrula:** Adres çubuğunda kilit simgesi var mı? `https://` ile başlıyor mu? Site adını harf harf kontrol et (``faceboook.com`` sahte).
+- **Bilmediğin siteden alışveriş yapma:** İndirimli ürünler gördüğünde "acaba sahte mi?" diye sor. Birkaç dakika araştır: şikayet var mı, iletişim bilgisi var mı?
+- **Ödeme sayfasını kontrol et:** Gerçek ödeme sayfası bankanın kendi sayfasıdır. Siteden ayrı bir pencerede açılır. Aynı sitede kart bilgisi isteniyorsa bu sahte bir sayfadır.
+- **Hediye kartı ve kupon dolandırıcılığı:** "100 TL hediye çeki kazandın" mesajları tuzaktır. Hiçbir gerçek firma bilgini vermeni isteyerek hediye göndermez.
+
+<Scenario>
+Bir arkadaşının Instagram hesabı çalınır. Hesaptan "Çok özel bir kampanya, 10 dakika bitecek" yazılı bir hikaye paylaşılır. Linke tıklarsın, tanınmış bir markanın birebir kopyası sayfa açılır. %90 indirimli ürünler vardır. Kart bilgilerini girersin. Paran çalınır. Bu kadar basit.
+</Scenario>
+
+<DoDont items={[
+  { text: 'Sanal kart kullan, limitini anlık belirle', type: 'do' },
+  { text: 'Alışveriş öncesi sitesini ve yorumlarını araştır', type: 'do' },
+  { text: '3D Secure doğrulamasını her zaman açık tut', type: 'do' },
+  { text: 'Tanımadığın sitede kart bilgisi gir', type: 'dont' },
+  { text: 'Hediye çeki, kupon vaatlerine tıkla', type: 'dont' },
+  { text: 'Kart bilgilerini telefon veya mesajla paylaş', type: 'dont' },
+]} />
+
+## <span class="heading-num">13.3</span> Ödeme Dolandırıcılıkları
+
+Farklı dolandırıcılık türlerini tanı:
+
+- **Kargo dolandırıcılığı:** "Paketin teslim edilemedi, ücret öde" SMS'i. Gerçek kargo firmaları SMS ile ödeme istemez.
+- **Fatura dolandırıcılığı:** "Elektrik/Su/Doğalgaz borcun yapılandırıldı, ödemek için tıkla" mesajı. Faturanı sadece resmi uygulama veya bankandan öde.
+- **Sahte ödeme linki:** "Ürünü alana kadar ödemeyi açmayalım, şu linkten öde" diyen satıcı. Kapıda ödeme veya güvenli bir platform kullan.
+- **Kiralık ilan tuzağı:** "Evin anahtarını göndereyim, önce depozitoyu havale et" diyen sahte ev sahibi. Önce gör, sonra öde.
+- **Abonelik tuzağı:** "3 gün ücretsiz dene" yazılı sitelerde kart bilgisi girdikten sonra her ay faturalandırılırsın. Denemeden önce iptal şartlarını oku.
+
+<Alert level="tip">Bir mesaj veya e-posta "acil ödeme yap" diyorsa dur. Duygusal aciliyet hissettiren her şey manipülasyondur. Önce resmi kanaldan teyit et.</Alert>
+
+## <span class="heading-num">13.4</span> Mobil Ödeme ve Temassız Ödeme
+
+- **Temassız limit:** Küçük ödemeler için parolasız ödeme pratiktir. Büyük limitler için bankandan düzenleme yap.
+- **Mobil ödeme uygulamaları:** Telefonuna yüklediğin ödeme uygulamalarına (Apple Pay, Google Pay) parola veya biyometri ekle.
+- **Kaybolan telefona karşı:** Telefonun çalınırsa kart bilgilerin risk altında. Bankanı hemen ara, mobil ödemeleri geçici durdur.
+- **NFC açık kalmasın:** NFC her zaman açık olmasın. Saldırgan yaklaşıp temassız ödeme yapabilir.
+
+<Checklist title="Güvenli Alışveriş Kontrol Listesi">
+<li>Alışveriş için sanal kart oluştur, limitini tutar kadar belirle</li>
+<li>3D Secure doğrulamasının açık olduğunu kontrol et</li>
+<li>Site adresini harf harf oku, kilit simgesini ara</li>
+<li>Tanımadığın siteyi araştır, yorum ve şikayetlere bak</li>
+<li>Ödeme sayfasının bankanın kendi sayfası olduğunu doğrula</li>
+<li>Kart bildirimlerini (SMS veya uygulama) aç</li>
+<li>Acil ödeme isteyen mesajlardan uzak dur</li>
+</Checklist>
+
+<Accordion question="Sanal kart nedir, nereden alınır?" id="faq-sanal-kart">
+Sanal kart, bankanın mobil uygulamasından oluşturduğun tek kullanımlık veya limitli kart numarasıdır. Gerçek kartının yerine geçer, ama işin bitince kaybolur. Çoğu banka ücretsiz sunar. Uygulamana gir, "sanal kart" veya "tek kullanımlık kart" seçeneğini ara. Limitini alışveriş tutarı kadar belirle. Böylece kart bilgisi çalınsa bile saldırgan boş bir kartla kalır.
+</Accordion>
+
+<Accordion question="Sahte ödeme sayfasını nasıl tanırım?" id="faq-sahte-odeme">
+Gerçek ödeme sayfası bankanın kendi alan adında açılır. Adres çubuğunu kontrol et. Eğer kart bilgisi aynı sitede, satıcının kendi sayfasında isteniyorsa dikkat et. Adres tanıdık değilse, sayfa kötü tasarlanmışsa veya SSL sertifikası yoksa işlemi yapma. Aciliyet hissettiren "son 1 dakika", "stok bitecek" baskısı varsa bu sahte sayfa belirtisidir. Gerçek banka sayfası asla böyle baskı yapmaz.
+</Accordion>
+
+<Accordion question="Apple Pay / Google Pay güvenli mi?" id="mobil-odeme">
+Evet, normal kredi kartından daha güvenlidir. Çünkü ödeme sırasında gerçek kart numaran satıcıya iletilmez; tek kullanımlık bir token gönderilir. Ayrıca işlem için parmak izi veya yüz tanıma gerekir. Telefonunu kaybedersen, "Find My" üzerinden mobil ödemeleri uzaktan durdur.
+</Accordion>
+
+## İlgili Bölümler
+
+- [Hesap ve Parola Güvenliği](/hesap-parola/)
+- [Sosyal Mühendislik](/sosyal-muhendislik/)
+- [Hesap Çalındığında Acil Protokol](/hesap-calma/)
+- [Çevrimiçi Dolandırıcılık](/cevrimici-dolandiricilik/)

@@ -1,0 +1,144 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Hesap ve Parola Güvenliği'
+description: 'Parola kuralları, e-Devlet güvenliği, iki adımlı doğrulama, kurtarma seçenekleri, e-posta ve tarayıcı güvenliği.'
+order: 7
+audience: V
+hero: '/img/hero/hesap-parola.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Kaç tane hesabın var? Bir sessizlik oluyor, saymaya başlıyorsun. E-posta, banka, e-Devlet, Instagram, X, WhatsApp, alışveriş siteleri, fatura ödeme, belediye, otopark, okul sistemi, iş yeri... Sayısı onlarca. Her birine ayrı bir parola. İnsan aklının kaldıramayacağı kadar çok. O yüzden çoğumuz aynı parolayı birkaç yerde kullanırız. "Bir şey olmaz" diye. Ta ki o parola bir yerden sızana kadar. Ve bir sabah uyanıp Instagram'ının başkası tarafından yönetildiğini görene kadar.
+
+**Özlü kural:** Aynı parolayı iki yerde kullanıyorsan, aslında hiç parola kullanmıyorsun demektir.
+
+## <span class="heading-num">7.1</span> Parolalar Nasıl Kırılır?
+
+Bir web sitesi parolanı olduğu gibi saklamaz. Parolanı matematiksel bir işlemden geçirir ve sonucunu, buna **hash (özet)** denir, saklar. Hash tek yönlüdür: paroladan hash üretilir ama hash'den parolaya geri dönülemez. Bu yüzden "parolamı unuttum" denildiğinde site sana sıfırlama linki gönderir, parolanı geri gönderemez; çünkü parolanı o da bilmez.
+
+Saldırı şu şekilde çalışır: Saldırgan elinde milyonlarca parola barındıran listelerle gelir. "123456", "qwerty", "parola123" gibi yaygın parolalar saniyeler içinde kırılır. İnternette daha önce sızdırılmış milyarlarca parola da bu listelerdedir. Parolan karmaşık görünse bile, bir sızıntıda ele geçtiyse listededir ve dakikalar içinde bulunur. Buna **sözlük saldırısı** denir.
+
+Kısa bir parola, tüm olası karakter kombinasyonları sırayla denenerek (**deneme yanılma**, İng. *brute force*) dakikalar içinde kırılabilir. 12 karakter ve üzeri bir parolanın bu yöntemle kırılması yüzyıllar sürer. İşte "en az 12 karakter" kuralının sebebi budur. Şimdi kurallara geçelim.
+
+## <span class="heading-num">7.2</span> Parola Kuralları
+
+- **Yapma:** Aynı parolayı birden fazla yerde kullanma. E-Devlet, e-posta, sosyal medya parolaları birbirinden farklı olsun. Biri patlarsa hepsi gider.
+- **Yap:** Parolaların en az 12 karakter, harf+rakam+özel karakter içersin.
+- **Yap:** Parola yöneticisi (password manager) kullan (Bitwarden, 1Password vb.). Tek bir ana parola hatırla, gerisini o tutsun.
+
+<DoDont items={[
+  { text: 'Her hesap için farklı parola kullan', type: 'do', level: 'minimum' },
+  { text: 'En az 12 karakter, harf+rakam+özel karakter kullan', type: 'do' },
+  { text: 'Parola yöneticisi kullan (Bitwarden, 1Password)', type: 'do', level: 'best' },
+  { text: 'Aynı parolayı birden fazla yerde kullanma', type: 'dont' },
+  { text: 'Ad, soyad, doğum tarihi içeren parola belirleme', type: 'dont' },
+  { text: 'Parolayı kağıda yazıp monitöre yapıştırma', type: 'dont' },
+]} />
+
+## <span class="heading-num">7.3</span> E-Devlet Güvenliği
+
+- **Kural:** E-Devlet parolanı kimseye verme. Sekreter, yardımcı, aile fark etmez.
+- **İstisna:** Vermek zorunda kaldıysan, iş bittiği an hemen parolayı değiştir.
+- **Yap:** E-Devlet üzerinde iki adımlı doğrulama aç. Parolanı bilseler bile telefonuna kod gelmeden giremezler.
+
+<Alert level="warning">
+E-Devlet parolanı kimseye verme. Sekreter, yardımcı, aile fark etmez. Vermek zorunda kaldıysan iş bittiği an hemen değiştir.
+</Alert>
+
+## <span class="heading-num">7.4</span> İki Aşamalı Doğrulama
+
+- **Ne demek:** Parolandan sonra telefonuna bir onay kodu gelir. O kodu girmeden kimse hesabına giremez.
+- **Yap:** Google, Facebook, X (Twitter), Instagram, WhatsApp, e-Devlet üzerinde iki adımlı doğrulamayı hemen aç.
+- **Yöntem:** SMS yerine mümkünse "doğrulayıcı uygulaması" (authenticator app) tercih et (Google Authenticator, Authy vb.). SMS kopyalanabilir, doğrulayıcı uygulaması daha güvenli.
+
+### Nasıl Yapılır: İki Aşamalı Doğrulama Açma
+
+**Google Hesabı:**
+1. myaccount.google.com > Güvenlik
+2. "İki adımlı doğrulama" > Başla
+3. Telefon numarasını gir, SMS veya arama ile doğrula
+4. (Tercihen) "Doğrulayıcı uygulaması" ekle: Google Authenticator ile tara
+
+**Instagram:**
+1. Profil > Menü (üç çizgi) > Ayarlar ve gizlilik
+2. Hesap güvenliği > İki adımlı doğrulama
+3. "Doğrulayıcı uygulaması" seç (WhatsApp doğrulayıcı değil)
+4. Google Authenticator ile QR kodu tara
+
+**WhatsApp:**
+1. Ayarlar > Hesap > İki adımlı doğrulama
+2. "Etkinleştir" > 6 haneli PIN belirle
+3. Kurtarma e-postası ekle (PIN unutulursa)
+
+**X (Twitter):**
+1. Ayarlar ve destek > Ayarlar ve gizlilik > Güvenlik ve hesap erişimi
+2. Güvenlik > İki adımlı doğrulama
+3. "Doğrulayıcı uygulaması" seç
+
+<Checklist title="İki Aşamalı Doğrulama Açma">
+<li>Google hesabında iki adımlı doğrulama açıldı</li>
+<li>Instagram'da doğrulayıcı uygulaması aktif</li>
+<li>WhatsApp iki adımlı doğrulama (6 haneli PIN) aktif</li>
+<li>X (Twitter) doğrulayıcı uygulaması aktif</li>
+<li>E-Devlet iki adımlı doğrulama açık</li>
+<li>E-posta hesabında iki adımlı doğrulama açık</li>
+<li>Kurtarma kodları güvenli yere kaydedildi</li>
+</Checklist>
+
+## <span class="heading-num">7.5</span> Kurtarma Seçenekleri
+
+- **Yap:** Hesaplarına kurtarma telefon numarası ve yedek e-posta ekle.
+- **Yapma:** Kurtarma kodlarını telefonda not tutma. Kağıda yaz, kasa veya güvenli bir yere koy.
+
+<Scenario label="Senaryo: Parolamı Unuttum Dolandırıcılığı">
+Birisi seni arar: "Ben Google destek ekibinden arıyorum, hesabında şüpheli giriş tespit ettik, parolanı sıfırlamak için sana bir kod gönderiyoruz, lütfen kodu söyle." Aslında saldırgan senin hesabına giriş yapmaya çalışıyor, Google sana doğrulama kodu gönderiyor. Saldırgan bu kodu istiyor. SMS ile gelen kodu asla kimseye söyleme.
+</Scenario>
+
+## <span class="heading-num">7.6</span> E-Posta Güvenliği
+
+- **Kural:** E-posta hesabın tüm dijital hayatının anahtarıdır. E-postanı ele geçiren, tüm hesaplarını sıfırlayıp ele geçirir (parola sıfırlama linkleri e-postana gelir).
+- **Yap:** E-posta parolan en güçlü parolan olsun. Diğer hiçbir hesapta aynı parolayı kullanma.
+- **Yap:** E-postada iki adımlı doğrulama mutlaka açık olsun.
+- **Yapma:** E-postana gelen "Hesabın askıya alındı, tıklayın" gibi maillerdeki linklere tıklama. Resmi hizmet sağlayıcılar böyle mail atmaz.
+- **Yap:** Gelen kutunu düzenli kontrol et. Tanımadığın göndericilerden gelen ekleri (özellikle .exe, .zip, .pdf) indirme.
+
+## <span class="heading-num">7.7</span> Tarayıcı ve Otomatik Giriş Güvenliği
+
+- **Kural:** Tarayıcıda (Chrome, Safari vb.) "Parolayı hatırla / otomatik doldur" özelliğini kapat. Bilgisayarı başkası açtığında tüm hesaplarına doğrudan girer.
+- **Yap:** Tarayıcıda kayıtlı parolaların varsa sil. Parola yöneticisi kullan.
+- **Yap:** "Giriş yapıldı" / "Oturum açık" bırakılan hesaplardan çıkış yap. Sadece tarayıcıyı kapatmak yetmez.
+
+<Accordion question="Parola yöneticisi karşılaştırma" id="pwd-mgr">
+**Ücretsiz seçenekler:**
+- **Bitwarden:** Açık kaynak, ücretsiz plan yeterli, tüm cihazlarda senkronize. Topluluk tarafından denetleniyor.
+- **KeePassXC:** Yerel depolama, bulut kullanmaz. Tam kontrol isteyenler için. USB bellekte taşınabilir.
+
+**Ücretli seçenekler:**
+- **1Password:** Kullanıcı dostu arayüz, aile planı var, seyahat modu (hassas verileri geçici olarak gizler).
+- **Dashlane:** VPN ve karanlık web izleme dahil.
+
+**Tavsiye:** Ücretsiz başlamak için Bitwarden, bütçe varsa 1Password tercih edilebilir. Hiçbir durumda parola yöneticisi kullanmamak en büyük risk.
+</Accordion>
+
+**Gerçek olay:** 2020'de bir gazetecinin Twitter hesabı ele geçirildi. Gazeteci, 2019'daki Facebook veri sızıntısında parolası sızan bir hesabını başka sitelerde de kullanıyordu. Saldırgan önce bu sızdırılmış parolayı bir listeye ekledi (saldırganın elindeki parola listesi). Ardından otomatik bir araçla bu parolayı farklı platformlarda denedi (credential stuffing). Twitter'da denediğinde hesap açıldı çünkü gazeteci aynı parolayı kullanıyordu. Saldırgan hemen parolayı değiştirdi, iki adımlı doğrulama ekledi ve gazeteciyi hesabından tamamen kilitledi. Gazeteci tüm takipçilerini, yılların birikimini ve güvenilir bir haber kaynağını bir anda kaybetti. Hesabı geri almak haftalar sürdü. Bu olayın sebebi basit: aynı parolayı birden fazla yerde kullanmak.
+
+**Gerçek olay:** Saldırgan önce parolanı tahmin eder veya İnternette sızdırılmış parola listelerinden bulur. Parolanı ele geçirdikten sonra hesabına normal bir kullanıcı gibi girer. Giriş yaptıktan sonra oturum çerezlerini (session cookies) çalarak başka bir cihazdan hesabında kalıcı olur. Parolanı sonradan değiştirsen bile çerez geçerliliğini koruduğu için saldırgan hesapta kalabilir. 2019 yılında 540 milyon Facebook parolası sızdırıldı ve bu parolalar bu zincirle binlerce hesapta kullanıldı. İki adımlı doğrulama açıksa bu zincirin ikinci adımında saldırgan durdurulur.
+
+**Benzetme:** Parola yöneticisi kullanmak, üzerinde her kapının ayrı anahtarı olan bir anahtarlığa benzer. Tek bir anahtarla o anahtarlığı açarsın, içinden her kapıya uygun anahtarı alırsın. Anahtarlık kullanmazsan her kapıya aynı anahtarı takarsın; biri kırıldı mı tüm kapılar açılır.
+
+Bir sabah uyanıp hesabının çalındığını görmektense, bugün bir parola yöneticisi kurmak daha iyidir.
+
+
+## İlgili Bölümler
+
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Hesap Çalındığında Acil Protokol](/hesap-calma/)
+- [Sosyal Mühendislik](/sosyal-muhendislik/)
+- [Güvenli Ödeme ve Alışveriş](/guvenli-odeme/)
+- [Kimlik Doğrulama ve Oturum Yönetimi](/kimlik-dogrulama-ve-yetkilendirme/)

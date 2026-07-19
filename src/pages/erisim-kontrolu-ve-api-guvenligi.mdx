@@ -1,0 +1,339 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Erişim Kontrolü ve API Güvenliği'
+description: 'RBAC, ABAC erişim kontrol modelleri, IDOR, path traversal, CORS ve API rate limiting. Python kod örnekleri ile güvenli erişim kontrolü ve API güvenliği mimarisi.'
+order: 58
+audience: B
+hero: '/img/hero/eklenti-ve-uygulama-izinleri.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+2019'da USPS (ABD Posta Servisi), 60 milyon kullanıcının adresini sızdırdı. Sebep: bir API uç noktası, kimlik doğrulama gerektirmiyordu ve "user_id" parametresi değiştirilerek başka kullanıcıların verisi okunabiliyordu. Klasik IDOR (Güvenli Olmayan Doğrudan Nesne Referansı) açığı. Saldırgan, 1'den 60 milyona kadar ID'leri sırayla taradı.
+
+Kimlik doğrulama (authentication) "kimsin?" sorusunu sorar. Erişim kontrolü (authorization) "bunu yapmana izin var mı?" sorusunu sorar. Bir kullanıcı giriş yapmış olabilir ama her şeye erişemez. Sıradan bir kullanıcı admin panelini göremez. Bir departman çalışanı başka departmanın verisini okuyamaz. Bu sınırı çizen, erişim kontrolüdür.
+
+**Özlü kural:** Her istekte, her kaynağa erişimde yetki kontrolü yapılır. "Kullanıcı giriş yaptı" demek "her şeye yetkisi var" demek değildir. [Kimlik doğrulama](/kimlik-dogrulama-ve-yetkilendirme/) kapıdan içeri sokar, erişim kontrolü hangi odalara girilebileceğine karar verir.
+
+**Hızlı ipucu:** API uç noktalarında `/api/users/{id}` desenini ara. `{id}` değiştirildiğinde başka kullanıcının verisi geliyorsa, IDOR açığı var demektir.
+
+## <span class="heading-num">58.1</span> Erişim Kontrol Modelleri
+
+Dört temel erişim kontrol modeli vardır:
+
+**DAC (Discretionary Access Control):** Kaynağın sahibi, kimin erişeceğini belirler. "Bu dosyayı Ahmet'le paylaş" mantığı. Esnektir ama güvenliği zayıftır. Kullanıcı yanlış kişiye yetki verebilir.
+
+**MAC (Mandatory Access Control):** Sistem, erişim kurallarını merkezi olarak belirler. Kullanıcı değiştiremez. Askeri sistemlerde kullanılır. "Gizli" seviyesindeki belgeyi "Gizli" yetkisi olmayan kimse göremez. En katı modeldir.
+
+**RBAC (Role-Based Access Control):** Yetkiler rollere bağlıdır. Kullanıcılar rollere atanır. "Editor" rolü yazabilir, "Viewer" rolü okuyabilir. Kurumsal dünyanın en yaygın modelidir.
+
+**ABAC (Attribute-Based Access Control):** Yetkiler kurallara (policy) bağlıdır. Kullanıcının özellikleri (departman, lokasyon, saat), kaynağın özellikleri (duyarlılık seviyesi) ve ortam değişkenleri (saat, IP) birlikte değerlendirilir. "Pazartesi-Cuma 09:00-18:00 arası ofis IP'sinden finans raporlarına erişebilir" gibi.
+
+### RBAC Implementasyonu (Python)
+
+```python
+from functools import wraps
+from enum import Enum
+
+class Role(Enum):
+    ADMIN = "admin"
+    EDITOR = "editor"
+    VIEWER = "viewer"
+
+# Rol -> Yetki eslemesi
+ROLE_PERMISSIONS = {
+    Role.ADMIN: {"read", "write", "delete", "manage_users"},
+    Role.EDITOR: {"read", "write"},
+    Role.VIEWER: {"read"},
+}
+
+def require_permission(permission: str):
+    """Decorator: Bu rotaya erismek icin belirli yetki gerekir"""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            user = get_current_user()  # Istekten kullaniciyi al
+            if not user:
+                return {"error": "Giris yapilmamis"}, 401
+            
+            user_permissions = ROLE_PERMISSIONS.get(user.role, set())
+            if permission not in user_permissions:
+                return {"error": "Yetkisiz erisim"}, 403
+            
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+# Kullanim
+@app.route('/api/users/<id>', methods=['DELETE'])
+@require_permission('delete')
+def delete_user(id):
+    # Sadece ADMIN rolune sahip kullanicilar buraya ulasabilir
+    User.delete(id)
+    return {"status": "silindi"}
+```
+
+<Alert level="tip">
+RBAC tasarımında "en az rol" prensibi uygula. Bir kullanıcıya "admin" vermek kolaydır, geri almak zordur. Önce "viewer" ver, ihtiyaç oldukça yetkiyi artır. Role escalation (yetki tırmanması) en yaygın insider tehdit vektörüdür.
+</Alert>
+
+## <span class="heading-num">58.2</span> IDOR (Insecure Direct Object Reference)
+
+IDOR, bir kullanıcının kendi yetkisi dışındaki kaynağa doğrudan erişmesidir. Sistem "kullanıcı giriş yapmış" der ve hiç "bu kaynağa yetkisi var mı?" diye sormaz.
+
+### Kötü Kod (Kırılgan)
+
+```python
+@app.route('/api/orders/<int:order_id>')
+def get_order(order_id):
+    # DIKKAT: Sadece order_id kontrol ediliyor
+    # Kullanici yetkisi kontrol EDILMIYOR
+    order = Order.query.get(order_id)
+    return order.to_dict()
+```
+
+Saldırgan URL'yi değiştirir: `/api/orders/1` yerine `/api/orders/2`, `/api/orders/3`... Başka kullanıcıların siparişlerini okur.
+
+### Doğru Kod (Güvenli)
+
+```python
+@app.route('/api/orders/<int:order_id>')
+@require_permission('read')
+def get_order(order_id):
+    user = get_current_user()
+    order = Order.query.get(order_id)
+    
+    if not order:
+        return {"error": "Siparis bulunamadi"}, 404
+    
+    # KULLANICININ BU SIPARISE ERISIM YETKISI VAR MI?
+    if order.user_id != user.id and user.role != Role.ADMIN:
+        return {"error": "Siparis bulunamadi"}, 404  # 403 degil 404: varlik sızıntısını onle
+    
+    return order.to_dict()
+```
+
+<Alert level="warning">
+IDOR en yaygın API güvenlik açığıdır. OWASP API Security Top 10'un birinci sırasındadır. Çünkü geliştirici "kimlik doğrulama yaptım, yetki kontrolü gerekmez" yanılgısına düşer. Her kaynağa erişimde: "bu kullanıcı bu kaynağa erişebilir mi?" sorusu ZORUNLU'dur.
+</Alert>
+
+**UUID kullanımı:** Artan sayısal ID'ler (1, 2, 3...) saldırgana tahmin etmesi kolay hedefler verir. UUID kullanmak, IDOR'u "kapatmaz" ama sömürülmeyi zorlaştırır:
+
+```python
+import uuid
+
+class Order(db.Model):
+    # int yerine UUID kullan
+    # Saldırgan sırayla 1, 2, 3 deneyemez
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+```
+
+## <span class="heading-num">58.3</span> Path Traversal
+
+Path traversal, saldırganın dosya sisteminde yetkisiz dizinlere erişmesidir. Uygulama, kullanıcıdan dosya adı alır ve dosyayı okur. Saldırgan `../../etc/passwd` gönderirse, uygulama istemeden işletim sistemi dosyasını okur.
+
+### Kötü Kod (Kırılgan)
+
+```python
+import os
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    # DIKKAT: Kullanicidan gelen dosya adi dogrudan dosya yolunda kullaniliyor
+    filepath = os.path.join('/app/uploads', filename)
+    with open(filepath, 'r') as f:
+        return f.read()
+```
+
+Saldırgan `filename` parametresi olarak şunu gönderir:
+
+```
+../../../../etc/passwd
+```
+
+`os.path.join` bunu `/app/uploads/../../../../etc/passwd` olarak birleştirir. İşletim sistemi `..`'yı "üst dizin" olarak yorumlar ve `/etc/passwd` dosyasını okur.
+
+### Doğru Kod (Güvenli)
+
+```python
+import os
+import re
+from pathlib import Path
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    # 1. Guvenli dosya adi kontrolu: sadece harf, rakam, nokta, tire
+    if not re.match(r'^[a-zA-Z0-9._-]+$', filename):
+        return {"error": "Gecersiz dosya adi"}, 400
+    
+    # 2. Mutlak yolu coz ve sinirlar icinde oldugundan emin ol
+    base_dir = Path('/app/uploads').resolve()
+    filepath = (base_dir / filename).resolve()
+    
+    # 3. Cozulmus yol, taban dizin icinde mi?
+    if not str(filepath).startswith(str(base_dir)):
+        return {"error": "Yetkisiz erisim"}, 403
+    
+    if not filepath.exists():
+        return {"error": "Dosya bulunamadi"}, 404
+    
+    return filepath.read_text()
+```
+
+**Üç katmanlı savunma:**
+1. Whitelist input validation (sadece güvenli karakterler)
+2. `Path.resolve()` ile `..` simgelerini çöz
+3. Çözülmüş yol taban dizin içinde mi, kontrol et
+
+## <span class="heading-num">58.4</span> CORS Güvenliği
+
+CORS (Cross-Origin Resource Sharing), bir tarayıcının başka bir alan adından API'ye istek göndermesine izin veren mekanizmadır. Varsayılan olarak tarayıcı, "same-origin policy" uygular: `app.com` sitesi sadece `app.com` API'sine istek gönderebilir. `evil.com` sitesi `app.com` API'sine istek gönderemez.
+
+CORS bu kuralı gevşetir. Ama yanlış yapılandırılırsa, her site API'ye erişebilir.
+
+### Kötü Yapılandırma
+
+```python
+# KÖTÜ: Herkese açık
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'  # TEHLIKELI!
+    response.headers['Access-Control-Allow-Credentials'] = 'true'  # DAHA TEHLIKELI!
+    return response
+```
+
+`Access-Control-Allow-Origin: *` + `Access-Control-Allow-Credentials: true` kombinasyonu tarayıcı tarafından reddedilir (spec yasak). Ama bazı geliştiriciler bunu bypass etmek için `Origin` header'ını yansıtır:
+
+```python
+# KÖTÜ: Origin header'ini yansıtma
+origin = request.headers.get('Origin')
+response.headers['Access-Control-Allow-Origin'] = origin  # HER ORIGIN'I KABUL ET!
+```
+
+Bu, her siteden credential içeren istek kabul eder. Felaket.
+
+### Doğru Yapılandırma
+
+```python
+ALLOWED_ORIGINS = {
+    'https://app.example.com',
+    'https://admin.example.com',
+}
+
+@app.after_request
+def add_cors_headers(response):
+    origin = request.headers.get('Origin')
+    
+    # SADECE guvenilir origin'lere izin ver
+    if origin in ALLOWED_ORIGINS:
+        response.headers['Access-Control-Allow-Origin'] = origin
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        response.headers['Vary'] = 'Origin'  # Onbellek kirliligini onle
+    
+    return response
+```
+
+<Alert level="info">
+CORS, tarayıcı güvenlik mekanizmasıdır. Tarayıcı olmayan istemciler (curl, Postman, mobil uygulama) CORS'a takılmaz. CORS'u "API güvenliği" sanma; CORS sadece "başka sitenin JavaScript'i benim API'me istek atabilir mi?" sorusunu yanıtlar. Gerçek API güvenliği için kimlik doğrulama ve rate limiting şarttır.
+</Alert>
+
+## <span class="heading-num">58.5</span> API Rate Limiting ve Güvenliği
+
+Rate limiting, bir kullanıcının (veya IP'nin) belirli süre içinde yapabileceği istek sayısını sınırlar. Brute force, credential stuffing (kimlik bilgisi doldurma) ve DDoS saldırılarına karşı ilk savunma hattıdır.
+
+```python
+import time
+from collections import defaultdict
+from functools import wraps
+
+# Basit in-memory rate limiter (production'da Redis kullan)
+request_counts = defaultdict(list)
+
+def rate_limit(max_requests: int, window_seconds: int):
+    """Decorator: Belirli surede belirli sayida istek siniri"""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            user = get_current_user()
+            key = user.id if user else request.remote_addr
+            
+            now = time.time()
+            # Son window_seconds saniyedeki istekleri say
+            recent = [t for t in request_counts[key] if now - t < window_seconds]
+            request_counts[key] = recent
+            
+            if len(recent) >= max_requests:
+                return {"error": "Cok fazla istek"}, 429  # Too Many Requests
+            
+            request_counts[key].append(now)
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+# Kullanim: kullanici basina 60 istek/dakika
+@app.route('/api/data')
+@rate_limit(max_requests=60, window_seconds=60)
+def get_data():
+    return {"data": "..."}
+```
+
+**Üç katmanlı rate limiting:**
+
+| Katman | Limit | Amaç |
+|--------|-------|------|
+| Global | 10.000 istek/dk/IP | DDoS koruması |
+| Kullanıcı | 60 istek/dk/kullanıcı | Haksız kullanım |
+| Hassas endpoint | 5 istek/dk/login | Brute force koruması |
+
+<DoDont items={[
+  { text: 'Her kaynağa erişimde yetki kontrolü yap', type: 'do' },
+  { text: 'ID yerine UUID kullan', type: 'do' },
+  { text: 'Path traversal için resolve() + startswith kontrolü yap', type: 'do' },
+  { text: "CORS'ta sadece güvenilir origin'lere izin ver", type: 'do' },
+  { text: 'Hassas endpointlerde sıkı rate limiting uygula', type: 'do' },
+  { text: "Authentication'ı yaptım diye authorization'ı atla", type: 'dont' },
+  { text: 'Access-Control-Allow-Origin: * + credentials: true kullan', type: 'dont' },
+  { text: 'Kullanıcı girdisini doğrudan dosya yolunda kullan', type: 'dont' },
+]} />
+
+<Accordion question="RBAC ve ABAC'ı birlikte kullanabilir miyim?" id="rbac-abac-mix">
+Evet ve önerilir. RBAC ana çerçeve olarak (admin, editor, viewer), ABAC ince ayar olarak kullanılır. Örneğin: "Editor rolüne sahip VE departmanı finans VE saat 09:00-18:00 arası VE ofis IP'sinden bağlanıyor" gibi bir kural, RBAC + ABAC kombinasyonudur. Çoğu kurumsal sistem böyle çalışır.
+</Accordion>
+
+<Accordion question="API gateway nedir, rate limiting için şart mı?" id="api-gateway">
+API gateway (Kong, AWS API Gateway, NGINX), tüm API isteklerinin tek noktadan geçtiği bir ters proxy'dir. Rate limiting, authentication, logging, request transformation gibi işleri API'den alıp gateway'e taşır. Şart değil ama mikro hizmet mimarisinde hayat kurtarır. Tek monolitik API'da uygulama içinde rate limiting yapabilirsin. Ama 10 mikro hizmetin varsa, her birinde ayrı rate limit yazmak yerine gateway'de tek noktadan yönetirsin.
+</Accordion>
+
+<Scenario label="Senaryo: IDOR ile Veri Sızıntısı">
+Bir fintech uygulamasında kullanıcılar kendi hesap hareketlerini görebiliyor. URL: `/api/transactions/12345`. Geliştirici authentication yapmış ama authorization'ı unutmuş. Bir kullanıcı, URL'deki ID'yi değiştirerek başka kullanıcıların hesap hareketlerini görmeye başlıyor. 1'den 100.000'e kadar tüm transaction ID'lerini tarıyor. 50.000 kullanıcının finansal verisi sızıyor. KVKK gereği 72 saat içinde bildirim zorunluluğu doğuyor. Çözüm tek satır: `if transaction.user_id != current_user.id: return 403`. Authentication yetmez, authorization şarttır.
+</Scenario>
+
+<Checklist title="Erişim Kontrolü ve API Güvenliği Kontrol Listesi">
+<li>Her endpoint için yetki kontrolü (authorization) yapılıyor</li>
+<li>IDOR kontrolü: kullanıcı sadece kendi kaynaklarına erişebiliyor</li>
+<li>Artan sayısal ID yerine UUID kullanılıyor</li>
+<li>Dosya yollarında path traversal koruması var</li>
+<li>CORS sadece güvenilir origin'lere açık</li>
+<li>Rate limiting: global + kullanıcı + hassas endpoint</li>
+<li>Login endpoint'ında brute force (deneme yanılma) koruması var (5 deneme/kilitleme)</li>
+<li>API key'ler düz metin değil, hash (özet)'lenerek saklanıyor</li>
+</Checklist>
+
+**Gerçek olay:** 2019'da Facebook, 533 milyon kullanıcının telefon numarasını ve profil bilgisini sızdırdı. Sebep: bir API uç noktası, kimlik doğrulama yapılmadan sınırsız veri çekmeye izin veriyordu (IDOR + rate limiting yok). Saldırgan, 1'den 533 milyona kadar kullanıcı ID'lerini otomatik taradı. Facebook, açığı kapattı ama veri çoktan yayınlanmıştı. Ders: her API uç noktasında yetki kontrolü ve rate limiting şarttır.
+
+**Benzetme:** Erişim kontrolü, bir otelin kat görevlisi sistemine benzer. Herkes otel lobisinden geçebilir (kimlik doğrulama). Ama herkesin her odaya anahtarı yoktur (yetkilendirme). Senin anahtarın sadece senin odanı açar. IDOR, anahtarın üzerinde oda numarası yazıyorsa ve görevli numarayı kontrol etmeden her anahtarı kabul ediyorsa oluşur.
+
+## İlgili Bölümler
+
+- [Kimlik Doğrulama ve Oturum Yönetimi](/kimlik-dogrulama-ve-yetkilendirme/)
+- [Güvenli Kodlama Temelleri](/guvenli-kodlama-temelleri/)
+- [Kriptografi ve Secret Yönetimi](/kriptografi-ve-secret-yonetimi/)
+- [Enjeksiyon Saldırıları ve Savunma](/enjeksiyon-saldirilari/)

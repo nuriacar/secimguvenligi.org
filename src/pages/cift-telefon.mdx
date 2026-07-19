@@ -1,0 +1,105 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Çift Telefon Sistemi'
+description: 'İş ve özel telefon ayrımı, kozmik oda kuralı, kamera kapatıcılar ve şarj güvenliği.'
+order: 29
+audience: V,G,K
+hero: '/img/hero/cift-telefon.webp'
+---
+
+import DoDont from '../components/DoDont.astro';
+import Alert from '../components/Alert.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Bir siyasetçinin telefonu düşün. Sabah kahvaltıda aile grubuna mesaj atar, öğlen parti yöneticileriyle yazışır, akşam güvendiği danışmanıyla hassas bir konuyu konuşur. Tüm bunlar aynı cihazda. O telefon bir kere ele geçirildi mi, her şey birden sızar: çocuğunun fotoğrafları, parti stratejileri, özel yazışmaların... İşte bu yüzden iki telefon. Biri herkes için, biri sadece senin için. Ayırmazsan, kaybettiğinde her şeyi kaybedersin.
+
+**Özlü kural:** İş telefonun başkasının, özel telefonun senindir. İkisini ayırmazsan ikisini de kaybedersin.
+
+## <span class="heading-num">29.1</span> İş ve Özel Telefon Ayrımı
+
+- **Kural:** Siyasetçi kesinlikle iki ayrı telefon kullanır.
+  - **Özel Telefon:** Aile, yakın çevre, hassas görüşmeler. Kimse dokunmaz, kimse bilmez.
+  - **İş Telefonu:** WhatsApp grupları, danışmanlar, halkla iletişim, sosyal medya. Bu telefon elden ele dolaşabilir.
+- **Kural:** Özel telefon asla başkasına verilmez, asla şarja bırakılıp gidilmez, asla toplantı masasında açık durmaz.
+
+<DoDont items={[
+  { text: 'İş ve özel hayat için iki ayrı telefon kullan', type: 'do' },
+  { text: 'Özel telefonu her zaman yanında tut', type: 'do' },
+  { text: 'İş telefonunu danışmanlarla paylaş', type: 'do' },
+  { text: 'Özel telefonu başkasına ver', type: 'dont' },
+  { text: 'Özel telefonu şarja bırakıp git', type: 'dont' },
+  { text: 'Özel telefonu toplantı masasında açık bırak', type: 'dont' },
+]} />
+
+Çift telefon kullanmanın temel mantığı "bölümlendirme" ilkesidir (compartmentalization). Bir telefon ele geçirilirse veya casus yazılım bulaşırsa, diğer telefon güvende kalır. İki dünyanı fiziksel olarak ayırarak riski yarıya indirirsin. 2018 yılında bir siyasetçinin kişisel telefonu, sıradan bir WhatsApp grubu aracılığıyla casus yazılım ile enfekte edildi. Saldırganlar bu yolla aylar boyunca kampanya strateji görüşmelerini, siyasetçinin günlük programını ve özel iletişimini izledi. Olay, kişisel ve iş yaşamının aynı cihazda buluşmasının ne kadar tehlikeli olabileceğini gösterdi.
+
+## <span class="heading-num">29.2</span> "Kozmik Oda" Kuralı
+
+- **Kural:** Kritik ve gizli toplantıların yapıldığı odalara özel kalem dahil hiç kimsenin telefonu, akıllı saati, tableti sokulmaz.
+- **Uygulama:** Toplantı öncesi tüm cihazlar kapıda toplanır. Sadece siyasetçinin (gerekirse) cihazı odada kalır.
+- **Neden:** Ortam dinlemesi ve gizli kayıtlar çoğunlukla "bizden" denen kişilerin sızdırılan cihazlarıyla yapılır.
+
+<Alert level="warning">Kozmik oda kuralı ihlal edildiğinde, toplantı içeriği anında sızdırılabilir. Özel kalem dahil hiç kimsenin cihazı kritik toplantı odasına sokulmaz.</Alert>
+
+## <span class="heading-num">29.3</span> Kamera Kapatıcılar
+
+- **Kural:** Tüm dizüstü bilgisayar, tablet ve telefon kameralarında fiziksel kamera kapatıcı (webcam cover) takılı ve kapalı durur.
+- **Kural:** Telefon masada dururken arka kamera daima zemine veya bir yüzeye bakacak şekilde konur.
+
+## <span class="heading-num">29.4</span> Akıllı Saat ve Giyilebilir Cihaz Güvenliği
+
+- **Kural:** Akıllı saat, fitness bilekliği ve benzeri giyilebilir cihazlar (wearable) da tıpkı telefon gibi mikrofon, kamera, konum ve veri taşıyabilir.
+- **Kural:** "Kozmik Oda" kuralı akıllı saatleri de kapsar. Toplantılara akıllı saatle girilmez.
+- **Yap:** Akıllı saatte Bluetooth toplantı süresince kapatılır. Bağlı olduğu telefon aracılığıyla ses veya veri sızabilir.
+- **Yapma:** Saatin kaydettiği sağlık verileri, konum geçmişi ve günlük rutin bilgiler hassastır. Saatin parolasız olmamasına dikkat edilir.
+
+## <span class="heading-num">29.5</span> Şarj ve Temin Güvenliği
+
+- **Kural:** Siyasetçinin telefonunu şarja takacak ve cihazına dokunacak tek kişi kendisidir.
+- **Yapma:** Şoförün, sekreterin veya herhangi bir personelin telefonu şarja takıp odasında/arasında bırakmasına izin verilmez.
+- **Kural:** Yedek şarj aleti, kablo ve güç bankası güvenilir kaynaktan temin edilir. Hediye edilen veya kutusuz güç bankaları kullanılmaz. İçine casus cihaz yerleştirilmiş olabilir.
+- **Kural:** Telefon herkesin erişebildiği bir prize değil, siyasetçinin kendi kontrolünde bir noktada şarj olur.
+
+<Checklist title="İkinci Telefon Kurulum Kontrol Listesi">
+<li>Özel telefon SIM kartı aktif ve parolalı</li>
+<li>İş telefonu ayrı SIM kart ile yapılandırıldı</li>
+<li>Özel telefonda otomatik yedekleme kapatıldı</li>
+<li>İş telefonuna sadece iş amaçlı uygulamalar yüklendi</li>
+<li>Her iki telefonda fiziksel kamera kapatıcı takıldı</li>
+<li>Akıllı saat toplantılarda kapatılıyor</li>
+<li>Şarj aleti güvenilir kaynaktan temin edildi</li>
+</Checklist>
+
+<Scenario label="Senaryo: Kameralı Toplantı">
+Siyasetçi önemli bir strateji toplantısına video konferans ile katılacak. Toplantı öncesi dizüstü bilgisayarın kamerası fiziksel kapatıcı ile açılıyor. Toplantı bittikten sonra kapatıcı tekrar kapatılıyor. Özel telefon toplantı süresince başka odada, uçak modunda. İş telefonu sadece gerekli uygulama açık şekilde masada, arka kamera zemine bakacak şekilde konumlandırılmış.
+</Scenario>
+
+<Accordion question="Çift Telefon Kurulum Rehberi" id="cift-telefon-rehber">
+**1. İş telefonunu belirle.** Hangi telefonun iş, hangisinin kişisel olacağına karar ver. İş telefonu daha ucuz ve değiştirilebilir olsun.
+
+**2. İş telefonuna yalnızca iş uygulamaları yükle.** WhatsApp grupları, danışman iletişimi, sosyal medya hesapları ve ajanda uygulamaları. Kişisel uygulamalar (Instagram, oyunlar, aile fotoğrafları) bu telefonda olmaz.
+
+**3. Kişisel telefonda sosyal medya ve mesajlaşma.** Aile, yakın arkadaş ve hassas görüşmeler sadece bu telefonda. Bu telefonun numarasını sadece güvendiğin kişiler bilir.
+
+**4. İki telefonun parolaları farklı olsun.** Aynı parolayı kullanırsan bir telefon ele geçirildiğinde diğeri de tehlikeye girer. Farklı ekran kilidi, farklı SIM PIN kodu.
+
+**5. İş telefonunu toplantılarda bile yanından ayırma.** İş telefonu elden ele dolaşabilir ama kişisel telefon asla başkasının eline geçmemeli. Toplantılarda kişisel telefonu başka odada, uçak modunda tut.
+
+**6. Yüksek risk durumunda özel telefona GrapheneOS kur.** En üst düzey koruma için özel telefona, Google Pixel donanımında çalışan GrapheneOS işletim sistemi kurulabilir. Bu sistem, Google servislerini sandbox'ta çalıştırır, varsayılan olarak hiçbir telemetri göndermez ve Pegasus benzeri sıfır tıklama saldırılarına karşı ek katmanlar sunar. Ön ödemeli bir SIM kartla kullanılması önerilir. Not: Tüm uygulamalar uyumlu olmayabilir, bu nedenle yedek iletişim kanalı olarak düşünülmelidir.
+</Accordion>
+
+**Savunma perspektifi:** İki telefon kullanmak, siber güvenlikte "ağ segmentasyonu" (network segmentation) kavramının günlük hayata uygulanmış halidir. Saldırgan bir sisteme sızmayı başarıp oradan diğer sistemlere geçmeye çalışır. İş telefonun ele geçirilirse saldırgan özel telefonuna geçemez çünkü arada fiziksel bir ayrım vardır (network segmentation / ağ segmentasyonu). ABD Başkanı iki ayrı telefon kullanır: resmi işler için güvenli hat, kişisel iletişim için ayrı cihaz. Bir cihaz patlarsa diğeri güvende kalır. Aynı mantık bilgisayarlar, tabletler ve akıllı saatler için de geçerlidir: hassas işlemler için ayrı cihaz, gündelik kullanım için ayrı cihaz.
+
+**Gerçek olay:** 2017'de bir Avrupa ülkesinde muhalefet liderinin iş telefonuna bir WhatsApp mesajıyla casus yazılım bulaştırıldı. Telefon tamamen ele geçirildi: mesajlar okundu, konum takip edildi, toplantılar dinlendi. Ancak siyasetçi özel telefonunu ayrı kullandığı için ailesi, yakın danışmanları ve stratejik görüşmeleri güvende kaldı. Saldırganlar sadece iş telefonundaki bilgilere erişebildi. Bu olay, çift telefon sisteminin neden bir lüks değil, siyasetçi için zorunluluk olduğunu açıkça gösterdi. Bir telefon patlarsa diğeri güvende kalır, bu basit kural en karmaşık siber saldırıyı bile etkisiz hale getirebilir.
+
+**Benzetme:** Çift telefon, bir evin iki ayrı kapısı gibidir. Biri misafirler için, biri aile için. Misafir kapısını zorlayan olursa, aile kapısı hâlâ güvendedir.
+
+
+## İlgili Bölümler
+
+- [Yakın Çalışma Ekibi Güvenliği](/yakin-calisma-ekibi/)
+- [Mesajlaşma Güvenliği](/mesajlasma/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)

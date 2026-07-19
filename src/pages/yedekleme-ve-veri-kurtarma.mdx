@@ -1,0 +1,125 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Yedekleme ve Veri Kurtarma'
+description: 'Veri yedekleme yöntemleri, 3-2-1 kuralı, bulut ve fiziksel yedek, veri kurtarma ve geri yükleme.'
+order: 19
+audience: V
+hero: '/img/hero/yedekleme-ve-veri-kurtarma.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Telefonun bir sabah açılmıyor. Ekran karardı, siyah bir levha gibi duruyor. Ya da bir mesaj geldi: "Dosyalarına erişim engellendi, 500 dolar Bitcoin gönder." Belki de telefonunu düşürdün, cam kırıldı, bir daha açılmadı. O an aklıma gelen ilk şey: "Fotoğraflarım, mesajlarım, notlarım, rehberim... Hepsi gitti mi?"
+
+Evet, hepsi gidebilir. Ama gitmek zorunda değil. Bir yedeğin varsa, hiçbir şey kaybolmaz. Yedekleme, dijital hayatının sigortasıdır. Her gün kullanıyorsun, farkında değilsin. Ama sigortanın ne zaman işe yaradığını ancak kaza olunca anlarsın.
+
+**Özlü kural:** Yedeği olmayan veri, kaybolmayı bekleyen veridir.
+
+## <span class="heading-num">19.1</span> 3-2-1 Yedekleme Kuralı
+
+- **Kural:** 3 kopya, 2 farklı ortam, 1 kopya farklı konumda.
+- **Nasıl:** Verinin 3 kopyası olsun (1 orijinal + 2 yedek). Bu kopyalar 2 farklı ortamda bulunsun (örneğin telefon + bilgisayar + harici disk). Ve 1 kopya fiziksel olarak farklı bir yerde olsun (örneğin bulut).
+- **Örnek:** Telefonundaki fotoğrafların:
+  1. Telefonunda (orijinal)
+  2. Bilgisayarında (1. yedek - farklı ortam)
+  3. Bulutta (2. yedek - farklı konum)
+
+<DoDont items={[
+  { text: '3-2-1 kuralını uygula: 3 kopya, 2 ortam, 1 farklı konum', type: 'do', level: 'best' },
+  { text: 'Haftada bir otomatik yedekleme ayarla', type: 'do' },
+  { text: 'Yedeklerin çalıştığını ayda bir kontrol et', type: 'do' },
+  { text: 'Yedekleri şifreli tut (parola veya şifreleme ile)', type: 'do' },
+  { text: 'Sadece telefonda tutma - her an kaybolabilir', type: 'dont' },
+  { text: 'Yedeklemeyi "bir gün" erteleme', type: 'dont' },
+]} />
+
+## <span class="heading-num">19.2</span> Telefon Yedekleme Yöntemleri
+
+### iPhone Yedekleme
+
+- **iCloud Yedekleme:** Ayarlar > [Adın] > iCloud > iCloud Yedekleme > Aç. Otomatik yedek alır. Kolay ama bulut riski var: hesabın ele geçirilirse yedeğin de gider.
+- **Bilgisayara Yedekleme (Finder/iTunes):** Telefonu bilgisayara bağla, Finder'da telefonu seç, "Bu bilgisayara yedekle" seç. "Yerel yedeklemeyi şifrele" seçeneğini işaretle. En güvenlisi.
+
+### Android Yedekleme
+
+- **Google Yedekleme:** Ayarlar > Google > Yedekleme > Aç. Uygulama verileri, arama geçmişi, ayarlar yedeklenir.
+- **Google Fotoğraflar:** Fotoğrafların otomatik olarak buluta yedeklenir.
+- **Harici Diske Yedekleme:** Telefonu bilgisayara bağla, dosyaları kopyala. En güvenli yöntem.
+
+<Alert level="warning">
+Bulut yedekleme pratiktir ama risklidir. Hesabın ele geçirilirse tüm yedeğin sızabilir. Kamu görevlileri ve siyasetçiler için fiziksel, şifreli harici diske yedekleme daha güvenlidir.
+</Alert>
+
+## <span class="heading-num">19.3</span> Yedekleme Yöntemleri Karşılaştırması
+
+<table>
+<caption>Yedekleme ve Veri Kurtarma — Özet Tablo</caption>
+<thead>
+<tr><th scope="col">Yöntem</th><th scope="col">Kolaylık</th><th scope="col">Güvenlik</th><th scope="col">Risk</th></tr>
+</thead>
+<tbody>
+<tr><td>iCloud yedekleme</td><td>Otomatik, kolay</td><td>Orta</td><td>Hesap ele geçirilirse arşiv sızar</td></tr>
+<tr><td>iTunes/Finder yedekleme</td><td>Manuel işlem</td><td>Yüksek</td><td>Parola koymak şart</td></tr>
+<tr><td>Google yedekleme</td><td>Otomatik</td><td>Orta</td><td>Google hesabına bağlı</td></tr>
+<tr><td>Harici disk</td><td>Manuel</td><td>Çok yüksek</td><td>Fiziksel kayıp riski</td></tr>
+<tr><td>Bulut (şifreli)</td><td>Karmaşık</td><td>Yüksek</td><td>Doğru araç gerek (Cryptomator)</td></tr>
+</tbody>
+</table>
+
+## <span class="heading-num">19.4</span> Bilgisayar Yedekleme
+
+- **Windows:** Ayarlar > Güncelleme ve Güvenlik > Yedekleme > Dosya Geçmişi. Veya harici diske manuel kopyala.
+- **Mac:** Time Machine ile harici diske düzenli yedekleme. Sistem Ayarları > Time Machine > Yedekleme Diskini Seç.
+- **Kural:** Bilgisayar yedeğini de şifrele. Şifresiz harici disk bulan herkes verilerine erişebilir.
+
+## <span class="heading-num">19.5</span> Yedek Testi ve Geri Yükleme
+
+- **Kural:** Yedeği olan herkes yedek aldığını sanır ama yedek bozuksa hiçbir işe yaramaz.
+- **Yap:** Ayda bir yedeğin gerçekten çalıştığını kontrol et. Rastgele bir dosyayı yedekten geri yüklemeyi dene.
+- **Yapma:** "Yedek aldım, tamam" deyip kontrol etmeden bırakma. Boş yedek, yedek değildir.
+
+<Scenario label="Senaryo: Telefonun Düştü ve Açılmıyor">
+Telefonun elinden kaydı, yere düştü. Ekran kırıldı, telefon açılmıyor. İçeride bir senelik fotoğrafların, çocuğunun ilk adımları, o anılar... Ama sen düzenli yedek alıyordun. Yeni telefon aldın, iCloud/Google yedeğinden geri yükledin. Tüm fotoğrafların, rehberin, mesajların geri geldi. O an "iyi ki yedeklemişim" diyorsun. İşte yedekleme böyle bir şey: kaza olana kadar kıymetini bilmezsin.
+</Scenario>
+
+## <span class="heading-num">19.6</span> Veri Kurtarma Araçları
+
+- **Silinen dosyalar:** Bir dosyayı sildikten sonra hemen yeni bir şey yazma. Silinen dosyalar tamamen gitmez, üzerine yeni veri yazılana kadar kurtarılabilir.
+- **Android:** DiskDigger gibi uygulamalar silinen fotoğrafları kurtarabilir (telefonun köklendiyse).
+- **iPhone:** Silinen fotoğraflar "Son Silinenler" albümünde 30 gün kalır.
+- **Bilgisayar:** Recuva (Windows) veya TestDisk ile silinen dosyalar kurtarılabilir.
+- **Kural:** Profesyonel'e ihtiyacın varsa veri kurtarma firmalarına başvur. Ama çok pahalı olabilir.
+
+**Benzetme:** Yedekleme, bir kitabın fotokopisini çekip ayrı bir yerde saklamak gibidir. Kitap yanarsa, ıslanırsa veya kaybolursa fotokopiden tekrar başabilirsin. Fotokopi yoksa kitap gerçekten kaybolur.
+
+<Checklist title="Yedekleme Kontrol Listesi">
+<li>Telefonun otomatik bulut yedeklemesi açık</li>
+<li>Önemli fotoğraflar bilgisayara kopyalandı</li>
+<li>Harici disk şifreli</li>
+<li>Yedek ayda bir test edildi (geri yükleme denendi)</li>
+<li>3-2-1 kuralı uygulandı (3 kopya, 2 ortam, 1 farklı konum)</li>
+<li>Bilgisayarda Time Machine / Dosya Geçmişi aktif</li>
+<li>Fidye yazılımına karşı çevrimdışı yedek var</li>
+<li>Bulut hesabı iki adımlı doğrulamalı</li>
+</Checklist>
+
+<Accordion question="Bulut yedek mi, harici disk yedek mi daha güvenli?" id="bulut-vs-disk">
+İkisi de farklı riskleri var. Bulut kolay ama hesabın ele geçirilirse tüm yedeğin sızar. Harici disk güvenli ama fiziksel olarak çalınabilir veya bozulabilir. En iyisi her ikisi: önemli verilerini hem şifreli harici diske hem de buluta yedekle. Kamu görevlisi veya siyasetçiysen, bulut yerine fiziksel şifreli harici disk öncelikli olsun. Bulut yedeğinde mutlaka iki adımlı doğrulama kullan.
+</Accordion>
+
+<Accordion question="Fidye yazılımı yedeğimi de parolalar mi?" id="fidye-yedek">
+Yedeklerin aynı bilgisayarda veya sürekli bağlı bir harici diskteyse, evet. Fidye yazılımı bağlı tüm sürücüleri parolalar. Bundan korunmak için: 1) Yedek diskin kullanmadığın zaman bilgisayardan ayrı olsun. 2) Bulut yedeklemeyi de kullan ama farklı bir hesapla. 3) Çevrimdışı yedek her zaman en güvenli seçenektir. Saldırgan ulaşamadığı yedeğe dokunamaz.
+</Accordion>
+
+## İlgili Bölümler
+
+- [Güvenli Silme ve Cihaz Devri](/guvenli-silme/)
+- [Çalıntı veya Kayıp Telefon](/calinti-kayip/)
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Haftalık Kontrol Listesi](/haftalik-kontrol/)
+- [Virüs ve Kötü Amaçlı Yazılımlar](/virus-ve-kotu-amacli-yazilimlar/)

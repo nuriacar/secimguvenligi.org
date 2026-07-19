@@ -1,0 +1,121 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Bot Hesaplar'
+description: 'Bot hesapları tanıma yöntemleri, koordineli saldırılara karşı savunma ve troll ekonomisi.'
+order: 38
+audience: V
+hero: '/img/hero/bot-hesaplar.webp'
+---
+
+import DoDont from '../components/DoDont.astro';
+import Alert from '../components/Alert.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Bir hashtag trend topic oluyor. Saat gece 03.00. Binlerce hesap aynı anda, aynı kelimelerle, aynı etiketi kullanıyor. Profil fotoğrafları yapay, isimler rastgele, biyografiler anlamsız. Ama paylaşımları o kadar organize ki, gerçek insanların dikkatini çekiyor. Sabaha karşı bir siyasetçi hakkında başlatılan karalama kampanyası, gün içinde milyonlarca kişiye ulaşıyor. Bunu yapan bir insan değil, binlerce otomatik hesap: botlar.
+
+**Hızlı ipucu:** Bir hesaba şüphelendiğinde 3 saniyede kontrol et: Profil fotoğrafı tersine görsel arama yap. Aynı fotoğraf onlarca farklı isimle kullanılıyorsa bottur.
+
+<Alert level="warning">Aynı saatte, aynı kelimelerle, aynı hashtag ile birden fazla hesap paylaşım yapıyorsa bu koordineli bot saldırısıdır. Paylaşma, engelle ve bildir.</Alert>
+
+## <span class="heading-num">38.1</span> Nedir?
+
+Bot (otomatik hesap), bir yazılım tarafından kontrol edilen sahte sosyal medya hesabıdır. Binlerce bot aynı anda çalışarak trend topic oluşturabilir, yalan haberi viral yapabilir veya bir siyasetçi hakkında karalama kampanyası başlatabilir.
+
+## <span class="heading-num">38.2</span> Nasıl Anlaşılır?
+
+<table>
+<caption>Bot hesap tanıma işaretleri</caption>
+<thead>
+<tr>
+  <th scope="col">İşaret</th>
+  <th scope="col">Açıklama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Profil fotoğrafı çok temiz veya stok fotoğraf</strong></td>
+  <td>Gerçek insanlar genellikle kendine özgü fotoğraflar kullanır. Mükemmel kalitede ve profesyonel fotoğraflar şüphe uyandırır.</td>
+</tr>
+<tr>
+  <td><strong>Hesap yeni açılmış</strong></td>
+  <td>2024 veya 2025'te açılmış, binlerce takipçisi var ama çok az takip ettiği kişi var.</td>
+</tr>
+<tr>
+  <td><strong>Sadece bir konuda tweet atıyor</strong></td>
+  <td>Hesapta sadece bir partiye veya bir kişiye karşı içerik var. Kişisel paylaşımlar, fotoğraflar yok.</td>
+</tr>
+<tr>
+  <td><strong>Aynı metin birden fazla hesaptan atılıyor</strong></td>
+  <td>Aynı saatte, aynı kelimelerle, aynı hashtag ile birden fazla hesap tweet atıyorsa bu koordineli bot saldırısıdır.</td>
+</tr>
+<tr>
+  <td><strong>Ani patlama</strong></td>
+  <td>Normalde sessiz olan bir hesap birden seçim döneminde günde yüzlerce paylaşım yapıyorsa.</td>
+</tr>
+</tbody>
+</table>
+
+## <span class="heading-num">38.3</span> Koordineli Bot Saldırısına Karşı Ne Yapılır?
+
+1. **Tespit et:** Aynı saatte, benzer metinle atan hesapları not et. Ekran görüntüsü al.
+2. **Platformlara bildir:** Koordineli sahte hesap ağı olarak toplu bildirim yap (Twitter/X, Facebook, Instagram).
+3. **Seçim kuruluna bildir:** YSK'ya ve BTK'ya resmi şikayette bulun.
+4. **Engelle ve yayma:** Bot hesapları engelle. Botların paylaştığı içeriği "retweet" veya "beğeni" ile amplifiye etme.
+5. **Kriz iletişimi:** Hedef alındıysan, kriz iletişim danışmanıyla gerçekleri paylaş. Sessiz kalmak algıyı botlara bırakmak demektir.
+
+## <span class="heading-num">38.4</span> Troll Ekonomisi
+
+Botların yanında ücretli "troll" hesaplar da vardır. Bunlar gerçek insanlar tarafından yönetilir ama parayla tutulmuşlardır. Belirli bir siyasetçiye veya partiye destek için veya karalamak için günde onlarca mesaj atarlar. Türkiye'de bu tür organize sosyal medya operasyonlarının varlığı belgelenmiştir.
+
+Türkiye'de seçim dönemlerinde sosyal medyada koordineli hesap aktivitesi gözlemlenmiştir. Aynı anda binlerce hesaptan benzer mesajlar paylaşılması, trend topic manipülasyonu ve rakip görüşlerin bastırılması, bot saldırısının klasik belirtileridir. Bu tür kampanyalarda amaç, sıradan kullanıcının "Bu kadar kişi söylüyorsa bir gerçek vardır" algısına kapılmasını sağlamaktır. Seçim dönemlerinde özellikle yeni açılmış, tek konuda içerik üreten ve profil fotoğrafları stok görsel olan hesaplara karşı dikkatli olunmalıdır.
+
+**Türkiye'den senaryo:** Seçim döneminde bir belediye başkanı adayının hakkında birden yüzlerce farklı hesaptan aynı saatte aynı sözlerle karalama kampanyası başlatılır. Hesapların profil fotoğrafları stok görsellerdir, açılış tarihleri seçimden birkaç ay öncesinedir. Koordineli saldırının amacı, sıradan seçmenin "Bu kadar kişi söylüyorsa bir doğru vardır" demesini sağlamaktır.
+
+**Gerçek olay:** 2020 yılında hackerlar Twitter'ın iç sistemine sızarak Barack Obama, Joe Biden ve Elon Musk gibi ünlü hesapları ele geçirdi. Bu hesaplardan "Bitcoin gönder, ikiye katlayıp geri gönderirim" şeklinde sahte tweetler atıldı ve 100.000 dolardan fazla para toplandı. Olay, hesapların tek tek değil şirket altyapısı üzerinden topluca ele geçirilebileceğini gösterdi. Botlar ve sahte hesaplar da benzer şekilde toplu manipülasyon için kullanılır.
+
+<DoDont items={[
+  { text: 'Şüpheli hesapları not et ve ekran görüntüsü al', type: 'do' },
+  { text: 'Koordineli sahte hesap ağı olarak toplu bildirim yap', type: 'do' },
+  { text: 'YSK ve BTK\'ya resmi şikayette bulun', type: 'do' },
+  { text: 'Botların paylaştığı içeriği "retweet" veya "beğeni" ile yay', type: 'dont' },
+  { text: '"Bu kadar kişi söylüyorsa doğrudur" diyerek kanıt aramadan inan', type: 'dont' },
+  { text: 'Bot saldırısına duygusal tepki ver', type: 'dont' },
+  { text: 'Şüpheli hesapları görmezden gel ve sessiz kal', type: 'dont' },
+]} />
+
+<Checklist title="Bot Raporlama Kontrol Listesi">
+<li>Şüpheli hesapların ekran görüntüsünü aldım (tarih, saat, URL görünür)</li>
+<li>Aynı metni atan hesapları not ettim</li>
+<li>Platforma koordineli sahte hesap bildirimi yaptım</li>
+<li>YSK ve BTK\'ya resmi şikayette bulundum</li>
+<li>Bot hesapları engelledim</li>
+<li>Hedef sizsen kriz iletişim danışmanıyla görüştüm</li>
+<li>Botların içeriğini amplifiye etmedim</li>
+</Checklist>
+
+<Scenario label="Senaryo: Trend Topic Manipülasyonu">
+Seçim dönemine bir hafta kala Twitter/X'te bir hashtag aniden trend topic oluyor. Hashtag muhalefet adayı hakkında ağır bir iddia içeriyor. Dikkatli bakınca hashtag'i atan hesapların çoğunun profil fotoğrafları stok görseller, açılış tarihleri son birkaç ay ve hesaplarda sadece bu konuda içerik var. Koordineli bir bot saldırısı ile trend topic oluşturulmuş. Sıradan seçmen "trend topic olmuşsa doğrudur" diye düşünüyor. Bu manipülasyonu nasıl tespit edersin? Ne yaparsın?
+</Scenario>
+
+<Accordion question="Bot tespit araçları nelerdir?" id="bot-detect">
+**1. Botometer:** Indiana Üniversitesi'nin geliştirdiği araç. Twitter/X hesaplarının bot olma ihtimalini analiz eder. botometer.osome.iu.edu adresinden ücretsiz kullanılabilir.
+
+**2. TweetDeck / X Pro:** Hesap aktivitelerini aynı anda izleme imkânı sunar. Koordineli paylaşımları tespit etmede etkili.
+
+**3. Hoaxy:** Bot hesapların nasıl yayıldığını ve hangi haberleri amplifiye ettiğini görselleştirir.
+
+**4. Manuel kontrol:** Profil fotoğrafı, açılış tarihi, paylaşım sıklığı ve içerik tekdüzeliliğini kontrol et. En güvenilir yöntem hâlâ dikkatli insan gözüdür.
+</Accordion>
+
+**Gerçek olay:** Bot ordusu koordineli bir şekilde bir hashtag'i trend topic yapar ve rakip propagandayı baskılar. Aynı anda rakip hesaplara toplu şikayet gönderilir ve platform kapatana kadar baskı sürer. Amaç, rakibin mesajını ulaştıramamasını sağlamaktır. 2016 ABD seçimlerinde Rusya destekli İnternet Araştırma Ajansı (IRA), binlerce bot hesapla tam olarak bu yöntemi kullandı: hashtag manipülasyonu, toplu şikayet ve koordineli dezenformasyon. Sosyal medya platformları bu tür koordineli saldırıları tespit etmek için özel algoritmalar geliştirdi ancak botlar da gelişmeye devam ediyor.
+
+**Benzetme:** Bot saldırıları, bir stadyumda aynı anda tezahürat yapmaya başlayan görünmez bir kalabalık gibidir. Onları göremezsin ama seslerini duyarsın. O sese kapılıp gidenler, aslında var olmayan bir kalabalığın parçası olur.
+
+## İlgili Bölümler
+
+- [Dezenformasyon](/dezenformasyon/)
+- [Hibrit Harp](/bilgi-savasi/)
+- [Sosyal Medya Güvenliği](/sosyal-medya/)

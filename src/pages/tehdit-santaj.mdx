@@ -1,0 +1,106 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Tehdit ve Şantaj'
+description: 'Şantaj ve tehditlere karşı hazırlık, kriz yönetimi ve dijital savunma stratejileri.'
+order: 23
+audience: V
+hero: '/img/hero/tehdit-santaj.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import Accordion from '../components/Accordion.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+
+
+
+Bir akşam telefonuna tanımadığın bir numaradan mesaj geliyor. Senin adına kayıtlı bir hesaptan, kendi fotoğrafını görüyorsun. Yanında bir not: "Bunu herkese göndermemi istemiyorsan..." O an kalbin duracak gibi oluyor. Nefes alamıyorsun. Düşünceler birbirine giriyor: "Nasıl?", "Ne yapmalıyım?", "Ya yayarlarsa?"
+
+İşte tam o anda verdiğin karar, her şeyi belirler. Panikle para göndermek mi? Yoksa durup düşünmek mi? Şantajcının en büyük silahı korkundur. O korkuyu yendiğin anda silahı elinden almış olursun.
+
+**Özlü kural:** Bir kasetin varsa çekilmiştir. Tek kural: hiçbir şekilde ödeme yapma.
+
+## <span class="heading-num">23.1</span> Oltalama Bağlantılarına Karşı Sıfır Tolerans
+
+- **Senaryo:** "Sayın Başkan, hakkında böyle bir haber var: [Link]" veya "Parti genel merkezinden acil talimat: [Link]"
+- **Kural:** Kaynağı ne olursa olsun mesajla gelen linklere asla tıklanmaz. Tıklandığı an telefona casus yazılım sızabilir; galeri, mikrofon, kamera saldırganın eline geçer.
+- **Uygulama:** Şüpheli mesajlar ekran görüntüsü alınarak güvenlik sorumlusuna iletilir, doğrulama ondan geçmeden hiçbir linke dokunulmaz.
+
+<Alert level="critical">Oltalama linklerine karşı sıfır tolerans. Kaynağı ne olursa olsun mesajla gelen linklere asla tıklanmaz. Tek bir tıklama casus yazılım bulaşmasına yeter.</Alert>
+
+<DoDont items={[
+  { text: 'Şüpheli mesajı ekran görüntüsü ile güvenlik sorumlusuna ilet', type: 'do' },
+  { text: 'Link tıklamadan önce kaynağı doğrulat', type: 'do' },
+  { text: 'Güvenlik sorumlusundan onay almadan linke dokun', type: 'dont' },
+  { text: '"Sayın Başkan" diye başlayan mesajlardaki linklere güven', type: 'dont' },
+  { text: 'Parti genel merkezinden geldiğini iddia eden mesajlardaki linklere tıkla', type: 'dont' },
+]} />
+
+**Gerçek olay:** 2019'da İngiltere'de bir dolandırıcılık şebekesi, kamuoyunda "sextortion" olarak bilinen cinsel içerikli şantaj yöntemiyle 100'den fazla kişiyi hedef aldı. Mağdurlar sosyal medyadan yaklaşılıyor, sahte profillerle güven kazanılıyor ve özel içerik paylaşıldıktan sonra para talep ediliyordu. Şantaja uğrayanların çoğu utandıkları için polise başvurmadı. Olay, sadece şantajcının tehdit eden değil, utancın da bir silah olarak kullanıldığını gösterdi.
+
+## <span class="heading-num">23.2</span> Bulut Senkronizasyonu Kapatma
+
+- **Kural:** Siyasetçinin özel telefonunda iCloud / Google Photos otomatik yedekleme kapalı olmalıdır.
+- **Neden:** Bulut hesabı ele geçirildiğinde tüm fotoğraf ve video arşivi sızdırılır.
+- **Uygulama:** Fotoğraflar sadece telefon hafızasında, parolalı olarak tutulur. Düzenli fiziksel yedekleme (parolalı harici disk) bilgi işlem sorumlusu tarafından yapılır.
+
+## <span class="heading-num">23.3</span> Görüntülü Arama Tedbiri
+
+- **Kural:** Tanınmayan numaralardan gelen görüntülü aramalar asla açılmaz.
+- **Neden:** Karşı taraf ekran kaydı alıp siyasetçinin yüzünü uygunsuz içeriğe derin sahte (deepfake) video olarak monte edebilir. Anlık bir görüntü bile şantaj malzemesi olur.
+- **Kural:** Görüşme mutlaka yapılacaksa, numara doğrulanır ve görüşme öncesi karşı tarafın da kimliği teyit edilir.
+- **Derin sahte tehditleri hakkında detay: [Derin Sahte (Deepfake)](/deepfake/).**
+
+## <span class="heading-num">23.4</span> Ses Kaydı ve "Algoritma Dinleme" Riski
+
+- **Kural:** Siyasetçi ve ekip, telefonların yanlarında olduğu her an potansiyel olarak kayıt altında olduğunu bilmelidir.
+- **Neden:** Casus yazılım bulaşmasa bile, sosyal medya uygulamalarının (Facebook, Instagram, TikTok vb.) "mikrofon dinleme" şüphesi yaygındır. Kesin kanıt olmasa da önlem olarak:
+  - **Yap:** Görüşme sırasında telefonlar başka odaya alınır veya mikrofon erişimi kapatılır.
+  - **Yap:** iPhone'da Ayarlar > Gizlilik ve Güvenlik > Mikrofon üzerinden uygulama bazlı mikrofon izinleri kontrol edilir. Gerekmeyen uygulamaların mikrofon erişimi kapatılır.
+- **Kural:** Hassas sözlü görüşmelerde "telefon masada durur" alışkanlığı bırakılır.
+
+## <span class="heading-num">23.5</span> Konum Geçmişi ve Fiziksel Takip
+
+- **Kural:** Siyasetçinin konumu sürekli izlenebilir. Google Haritalar zaman çizelgesi, fotoğraf üst verileri, sosyal medya yer bildirimleri (check-in), akıllı saat konum kaydı birleştiğinde tam bir hareket haritası çıkar.
+- **Yap:** Google hesabında "Konum Geçmişi" kapatılır. Ayarlar > Konum > Konum Geçmişi durdurulur.
+- **Yap:** Fotoğraf makinesi/telefon kamerası için GPS etiketleme (geotagging) kapatılır.
+- **Yapma:** Özel toplantı ve görüşme noktalarına giderken navigasyon uygulaması kullanılmaz veya kullanıldıktan sonra geçmiş silinir.
+- **Kural:** Araçta GPS takip cihazı olup olmadığı düzenli kontrol ettirilir.
+
+<Checklist title="Dijital Temizlik Kontrol Listesi">
+<li>iCloud / Google Photos otomatik yedekleme kapatıldı</li>
+<li>Tanınmayan numaralardan görüntülü arama açılmıyor</li>
+<li>Google Haritalar konum geçmişi kapatıldı</li>
+<li>Fotoğraf GPS etiketleme (geotagging) kapatıldı</li>
+<li>Gereksiz uygulamaların mikrofon erişimi kapatıldı</li>
+<li>Navigasyon geçmişi düzenli siliniyor</li>
+<li>Araç GPS takip cihazı kontrolü yapıldı</li>
+</Checklist>
+
+<Scenario label='Senaryo: "Sayın Başkan..." SMS'>
+Telefona "Sayın Başkan, hakkında böyle bir haber çıktı: [link]" mesajı geldi. Mesajın gönderen numarası tanınmıyor. Asla tıklanmaz. Mesajın ekran görüntüsü alınır ve güvenlik sorumlusuna iletilir. Güvenlik sorumlusu linki sandbox ortamında açıp analiz eder. Sonuç siyasetçiye bildirilir.
+</Scenario>
+
+<Accordion question="Şantaj geldiğinde ilk 10 dakikada ne yapmalısın?" id="santaj-first-10">
+**1. Panik yapma.** Şantajın amacı korkutmak. Korku anında mantıklı düşünemezsin. Önce derin nefes al, 10 saniye bekle.
+
+**2. Asla para gönderme.** Para gönderdiğin an şantajcı elini güçlendirir. Ödedikçe daha çok ister. Bitmez.
+
+**3. Kanıt topla.** Mesajları silme. Ekran görüntüsü al. Tehdit eden hesabın adı, URL, tarih-saat bilgisi kaydet.
+
+**4. Güvendiğin birine anlat.** Sadece kendin taşıma. Bir arkadaş, aile veya güvenlik sorumlusuna durumu anlat. Utanma. Şantajcı utancını silah olarak kullanır.
+
+**5. Savcılığa suç duyurusu yap.** Siber suçlar birimine git. Kanıtlarla birlikte şikayette bulun. Seçim döneminde bu tür suçlar daha hızlı işleme alınır.
+
+**Saldırı zinciri:** Şantaj genellikle parola çalma ile başlar. Saldırgan hesabına girer, rehberini tarar, özel mesajlarını okur. Bulduğu hassas içeriği kullanarak seni tehdit eder. Bu zinciri kırmanın tek yolu: şantajcıyla pazarlık yapmamak, hemen yetkililere gitmektir.
+</Accordion>
+
+**Benzetme:** Şantaj, bir yankesicinin cüzdanını çalmasına benzer. Cüzdanı geri almak için peşinden koşmazsın, polise gidersin. Para göndermek, yankesiciye "Bir daha dene" demek gibidir.
+
+## İlgili Bölümler
+
+- [Şantaj ve Kriz Yönetimi](/santaj-ve-kriz/)
+- [Sosyal Mühendislik](/sosyal-muhendislik/)
+- [Casus Yazılım](/casus-yazilim/)
+- [Siber Zorbalık ve Dijital Şiddet](/siber-zorbalik-ve-dijital-siddet/)

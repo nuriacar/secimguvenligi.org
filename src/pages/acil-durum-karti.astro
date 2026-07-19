@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import { chapters } from '../data/chapters';
+
+const chapterMap = new Map(chapters.map(c => [c.slug, c.title]));
+---
+
+<Base title="Acil Durum Kartı" description="Yazdırılabilir, katlanabilir acil durum özet kartı" image="/img/hero/acil-durum-karti.webp">
+  <img class="hero-img i-hero-img" src="/img/hero/acil-durum-karti.webp" alt="Acil Durum Kartı" width="2912" height="1440" />
+  <h1 class="i-page-title-alt2">Acil Durum Kartı</h1>
+  <p class="i-subtitle-dim">Tek sayfalık, yazdırılabilir, katlanabilir acil durum özeti. Cüzdana sığacak boyutta.</p>
+
+  <button data-action="print" class="i-print-btn">Yazdır / PDF Kaydet</button>
+
+  <div data-pagefind-body>
+
+    <div class="i-callout-critical">
+      <p class="i-heading-critical">Bu kart ne işe yarar?</p>
+      <p class="i-dim-label">Kriz anında panik yapma. Bu kartı çıkar, adımları sırayla takip et. Cüzdanında taşı, telefonunun arkasına yapıştır, ofisinde görünür bir yere as.</p>
+    </div>
+
+    <div class="card-grid i-grid-2col">
+      <div class="i-card-bordered">
+        <div class="i-center-mb4">
+          <div class="i-label-accent">Seçim Dijital Güvenlik</div>
+          <div class="i-card-title-big">Acil Durum Kartı</div>
+        </div>
+
+        <div class="i-mb-4">
+          <div class="i-card-heading">Telefon Kayıp / Çalıntı</div>
+          <ol class="i-card-list">
+            <li>"Cihazımı Bul" ile uzaktan kilitle</li>
+            <li>Operatörü ara, SIM'i durdur</li>
+            <li>Tüm hesaplardan çıkış yap</li>
+            <li>E-posta + banka parolalarını değiştir</li>
+          </ol>
+        </div>
+
+        <div class="i-mb-4">
+          <div class="i-card-heading">Hesap Çalındı</div>
+          <ol class="i-card-list">
+            <li>Panik yapma, hızlı hareket et</li>
+            <li>Şifreyi değiştirmeyi dene</li>
+            <li>Erişemiyorsan: "Şifremi unuttum"</li>
+            <li>2FA aç, tüm cihazlardan çıkış yap</li>
+          </ol>
+        </div>
+
+        <div>
+          <div class="i-card-heading">Şantaj / Tehdit</div>
+          <ol class="i-card-list">
+            <li>Asla ödeme yapma veya boyun eğme</li>
+            <li>Kanıtı koru (ekran görüntüsü al)</li>
+            <li>Avukata başvur (TCK 107)</li>
+            <li>Savcılığa suç duyurusu yap</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="i-card-bordered">
+        <div class="i-center-mb4">
+          <div class="i-label-accent">Seçim Dijital Güvenlik</div>
+          <div class="i-card-title-big">Acil Durum Kartı</div>
+          <div class="i-dim-label">(Arka Yüz)</div>
+        </div>
+
+        <div class="i-mb-4">
+          <div class="i-card-heading-warn-color">Casus Yazılım Şüphesi</div>
+          <ol class="i-card-list">
+            <li>Cihazı derhal kapat</li>
+            <li>Yedek alma</li>
+            <li>Güvenilir uzmana başvur</li>
+          </ol>
+        </div>
+
+        <div class="i-mb-4">
+          <div class="i-card-heading">Başvuru Kanalları</div>
+          <ul class="i-card-list">
+            <li>Siber Suçlar: <a href="https://siber.egm.gov.tr" class="link">siber.egm.gov.tr</a></li>
+            <li>KVKK: <a href="https://kvkk.gov.tr" class="link">kvkk.gov.tr</a></li>
+            <li>BTK: <a href="https://btk.gov.tr" class="link">btk.gov.tr</a></li>
+            <li>E-Devlet: <a href="https://turkiye.gov.tr" class="link">turkiye.gov.tr</a> destek</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="i-card-heading-do">Altın Kurallar</div>
+          <ul class="i-card-list">
+            <li>SMS kodunu kimseye söyleme</li>
+            <li>Bilinmeyen linklere tıklama</li>
+            <li>Şifreleri farklı tut</li>
+            <li>2FA'yı tüm hesaplarda aç</li>
+          </ul>
+        </div>
+
+        <div class="i-card-footer">
+          <a href="/" class="link">Ana Sayfa</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="i-callout">
+      <h2 class="i-h2-bright">Baskı Talimatı</h2>
+      <ul class="i-info-list">
+        <li>A4 sayfada 4 kart (her biri A6 boyutu) - yazdır, kes ve katla</li>
+        <li>Renkli baskı önerilir</li>
+        <li>Laminate edilebilir (dayanıklılık için)</li>
+        <li>Cüzdan boyutuna katla ve yanında taşı</li>
+      </ul>
+    </div>
+
+    <div class="i-mb-6">
+      <h2 class="i-h2-bright">İlgili Bölümler</h2>
+      <ul class="i-info-list">
+        <li><a href="/hesap-calma/" class="link">{chapterMap.get('/hesap-calma')}</a></li>
+        <li><a href="/tehdit-santaj/" class="link">{chapterMap.get('/tehdit-santaj')}</a></li>
+        <li><a href="/calinti-kayip/" class="link">{chapterMap.get('/calinti-kayip')}</a></li>
+        <li><a href="/casus-yazilim/" class="link">{chapterMap.get('/casus-yazilim')}</a></li>
+        <li><a href="/yasal-haklar/" class="link">{chapterMap.get('/yasal-haklar')}</a></li>
+        <li><a href="/kriz/" class="link i-text-critical-bold">Kriz Karar Ağacı</a></li>
+      </ul>
+    </div>
+
+  </div>
+</Base>

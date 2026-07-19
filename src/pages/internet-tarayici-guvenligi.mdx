@@ -1,0 +1,126 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'İnternet Tarayıcı Güvenliği'
+description: 'Tarayıcı ayarları, eklentiler, çerezler, HTTPS, gizli sekme, reklam engelleyici ve tarama alışkanlıkları.'
+order: 8
+audience: V
+hero: '/img/hero/internet-tarayici-guvenligi.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+İnternette geziniyorsun. Bir site açtın, reklamlar fırladı, bir bildirim çıktı "İzin ver" yazıyordu, tıkladın. Bir eklenti kurdun "tarayıcını hızlandırıyor" diyordu. Bir haber okudun, sayfa arkada bir video açtı, telefonun ısındı. Bunların hepsi normal mi? Değil. Tarayıcın, İnternete açılan pencerendir. O pencereyi ne kadar açık bıraktığın, ne kadar koruduğun, başına gelecek dertleri belirler.
+
+İnternet tarayıcısı (Chrome, Safari, Firefox, Edge) sadece web sayfası göstermez. Geçmişini kaydeder, parolalarıni hatırlar, konumunu bilir, alışkanlıklarını öğrenir ve bunları sitelerle paylaşır. Çoğu kullanıcı bu ayarlara hiç girmez. Oysa birkaç dakikalık ayar, seni çoğu saldırıdan korur.
+
+**Özlü kural:** Tarayıcın, İnternetin gözüdür. Gözünü ne kadar korursan o kadar iyi görürsün.
+
+## <span class="heading-num">8.1</span> Doğru Tarayıcı Seçimi
+
+- **Öneri:** Firefox veya Brave kullan. Chrome yaygın ama Google'a çok veri gönderir. Safari (iPhone/Mac) ortalamadır.
+- **Neden:** Her tarayıcı senin hakkında veri toplar. Ama bazıları daha az toplar, bazıları reklam takibini varsayılan olarak engeller.
+- **Yap:** Kullandığın tarayıcıyı güncel tut. Eski tarayıcılar bilinen açıklarla saldırıya uğrar.
+- **Güvenlik odaklı tarayıcı:** Firefox Focus (iOS/Android) gizlilik odaklıdır, her kapatışta geçmişi temizler.
+
+## <span class="heading-num">8.2</span> HTTPS ve Kilit Simgesi
+
+- **Kural:** Bir siteye girerken adres çubuğunda kilit simgesi var mı kontrol et. Kilit yoksa site güvenli değildir.
+- **Neden:** HTTPS, siteyle arandaki bağlantıyı parolalar. Kilit yoksa gönderdiğin bilgiler açık metin olarak gider.
+- **Yap:** Banka, e-Devlet, alışveriş sitelerinde adres çubuğunu kontrol et. `https://` ile başlamıyorsa bilgini girme.
+- **Yapma:** "Bu site güvenli değil" uyarısı alırsan "Devam et" deme. Hemen kapat.
+
+<Alert level="warning">
+Adres çubuğunda kilit simgesi yoksa veya "Bu site güvenli değil" uyarısı alıyorsan siteden hemen çık. Banka, e-Devlet ve alışveriş sitelerinde zorunludur.
+</Alert>
+
+## <span class="heading-num">8.3</span> Tarayıcı Eklentileri (Uzantılar)
+
+- **Kural:** Az eklenti, az risk. Her eklenti tarayıcına ekstra bir kapı açar.
+- **Yap:** Sadece gerçekten ihtiyacın olan eklentileri yükle. Eklenti sayısı 5'i geçmesin.
+- **Yapma:** "Tarayıcını hızlandırır", "İndirim bulur", "Video indirir" gibi bilinmeyen eklentilere güvenme. Çoğu veri toplar veya reklam enjekte eder.
+- **Yap:** Eklentileri düzenli kontrol et. Kullanmadıklarını kaldır.
+- **Önerilen eklentiler:** uBlock Origin (reklam engelleyici), Bitwarden (parola yöneticisi), HTTPS Everywhere (zorunlu HTTPS).
+
+## <span class="heading-num">8.4</span> Çerezler ve Takip Koruması
+
+- **Ne demek:** Çerezler, ziyaret ettiğin sitelerin tarayıcına bıraktığı küçük dosyalardır. Seni tanımak ve takip etmek için kullanılır.
+- **Saldırı yöntemi:** Bir alışveriş sitesine girdin, ürünlere baktın. Sonra başka bir sitede o ürünlerin reklamlarını görmeye başladın. Bu çerezler sayesinde olur. Ama daha kötüsü: saldırgan çerezleri çalarsa, parolan olmadan hesabına girebilir.
+- **Yap:** Tarayıcı ayarlarından "Üçüncü taraf çerezlerini engelle" seçeneğini aç.
+- **Yap:** Tarayıcının "Takip Koruması" özelliğini aç (Firefox, Brave, Safari'de var).
+- **Yapma:** Her sitenin çerez bildiriminde "Tüm çerezlere izin ver" deme. Sadece gerekli olanlara izin ver.
+
+<DoDont items={[
+  { text: 'Güncel bir tarayıcı kullan (Firefox, Brave)', type: 'do' },
+  { text: 'Adres çubuğunda kilit simgesini kontrol et', type: 'do', level: 'minimum' },
+  { text: 'Eklenti sayısını 5 ile sınırla, güvenilir kaynaklardan yükle', type: 'do' },
+  { text: 'Reklam engelleyici kullan (uBlock Origin)', type: 'do', level: 'best' },
+  { text: 'Üçüncü taraf çerezlerini engelle', type: 'do' },
+  { text: 'Bilinmeyen eklentiler yükleme', type: 'dont' },
+  { text: 'Tüm çerezlere izin verme', type: 'dont' },
+  { text: '"Güvenli değil" uyarısı alınca devam etme', type: 'dont' },
+  { text: 'Tarayıcıda parola kaydetme (parola yöneticisi kullan)', type: 'dont' },
+]} />
+
+## <span class="heading-num">8.5</span> Gizli Sekme ve Geçmiş Yönetimi
+
+- **Gizli sekme:** Tarayıcının "gizli" veya "misafir" modu, geçmişini ve çerezleri kaydetmez. Ama seni tamamen görünmez yapmaz. İnternet servis sağlayıcın ve ziyaret ettiğin siteler seni yine görür.
+- **Yap:** Ortak bilgisayar kullanıyorsan (kütüphane, iş yeri, sandık) mutlaka gizli sekme kullan.
+- **Yapma:** Gizli sekmenin seni tamamen koruduğunu sanma. VPN olmadan kimliğin gizlenmez.
+- **Yap:** Tarayıcı geçmişini düzenli temizle. Haftada bir eski kayıtları sil.
+
+## <span class="heading-num">8.6</span> Reklam Engelleyici Kullanımı
+
+- **Neden:** Reklamlar sadece can sıkıcı değil, tehlikelidir de. Bazı reklamlar virüs yayar, sahte indirme butonları gösterir, seni dolandırıcılık sitelerine yönlendirir.
+- **Yap:** uBlock Origin eklentisini kur. Bu eklenti reklamları, takip kodlarını ve kötü amaçlı içerikleri engeller.
+- **Yap:** Mobile tarayıcında da reklam engelleyici kullan (Brave tarayıcıda varsayılan olarak var).
+
+## <span class="heading-num">8.7</span> Otomatik Doldurma ve Parola Yönetimi
+
+- **Kural:** Tarayıcının "Parolaları kaydet" özelliğini kapat. Bilgisayarına erişen biri tüm parolalarıni görebilir.
+- **Yap:** Bunun yerine Bitwarden gibi bir parola yöneticisi kullan. (bkz. Hesap ve Parola Güvenliği)
+- **Yap:** Tarayıcıda kayıtlı eski parolaları temizle.
+- **Yapma:** "Otomatik doldur" ile kredi kartı bilgilerini tarayıcıda saklama.
+
+<Scenario label="Senaryo: Ortak Bilgisayarda Girilen Hesap">
+Seçim günü sandıkta görevlisin. Sandık sonuçlarını girmek için okuldaki ortak bilgisayarı kullanman gerekiyor. Bilgisayarın tarayıcısında bir sürü kayıtlı parola var, önceki kullanıcılardan kalma. Sen kendi hesabına giriş yapıyorsun, işin bitiyor. Ama tarayıcı "Parolanı kaydedeyim mi?" diye soruyor. "Hayır" de. İşin bitince hem hesabından çıkış yap, hem de tarayıcının geçmişini temizle. Gizli sekme kullanmak en iyisidir: bu sayede hiçbir iz kalmaz.
+</Scenario>
+
+**Gerçek olay:** 2023'te bir Chrome uzantısı olan "Netflix Party" benzeri bir eklenti, 100.000'den fazla kullanıcı tarafından indirildi. Eklenti masum görünüyordu ama arka planda kullanıcıların tüm tarayıcı verilerini (parolalar, çerezler, geçmiş) üçüncü tarafa gönderiyordu. Eklenti mağazadan kaldırıldı ama 100.000 kişinin verisi çoktan sızmıştı. Ders: Bilinmeyen eklentilere güvenme, eklenti sayısını az tut.
+
+**Benzetme:** Tarayıcı, evinin penceresidir. Perdeyi ne kadar açarsan o kadar çok şey görürsün ama o kadar çok görünürsün. Eklentiler ise pencereye taktığın ekstra aksesuarlardır. Her biri farklı bir iş yapar ama fazlası pencereyi kapatır, görüşünü bozar. Az ve öz olan en iyisidir.
+
+<Checklist title="Tarayıcı Güvenliği Kontrol Listesi">
+<li>Tarayıcının en güncel sürümünü kullanıyorsun</li>
+<li>Üçüncü taraf çerezleri engellendi</li>
+<li>Takip koruması açık</li>
+<li>Reklam engelleyici (uBlock Origin) kurulu</li>
+<li>Tarayıcıda kayıtlı parola yok (parola yöneticisi kullan)</li>
+<li>Eklenti sayısı 5 veya altında</li>
+<li>Otomatik doldurma kapalı</li>
+<li>Tarayıcı geçmişi haftada bir temizleniyor</li>
+</Checklist>
+
+<Accordion question="Gizli sekme beni tamamen gizler mi?" id="gizli-sekme-gizler-mi">
+Hayır. Gizli sekme sadece senin cihazında geçmiş ve çerez kaydetmez. Ama İnternet servis sağlayıcın, bağlandığın Wi-Fi ağı ve ziyaret ettiğin siteler seni yine tanır. Gerçekten gizli kalmak istiyorsan VPN kullanman gerekir. Gizli sekme, ortak bilgisayarda iz bırakmamak için iyidir ama İnternette görünmez olmak için değil.
+</Accordion>
+
+<Accordion question="Tarayıcının parola kaydetme özelliği güvenli mi?" id="tarayici-sifre-kaydetme">
+Hayır. Chrome, Safari veya Edge'ın yerleşik parola kaydetme özelliği, bilgisayarına fiziksel erişimi olan birine tüm parolalarıni açar. Çoğu tarayıcı, kayıtlı parolaları ayarlardan parolasız gösterebilir. Bunun yerine Bitwarden gibi bağımsız bir parola yöneticisi kullan. Parola yöneticisi, parolalarıni tek bir ana parola arkasında şifreli saklar.
+</Accordion>
+
+<Accordion question="Hangi tarayıcıyı kullanmalıyım?" id="tarayici-secim">
+Gizlilik odaklı kullanım için Firefox veya Brave öner. İkisi de takip kodlarını varsayılan olarak engeller. Chrome hızlı ama Google'ın veri toplama politikaları var. Safari Apple ekosisteminde iyi bir seçim. Önemli olan: tarayıcını güncel tut ve gereksiz eklenti yükleme.
+</Accordion>
+
+## İlgili Bölümler
+
+- [Hesap ve Parola Güvenliği](/hesap-parola/)
+- [Eklenti ve Uygulama İzinleri](/eklenti-ve-uygulama-izinleri/)
+- [Sosyal Mühendislik](/sosyal-muhendislik/)
+- [Güvenli Veri ve Dosya Paylaşımı](/veri-paylasimi/)
+- [Dijital Ayak İzi ve Mahremiyet](/dijital-ayak-izi-ve-mahremiyet/)

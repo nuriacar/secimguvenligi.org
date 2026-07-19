@@ -1,0 +1,202 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Dezenformasyon'
+description: 'Seçim dönemi dezenformasyon taktikleri, doğrulama yöntemleri ve Türkiye doğrulama kaynakları.'
+order: 37
+audience: V
+hero: '/img/hero/dezenformasyon.webp'
+---
+
+import DoDont from '../components/DoDont.astro';
+import Alert from '../components/Alert.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Bir sabah uyanıyorsun. Telefonunda yüzlerce bildirim. Bir haber, bir video, bir ekran görüntüsü. Herkes aynı şeyi paylaşıyor. "İnanılmaz bir şey oldu." İçinde bir ses "bu doğru olamaz" diyor. Ama herkes paylaşıyor, herkes inanmış. Tereddüt ediyorsun, sonra sen de paylaşıyorsun. Çünkü herkes paylaşıyor. İşte dezenformasyon böyle yayılır: gerçek değil, kalabalık olduğu için inanılır.
+
+**Özlü kural:** Bir haber sana "Aman Tanrım!" dedirtiyorsa, önce doğrula, sonra paylaş. En güçlü silahın şüphedir.
+
+<Alert level="warning">"İlet" düğmesine basmadan önce dur. Bir haber sana çok duygusal bir tepki verdiriyorsa (öfke, korku, aşırı sevinç), bu muhtemelen manipülasyonun amacıdır. Paylaşmadan önce doğrula.</Alert>
+
+## <span class="heading-num">37.1</span> Dezenformasyon Nedir?
+
+Bilerek ve tasarlayarak yayılan yanlış veya çarpıtılmış bilgiye dezenformasyon denir. Yanlışlıkla yayılan yanlış bilgiyse bilgi kirliliğidir (misinformation). İkisinin farkı önemli: Biri kasıtlı, diğeri kasıtsız. Ama seçim döneminde her ikisi de aynı zararı verir.
+
+## <span class="heading-num">37.2</span> Seçim Dönemi Yaygın Manipülasyon Taktikleri
+
+<table>
+<caption>Seçim dönemi manipülasyon taktikleri</caption>
+<thead>
+<tr>
+  <th scope="col">Taktik</th>
+  <th scope="col">Açıklama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Sahte anket</strong></td>
+  <td>Rakibin önde olduğunu veya geride olduğunu gösteren uydurma anketlerle seçmen psikolojisi manipüle edilir.</td>
+</tr>
+<tr>
+  <td><strong>Son dakika skandalı</strong></td>
+  <td>Seçime saatler kala aday hakkında uydurma belge veya video sızdırılır. Yalanlanacak zaman kalmaz.</td>
+</tr>
+<tr>
+  <td><strong>Duygusal manipülasyon</strong></td>
+  <td>Öfke, korku veya aşırı umut uyandıran içeriklerle rasyonel düşünme engellenir.</td>
+</tr>
+<tr>
+  <td><strong>Kuşku toplama</strong></td>
+  <td>Gerçek belgelerin bile "bu deepfake olabilir" diyerek itibarsızlaştırılması.</td>
+</tr>
+<tr>
+  <td><strong>Sürü psikolojisi</strong></td>
+  <td>"Herkes paylaşıyor" algısıyla düşünmeden katılım sağlanması.</td>
+</tr>
+<tr>
+  <td><strong>Coğrafi hedefleme</strong></td>
+  <td>Belirli bölgelerdeki seçmenlere özel yalan haber gönderilmesi.</td>
+</tr>
+<tr>
+  <td><strong>Tersine psikoloji</strong></td>
+  <td>"Bunu sakın paylaşmayın" diyerek aslında viral olma sağlanması.</td>
+</tr>
+</tbody>
+</table>
+
+**Türkiye'den gerçeğe yakın senaryolar:**
+
+- **"Sandık başında hile var" viral mesajı:** Seçim günü WhatsApp gruplarında "X ilçesinde Y partisi sandığa fazladan oy atıyor, hemen müşahit gönderin" şeklinde doğrulanmamış mesajlar dolaşır. İnsanlar panikle paylaşırlar. Sonra o sandıkta hiçbir sorun olmadığı ortaya çıkar. Ama zarar verilmiştir: O bölgedeki seçmen güveni sarsılmıştır.
+- **Eski deprem veya yangın görüntüsünün yeni gibi sunulması:** Yıllar önce çekilmiş bir deprem veya yangın görüntüsü, "Seçim bölgesindeki adayın ihmali sonucu..." diye paylaşılarak duygusal manipülasyon yapılır.
+- **Sahte gazete manşeti:** Gerçek bir gazetenin logosu kullanılarak tamamen uydurma bir manşet görseli üretilir. "Aday X hakkında şok iddia" başlığıyla paylaşılır. Ters görsel arama ile hemen anlaşılabilir.
+
+**Gerçek olay:** 2016 ABD başkanlık seçimlerinde Rusya destekli troll çiftlikleri (İnternet Araştırma Ajansı), sosyal medyada toplumsal kutuplaşma yaratan içerikler yayımladı. 3.000'den fazla sahte hesap, her iki tarafı da kışkırtan paylaşımlar yaparak milyonlarca insana ulaştı. Amaç belirli bir adayı desteklemek değil, Amerikan halkının birbirine olan güvenini yok etmekti. Bu kampanyanın toplam erişiminin 126 milyon Facebook kullanıcısına ulaştığı tahmin ediliyor. Yalan haber sadece bir ülkenin değil, tüm dünyanın sorunudur.
+
+## <span class="heading-num">37.3</span> Doğrulama Yöntemleri (Herkes İçin)
+
+**1. Ters görsel arama (Reverse Image Search):**
+
+Bir fotoğraf gerçekten o haberle mi alakalı, yoksa yıllar önce çekilmiş başka bir fotoğraf mı? Kontrol et:
+- **Google Görseller:** images.google.com → kamera ikonuna tıkla, fotoğrafı yükle.
+- **TinEye:** tineye.com → Fotoğrafın internetteki ilk kullanım tarihini ve yerini gösterir.
+- **Yandex Görseller:** yandex.com → Türkçe kaynaklarda özellikle etkili.
+
+### Nasıl Yapılır: Ters Görsel Arama
+
+**Bilgisayarda (Google Görseller):**
+1. images.google.com adresine gir
+2. Arama çubuğundaki kamera ikonuna tıkla
+3. "Görsel yükle" seç > Fotoğrafı bilgisayarından seç
+4. Sonuçlarda aynı fotoğrafın daha önce nerelerde kullanıldığını gör
+
+**Telefonda (Chrome tarayıcı):**
+1. Görseli bulunduğu sayfada parmağınla basılı tut
+2. "Google ile görsel ara" seç
+3. Sonuçları kontrol et
+
+**TinEye ile tarih kontrolü:**
+1. tineye.com adresine gir
+2. Fotoğrafı yükle
+3. "Sort by: Oldest" seçeneğiyle en eski kullanımı bul: fotoğrafın ne zamandır İnternette olduğunu gör
+
+**2. Ters video arama:**
+
+- **InVID/WeVerify:** Tarayıcı eklentisi. Videoyu karelere bölüp her kareyi ters görsel aramaya gönderir. Euronews ve diğer haber kuruluşlarının geliştirdiği profesyonel araç.
+- **YouTube DataViewer:** Amnesty International'ın aracı. YouTube videosunun gerçek yükleme tarihini gösterir.
+
+**3. Kaynak kontrolü:**
+
+- Haber kim tarafından yayınlandı? Tanınmış, güvenilir bir kurum mu?
+- Orijinal kaynağa git: "...'den edinilen bilgiye göre" deniyorsa, o kaynağı bul.
+- URL'yi kontrol et: Sahte haber siteleri gerçek sitelere benzer adresler kullanır. (bkz. [Sosyal Medya Güvenliği](/sosyal-medya/) ve [Casus Yazılım](/casus-yazilim/))
+
+**4. Tarih kontrolü:**
+
+- Fotoğraftaki hava durumu, mevsim, gün ışığı haberin tarihine uyuyor mu?
+- Google Street View ile konum doğrulanabilir mi?
+
+**5. Çapraz doğrulama:**
+
+- Aynı haberi en az iki bağımsız, güvenilir kaynakta ara.
+- Sadece başlığı okuma, haberin tamamını oku.
+
+## <span class="heading-num">37.4</span> Türkiye'ye Özel Doğrulama Kaynakları
+
+<table>
+<caption>Türkiye'ye özel doğrulama kaynakları</caption>
+<thead>
+<tr>
+  <th scope="col">Kaynak</th>
+  <th scope="col">Ne Yapar</th>
+  <th scope="col">Adres</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><strong>Bağımsız doğrulama platformları</strong></td>
+  <td>Görsel, video ve haber doğrulayan, kurumsal veya bireysel bağımsız platformlar. Araştırarak güncel olanları bul.</td>
+  <td>Web'de "doğrulama platformu" ara</td>
+</tr>
+</tbody>
+</table>
+
+## <span class="heading-num">37.5</span> Temel Kural
+
+> **Paylaşmadan önce dur, düşün, doğrula.** Bir haber sana çok duygusal bir tepki verdiriyorsa (öfke, korku, aşırı sevinç), bu muhtemelen manipülasyonun amacıdır. (Duygusal tetikleyenlere karşı detaylı savunma: [Hibrit Harp](/bilgi-savasi/))
+
+<DoDont items={[
+  { text: 'Haberi en az iki bağımsız kaynakta ara', type: 'do', level: 'minimum' },
+  { text: 'Ters görsel arama ile fotoğrafı doğrula', type: 'do', level: 'best' },
+  { text: 'URL ve kaynağın güvenilirliğini kontrol et', type: 'do', level: 'best' },
+  { text: 'Sadece başlığı değil haberin tamamını oku', type: 'do' },
+  { text: 'Duygusal tepki veren haberi hemen paylaş', type: 'dont' },
+  { text: '"Herkes paylaşıyor" diyerek düşünmeden katıl', type: 'dont' },
+  { text: 'Sahte gazete logosu taşıyan habere güven', type: 'dont' },
+  { text: 'Doğrulanmamış "son dakika" iddialarını ilet', type: 'dont' },
+]} />
+
+<Checklist title="Kaynak Doğrulama Kontrol Listesi">
+<li>Haberin kaynağı tanınmış ve güvenilir bir kurum mu?</li>
+<li>Orijinal kaynağa ulaştım ("...den edinilen bilgiye göre")</li>
+<li>URL gerçek siteyle eşleşiyor mu? (sahte site kontrolü)</li>
+<li>Ters görsel arama ile görseli doğruladım</li>
+<li>Haberi en az iki bağımsız kaynakta araştırdım</li>
+<li>Fotoğrafın tarihi ve mevsim bilgisi haberle uyumlu mu?</li>
+<li>Haberin tamamını okudum, sadece başlığı değil</li>
+<li>Bağımsız doğrulama platformlarında araştırdım</li>
+</Checklist>
+
+<Scenario label="Senaryo: Sahte Sandık Mesajı">
+Seçim günü WhatsApp gruplarında "X ilçesinde Y partisi sandığa fazladan oy atıyor, hemen müşahit gönderin" şeklinde doğrulanmamış bir mesaj dolaşıyor. Grup üyeleri panikle mesajı başka gruplara da iletiyor. Ama o sandıkta hiçbir sorun olmadığı daha sonra ortaya çıkıyor. Zarar verilmiştir: O bölgedeki seçmen güveni sarsılmıştır. Böyle bir mesaj sana ulaştığında ne yaparsın?
+</Scenario>
+
+<Accordion question="Ters görsel arama nasıl yapılır?" id="reverse-image">
+**Bilgisayarda (Google Görseller):**
+1. images.google.com adresine gir
+2. Arama çubuğundaki kamera ikonuna tıkla
+3. "Görsel yükle" seç > Fotoğrafı bilgisayarından seç
+4. Sonuçlarda aynı fotoğrafın daha önce nerelerde kullanıldığını gör
+
+**Telefonda (Chrome tarayıcı):**
+1. Görseli bulunduğu sayfada parmağınla basılı tut
+2. "Google ile görsel ara" seç
+3. Sonuçları kontrol et
+
+**TinEye ile tarih kontrolü:**
+1. tineye.com adresine gir
+2. Fotoğrafı yükle
+3. "Sort by: Oldest" seçeneğiyle en eski kullanımı bul
+</Accordion>
+
+**Saldırı zinciri:** Yalan haber yayma operasyonları dört aşamalıdır. İlk aşamada saldırgan sahte bir haber sitesi kurar veya ele geçirilmiş bir hesap kullanır (sahte domain açma). İkinci aşamada sahte habere inandırıcılık kazandırmak için bir gerçek medya kuruluşunun logosunu, bir uzmanın fotoğrafını veya eski bir görseli kullanır (sahte güvenilirlik işareti). Üçüncü aşamada haber bot hesaplar tarafından hızla yayılır, trend topic yapılır (botların otomatik paylaşımı). Dördüncü aşamada yalan haber gerçekmiş gibi algılanır, medya kuruluşları bile doğrulamadan alıntı yapar. Bu aşamada haberi düzeltmek neredeyse imkansızdır çünkü zihinlerdeki ilk izlenim silinmez. Korunma yolu: ilk duyduğuna inanma, doğrulamadan paylaşma.
+
+**Benzetme:** Yalan haber, bir kar tanesi gibidir. Tek başına önemsizdir ama binlercesi bir çığa dönüşür. Çığın altında kalmamak için ilk kar tanesini yutmayacaksın.
+
+## İlgili Bölümler
+
+- [Hibrit Harp](/bilgi-savasi/)
+- [Bot Hesaplar](/bot-hesaplar/)
+- [Derin Sahte (Deepfake)](/deepfake/)
+- [Sosyal Medya Güvenliği](/sosyal-medya/)

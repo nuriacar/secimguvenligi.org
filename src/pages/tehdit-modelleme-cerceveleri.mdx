@@ -1,0 +1,124 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Tehdit Modelleme Çerçeveleri'
+description: 'Microsoft SDL, DREAD ve tehdit modelleme çerçevelerine genel bakış. Hangi çerçeveyi ne zaman seçmelisin?'
+order: 48
+audience: B
+hero: '/img/hero/tehdit-modelleme.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Accordion from '../components/Accordion.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import DfdDiagram from '../components/DfdDiagram.astro';
+
+
+Tehdit modelleme, bir sistemi diyagramlarla görselleştirerek riskleri nesnelleştirme sürecidir. Risk yönetimini kağıt üzerinde yapar; tehditleri somut hale getirir. Bu, risk yönetiminden farkı: risk yönetimi soyut sayılarla çalışır, tehdit modelleme görsel diyagramlarla.
+
+<Alert level="info">
+Tehdit modellemenin temelleri (dört soru, tehdit aktörleri, kişisel tehdit profili) için <a href="/tehdit-modelleme/" class="link">Tehdit Modelleme</a> bölümüne bak. Bu bölüm kurumsal çerçevelere odaklanır.
+</Alert>
+
+**Özlü kural:** Tehdit modelleme yapmak için pahalı bir araca değil, kağıt ve kaleme ihtiyacın var. Önemli olan disiplin ve süreçtir.
+
+## <span class="heading-num">48.1</span> Neden Çerçeveye İhtiyacın Var?
+
+Tehdit modelleme yaparken "neye bakmalıyım?" sorusu kritiktir. Çerçeveler bu soruya sistematik cevap verir. Çerçevesiz tehdit modelleme, rastgele beyin fırtınası olur; önemli tehditler gözden kaçar.
+
+Başlıca çerçeveler:
+
+| Çerçeve | Yaklaşım | Kim üretti |
+|---------|----------|------------|
+| SDL | Geliştirme yaşam döngüsü | Microsoft |
+| STRIDE | Model odaklı (CIA) | Microsoft |
+| PASTA | Risk odaklı (saldırgan bakışı) | Bağımsız |
+| DREAD | Risk puanlama | Microsoft (terk etti) |
+
+## <span class="heading-num">48.2</span> Microsoft SDL
+
+SDL (Security Development Lifecycle), geliştirmenin her aşamasında güvenliği savunan bir çerçevedir. Beş adımdan oluşur ve döngüsel olarak tekrar eder:
+
+1. **Tanımla (Define):** Programın güvenlik gereksinimlerini ve kapsamını belirle.
+2. **Diyagramla (Diagram):** Uygulamanın veri akış diyagramını çıkar. Sınırları ve güven seviyelerini netleştir.
+3. **Tespit et (Identify):** Diyagram üzerinden tehditleri tanımla. STRIDE veya PASTA kullan.
+4. **Azalt (Mitigate):** Tespit edilen tehditler için savunma planı yap.
+5. **Doğrula (Validate):** Tüm önlemlerin uygulandığını ve tehditlerin hafifletildiğini teyit et.
+
+<Alert level="tip">
+SDL, yeni bir sistem geliştiriyorsan en iyi başlangıçtır. Tasarım aşamasından itibaren güvenliği dahil eder; sonradan ekleme zorunluluğunu ortadan kaldırır.
+</Alert>
+
+<DfdDiagram />
+
+## <span class="heading-num">48.3</span> DREAD
+
+DREAD, her tehdidi beş kritere göre puanlayan bir değerlendirme modelidir:
+
+- **Damage (Zarar):** Saldırı gerçekleşirse ne kadar zarar olur?
+- **Reproducibility (Tekrarlanabilirlik):** Saldırıyı tekrarlamak ne kadar kolay?
+- **Exploitability (Sömürülebilirlik):** Saldırıyı gerçekleştirmek ne kadar teknik bilgi gerektirir?
+- **Affected Users (Etkilenen Kullanıcılar):** Kaç kişi etkilenir?
+- **Discoverability (Keşfedilebilirlik):** Saldırı yüzeyi ne kadar görünür?
+
+<Alert level="warning">
+DREAD, 2008'den beri Microsoft tarafından resmi olarak terk edilmiştir. Verdiği risk değerlendirmesi tutarlı ve objektif değildir. Endüstride hala kullanılır, ancak tek başına güvenilir bir ölçüt değildir. STRIDE veya PASTA ile birlikte kullanılması önerilir.
+</Alert>
+
+## <span class="heading-num">48.4</span> Hangi Çerçeveyi Seçmeli?
+
+- **Yeni geliştirme yapıyorsan:** SDL ile başla. Tasarım aşamasında güvenliği göm.
+- **Var olan sistemi inceliyorsan ve tehdit modellemede yeniysen:** STRIDE kullan. Basit, yapılandırılmış, öğrenmesi kolay.
+- **Var olan sistemi inceliyorsan ve kompetansın yüksekse:** PASTA kullan. Risk odaklı, saldırgan bakış açısıyla, daha derin analiz.
+
+<DoDont items={[
+  { text: 'Tasarım aşamasında tehdit modellemeye başla, sonraya bırakma', type: 'do' },
+  { text: 'Birden fazla çerçeveyi birlikte kullan (SDL + STRIDE gibi)', type: 'do' },
+  { text: 'Ekipten farklı rolleri dahil et; tek başına yapma', type: 'do' },
+  { text: 'DREAD sonuçlarını tek başına karar için kullan', type: 'dont' },
+  { text: 'Pahalı bir araca ihtiyacın olduğunu düşün; kağıt kalem yeter', type: 'dont' },
+  { text: 'Tehdit modelini bir kez yap ve güncelleme', type: 'dont' },
+]} />
+
+<Scenario label="Senaryo: E-Ticaret Sitesi Tehdit Modellemesi">
+Bir e-ticaret sitesi geliştiriyorsun. Ödeme alıyorsun, kullanıcı bilgileri tutuyorsun. SDL adım adım: 1) Tanımla: Korumam gereken veriler ödeme bilgileri ve kişisel bilgiler. 2) Diyagramla: Kullanıcı, Web sunucusu, Veritabanı ve ödeme ağ geçidi. 3) Tespit et: STRIDE ile tehditleri çıkar. Sahtekarlık (kullanıcı taklidi), bilgi açığa çıkma (veritabanı sızması), hizmet dışı bırakma (DDoS). 4) Azalt: İki adımlı doğrulama, şifreli veritabanı, DDoS koruması. 5) Doğrula: Sızma testi ile tüm önlemleri test et. Çerçeveler bu sistematik yaklaşımı sağlar.
+</Scenario>
+
+<Checklist title="Tehdit Modelleme Çerçeve Kontrol Listesi">
+<li>Tehdit modellemeyi tasarım aşamasında başlattım</li>
+<li>Veri akış diyagramı (DFD) çıkardım</li>
+<li>Güven seviyelerini ve sınırları belirledim</li>
+<li>STRIDE veya PASTA ile tehditleri tespit ettim</li>
+<li>Her tehdit için bir azaltma stratejisi belirledim</li>
+<li>Farklı rollerden ekip üyelerini dahil ettim</li>
+<li>Modeli güncel tutmak için bir takvim belirledim</li>
+</Checklist>
+
+## <span class="heading-num">48.5</span> Bilgi Kontrolü
+
+<Accordion question="S8. Tehdit Modelleme'nin alametifarikası nedir?" id="test-46-s8">
+
+a. Çakmak çakmak gözleri  
+b. Ne inşa ettiğimizi ya da ne koruyacağımızı net olarak biliyor olmak  
+c. Neyin yanlış gidebileceğini ve bu durumdan nasıl korunacağımızı biliyor olmak  
+d. **Bir sistemin gerçek halini diyagramlarla görselleştirerek nesnelleştirmek ✓**
+
+</Accordion>
+
+<Accordion question="S12. Varolan sistemler üzerine geliştirdiğin yazılımın güvenli olmasını sağlamak için aşağıdaki hangi ikiliyi kullanmalısın?" id="test-46-s12">
+
+a. SDL - DREAD  
+b. DREAD - STRIDE  
+c. STRIDE - PASTA  
+d. **SDL - PASTA ✓**
+
+</Accordion>
+
+## İlgili Bölümler
+
+- [STRIDE ve PASTA](/stride-ve-pasta/)
+- [Tehdit Modelleme Pratiği](/tehdit-modelleme-pratigi/)
+- [Tehdit Modelleme](/tehdit-modelleme/)
+- [Risk Kategorileri ve Değerlendirme](/risk-kategorileri-ve-degerlendirme/)
+- [Güvenli Kodlama Temelleri](/guvenli-kodlama-temelleri/)

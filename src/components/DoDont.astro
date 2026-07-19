@@ -1,0 +1,56 @@
+---
+export interface Props {
+  items: { text: string; type: 'do' | 'dont'; level?: 'minimum' | 'best' }[];
+}
+
+
+const { items } = Astro.props;
+const dos = items.filter(i => i.type === 'do');
+const donts = items.filter(i => i.type === 'dont');
+
+const levelLabel = { minimum: 'Asgari', best: 'En iyisi' };
+
+function renderInline(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+
+function stripMarkdown(text) {
+  return text.replace(/\*\*/g, '').replace(/`/g, '');
+}
+---
+
+<div role="group" aria-label="Yapılması ve yapılmaması gerekenler" class="dodont">
+  <div role="region" aria-label="Bunu Yap" class="dodont-col dodont-do">
+    <div class="dodont-header">
+      <span aria-hidden="true">&#10003;</span>
+      <span>Bunu Yap</span>
+    </div>
+    <ul role="list" class="dodont-list">
+      {dos.map(item => (
+        <li aria-label={`Yapılacak: ${stripMarkdown(item.text)}`} class="dodont-item">
+          <span aria-hidden="true" class="dodont-bullet">&#8226;</span>
+          <span>{item.level ? <span class="dodont-level">{levelLabel[item.level]}</span> : null}<Fragment set:html={renderInline(item.text)} /></span>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div role="region" aria-label="Bunu Yapma" class="dodont-col dodont-dont">
+    <div class="dodont-header">
+      <span aria-hidden="true">&#10007;</span>
+      <span>Bunu Yapma</span>
+    </div>
+    <ul role="list" class="dodont-list">
+      {donts.map(item => (
+        <li aria-label={`Yapılmayacak: ${stripMarkdown(item.text)}`} class="dodont-item">
+          <span aria-hidden="true" class="dodont-bullet">&#8226;</span>
+          <span>{item.level ? <span class="dodont-level dont-level">{levelLabel[item.level]}</span> : null}<Fragment set:html={renderInline(item.text)} /></span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

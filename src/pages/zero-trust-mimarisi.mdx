@@ -1,0 +1,179 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Zero Trust Mimarisi'
+description: 'Zero Trust prensipleri, NIST SP 800-207, "asla güvenme, sürekli doğrula" felsefesi, kimlik merkezli mimari, mikro-segmentasyon, ZTNA ve VPN sonrası dönem.'
+order: 52
+audience: B
+hero: '/img/hero/eklenti-ve-uygulama-izinleri.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+Eskiden "içerisi güvenli, dışarısı tehlikeli" mantığı vardı. Şirket ağına giren herkes güvenilirdi; VPN ile bağlanan çalışana tüm sistemler açılırdı. Sınır güçlü, içeride özgürdü. Bu mantık 2010'lardan itibaren çöktü: bulut, uzaktan çalışma, SaaS, mobil cihazlar, tedarikçi erişimi... "İçerisi" diye bir şey kalmadı. Saldırgan bir kez o sınırdan geçti, içeride istediği gibi dolaştı. Zero Trust (Sıfır Güven) bu varsayıma "hayır" diyor.
+
+Zero Trust (Sıfır Güven), "asla güvenme, sürekli doğrula" felsefesidir. Klasik sınır güvenliğinin (firewall, VPN) aksine, her erişim isteğini — içeriden veya dışarıdan — her seferinde doğrular. NIST SP 800-207 standardı, kimlik merkezli, mikro-segmentasyonlu, sürekli izlemeli bir mimari tanımlar.
+
+## <span class="heading-num">52.1</span> "Asla Güvenme, Sürekli Doğrula"
+
+Klasik güvenlik: "Kapıdan giren artık aileden sayılır." İçeride dilediğince dolaşır.
+
+Zero Trust: "Kapıdan giren bile her oda için tekrar kimliğini ispatlar. Ve sadece girmesi gereken odaya girer."
+
+Bu felsefe şu varsayımlara dayanır (NIST SP 800-800):
+
+1. **Ağ, güvenilir değildir:** İç ağ da dış ağ da tehlikeli olabilir. "Corporate network" kavramı silinir.
+2. **Her cihaz doğrulanır:** Şirket cihazı mı, kişisel cihaz mı? Güncel mi, enfekte mi? Her erişimde kontrol.
+3. **Her kullanıcı doğrulanır:** CEO da stajyer de aynı sürece tabi. Unvan, yetki belirlemez; bağlam belirler.
+4. **Sürekli doğrulama:** Tek seferlik giriş yetmiyor. Bağlam değişirse (lokasyon, cihaz, davranış), erişim yeniden değerlendirilir.
+5. **En az ayrıcalık:** Bir kullanıcı, bir görev için sadece ihtiyacı olan kaynağa erişir. "Tüm sunucular" değil, "sadece finans DB'si, sadece okuma, sadece 1 saat".
+
+## <span class="heading-num">52.2</span> Zero Trust'ın 3 Sütunu
+
+### 1. Kimlik (Identity)
+
+"Kim olduğunu" doğrulama, sadece parola ile bitmez. Modern kimlik doğrulama:
+
+- **Çok faktörlü (MFA):** Parola + SMS + biyometrik + donanım anahtarı (FIDO2)
+- **Adaptive / Risk-based:** Olağandışı girişlerde ek faktör sor (yeni lokasyon, yeni saat, yeni cihaz)
+- **Single Sign-On (SSO):** Tek giriş, tüm uygulamalar — ama her uygulamaya geçişte bağlam kontrolü
+- **Directory service:** Azure AD (Entra ID), Okta, Google Workspace
+- **Passwordless:** [Kimlik Doğrulama ve Oturum Yönetimi →](/kimlik-dogrulama-ve-yetkilendirme/) bölümünde detaylı Passkeys/WebAuthn anlattık
+
+### 2. Cihaz (Device / Endpoint)
+
+Cihaz, kullanıcının kim olduğundan bağımsız bir güvenlik boyutu.
+
+- **Cihaz durumu:** OS güncel mi? Antivirüs açık mı? Disk şifreli mi? Enfekte mi?
+- **Yönetilen vs. Kişisel (BYOD):** Şirket cihazı "trusted", kişisel "untrusted" — ama aradaki çizgi bulanık
+- **MDM (Mobil Cihaz Yönetimi, İng. Mobile Device Management):** Cihazı uzaktan yönetme, wipe, policy enforce
+- **Health attestation:** Cihazın "sağlıklı" olduğunun kriptografik kanıtı
+
+### 3. Ağ / Kaynak (Network / Resource)
+
+Erişilen kaynağın kendisi.
+
+- **Mikro-segmentasyon:** Ağ, küçük bölmelere ayrılır. Saldırgan bir bölmeye girse de diğerlerine geçemez.
+- **Service-to-service authentication:** Sadece insanlar değil, servisler de birbirini doğrular (mTLS, SPIRE)
+- **Software-defined perimeter (SDP):** Kaynaklar "gizli" tutulur; yetkili kullanıcı için açılır (örn. Cloudflare Access)
+- **ZTNA (Sıfır Güven Ağ Erişimi, İng. Zero Trust Network Access):** VPN'in yerini alır. Tüm ağ yerine, sadece uygulama düzeyinde erişim
+
+<Scenario label="Klasik VPN vs Zero Trust">
+**Klasik VPN:** Çalışan VPN ile bağlanır. Tüm şirket ağına ulaşır: finance server, HR database, code repository, yönetim paneli. Saldırgan o kullanıcının VPN hesabını çalarsa, aynı geniş erişime kavuşur.
+
+**Zero Trust (ZTNA):** Çalışan ZTNA istemcisi ile bağlanır. Sadece "finance app"e erişim ister. Sistem: (1) kullanıcı MFA geçti mi? (2) cihaz şirketin mi + güncel mi? (3) lokasyon normal mi? (4) saat mesai içinde mi? Hepsi evet → sadece finance app açılır. Diğer sistemleri göremez bile. Bir tehlike anında tek tıkla erişim kesilir.
+</Scenario>
+
+## <span class="heading-num">52.3</span> NIST SP 800-207 İlkeleri
+
+ABD Ulusal Standartlar ve Teknoloji Enstitüsü'nün Zero Trust standardı, 7 temel ilke:
+
+1. Tüm veri kaynakları ve servisler kaynak olarak kabul edilir (yerel/bulut fark etmez)
+2. İster şirket içi ister dış, tüm iletişim şifrelidir
+3. Erişim kaynak bazında verilir, ağ bazlı değil
+4. Erişim her istek için dinamik policy'e göre verilir
+5. Varlık bütünlüğü ve güvenliği sürekli izlenir
+6. Tüm kaynakların kimlik doğrulaması ve yetkilendirmesi dinamik yapılır
+7. Kullanıcılar, cihazlar, ağ hakkında mümkün maksimum telemetri toplanır
+
+## <span class="heading-num">52.4</span> Uygulama Yol Haritası
+
+Zero Trust bir proje değil, bir dönüşümdür. Aşamalı yapılır.
+
+**Aşama 1: Görünürlük** — Ne var? Kim hangi kaynağa erişiyor? Shadow IT, yetkisen erişimler, kullanılmayan hesaplar. En basit adım: log toplama ve analiz.
+
+**Aşama 2: Kimlik merkezli** — SSO + MFA tüm uygulamalara. Parola yöneticisi. Hesap hayat döngüsü (joiner/mover/leaver).
+
+**Aşama 3: Cihaz güvenliği** — MDM, EDR, health check. Şirket cihazı kişisel cihazdan ayır.
+
+**Aşama 4: Mikro-segmentasyon** — Ağ böl. Her segmentte farklı policy. Doğu-batı trafiğini (içerideki) de izle.
+
+**Aşama 5: ZTNA ile VPN'i aşamalı kaldır** — Uygulama bazlı erişim. Her kullanıcı sadece işi için gerekli uygulamaya.
+
+**Aşama 6: Sürekli izleme** — Anomali tespiti, UEBA (User and Entity Behavior Analytics), risk skorlama.
+
+<Alert level="info">
+Zero Trust bir "ürün" değildir. "Zero Trust satın almak" diye bir şey yoktur. Bir mimari felsefesidir; kimlik, cihaz, ağ katmanlarında birden fazla çözüm birlikte çalışır.
+</Alert>
+
+## <span class="heading-num">52.5</span> ZTNA Çözümleri ve Pazar
+
+VPN'in yerine geçen ZTNA pazarı hızla büyüyor:
+
+- **Ticari:** Zscaler, Cloudflare Access, Akamai Enterprise Access, Netskope, Cisco Duo
+- **Açık kaynak:** Pomerium, Oathkeeper, Keycloak + SPIRE
+- **Bulut yerel:** AWS IAM Identity Center, Azure Entra Private Access, Google BeyondCorp
+
+ZTNA'nın VPN'e göre avantajları:
+- Saldırgan "kullanıcı hesabı çaldı → tüm ağ" modeli kırılır
+- Daha iyi kullanıcı deneyimi (VPN istemcisi karmaşası yok)
+- İnce erişim politikaları (role + context + device health)
+- Erişim logları daha zengin (kim ne zaman hangi uygulamaya)
+
+<DoDont items={[
+  { text: `**Kimliği merkeze al:** Azure Entra ID / Okta / Google Workspace tüm uygulamaların tek noktası`, type: 'do' },
+  { text: `**MFA zorunlu, her yerde:** Sadece admin değil, tüm çalışanlar`, type: 'do' },
+  { text: `**Cihaz health check:** Erişim vermeden önce cihaz güncel + enfekte değil kontrolü`, type: 'do' },
+  { text: `**Mikro-segmentasyon ile ağ böl:** Saldırgan yayılamaz`, type: 'do' },
+  { text: `**Policy'leri rol + bağlam bazlı yaz:** "Finans ekibi + şirket cihazı + mesai içinde + Türkiye IP"`, type: 'do' },
+  { text: `**Log ve telemetri topla:** Her erişim, her cihaz kontrolü, her anomali`, type: 'do' },
+  { text: `**VPN'i tek seferde kaldırma:** Aşamalı geçiş yap, bazı uygulamaları önce ZTNA'ya al`, type: 'dont' },
+  { text: `**Sadece parolaya güven:** Zero Trust + parola-only çelişkidir`, type: 'dont' },
+  { text: `**"Şirket cihazı güvenli" varsayımı:** Enfekte şirketçi cihazı da izole et`, type: 'dont' },
+  { text: `**Policy'leri karmaşıklaştırma:** Yönetilemez policy yığını, denetlenemez`, type: 'dont' },
+  { text: `**Eski cihazları unutma:** ICS/IoT/medikal cihazlar da Zero Trust kapsamında`, type: 'dont' }
+]} />
+
+## <span class="heading-num">52.6</span> Zero Trust ve KVKK / ISO 27001
+
+Zero Trust, KVKK Madde 12 "teknik tedbirler" ve ISO 27001 Annex A erişim kontrolü için doğrudan faydalı:
+
+- **En az ayrıcalık** (Annex A.9) — Zero Trust temel ilkesi
+- **Erişim kayıtları** (Annex A.12.4) — ZTNA zengin log sağlar
+- **Şifreleme** (Annex A.10) — Zero Trust mTLS ile iç trafiği şifreler
+- **Ağ segmentasyonu** (Annex A.13.1) — Mikro-segmentasyon ile sağlanır
+
+KVKK ihlal bildirimlerinde "Zero Trust mimarisi nedeniyle ihlalin etki alanı sınırlı kaldı" argümanı, hem regülatör hem müşteri gözünde güçlü bir savunma.
+
+<Checklist title="Zero Trust Olgunluk Kontrol Listesi">
+<li>SSO + MFA tüm uygulamalarda zorunlu</li>
+<li>Cihaz health check olmadan erişim yok (MDM/EDR)</li>
+<li>Mikro-segmentasyon en az kritik 3 segmentte uygulandı</li>
+<li>ZTNA ile en az 1 uygulama VPN dışına çıkarıldı</li>
+<li>Erişim logları SIEM</li>
+<li>Servisler arası mTLS/SPIRE pilotu var</li>
+<li>Policy</li>
+<li>Aylık erişim review süreci var</li>
+<li>Hâlâ </li>
+<li>Tüm çalışanlara VPN ile tam ağ erişimi</li>
+</Checklist>
+
+**Gerçek olay:** Google, 2009 Operation Aurora saldırısından sonra "BeyondCorp" projesini başlattı. Aurora, Çinli saldırganların Google ağına sızmış, kaynak kodu ve e-postalarına erişmişti. Klasik "iç ağ güvenli" yaklaşımı çöktü. Google, 7 yıllık bir dönüşümle tüm şirket ağında Zero Trust uyguladı: VPN'i kaldırdı, her erişimi kimlik + cihaz bazlı doğruladı. Sonuç: 2017'de bile benzer Aurora seviyesinde saldırılar denendi, hepsi engellendi. BeyondCorp, sektördeki en başarılı Zero Trust referansı oldu.
+
+**Benzetme:** Klasik güvenlik bir "kale" gibidir: yüksek duvarlar (firewall), kalın kapı (VPN). İçeri giren artık güvenli. Ama bir casus kaleye girerse, mutfakta, hazinede, kralın odasında serbest dolaşır.
+
+Zero Trust bir "otel" gibidir: lobi herkese açık ama oda anahtarı herkese farklı. Misafir sadece kendi odasına girer. Temizlikçi sadece temizlik saatlerinde, sadece ortak alanlara. Otel müdürü kasaya girer ama misafir odalarına değil. Her kapıda kart okutursun, her erişim loglanır. Casus bir odayı girse, sadece o odaya erişir; diğer odalara geçemez.
+
+## İlgili Bölümler
+
+- [Kimlik Doğrulama ve Oturum Yönetimi →](/kimlik-dogrulama-ve-yetkilendirme/) — MFA, Passkeys, oturum güvenliği
+- [Erişim Kontrolü ve API Güvenliği →](/erisim-kontrolu-ve-api-guvenligi/) — Yetkilendirme, IDOR, RBAC
+- [Tehdit Modelleme Çerçeveleri →](/tehdit-modelleme-cerceveleri/) — STRIDE, PASTA
+- [Shadow IT →](/shadow-it/) — Bilinmeyen uygulamalar, görünürlük
+- [Olay Müdahalesi →](/olay-mudahalesi/) — İhlalde ne yapılır
+- [Bulut Güvenliği →](/bulut-guvenligi/) — Bulutta Zero Trust (AWS/GCP)
+
+<Accordion question="Zero Trust'a geçiş ne kadar sürer?" id="zt-sure">
+Tam Zero Trust olgunluğu tipik olarak 3-5 yıl alır. Genelde yol haritası: Yıl 1: SSO+MFA+cihaz envanteri. Yıl 2: Kritik uygulamalar ZTNA'ya taşınır, mikro-segmentasyon başlar. Yıl 3: Servisler arası mTLS, policy otomasyonu. Yıl 4-5: Tüm ağ, eski VPN kalkar, sürekli izleme. Ama ilk somut kazanımlar (örn. phishing'e karşı MFA) ilk 3-6 ayda gelir.
+</Accordion>
+
+<Accordion question="Zero Trust bütçesi çok yüksek, nereden başlayalım?" id="zt-budget">
+En yüksek etki/düşük maliyet adımları: (1) SSO+MFA tüm admin hesaplarına (ücretsiz/ucuz — Okta, Azure AD free tier). (2) Lokasyon bazlı policy (IP allowlist). (3) Erişim logu toplama (SIEM açık kaynak: Wazuh). (4) Cihaz envanteri + MDM (Microsoft Intune düşük maliyetli). (5) Bulut ZTNA: Cloudflare Access ilk 50 kullanıcı ücretsen. İlk yıl bu temel atılır; sonraki yıllarda investment derinleşir.
+</Accordion>
+
+<Accordion question="VPN'i tamamen kaldırmalı mıyız?" id="zt-vpn">
+Aşamalı kaldır. Önce düşük riskli uygulamalar (web tabanlı, SaaS) ZTNA'ya taşınır. Sonra iç uygulamalar. Eski cihazlar (ICS, medikal) için VPN kalabilir — cihaz desteklemeyebilir. Hedef "VPN'i azaltmak" olmalı, "tamamen kaldırmak" değil. Bazı özel durumlar (legacy fabrika cihazları) VPN'i haklı kılabilir ama segmente edilmiş küçük bir VPN ile.
+</Accordion>

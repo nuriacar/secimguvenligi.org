@@ -1,0 +1,153 @@
+---
+layout: ../layouts/Chapter.astro
+title: 'Ağ, Wi-Fi ve Akıllı Cihaz Güvenliği'
+description: 'Wi-Fi ağları, modem güvenliği, misafir ağı, VPN, kamuya açık ağ riskleri ve ev ağı korunma yöntemleri.'
+order: 6
+audience: V
+hero: '/img/hero/ag-ve-wifi-guvenligi.webp'
+---
+
+import Alert from '../components/Alert.astro';
+import DoDont from '../components/DoDont.astro';
+import Checklist from '../components/Checklist.astro';
+import Scenario from '../components/Scenario.astro';
+import Accordion from '../components/Accordion.astro';
+
+
+Eve geldin, telefonun otomatik olarak Wi-Fi'ye bağlandı. Kafede oturdun, parolasız ağa girdin. Otelde odana çıktın, otel Wi-Fi'sine bağlandın. Bu kadar basit. Ama her bağlandığın ağ, bir saldırgan için açık kapıdır. Wi-Fi, radyo dalgalarıyla yayın yapar. O dalgalar duvarlardan geçer, komşunun evine ulaşır, sokaktan geçen birinin cihazına kadar gider. Wi-Fi'ye bağlandığında tüm İnternet trafiğin o ağın içinden geçer. Ağ güvenli değilse, gönderdiğin mesajlar, girdiğin parolalar, banka bilgilerin başkasının eline geçebilir.
+
+Evinde kendi modemin var. Ama o modemin fabrika ayarlarında kalan kullanıcı adı ve parolası, kutusunda yazan bilgilerdir. Kapıya bırakılan bir anahtar gibi. O anahtarı değiştirmeyen milyonlarca kişi var. Saldırgan için bu, "hoş geldin" davetiyesidir.
+
+**Özlü kural:** Wi-Fi'n, evinin ön kapısıdır. Kapını nasıl kilitliyorsan, ağını da öyle koru.
+
+<Alert level="warning">
+Komşunla veya arkadaşınla Wi-Fi parolanı paylaşma. Aynı ağdan çıktıkları için İnternet üzerinde IP adresin aynıdır. Arkadaşının yaptığı yasa dışı bir indirme, tehdut veya dolandırıcılık, yasal olarak İnternet sözleşmesini imzalayan kişiye, yani sana, isnat edilir. "O yapmış" demek savunma değildir.
+</Alert>
+
+## <span class="heading-num">6.1</span> Modem ve Router Güvenliği
+
+- **Yap:** Modemin yönetici parolasını (varsayılan admin parolasını) mutlaka değiştir. Modemin altında yazan kullanıcı adı ve parola herkesin görebileceği yerdir.
+- **Yap:** Kablosuz ağ parolan en az 12 karakter, harf+rakam+özel karakter içersin. Doğum tarihi, soyad, "123456" kullanma.
+- **Yap:** Modem arayüzüne sadece kablo ile bağlanarak gir. Kablosuzdan yönetici paneline erişimi kapat.
+- **Yapma:** Modemin güncellemesini ihmal etme. Modem arayüzüne gir, güncelleme var mı kontrol et. Güncellenmeyen modem, saldırgana açık kapıdır.
+- **Kural:** Kullanmadığın modem markalarının güvenlik açıkları İnternette yayınlanır. Modemini bilinen markalardan seç ve düzenli güncelle.
+- **Yap:** Modemin yerleşik güvenlik duvarını (firewall) aç. Modem arayüzünden "Güvenlik" veya "Firewall" bölümünden aktifleştir. Çoğu modemde bu özellik kapalı gelir.
+- **Yap:** Cihazlarının MAC adreslerini modemde tanımla (MAC filtreleme). Böylece parola bilinse bile tanımlı olmayan bir cihaz ağa bağlanamaz.
+- **Yapma:** Modemin USB portuna disk takma. Yazıcı veya dosya paylaşımı için kullanıyorsan dikkat et: bilinmeyen güvenlik açıkları sayesinde diskin içeriğine uzaktan erişilebilir.
+
+## <span class="heading-num">6.2</span> Kablosuz Ağ Şifreleme
+
+- **Kural:** Modem ayarlarında şifreleme yöntemi WPA2 veya WPA3 olsun. WEP kullanma; bu yöntem dakikalar içinde kırılır.
+- **Yap:** Modem ayarlarına gir, "Güvenlik" veya "Şifreleme" bölümünden WPA2'yi seç (mümkünse WPA3).
+- **Yapma:** Ağ adını (SSID) gizleme. Gizli ağlar aslında daha çok dikkat çeker. Bunun yerine güçlü bir parola kullan.
+
+<DoDont items={[
+  { text: 'Modem yönetici parolasını değiştir (varsayılanı kullanma)', type: 'do', level: 'minimum' },
+  { text: 'Kablosuz ağ parolanı en az 12 karakter belirle', type: 'do' },
+  { text: 'WPA2 veya WPA3 şifreleme kullan', type: 'do' },
+  { text: 'Modemi düzenli güncelle', type: 'do' },
+  { text: 'Modemin firewall özelliğini aç', type: 'do' },
+  { text: 'MAC adresi filtrelemeyi aktif et', type: 'do', level: 'best' },
+  { text: 'Wi-Fi parolanı komşunla paylaşma', type: 'dont' },
+  { text: 'Varsayılan kullanıcı adı ve parolayı kullanma (admin/admin)', type: 'dont' },
+  { text: 'WEP şifreleme kullanma - dakikalar içinde kırılır', type: 'dont' },
+  { text: 'Doğum tarihi, soyad, 123456 gibi parola belirleme', type: 'dont' },
+]} />
+
+## <span class="heading-num">6.3</span> Misafir Ağı
+
+- **Kural:** Evine gelen misafirler için ayrı bir misafir ağı oluştur. Misafir ağı, ana ağındaki cihazlara erişemez.
+- **Neden:** Misafirinin telefonunda casus yazılım olabilir, o farkında olmasa bile. Misafirini değil, misafirinin telefonundaki riski düşün.
+- **Yap:** Modem arayüzünden "Misafir Ağı" özelliğini aç. Ayrı bir parola belirle.
+- **Akıllı ev cihazları (IoT):** Akıllı lamba, kamera, termostat, kahve makinesi gibi İnternete bağlı cihazları da misafir ağına bağla. Bu cihazların güvenliği genelde zayıftır. Saldırgan önce akıllı lambanı ele geçirip ordan bilgisayarına sızmaya çalışır.
+
+**Gerçek olay:** 2016'da ABD'de bir otel zincirine yapılan saldırıda, saldırganlar önce otel misafir ağına bağlandı. Aynı ağdaki bir iş adamının telefonuna casus yazılım yüklediler. Tüm iş yazışmaları, e-postalar ve banka bilgileri çalındı. Saldırganın kullandığı yöntem: otel ağının parasız ve şifrelemesiz olmasıydı. Misafir ağı bile olsa parola ve şifreleme şart.
+
+## <span class="heading-num">6.4</span> Kamuya Açık Wi-Fi Riskleri
+
+- **Kural:** Kafe, havalimanı, otel, AVM, otobüs gibi yerlerdeki açık Wi-Fi ağlarına bağlanırken çok dikkatli ol.
+- **Neden:** Saldırgan aynı ağdaysa, trafiğini dinleyebilir, parolalarıni ve mesajlarını görebilir.
+- **Saldırı yöntemi - "Sahte Ağ" (Evil Twin):** Saldırgan, kafenin Wi-Fi'si ile aynı isimde sahte bir açık ağ kurar. Sen "Hangi ağa bağlansam?" diye düşünürken ikisini ayırt edemezsin. Yanlış olanı seçersen, tüm İnternet trafiğin saldırganın üzerinden geçer. O an girdiğin tüm parolalar, banka bilgileri, mesajlar saldırganın eline geçer.
+- **Yap:** Mobil verini kullan. VPN'in yoksa kamuya açık Wi-Fi'ye bağlanma.
+- **Yap:** VPN kullan. VPN tüm İnternet trafiğini şifreler. (bkz. Cihaz Güvenliği bölümü 5.7)
+- **Yap:** Bağlandığın kamuya açık ağı işin bitince telefondan sil ("Bu ağı unut"). Silmezsen telefon bir sonraki seferde otomatik bağlanır ve saldırgan aynı isimle sahte ağ kurduğunda farkına varmazsın.
+
+<Alert level="warning">
+Kamuya açık Wi-Fi ağlarına VPN'siz bağlanma. Kafe, havalimanı, otel Wi-Fi'sinde saldırgan aynı ağdaysa trafiğini dinleyebilir. VPN yoksa mobil verini kullan.
+</Alert>
+
+## <span class="heading-num">6.5</span> VPN Kullanımı
+
+- **Ne işe yarar:** VPN, telefonunla İnternet arasında şifreli bir tünel açar. İnternet servis sağlayıcın, kafe Wi-Fi'si veya saldırgan hangi sitelere girdiğini göremez.
+- **Yap:** VPN'i kamuya açık tüm ağlarda aç. Sadece kafe değil, otel, havalimanı, arkadaşının evi, apartman ortak ağı da aynı riski taşır.
+- **Yapma:** Ücretsiz VPN kullanma. Ücretsiz VPN uygulamaları genelde verini satar veya kendisi casusluk yapar. ProtonVPN, Mullvad güvenilir seçeneklerdir.
+- **Yap:** VPN'in "Bağlantı Kesici" özelliğini aç. VPN koptuğunda İnternet erişimini otomatik kessin.
+
+<Scenario label="Senaryo: Kafede VPN'siz Gezinme">
+Bir kafede oturuyorsun, kahveni içiyorsun. Telefonunda kafenin Wi-Fi'sine bağlısın. Kafede senden başka 15 kişi daha var. Bunlardan biri saldırgan. Saldırgan aynı Wi-Fi ağında olduğun için telefonundan gönderilen her şeyi görebilir. Instagram parolanı, e-posta parolanı, hatta banka uygulamanda girdiğin parolayı. Bunu engellemenin tek yolu: VPN kullanmak. VPN açık değilse, mobil verine geç.
+</Scenario>
+
+## <span class="heading-num">6.6</span> Ev Ağı Güvenlik Kontrolü
+
+<Checklist title="Ev Ağı Güvenlik Kontrol Listesi">
+<li>Modem yönetici parolası değiştirildi</li>
+<li>Kablosuz ağ parolası 12+ karakter</li>
+<li>Şifreleme WPA2 veya WPA3</li>
+<li>Misafir ağı oluşturuldu</li>
+<li>Akıllı ev cihazları misafir ağında</li>
+<li>Modem firewall'ı açık</li>
+<li>MAC adresi filtreleme aktif</li>
+<li>Modem güncellemesi kontrol edildi</li>
+<li>WPS özelliği kapatıldı</li>
+<li>Uzaktan yönetici erişimi kapatıldı</li>
+</Checklist>
+
+**Benzetme:** Wi-Fi ağın, evinin bahçe kapısıdır. O kapıdan giren herkes önce bahçeye girer, sonra eve. Misafir ağı, bahçede ayrı bir oturma alanıdır. Misafirler orada oturur, eve girmez. VPN ise bahçe kapısından geçerken üzerine geçirilen bir görünmezlik örtüsüdür. Kimse sana ne taşıdığını görmez.
+
+<Accordion question="Ev Wi-Fi'ıma dışarıdan biri bağlanabilir mi?" id="ev-Wi-Fi-dis-erisim">
+Evet, özellikle zayıf parola veya eski şifreleme kullanıyorsan. Saldırgan evinin dışından bile sinyalini alabilir. WPA2 veya WPA3 şifreleme ve güçlü bir parola (12+ karakter, harf+rakam+özel karakter) kullanıyorsan kırılması pratik olarak çok zordur. Ama WEP kullanıyorsan dakikalar içinde kırılır. Modem yönetici parolanı de mutlaka değiştir, yoksa saldırgan parolayı kırmadan direkt modem arayüzüne girip ayarlarını değiştirebilir.
+</Accordion>
+
+<Accordion question="Ücretsiz VPN güvenli mi?" id="ucretsiz-vpn-guvenli">
+Hayır. Ücretsiz VPN'ler para kazanmak için ya seni takip edip verini satar ya da kendi reklam ve takip kodlarını trafiğine enjekte eder. Bazıları ücretsiz sürümde bile veri satmadığını iddia eder (ProtonVPN gibi) ama yine de ücretli sürüm daha güvenlidir. Güvenilir seçenekler: ProtonVPN, Mullvad, IVPN. "Bedava VPN" diye satılan uygulamaların çoğu aslında kendisi bir casus yazılımdır.
+</Accordion>
+
+<Accordion question="Kahvehanedeki Wi-Fi'ya bağlanmak riskli mi?" id="kahve-Wi-Fi">
+Evet. Açık Wi-Fi ağlarında trafiğin dinlenebilir. Bankacılık, e-posta veya parola girişi yapma. Mecbursan VPN kullan veya mobil verine geç. "Benim elimden ne gelir?" diyorsan, en azından banka ve e-Devlet gibi hassas işleri evde kendi ağınla yap.
+</Accordion>
+
+<Accordion question="Evimdeki Wi-Fi yönlendiricisi nasıl güvenli hale getirilir?" id="router-guvenlik">
+Üç temel adım: 1) Yönlendiricinin yönetici parolasını değiştir (fabrika parolası "admin/admin" kalmasın). 2) WPA3 veya WPA2 şifrelemesi açık olsun, WPS kapalı olsun. 3) Firmware güncellemelerini düzenli kontrol et. Misafir ağı özelliği varsa, ziyaretçilere ana parolanı verme, misafir ağını kullan.
+</Accordion>
+
+## <span class="heading-num">6.7</span> Akıllı Cihaz (IoT) Güvenliği
+
+Akıllı lambalar, kameralar, termostatlar, kapı zilleri, sesli asistanlar, akıllı TV'ler — hepsi İnternete bağlı. "İnternet Şeyleri" (Internet of Things, IoT) olarak bilinen bu cihazların güvenliği çoğu zaman çok zayıftır. Klasik bilgisayarlar kadar güçlü işlemcileri yok, üretici firmware güncellemesi yapmıyor, varsayılan parolalar değiştirilmiyor.
+
+**Gerçek olay:** 2016'da Mirai botnet, dünya çapında 600.000 IoT cihazını (çoğu güvenlik kamerası) varsayılan parolaları ile ele geçirdi. Bu cihazları kullanarak Dyn DNS servisini çökertti — Twitter, Netflix, Reddit, Spotify gibi dünyanın en büyük siteleri saatlerce ulaşılamaz oldu. Saldırgan karmaşık bir açık kullanmadı; sadece herkesin değiştirmediği "admin/admin" parolalarını denedi.
+
+**Neden riskli?**
+
+- **Varsayılan parolalar:** Üretici "admin/admin" bırakır, kullanıcı değiştirmez
+- **Güncelleme yok:** Çoğu IoT cihazına firmware güncellemesi gelmez
+- **Açık portlar:** UPnP ile İnternete otomatik açılan portlar
+- **Zayıf şifreleme:** Bazıları hâlâ WEP veya Telnet kullanıyor
+- **Sabit (hardcoded) parola:** Cihaza gömülü parola, değiştirilemiyor
+
+**Savunma:**
+
+- **IoT cihazlarını misafir ağına bağla:** Ana ağın (telefon, bilgisayar) dışında tut. Cihaz ele geçse bile bilgisayarına geçemez.
+- **Parolaları değiştir:** Kurulumun ilk adımı varsayılan parolayı değiştirmek.
+- **Gereksiz özellikleri kapat:** Cihaz İnternet'ten erişilebilir olmasın; yerel ağdan kullan.
+- **Güncelleme varsa yap:** Cihazın mobil uygulamasından firmware güncelleme kontrol et.
+- **Marka seç:** Bilinen markalar (güvenlik geçmişi iyi olan) tercih et. "En ucuz" IoT cihazı çoğu zaman en riskli olanıdır.
+- **Bebek monitörü, kapı kamerası:** Özellikle hassas. Yalnızca yerel ağda kullan, bulut erişimini kapat.
+
+Akıllı cihazlar hayatı kolaylaştırır ama eve birer "arka kapı" olabilir. Bir akıllı kamera, ele geçirilirse saldırgana evinizin içini izleme imkanı verir. Misafir ağı + parola değişimi + güncelleme = temel koruma.
+
+## İlgili Bölümler
+
+- [Cihaz Güvenliği](/cihaz-guvenligi/)
+- [Güvenli Veri ve Dosya Paylaşımı](/veri-paylasimi/)
+- [Seyahat ve Sınır Güvenliği](/seyahat-sinir/)
+- [Aile Güvenliği](/aile-guvenlik/)
